@@ -4,13 +4,20 @@ from pathlib import Path
 from torch.nn import Module
 from transformers import RobertaTokenizer
 from typing import *
+import xml.etree.ElementTree as ET
 
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
 nlp = spacy.load("en_core_web_sm")
 
+
 def get_relation_id(rel_type: str):
     rel_id_dict = {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
     return rel_id_dict[rel_type]
+
+
+def get_temp_rel_id(rel_type: str) -> int:
+    temp_rel_id_dict = {"BEFORE": 0, "AFTER": 1, "EQUAL": 2, "VAGUE": 3}
+    return temp_rel_id_dict[rel_type]
 
 
 def token_id_lookup(token_span_SENT: List[List[int]], start_char: int, end_char: int):
@@ -107,8 +114,29 @@ def RoBERTa_tokenize(sntc_dict: Dict[str, Any]) -> Tuple[Union[Any]]:
     return RoBERTa_list(sntc_dict["content"], sntc_dict["token_span_SENT"])
 
 
+def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional[bool]=True) -> Dict[str, Any]:
+    # Add sent_id as an attribute of event
+    event_dict = data_dict["event_dict"]
+    for event_id, event_dict_per_id in event_dict.items():
+        if useEndChar:  # HiEve uses endChar
+            start_char, end_char = event_dict_per_id["start_char"], event_dict_per_id["end_char"]
+            sntc_id = sntc_id_lookup(data_dict, start_char, end_char)
+        else:           # MATRES doesn't use endChar
+            start_char = event_dict_per_id["start_char"]
+            sntc_id = sntc_id_lookup(data_dict, start_char)
+
+        token_span_DOC = data_dict["sentences"][sntc_id]["token_span_DOC"]
+        roberta_subword_span_DOC = data_dict["sentences"][sntc_id]["roberta_subword_span_DOC"]
+
+        event_dict[event_id]["sent_id"] = sntc_id
+        event_dict[event_id]["token_id"] = id_lookup(token_span_DOC, start_char)
+        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char)
+    return data_dict
+
+
 def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
     doc_content = data_dict["doc_content"]
+    data_dict["sentences"] = []
 
     tokenized_sntc = sent_tokenize(doc_content) # split document into sentences
     sntc_span = tokenized_to_origin_span(doc_content, tokenized_sntc)
@@ -168,7 +196,6 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
     data_dict = {}
     data_dict["doc_id"] = file.replace(".tsvx", "")
     data_dict["event_dict"] = {}
-    data_dict["sentences"] = []
     data_dict["relation_dict"] = {}
 
     file_path = data_dir / file
@@ -195,23 +222,132 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
-    data_dict = read_tsvx_file(data_dir, file)
-    data_dict = document_to_sentences(data_dict) # sentence information update
+def read_matres_files(all_txt_file_path: List[Union[str, Path]]) -> Tuple[Dict]:
+    """
+    eiid: event instance id, eid: event id
+    Information about TempEval-3 found on https://arxiv.org/pdf/1206.5333.pdf
+    """
+    eiid_to_event_trigger = {}
+    eiid_pair_to_rel_id = {}
+    for txt_file in all_txt_file_path:
+        with open(txt_file, "r") as f:
+            all_lines = f.read().split("\n") # [doc_id, v1, v2, eid1, eid2, relation]
+            for line in all_lines:
+                line = line.split("\t")
+                fname = line[0]
+                trigger_word1 = line[1]
+                trigger_word2 = line[2]
+                eiid1 = int(line[3]) # eiid1 = trigger_word_id1
+                eiid2 = int(line[4]) # eiid2 = trigger_word_id2
+                temp_rel_id = get_temp_rel_id(line[5])
 
-    # Add sent_id as an attribute of event
+                if fname not in eiid_to_event_trigger:
+                    eiid_to_event_trigger[fname] = {}
+                    eiid_pair_to_rel_id[fname] = {}
+                eiid_pair_to_rel_id[fname][(eiid1, eiid2)] = temp_rel_id
+
+                if eiid1 not in eiid_to_event_trigger[fname].keys():
+                    eiid_to_event_trigger[fname][eiid1] = trigger_word1
+                if eiid2 not in eiid_to_event_trigger[fname].keys():
+                    eiid_to_event_trigger[fname][eiid2] = trigger_word2
+
+    return eiid_to_event_trigger, eiid_pair_to_rel_id
+
+
+def read_tml_file(dir_path: Union[str, Path], file_name: str,
+                  eiid_to_event_trigger : Dict, eiid_pair_to_rel_id: Dict):
+
+    data_dict = {}
+    data_dict["event_dict"] = {}
+    data_dict["eiid_dict"] = {}
+    data_dict["doc_id"] = file_name.replace(".tml", "") # ex) file_name: "ABC19980108.1830.0711.tml"
+
+    dir_path = Path(dir_path).expanduser()
+    tree = ET.parse(dir_path / file_name)
+    root = tree.getroot()
+    MY_STRING = str(ET.tostring(root))
+
+    # ================================================
+    # Load the lines involving event information first
+    # ================================================
+    for makeinstance in root.findall('MAKEINSTANCE'):
+        # instance_str: ["b'<MAKEINSTANCE", 'aspect="NONE"', 'eiid="ei462"', 'eventID="e112"', ..]
+        instance_str = str(ET.tostring(makeinstance)).split(" ")
+
+        try:
+            eiid_instance = instance_str[2].split("=")
+            eID_instance = instance_str[3].split("=")
+            assert eiid_instance[0] == "eiid"
+            assert eID_instance[0] == "eventID"
+            # get digits only from original eiid string. ex) eiid="ei13" -> eiid=13
+            eiid = int(eiid_instance[1].replace("\"", "")[2:])
+            eID = eID_instance[1].replace("\"", "")
+        except:
+            for ins_str in instance_str:
+                instance = ins_str.split("=")
+                if instance[0] == "eventID":
+                    eID = instance[1].replace("\"", "")
+                if instance[0] == "eiid":
+                    eiid = int(instance[1].replace("\"", "")[2:])
+
+        # Not all document in the dataset contributes relation pairs in MATRES
+        # Not all events in a document constitute relation pairs in MATRES
+        doc_id = data_dict["doc_id"] # doc_id == filename
+        if doc_id in eiid_to_event_trigger.keys() and \
+            eiid in eiid_to_event_trigger[doc_id].keys():
+            data_dict["event_dict"][eID] = {
+                "eiid": eiid,
+                "mention": eiid_to_event_trigger[doc_id][eiid],
+            }
+            data_dict["eiid_dict"][eiid] = {
+                "eID": eID,
+            }
+
+    # ==================================
+    #              Load Text
+    # ==================================
+    start = MY_STRING.find("<TEXT>") + 6
+    end = MY_STRING.find("</TEXT>")
+    MY_TEXT = MY_STRING[start:end]
+    while MY_TEXT[0] == " ":
+        MY_TEXT = MY_TEXT[1:]
+    MY_TEXT = MY_TEXT.replace("\\n", " ")
+    MY_TEXT = MY_TEXT.replace("\\'", "\'")
+    MY_TEXT = MY_TEXT.replace("  ", " ")
+    MY_TEXT = MY_TEXT.replace(" ...", "...")
+
+    # ========================================================
+    #    Load position of events, in the meantime replacing
+    #    "<EVENT eid="e1" class="OCCURRENCE">turning</EVENT>"
+    #    with "turning"
+    # ========================================================
     event_dict = data_dict["event_dict"]
-    for event_id, event_dict_per_id in event_dict.items():
-        start_char, end_char = event_dict_per_id["start_char"], event_dict_per_id["end_char"]
-        sntc_id = sntc_id_lookup(data_dict, start_char, end_char)
+    while MY_TEXT.find("<") != -1:
+        start = MY_TEXT.find("<")
+        end = MY_TEXT.find(">")
+        if MY_TEXT[start + 1] == "E":
+            event_description = MY_TEXT[start:end].split(" ")
+            eID = (event_description[2].split("="))[1].replace("\"", "")
+            MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
+            if eID in event_dict.keys():
+                event_dict[eID]["start_char"] = start # loading position of events
+        else:
+            MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
 
-        token_span_DOC = data_dict["sentences"][sntc_id]["token_span_DOC"]
-        roberta_subword_span_DOC = data_dict["sentences"][sntc_id]["roberta_subword_span_DOC"]
-
-        event_dict[event_id]["sent_id"] = sntc_id
-        event_dict[event_id]["token_id"] = id_lookup(token_span_DOC, start_char)
-        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char)
-
+    data_dict["doc_content"] = MY_TEXT
     return data_dict
 
 
+def hieve_file_reader(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
+    data_dict = read_tsvx_file(data_dir, file)
+    data_dict = document_to_sentences(data_dict) # sentence information update
+    data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)
+    return data_dict
+
+
+def matres_file_reader(dir_path: Union[str, Path], file_name: str,
+                  eiid_to_event_trigger : Dict, eiid_pair_to_rel_id: Dict):
+    data_dict = read_tml_file(dir_path, file_name, eiid_to_event_trigger, eiid_pair_to_rel_id)
+    data_dict = document_to_sentences(data_dict) # sentence information update
+    data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=False)
+    return data_dict

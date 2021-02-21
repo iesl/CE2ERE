@@ -2,8 +2,10 @@ import datetime
 
 from os import listdir
 from os.path import isfile, join
+
+import torch
 from pathlib import Path
-from typing import Union
+from typing import *
 
 
 def format_time(elapsed):
@@ -16,15 +18,68 @@ def format_time(elapsed):
     return str(datetime.timedelta(seconds=elapsed_rounded))
 
 
-def get_files(data_dir: Union[Path, str], type: str):
-    if type == "hieve":
-        dir_path = data_dir / "hievents_v2/processed/"
-        files = [f for f in listdir(dir_path) if isfile(join(dir_path, f))]
-    elif type == "matres":
-        print("matres!!")
-        # dir_path = data_dir / "hievents_v2/processed/"
-        # files = [f for f in listdir(dir_path) if isfile(join(dir_path, f))]
-    else:
-        raise NotImplementedError(f"dataset={type} unsupported at this time")
-
+def get_hieve_files(data_dir: Union[Path, str]):
+    dir_path = data_dir / "hievents_v2/processed/"
+    files = [f for f in listdir(dir_path) if isfile(join(dir_path, f))]
     return dir_path, files
+
+
+def get_matres_files(data_dir: Union[Path, str]):
+    all_tml_dir_path_dict = {}
+    all_tml_file_dict = {}
+    all_txt_file_path = []
+
+    TB_tml_dir_path = data_dir / "MATRES/TBAQ-cleaned/TimeBank/"
+    AQ_tml_dir_path = data_dir / "MATRES/TBAQ-cleaned/AQUAINT/"
+    PL_tml_dir_path = data_dir / "MATRES/te3-platinum/"
+
+    all_tml_dir_path_dict["tb"] = TB_tml_dir_path
+    all_tml_dir_path_dict["aq"] = AQ_tml_dir_path
+    all_tml_dir_path_dict["pl"] = PL_tml_dir_path
+
+    TB_tml_files = [f for f in listdir(TB_tml_dir_path) if isfile(join(TB_tml_dir_path, f))]
+    AQ_tml_files = [f for f in listdir(AQ_tml_dir_path) if isfile(join(AQ_tml_dir_path, f))]
+    PL_tml_files = [f for f in listdir(PL_tml_dir_path) if isfile(join(PL_tml_dir_path, f))]
+
+    all_tml_file_dict["tb"] = TB_tml_files
+    all_tml_file_dict["aq"] = AQ_tml_files
+    all_tml_file_dict["pl"] = PL_tml_files
+
+    TB_txt_file_path = data_dir / "MATRES/timebank.txt"
+    AQ_txt_file_path = data_dir / "MATRES/aquaint.txt"
+    PL_txt_file_path = data_dir / "MATRES/platinum.txt"
+
+    all_txt_file_path.append(TB_txt_file_path)
+    all_txt_file_path.append(AQ_txt_file_path)
+    all_txt_file_path.append(PL_txt_file_path)
+
+    return all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path
+
+
+def get_tml_dir_path(tml_file_name: str, all_tml_dir_path_dict: Dict, all_tml_file_dict: Dict) -> str:
+    if tml_file_name in all_tml_file_dict["tb"]:
+        dir_path = all_tml_dir_path_dict["tb"]
+    elif tml_file_name in all_tml_file_dict["aq"]:
+        dir_path = all_tml_dir_path_dict["aq"]
+    elif tml_file_name in all_tml_file_dict["pl"]:
+        dir_path = all_tml_dir_path_dict["pl"]
+    else:
+        raise ValueError(f"tml file={tml_file_name} does not exist!")
+    return dir_path
+
+
+def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
+    lambda_dict = {}
+    lambda_dict["lambda_annoT"] = args.lambda_annoT
+    lambda_dict["lambda_annoH"] = args.lambda_annoH
+    lambda_dict["lambda_transT"] = args.lambda_transT
+    lambda_dict["lambda_transH"] = args.lambda_transH
+    lambda_dict["lambda_cross"] = args.lambda_cross
+    return lambda_dict
+
+
+def cuda_if_available(use_cuda: bool) -> torch.device:
+    cuda = use_cuda and torch.cuda.is_available()
+    if use_cuda and not torch.cuda.is_available():
+        print("Requested CUDA but it is not available, running on CPU")
+    return torch.device("cuda" if cuda else "cpu")
