@@ -73,6 +73,7 @@ def setup(args):
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     evaluator = Evaluator(
         model=model,
+        device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
     )
@@ -86,6 +87,7 @@ def setup(args):
 
     trainer = Trainer(
         model=model,
+        device=device,
         epochs=args.epochs,
         learning_rate=args.learning_rate,
         train_dataloader=train_dataloader,
@@ -104,6 +106,14 @@ def setup(args):
 def main():
     args = build_parser()
     set_seed(args.seed)
+    args.downsample = random.uniform(0.01, 0.2)
+    args.lambda_annoH = random.uniform(0, 1.0)
+    args.lambda_annoT = random.uniform(0, 1.0)
+    args.lambda_transH = random.uniform(0, 1.0)
+    args.lambda_transT = random.uniform(0, 1.0)
+    args.lambda_cross = random.uniform(0, 1.0)
+
+    print(args)
     wandb.init()
     wandb.config.update(args)
     args = wandb.config

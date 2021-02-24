@@ -59,7 +59,7 @@ class Trainer:
         return trans_loss
 
     def train(self):
-        # self.evaluation()
+        self.evaluation()
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
 
