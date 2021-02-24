@@ -1,7 +1,8 @@
 import torch
-
+from torch import Tensor
 from transformers import RobertaModel
-from typing import Dict
+from typing import Dict, Tuple
+
 from torch.nn import Module, CrossEntropyLoss, Linear, LeakyReLU
 
 
@@ -20,36 +21,42 @@ class MLP(Module):
 
 
 class RoBERTa_MLP(Module):
-    def __init__(self, num_classes: int, data_type: str, lambda_dict: Dict[str, float], mlp_size: int, hidden_size: int):
+    def __init__(self, num_classes: int, data_type: str, mlp_size: int, hidden_size: int):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
-        self.lambdas = lambda_dict
         self.hidden_size = hidden_size
-        self.model = RobertaModel.from_pretrained('roberta-large')
-
-        hier_weights, temp_weights = self._get_weights()
-        self.hier_class_weights = torch.FloatTensor(hier_weights)
-        self.hier_class_weights = torch.FloatTensor(hier_weights)
-
+        self.roberta_model = RobertaModel.from_pretrained('roberta-large')
         self.MLP = MLP(hidden_size, mlp_size, num_classes)
 
-        # self.hieve_anno_loss = CrossEntropyLoss(weight=self.hier_class_weights)
-        # self.matres_anno_loss = CrossEntropyLoss(weight=self.temp_class_weights)
-        # self.hier_transitivity_loss = _hier_transitivity_loss()
-        # self.temp_transitivity_loss = _temp_transitivity_loss()
-        # self.cross_category_loss = _cross_category_loss()
+    def _get_embeddings_from_position(self, roberta_embd: Tensor, position: Tensor):
+        batch_size = position.shape[0]
+        return torch.cat([roberta_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
 
-    def _get_weights(self):
-        HierPC = 1802.0
-        HierCP = 1846.0
-        HierCo = 758.0
-        HierNo = 63755.0
-        HierTo = HierPC + HierCP + HierCo + HierNo  # total number of event pairs
-        hier_weights = [0.25 * HierTo / HierPC, 0.25 * HierTo / HierCP, 0.25 * HierTo / HierCo, 0.25 * HierTo / HierNo]
-        temp_weights = [0.25 * 818.0 / 412.0, 0.25 * 818.0 / 263.0, 0.25 * 818.0 / 30.0, 0.25 * 818.0 / 113.0]
-        return hier_weights, temp_weights
+    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
+        sub = torch.sub(tensor1, tensor2)
+        mul = torch.mul(tensor1, tensor2)
+        return torch.cat((tensor1, tensor2, sub, mul), 1)
 
+    def forward(self, batch: Tuple[torch.Tensor]):
+        x_sntc, y_sntc, z_sntc = batch[3], batch[4], batch[5]
+        x_position, y_position, z_position = batch[6], batch[7], batch[8]
 
-    def forward(self):
-        print("check")
+        # Produce contextualized embeddings using RobertaModel for all tokens of the entire document
+        # get embeddings corresponding to x_position number
+        output_x = self._get_embeddings_from_position(self.roberta_model(x_sntc)[0], x_position) # shape: [16, 120, 1024]
+        output_y = self._get_embeddings_from_position(self.roberta_model(y_sntc)[0], y_position)
+        output_z = self._get_embeddings_from_position(self.roberta_model(z_sntc)[0], z_position)
+
+        # For each event pair (e1; e2), the contextualized features are obtained as the concatenation of h_e1 and h_e2,
+        # along with their element-wise Hadamard product and subtraction.
+        alpha_representation = self._get_relation_representation(output_x, output_y)
+        beta_representation = self._get_relation_representation(output_y, output_z)
+        gamma_representation = self._get_relation_representation(output_x, output_z)
+
+        # alpha_logits: [16, 8]
+        alpha_logits = self.MLP(alpha_representation)
+        beta_logits = self.MLP(beta_representation)
+        gamma_logits = self.MLP(gamma_representation)
+
+        return alpha_logits.float(), beta_logits.float(), gamma_logits.float()
