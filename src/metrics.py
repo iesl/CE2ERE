@@ -20,23 +20,24 @@ def metric(type, y_true, y_pred):
         metrics["[MATRES] Precision"] = P
         metrics["[MATRES] Recall"] = R
         metrics["[MATRES] F1 Score"] = F1
-        return metrics
-    elif type == "hieve":
+        return metrics, CM
+
+    if type == "hieve":
         result_dict = classification_report(y_true, y_pred, output_dict=True)
         result_table = classification_report(y_true, y_pred)
 
-        F1_PC = result_dict["0"]["f1-score"] # Parent-Child
-        F1_CP = result_dict["1"]["f1-score"] # Child-Parent
-        F1_CR = result_dict["2"]["f1-score"] # CoRef
-        F1_NR = result_dict["3"]["f1-score"] # NoRel
+        F1_PC = result_dict['0']['f1-score'] # Parent-Child
+        F1_CP = result_dict['1']['f1-score'] # Child-Parent
+        F1_CR = result_dict['2']['f1-score'] # CoRef
+        F1_NR = result_dict['3']['f1-score'] # NoRel
         F1_PC_CP_avg = (F1_PC + F1_CP) / 2.0
 
         metrics["[HiEve] F1-PC"] = F1_PC
         metrics["[HiEve] F1-CP"] = F1_CP
         metrics["[HiEve] F1-PC-CP-AVG"] = F1_PC_CP_avg
-        return metrics
-    else:
-        raise ValueError(f"{type} is unsupported at this time!")
+        return metrics, result_table
+
+    return None, None
 
 
 def CM_metric(CM):

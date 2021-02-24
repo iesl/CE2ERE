@@ -13,10 +13,11 @@ from metrics import metric
 
 
 class Trainer:
-    def __init__(self, model: Module, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
+    def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
                  opt: torch.optim.Optimizer, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
                  loss_cross_category: Module, lambda_dict: Dict[str, float], roberta_size_type="roberta-base"):
         self.model = model
+        self.device = device
         self.epochs = epochs
         self.learning_rate = learning_rate
         self.lambda_dict = lambda_dict
@@ -58,17 +59,20 @@ class Trainer:
         return trans_loss
 
     def train(self):
+        # self.evaluation()
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
 
             self.model.train()
             loss_vals = []
             for step, batch in enumerate(tqdm(self.train_dataloader)):
-                xy_rel_id, yz_rel_id, xz_rel_id = batch[12], batch[13], batch[14]
+                # print("batch:", batch)
+                device = self.device
+                xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                batch_size = len(batch)
+                batch_size = xy_rel_id.size(0)
 
-                alpha, beta, gamma = self.model(batch)
+                alpha, beta, gamma = self.model(batch, device)
 
                 anno_loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                 trans_loss = self._get_trans_loss(alpha, beta, gamma)
@@ -82,11 +86,12 @@ class Trainer:
                     if param.grad is not None:
                         assert not torch.isnan(param.grad).any()
                 self.opt.step()
-
+            loss = sum(loss_vals) / len(self.train_dataloader)
+            print("loss:", loss)
             wandb.log(
                 {
                     "[Train] Epoch": epoch,
-                    "[Train] Loss": sum(loss_vals) / len(self.train_dataloader),
+                    "[Train] Loss": loss,
                     "[Train] Elapsed Time:": (time.time() - epoch_start_time)
                 },
                 commit=False,
@@ -105,39 +110,47 @@ class Trainer:
         print("matres_metrics:", matres_metrics)
 
 class Evaluator:
-    def __init__(self, model: Module, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
+    def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
         self.model = model
+        self.device = device
         self.valid_dataloader_dict = valid_dataloader_dict
         self.test_dataloader_dict = test_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
 
-    @torch.no_grad()
     def evaluate(self, type: str):
         dataloader = self.valid_dataloader_dict[type]
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
-        for i, batch in enumerate(dataloader):
-            xy_rel_id = batch[12]
-            alpha, beta, gamma = self.model(batch)  # alpha: [16, 8]
+        print(f"Validation-[{type}] start... ", end="")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+                xy_rel_id = batch[12].to(device)
+                alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
 
-            xy_rel_id = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
-            pred = torch.max(alpha, 1).indices.cpu().numpy()
-            pred_vals.extend(pred)
-            rel_ids.extend(xy_rel_id)
+                xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
+                pred = torch.max(alpha, 1).indices.cpu().numpy()
+                pred_vals.extend(pred)
+                rel_ids.extend(xy_rel_ids)
 
         if type == "hieve":
-            metrics = metric(type, y_true=rel_ids, y_pred=pred_vals)
+            metrics, result_table = metric(type, y_true=rel_ids, y_pred=pred_vals)
+            assert metrics is not None and result_table is not None
+            print("result_table:", result_table)
             if self.best_hieve_score < metrics["[HiEve] F1-PC-CP-AVG"]:
                 self.best_hieve_score = metrics["[HiEve] F1-PC-CP-AVG"]
             metrics["[HiEve] Best F1-PC-CP-AVG"] = self.best_hieve_score
 
         if type == "matres":
-            metrics = metric(type, y_true=rel_ids, y_pred=pred_vals)
+            metrics, CM = metric(type, y_true=rel_ids, y_pred=pred_vals)
+            assert metrics is not None and CM is not None
+            print("CM:", CM)
             if self.best_matres_score < metrics["[MATRES] F1 Score"]:
                 self.best_matres_score = metrics["[MATRES] F1 Score"]
             metrics["[MATRES] Best F1 Score"] = self.best_matres_score
 
+        print("done!")
         metrics["[Valid] Elapsed Time"] = (time.time() - eval_start_time)
         return metrics

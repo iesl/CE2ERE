@@ -1,7 +1,7 @@
 import random
 import time
 from torch.utils.data import DataLoader
-
+from hyperopt import hp
 from typing import *
 from tqdm import tqdm
 
@@ -38,34 +38,34 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, device: to
 
                 # get list of subword ids related to the specific sentence id
                 # then padding the list of subword ids
-                x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
-                y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
-                z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
+                x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+                y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+                z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
 
-                x_position = torch.tensor(event_dict[x]["roberta_subword_id"], dtype=torch.long).to(device)
-                y_position = torch.tensor(event_dict[y]["roberta_subword_id"], dtype=torch.long).to(device)
-                z_position = torch.tensor(event_dict[z]["roberta_subword_id"], dtype=torch.long).to(device)
+                x_position = event_dict[x]["roberta_subword_id"]
+                y_position = event_dict[y]["roberta_subword_id"]
+                z_position = event_dict[z]["roberta_subword_id"]
 
                 x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
                 y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
                 z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
                 # rel_id: {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
-                xy_rel_id = torch.tensor(relation_dict[(x, y)]["relation"], dtype=torch.long).to(device)
-                yz_rel_id = torch.tensor(relation_dict[(y, z)]["relation"], dtype=torch.long).to(device)
-                xz_rel_id = torch.tensor(relation_dict[(x, z)]["relation"], dtype=torch.long).to(device)
+                xy_rel_id = relation_dict[(x, y)]["relation"]
+                yz_rel_id = relation_dict[(y, z)]["relation"]
+                xz_rel_id = relation_dict[(x, z)]["relation"]
 
-                to_append = (
-                    str(x), str(y), str(z),
-                    x_sntc, y_sntc, z_sntc,
-                    x_position, y_position, z_position,
-                    x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag,
-                    xy_rel_id, yz_rel_id, xz_rel_id,
-                    torch.tensor(0, dtype=torch.long).to(device) # 0: HiEve, 1: MATRES
-                )
+                to_append = \
+                    str(x), str(y), str(z),\
+                    x_sntc, y_sntc, z_sntc,\
+                    x_position, y_position, z_position,\
+                    x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag,\
+                    xy_rel_id, yz_rel_id, xz_rel_id,\
+                    0 # 0: HiEve, 1: MATRES
 
-                if xy_rel_id.item() == 3 and yz_rel_id.item() == 3: pass # x-y: NoRel and y-z: NoRel
-                elif xy_rel_id.item() == 3 or yz_rel_id.item() == 3 or xz_rel_id.item() == 3: # if one of them is NoRel
+
+                if xy_rel_id == 3 and yz_rel_id == 3: pass # x-y: NoRel and y-z: NoRel
+                elif xy_rel_id == 3 or yz_rel_id == 3 or xz_rel_id == 3: # if one of them is NoRel
                     if random.uniform(0, 1) < downsample:
                         train_set.append(to_append)
                 else:
@@ -85,27 +85,27 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float, d
             x_sntc_id = event_dict[x]["sent_id"]
             y_sntc_id = event_dict[y]["sent_id"]
 
-            x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"]).to(device)
-            y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"]).to(device)
+            x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
+            y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
 
-            x_position = torch.tensor(event_dict[x]["roberta_subword_id"], dtype=torch.long).to(device)
-            y_position = torch.tensor(event_dict[y]["roberta_subword_id"], dtype=torch.long).to(device)
+            x_position = event_dict[x]["roberta_subword_id"]
+            y_position = event_dict[y]["roberta_subword_id"]
 
             x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
             y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
-            xy_rel_id = torch.tensor(relation_dict[(x, y)]["relation"], dtype=torch.long).to(device)
+            xy_rel_id = relation_dict[(x, y)]["relation"]
 
-            to_append = (
-                str(x), str(y), str(x),
-                x_sntc, y_sntc, x_sntc,
-                x_position, y_position, x_position,
-                x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,
-                xy_rel_id, xy_rel_id, xy_rel_id,
-                torch.tensor(0, dtype=torch.long).to(device) # 0: HiEve, 1: MATRES
-            )
+            to_append = \
+                str(x), str(y), str(x),\
+                x_sntc, y_sntc, x_sntc,\
+                x_position, y_position, x_position,\
+                x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+                xy_rel_id, xy_rel_id, xy_rel_id,\
+                0 # 0: HiEve, 1: MATRES
 
-            if xy_rel_id.item() == 3:
+
+            if xy_rel_id == 3:
                 if random.uniform(0, 1) < undersmp_ratio:
                     final_set.append(to_append)
             else:
@@ -135,9 +135,9 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
                     pair2 = (eiid2, eiid3)
                     pair3 = (eiid1, eiid3)
                     if pair1 in eiid_pair_keys and pair2 in eiid_pair_keys and pair3 in eiid_pair_keys:
-                        xy_rel_id = torch.tensor(eiid_pair_to_rel_id_dict[pair1], dtype=torch.long).to(device)
-                        yz_rel_id = torch.tensor(eiid_pair_to_rel_id_dict[pair2], dtype=torch.long).to(device)
-                        xz_rel_id = torch.tensor(eiid_pair_to_rel_id_dict[pair3], dtype=torch.long).to(device)
+                        xy_rel_id = eiid_pair_to_rel_id_dict[pair1]
+                        yz_rel_id = eiid_pair_to_rel_id_dict[pair2]
+                        xz_rel_id = eiid_pair_to_rel_id_dict[pair3]
 
                         x_evnt_id = eiid_dict[eiid1]["eID"]
                         y_evnt_id = eiid_dict[eiid2]["eID"]
@@ -147,26 +147,26 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
                         y_sntc_id = event_dict[y_evnt_id]["sent_id"]
                         z_sntc_id = event_dict[z_evnt_id]["sent_id"]
 
-                        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
-                        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
-                        z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
+                        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+                        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+                        z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
 
-                        x_position = torch.tensor(event_dict[x_evnt_id]["roberta_subword_id"], dtype=torch.long).to(device)
-                        y_position = torch.tensor(event_dict[y_evnt_id]["roberta_subword_id"], dtype=torch.long).to(device)
-                        z_position = torch.tensor(event_dict[z_evnt_id]["roberta_subword_id"], dtype=torch.long).to(device)
+                        x_position = event_dict[x_evnt_id]["roberta_subword_id"]
+                        y_position = event_dict[y_evnt_id]["roberta_subword_id"]
+                        z_position = event_dict[z_evnt_id]["roberta_subword_id"]
 
                         x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
                         y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
                         z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
-                        to_append = (
-                            x_evnt_id, y_evnt_id, z_evnt_id,
-                            x_sntc, y_sntc, z_sntc,
-                            x_position, y_position, z_position,
-                            x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag,
-                            xy_rel_id, yz_rel_id, xz_rel_id,
-                            torch.tensor(1, dtype=torch.long).to(device)  # 0: HiEve, 1: MATRES
-                        )
+                        to_append = \
+                            x_evnt_id, y_evnt_id, z_evnt_id,\
+                            x_sntc, y_sntc, z_sntc,\
+                            x_position, y_position, z_position,\
+                            x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag,\
+                            xy_rel_id, yz_rel_id, xz_rel_id,\
+                            1  # 0: HiEve, 1: MATRES
+
 
                         train_set.append(to_append)
     return train_set
@@ -179,7 +179,7 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
     eiid_dict = data_dict["eiid_dict"]
 
     for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
-        xy_rel_id = torch.tensor(eiid_pair_to_rel_id_dict[(eiid1, eiid2)], dtype=torch.long).to(device)
+        xy_rel_id = eiid_pair_to_rel_id_dict[(eiid1, eiid2)]
 
         x_evnt_id = eiid_dict[eiid1]["eID"]
         y_evnt_id = eiid_dict[eiid2]["eID"]
@@ -187,23 +187,23 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
         x_sntc_id = event_dict[x_evnt_id]["sent_id"]
         y_sntc_id = event_dict[y_evnt_id]["sent_id"]
 
-        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
-        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False).to(device)
+        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
 
-        x_position = torch.tensor(event_dict[x_evnt_id]["roberta_subword_id"], dtype=torch.long).to(device)
-        y_position = torch.tensor(event_dict[y_evnt_id]["roberta_subword_id"], dtype=torch.long).to(device)
+        x_position = event_dict[x_evnt_id]["roberta_subword_id"]
+        y_position = event_dict[y_evnt_id]["roberta_subword_id"]
 
         x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
         y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
-        to_append = (
-            x_evnt_id, y_evnt_id, x_evnt_id,
-            x_sntc, y_sntc, x_sntc,
-            x_position, y_position, x_position,
-            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,
-            xy_rel_id, xy_rel_id, xy_rel_id,
-            torch.tensor(1, dtype=torch.long).to(device) # 0: HiEve, 1: MATRES
-        )
+        to_append = \
+            x_evnt_id, y_evnt_id, x_evnt_id,\
+            x_sntc, y_sntc, x_sntc,\
+            x_position, y_position, x_position,\
+            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+            xy_rel_id, xy_rel_id, xy_rel_id,\
+            1 # 0: HiEve, 1: MATRES
+
         final_set.append(to_append)
 
     return final_set
@@ -212,7 +212,11 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: torch.device) -> Tuple[List[Any]]:
     hieve_dir, hieve_files = get_hieve_files(data_dir)
     all_train_set, all_valid_set, all_test_set = [], [], []
-    train_range, valid_range, test_range = range(0, 60), range(60, 80), range(80, 100)
+
+    if args.use_sample:
+        train_range, valid_range, test_range = range(0, 3), range(3, 4), range(4, 5)
+    else:
+        train_range, valid_range, test_range = range(0, 60), range(60, 80), range(80, 100)
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):

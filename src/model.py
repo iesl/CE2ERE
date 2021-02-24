@@ -26,7 +26,12 @@ class RoBERTa_MLP(Module):
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
-        self.roberta_model = RobertaModel.from_pretrained('roberta-large')
+        if hidden_size == 1024:
+            self.roberta_model = RobertaModel.from_pretrained('roberta-large')
+        elif hidden_size == 768:
+            self.roberta_model = RobertaModel.from_pretrained('roberta-base')
+        else:
+            raise ValueError(f"roberta_hidden_size={hidden_size} is not supported at this time!")
         self.MLP = MLP(hidden_size, mlp_size, num_classes)
 
     def _get_embeddings_from_position(self, roberta_embd: Tensor, position: Tensor):
@@ -38,9 +43,9 @@ class RoBERTa_MLP(Module):
         mul = torch.mul(tensor1, tensor2)
         return torch.cat((tensor1, tensor2, sub, mul), 1)
 
-    def forward(self, batch: Tuple[torch.Tensor]):
-        x_sntc, y_sntc, z_sntc = batch[3], batch[4], batch[5]
-        x_position, y_position, z_position = batch[6], batch[7], batch[8]
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
+        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
+        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
 
         # Produce contextualized embeddings using RobertaModel for all tokens of the entire document
         # get embeddings corresponding to x_position number
@@ -59,4 +64,4 @@ class RoBERTa_MLP(Module):
         beta_logits = self.MLP(beta_representation)
         gamma_logits = self.MLP(gamma_representation)
 
-        return alpha_logits.float(), beta_logits.float(), gamma_logits.float()
+        return alpha_logits, beta_logits, gamma_logits
