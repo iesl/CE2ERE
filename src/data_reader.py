@@ -1,11 +1,12 @@
 import spacy
+import os
 from nltk import sent_tokenize
 from pathlib import Path
 from torch.nn import Module
 from transformers import RobertaTokenizer
 from typing import *
 import xml.etree.ElementTree as ET
-
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
 nlp = spacy.load("en_core_web_sm")
 
