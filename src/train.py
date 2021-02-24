@@ -82,7 +82,6 @@ class Trainer:
                     if param.grad is not None:
                         assert not torch.isnan(param.grad).any()
                 self.opt.step()
-                break
 
             wandb.log(
                 {
@@ -127,7 +126,6 @@ class Evaluator:
             pred = torch.max(alpha, 1).indices.cpu().numpy()
             pred_vals.extend(pred)
             rel_ids.extend(xy_rel_id)
-            break
 
         if type == "hieve":
             metrics = metric(type, y_true=rel_ids, y_pred=pred_vals)
