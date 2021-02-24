@@ -86,7 +86,7 @@ class Trainer:
                     if param.grad is not None:
                         assert not torch.isnan(param.grad).any()
                 self.opt.step()
-            loss = sum(loss_vals) / len(self.train_dataloader)
+            loss = sum(loss_vals) / len(loss_vals)
             print("loss:", loss)
             wandb.log(
                 {
