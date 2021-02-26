@@ -104,6 +104,9 @@ class Trainer:
             if self.no_valid is False:
                 self.evaluation()
 
+            wandb.log({})
+        print("Training done!")
+
     def evaluation(self):
         hieve_metrics = self.evaluator.evaluate("hieve")
         wandb.log(hieve_metrics, commit=False)
