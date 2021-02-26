@@ -15,7 +15,7 @@ from metrics import metric
 class Trainer:
     def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
                  opt: torch.optim.Optimizer, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
-                 loss_cross_category: Module, lambda_dict: Dict[str, float], roberta_size_type="roberta-base"):
+                 loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool, roberta_size_type="roberta-base"):
         self.model = model
         self.device = device
         self.epochs = epochs
@@ -35,6 +35,8 @@ class Trainer:
             self.roberta_dim = 768
         else:
             self.roberta_dim = 1024
+
+        self.no_valid = no_valid
 
     def _get_anno_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
                        xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
@@ -59,10 +61,11 @@ class Trainer:
         return trans_loss
 
     def train(self):
-        self.evaluation()
+        if self.no_valid is False:
+            self.evaluation()
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
-
+            print("Training start...")
             self.model.train()
             loss_vals = []
             for step, batch in enumerate(tqdm(self.train_dataloader)):
@@ -98,7 +101,8 @@ class Trainer:
             )
 
             # evaluate
-            self.evaluation()
+            if self.no_valid is False:
+                self.evaluation()
 
     def evaluation(self):
         hieve_metrics = self.evaluator.evaluate("hieve")
@@ -132,12 +136,15 @@ class Evaluator:
 
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
+                print("alpha:", alpha)
+                print("pred:", pred.shape, pred)
+                print("xy_rel_ids:", xy_rel_ids.shape, xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
 
         if type == "hieve":
             metrics, result_table = metric(type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None and result_table is not None
+            assert metrics is not None
             print("result_table:", result_table)
             if self.best_hieve_score < metrics["[HiEve] F1-PC-CP-AVG"]:
                 self.best_hieve_score = metrics["[HiEve] F1-PC-CP-AVG"]
@@ -145,7 +152,7 @@ class Evaluator:
 
         if type == "matres":
             metrics, CM = metric(type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None and CM is not None
+            assert metrics is not None
             print("CM:", CM)
             if self.best_matres_score < metrics["[MATRES] F1 Score"]:
                 self.best_matres_score = metrics["[MATRES] F1 Score"]

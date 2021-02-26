@@ -213,10 +213,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
     hieve_dir, hieve_files = get_hieve_files(data_dir)
     all_train_set, all_valid_set, all_test_set = [], [], []
 
-    if args.use_sample:
-        train_range, valid_range, test_range = range(0, 3), range(3, 4), range(4, 5)
-    else:
-        train_range, valid_range, test_range = range(0, 60), range(60, 80), range(80, 100)
+    train_range, valid_range, test_range = range(0, 60), range(60, 80), range(80, 100)
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):
@@ -240,6 +237,12 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
     print(f'HiEve training instance num: {len(all_train_set)}, '
           f'valid instance num: {len(all_valid_set)}, '
           f'test instance num: {len(all_test_set)}')
+
+    if args.debug:
+        print("debug mode on")
+        all_train_set = all_train_set[0:100]
+        all_valid_set = all_train_set
+        all_test_set = all_train_set
 
     return all_train_set, all_valid_set, all_test_set
 
@@ -274,6 +277,11 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device:
     print(f'MATRES training instance num: {len(all_train_set)}, '
           f'valid instance num: {len(all_valid_set)}, '
           f'test instance num: {len(all_test_set)}')
+    if args.debug:
+        print("debug mode on")
+        all_train_set = all_train_set[0:100]
+        all_valid_set = all_train_set
+        all_test_set = all_train_set
 
     return all_train_set, all_valid_set, all_test_set
 

@@ -63,7 +63,7 @@ def get_init_weights(device: torch.device):
 
 
 def setup(args):
-    device = cuda_if_available(args.use_cuda)
+    device = cuda_if_available(args.no_cuda)
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args, device)
     model = create_model(args, num_classes)
     model = model.to(device)
@@ -97,7 +97,8 @@ def setup(args):
         loss_transitivity=loss_transitivity,
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
-        roberta_size_type="roberta-base"
+        no_valid=args.no_valid,
+        roberta_size_type="roberta-base",
     )
 
     return trainer
@@ -112,7 +113,7 @@ def main():
     args.lambda_transH = random.uniform(0, 1.0)
     args.lambda_transT = random.uniform(0, 1.0)
     args.lambda_cross = random.uniform(0, 1.0)
-
+    print(args.no_valid)
     print(args)
     wandb.init()
     wandb.config.update(args)

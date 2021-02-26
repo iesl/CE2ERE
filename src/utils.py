@@ -78,8 +78,8 @@ def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
     return lambda_dict
 
 
-def cuda_if_available(use_cuda: bool) -> torch.device:
-    cuda = use_cuda and torch.cuda.is_available()
-    if use_cuda and not torch.cuda.is_available():
+def cuda_if_available(no_cuda: bool) -> torch.device:
+    cuda = not no_cuda and torch.cuda.is_available()
+    if not no_cuda and not torch.cuda.is_available():
         print("Requested CUDA but it is not available, running on CPU")
     return torch.device("cuda" if cuda else "cpu")
