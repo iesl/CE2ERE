@@ -79,7 +79,7 @@ class Trainer:
                 alpha, beta, gamma = self.model(batch, device)
 
                 loss += self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                if self.loss_type == "loss1":
+                if self.loss_type == "loss1" or self.loss_type == "loss2":
                     loss += self._get_trans_loss(alpha, beta, gamma)
                     if self.loss_type == "loss2":
                         loss += self.loss_func_cross(alpha, beta, gamma)
