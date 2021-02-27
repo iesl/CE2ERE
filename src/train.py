@@ -84,12 +84,11 @@ class Trainer:
                     if self.loss_type == "loss2":
                         loss += self.loss_func_cross(alpha, beta, gamma)
                 loss_vals.append(loss.item())
-
-                assert not torch.isnan(loss).any()
+                # assert not torch.isnan(loss).any()
+                # for param in self.model.parameters():
+                #     if param.grad is not None:
+                #         assert not torch.isnan(param.grad).any()
                 loss.backward()
-                for param in self.model.parameters():
-                    if param.grad is not None:
-                        assert not torch.isnan(param.grad).any()
                 self.opt.step()
             loss = sum(loss_vals) / len(loss_vals)
             print("loss:", loss)
