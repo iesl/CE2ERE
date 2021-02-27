@@ -14,7 +14,7 @@ from metrics import metric
 
 class Trainer:
     def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
-                 opt: torch.optim.Optimizer, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
+                 opt: torch.optim.Optimizer, loss_type: str, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
                  loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool, roberta_size_type="roberta-base"):
         self.model = model
         self.device = device
@@ -26,6 +26,7 @@ class Trainer:
         self.evaluator = evaluator
         self.opt = opt
 
+        self.loss_type = loss_type
         self.loss_anno_dict = loss_anno_dict
         self.loss_func_trans = loss_transitivity
         self.loss_func_cross = loss_cross_category
@@ -69,7 +70,7 @@ class Trainer:
             self.model.train()
             loss_vals = []
             for step, batch in enumerate(tqdm(self.train_dataloader)):
-                # print("batch:", batch)
+                loss = 0
                 device = self.device
                 xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
@@ -77,10 +78,11 @@ class Trainer:
 
                 alpha, beta, gamma = self.model(batch, device)
 
-                anno_loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                trans_loss = self._get_trans_loss(alpha, beta, gamma)
-                cross_loss = self.loss_func_cross(alpha, beta, gamma)
-                loss = anno_loss + trans_loss + cross_loss
+                loss += self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                if self.loss_type == "loss1":
+                    loss += self._get_trans_loss(alpha, beta, gamma)
+                    if self.loss_type == "loss2":
+                        loss += self.loss_func_cross(alpha, beta, gamma)
                 loss_vals.append(loss.item())
 
                 assert not torch.isnan(loss).any()
@@ -139,9 +141,7 @@ class Evaluator:
 
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
-                print("alpha:", alpha)
-                print("pred:", pred.shape, pred)
-                print("xy_rel_ids:", xy_rel_ids.shape, xy_rel_ids)
+                print("pred:", pred.shape, pred, "xy_rel_ids:", xy_rel_ids.shape, xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
 

@@ -93,6 +93,7 @@ def setup(args):
         train_dataloader=train_dataloader,
         evaluator=evaluator,
         opt=optimizer,
+        loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
         loss_transitivity=loss_transitivity,
         loss_cross_category=loss_cross_category,
@@ -107,13 +108,6 @@ def setup(args):
 def main():
     args = build_parser()
     set_seed(args.seed)
-    args.downsample = random.uniform(0.01, 0.2)
-    args.lambda_annoH = random.uniform(0, 1.0)
-    args.lambda_annoT = random.uniform(0, 1.0)
-    args.lambda_transH = random.uniform(0, 1.0)
-    args.lambda_transT = random.uniform(0, 1.0)
-    args.lambda_cross = random.uniform(0, 1.0)
-    print(args.no_valid)
     print(args)
     wandb.init()
     wandb.config.update(args)
