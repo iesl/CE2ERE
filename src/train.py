@@ -14,8 +14,8 @@ from metrics import metric
 
 class Trainer:
     def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
-                 opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
-                 loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool):
+                 opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module], loss_symmetry: Module,
+                 loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool):
         self.model = model
         self.device = device
         self.epochs = epochs
@@ -28,10 +28,12 @@ class Trainer:
 
         self.loss_type = loss_type
         self.loss_anno_dict = loss_anno_dict
+        self.loss_func_symm = loss_symmetry
         self.loss_func_trans = loss_transitivity
         self.loss_func_cross = loss_cross_category
 
         self.no_valid = no_valid
+        self.best_f1_score = 0.0
 
     def _get_anno_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
                        xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
@@ -41,25 +43,31 @@ class Trainer:
                 alpha_loss = self.loss_anno_dict["hieve"](alpha[i][0:4].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
                 beta_loss = self.loss_anno_dict["hieve"](beta[i][0:4].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
                 gamma_loss = self.loss_anno_dict["hieve"](gamma[i][0:4].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
-                anno_loss += self.lambda_dict["lambda_annoH"] * (alpha_loss + beta_loss + gamma_loss)
             elif flag[i] == 1:  # MATRES
                 alpha_loss = self.loss_anno_dict["matres"](alpha[i][4:].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
                 beta_loss = self.loss_anno_dict["matres"](beta[i][4:].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
                 gamma_loss = self.loss_anno_dict["matres"](gamma[i][4:].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
-                anno_loss += self.lambda_dict["lambda_annoT"] * (alpha_loss + beta_loss + gamma_loss)
+            anno_loss += (alpha_loss + beta_loss + gamma_loss)
         return anno_loss
 
     def _get_trans_loss(self, alpha: Tensor, beta: Tensor, gamma: Tensor):
-        hier_loss = self.lambda_dict["lambda_transH"] * self.loss_func_trans(alpha[0:4], beta[0:4], gamma[0:4])
-        temp_loss = self.lambda_dict["lambda_transT"] * self.loss_func_trans(alpha[4:], beta[4:], gamma[4:])
-        trans_loss = hier_loss + temp_loss
+        hier_loss = self.loss_func_trans(alpha[0:4], beta[0:4], gamma[0:4])
+        temp_loss = self.loss_func_trans(alpha[4:], beta[4:], gamma[4:])
+        trans_loss = self.lambda_dict["lambda_trans"] * (hier_loss + temp_loss)
         return trans_loss
+
+    def _get_symm_loss(self, alpha: Tensor, alpha_reverse: Tensor):
+        hier_loss = self.loss_func_symm(alpha[0:4], alpha_reverse[0:4])
+        temp_loss = self.loss_func_symm(alpha[4:], alpha_reverse[4:])
+        symm_loss = self.lambda_dict["lambda_symm"] * (hier_loss + temp_loss)
+        return symm_loss
 
     def train(self):
         # if self.no_valid is False:
         #     self.evaluation()
         #     wandb.log({})
 
+        self.model.zero_grad()
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
             print()
@@ -68,19 +76,17 @@ class Trainer:
             self.model.train()
             loss_vals = []
             for step, batch in enumerate(tqdm(self.train_dataloader)):
-                loss = 0
                 device = self.device
                 xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 batch_size = xy_rel_id.size(0)
 
-                alpha, beta, gamma = self.model(batch, device)
+                alpha, beta, gamma, alpha_reverse = self.model(batch, device)
 
-                loss += self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                if self.loss_type >= 1:
-                    loss += self._get_trans_loss(alpha, beta, gamma)
-                    if self.loss_type >= 2:
-                        loss += self.loss_func_cross(alpha, beta, gamma)
+                loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                loss += self._get_symm_loss(alpha, alpha_reverse)
+                loss += self._get_trans_loss(alpha, beta, gamma)
+                loss += self.loss_func_cross(alpha, beta, gamma)
                 loss_vals.append(loss.item())
                 loss.backward()
                 self.opt.step()
@@ -111,8 +117,10 @@ class Trainer:
         wandb.log(matres_metrics, commit=False)
         print("matres_metrics:", matres_metrics)
 
-        f1_score = hieve_metrics["[HiEve] Best F1-PC-CP-AVG"] + matres_metrics["[MATRES] Best F1 Score"]
-        wandb.log({"[Both] Best F1 Score": f1_score}, commit=False)
+        f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"] + matres_metrics["[MATRES] F1 Score"]
+        if self.best_f1_score < f1_score:
+            self.best_f1_score = f1_score
+        wandb.log({"[Both] Best F1 Score": self.best_f1_score}, commit=False)
 
 class Evaluator:
     def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
@@ -133,11 +141,14 @@ class Evaluator:
             for i, batch in enumerate(dataloader):
                 device = self.device
                 xy_rel_id = batch[12].to(device)
-                alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
+                alpha, beta, gamma, alpha_reverse = self.model(batch, device)  # alpha: [16, 8]
 
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
-                print("pred:", pred.shape, pred, "xy_rel_ids:", xy_rel_ids.shape, xy_rel_ids)
+
+                if type == "matres":
+                    pred = pred % 4
+                print("pred:", pred, "true:", xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
 

@@ -58,6 +58,27 @@ class TransitivityLoss(Module):
         return loss.sum()
 
 
+class SymmetryLoss(Module):
+    def __init__(self):
+        super().__init__()
+        self.softmax = LogSoftmax(dim=1)
+
+    def symmetry_loss(self, log_y_alpha, log_y_alpha_reverse, alpha_index, alpha_reverse_index):
+        zero = torch.zeros(1).to(log_y_alpha.device)
+        loss = torch.max(zero, log_y_alpha[:, alpha_index] - log_y_alpha_reverse[:, alpha_reverse_index])
+        return loss
+
+    def forward(self, alpha_logits: Tensor, alpha_reverse_logits: Tensor):
+        log_y_alpha = self.softmax(alpha_logits[:, 0:4])
+        log_y_alpha_reverse = self.softmax(alpha_reverse_logits[:, 0:4])
+
+        loss = self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 0, 1)
+        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 1, 0)
+        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 2, 3)
+        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 3, 2)
+        return loss.sum()
+
+
 class CrossCategoryLoss(Module):
     def __init__(self):
         super().__init__()

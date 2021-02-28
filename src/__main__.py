@@ -4,7 +4,7 @@ import wandb
 from torch.nn import CrossEntropyLoss
 from EventDataset import EventDataset
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
-from loss import TransitivityLoss, CrossCategoryLoss
+from loss import TransitivityLoss, CrossCategoryLoss, SymmetryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP
 from parser import *
 from train import Trainer, Evaluator
@@ -93,6 +93,7 @@ def setup(args):
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)
+    loss_symmetry = SymmetryLoss()
     loss_transitivity = TransitivityLoss()
     loss_cross_category = CrossCategoryLoss()
 
@@ -106,6 +107,7 @@ def setup(args):
         opt=optimizer,
         loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
+        loss_symmetry=loss_symmetry,
         loss_transitivity=loss_transitivity,
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
