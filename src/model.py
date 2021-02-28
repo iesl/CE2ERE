@@ -32,7 +32,7 @@ class RoBERTa_MLP(Module):
             self.roberta_model = RobertaModel.from_pretrained('roberta-base')
         else:
             raise ValueError(f"roberta_hidden_size={hidden_size} is not supported at this time!")
-        self.MLP = MLP(4 * hidden_size, 2 * mlp_size, num_classes)
+        self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
 
     def _get_embeddings_from_position(self, roberta_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
@@ -78,7 +78,7 @@ class BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.lstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
-        self.MLP = MLP(4 * hidden_size, mlp_size, num_classes)
+        self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -112,26 +112,26 @@ class BiLSTM_MLP(Module):
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
 
         # get RoBERTa embedding
-        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, 1, padded_len, roberta_dim]
+        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
         roberta_y_sntc = self._get_roberta_embedding(y_sntc)
         roberta_z_sntc = self._get_roberta_embedding(z_sntc)
 
         # BiLSTM layer
-        bilstm_output_A, _ = self.lstm(roberta_x_sntc) #[64, 120, 512]
+        bilstm_output_A, _ = self.lstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
         bilstm_output_B, _ = self.lstm(roberta_y_sntc)
         bilstm_output_C, _ = self.lstm(roberta_z_sntc)
 
-        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[64, 512]
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         # Subtraction + Hadamard
-        alpha_repr = self._get_relation_representation(output_A, output_B)
+        alpha_repr = self._get_relation_representation(output_A, output_B) # [batch_size, lstm_hidden_dim * 2 * 4][64, 2048]
         beta_repr = self._get_relation_representation(output_B, output_C)
         gamma_repr = self._get_relation_representation(output_A, output_C)
 
         # MLP layer
-        alpha_logits = self.MLP(alpha_repr)
+        alpha_logits = self.MLP(alpha_repr) # [batch_size, num_classes]; [64, 8]
         beta_logits = self.MLP(beta_repr)
         gamma_logits = self.MLP(gamma_repr)
 
