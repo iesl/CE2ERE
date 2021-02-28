@@ -14,8 +14,8 @@ from metrics import metric
 
 class Trainer:
     def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
-                 opt: torch.optim.Optimizer, loss_type: str, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
-                 loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool, roberta_size_type="roberta-base"):
+                 opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module], loss_transitivity: Module,
+                 loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool):
         self.model = model
         self.device = device
         self.epochs = epochs
@@ -30,12 +30,6 @@ class Trainer:
         self.loss_anno_dict = loss_anno_dict
         self.loss_func_trans = loss_transitivity
         self.loss_func_cross = loss_cross_category
-
-        self.roberta_size_type = roberta_size_type
-        if self.roberta_size_type == "roberta-base":
-            self.roberta_dim = 768
-        else:
-            self.roberta_dim = 1024
 
         self.no_valid = no_valid
 
@@ -62,10 +56,14 @@ class Trainer:
         return trans_loss
 
     def train(self):
-        if self.no_valid is False:
-            self.evaluation()
+        # if self.no_valid is False:
+        #     self.evaluation()
+        #     wandb.log({})
+
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
+            print()
+            print('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
             print("Training start...")
             self.model.train()
             loss_vals = []
@@ -79,15 +77,11 @@ class Trainer:
                 alpha, beta, gamma = self.model(batch, device)
 
                 loss += self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                if self.loss_type == "loss1" or self.loss_type == "loss2":
+                if self.loss_type >= 1:
                     loss += self._get_trans_loss(alpha, beta, gamma)
-                    if self.loss_type == "loss2":
+                    if self.loss_type >= 2:
                         loss += self.loss_func_cross(alpha, beta, gamma)
                 loss_vals.append(loss.item())
-                # assert not torch.isnan(loss).any()
-                # for param in self.model.parameters():
-                #     if param.grad is not None:
-                #         assert not torch.isnan(param.grad).any()
                 loss.backward()
                 self.opt.step()
             loss = sum(loss_vals) / len(loss_vals)

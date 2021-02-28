@@ -5,7 +5,7 @@ from torch.nn import CrossEntropyLoss
 from EventDataset import EventDataset
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
-from model import RoBERTa_MLP
+from model import RoBERTa_MLP, BiLSTM_MLP
 from parser import *
 from train import Trainer, Evaluator
 from utils import *
@@ -42,12 +42,23 @@ def create_dataloader(args, device):
 
 
 def create_model(args, num_classes):
-    model = RoBERTa_MLP(
-        num_classes=num_classes,
-        data_type=args.data_type,
-        mlp_size=args.mlp_size,
-        hidden_size=args.roberta_hidden_size,
-    )
+    if args.finetune:
+        model = RoBERTa_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            mlp_size=args.mlp_size,
+            hidden_size=args.roberta_hidden_size,
+        )
+    else:
+        model = BiLSTM_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            hidden_size=args.lstm_hidden_size,
+            num_layers=args.num_layers,
+            mlp_size=args.mlp_size,
+            lstm_input_size=args.lstm_input_size,
+            roberta_size_type="roberta-base",
+        )
     return model
 
 
@@ -99,7 +110,6 @@ def setup(args):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
-        roberta_size_type="roberta-base",
     )
 
     return trainer
