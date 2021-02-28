@@ -111,6 +111,9 @@ class Trainer:
         wandb.log(matres_metrics, commit=False)
         print("matres_metrics:", matres_metrics)
 
+        f1_score = hieve_metrics["[HiEve] Best F1-PC-CP-AVG"] + matres_metrics["[MATRES] Best F1 Score"]
+        wandb.log({"[Both] Best F1 Score": f1_score}, commit=False)
+
 class Evaluator:
     def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
         self.model = model
