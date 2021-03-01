@@ -50,10 +50,18 @@ class Trainer:
             anno_loss += (alpha_loss + beta_loss + gamma_loss)
         return anno_loss.sum()
 
-    def _get_trans_loss(self, alpha: Tensor, beta: Tensor, gamma: Tensor):
-        hier_loss = self.loss_func_trans(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
-        temp_loss = self.loss_func_trans(alpha[:, 4:], beta[:, 4:], gamma[:, 4:])
-        trans_loss = self.lambda_dict["lambda_trans"] * (hier_loss + temp_loss)
+    def _get_trans_loss(self, alpha: Tensor, beta: Tensor, gamma: Tensor, flag: Tensor):
+        batch_size = alpha.shape[0]
+        # hier_loss = self.loss_func_trans(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
+        # temp_loss = self.loss_func_trans(alpha[:, 4:], beta[:, 4:], gamma[:, 4:])
+        # trans_loss = self.lambda_dict["lambda_trans"] * (hier_loss + temp_loss)
+        # return trans_loss.sum()
+        trans_loss = 0
+        for i in range(0, batch_size):
+            if flag[i] == 0:  # HiEve
+                trans_loss += self.loss_func_trans(alpha[i][0:4].unsqueeze(0), beta[i][0:4].unsqueeze(0), gamma[i][0:4].unsqueeze(0))
+            elif flag[i] == 1:  # MATRES
+                trans_loss += self.loss_func_trans(alpha[i][4:].unsqueeze(0), beta[i][4:].unsqueeze(0), gamma[i][4:].unsqueeze(0))
         return trans_loss.sum()
 
     def _get_symm_loss(self, alpha: Tensor, alpha_reverse: Tensor):
@@ -61,6 +69,26 @@ class Trainer:
         temp_loss = self.loss_func_symm(alpha[:, 4:], alpha_reverse[:, 4:])
         symm_loss = self.lambda_dict["lambda_symm"] * (hier_loss + temp_loss)
         return symm_loss.sum()
+
+    def _get_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
+                       xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
+        anno_loss = 0
+        trans_loss = 0
+        for i in range(0, batch_size):
+            if flag[i] == 0:    # HiEve
+                alpha_loss = self.loss_anno_dict["hieve"](alpha[i][0:4].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
+                beta_loss = self.loss_anno_dict["hieve"](beta[i][0:4].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
+                gamma_loss = self.loss_anno_dict["hieve"](gamma[i][0:4].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
+                anno_loss += (alpha_loss + beta_loss + gamma_loss)
+                trans_loss += self.loss_func_trans(alpha[i][0:4].unsqueeze(0), beta[i][0:4].unsqueeze(0), gamma[i][0:4].unsqueeze(0))
+            elif flag[i] == 1:  # MATRES
+                alpha_loss = self.loss_anno_dict["matres"](alpha[i][4:].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
+                beta_loss = self.loss_anno_dict["matres"](beta[i][4:].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
+                gamma_loss = self.loss_anno_dict["matres"](gamma[i][4:].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
+                anno_loss += (alpha_loss + beta_loss + gamma_loss)
+                trans_loss += self.loss_func_trans(alpha[i][4:].unsqueeze(0), beta[i][4:].unsqueeze(0), gamma[i][4:].unsqueeze(0))
+        return anno_loss.sum() + trans_loss.sum()
+
 
     def train(self):
         # if self.no_valid is False:
@@ -83,10 +111,11 @@ class Trainer:
 
                 alpha, beta, gamma, alpha_reverse = self.model(batch, device)
 
-                loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                loss += self._get_symm_loss(alpha, alpha_reverse)
-                loss += self._get_trans_loss(alpha, beta, gamma)
-                loss += self.loss_func_cross(alpha, beta, gamma).sum()
+                loss = self._get_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                # loss += self._get_symm_loss(alpha, alpha_reverse)
+                # loss += self._get_trans_loss(alpha, beta, gamma, flag)
+                # loss += self.loss_func_cross(alpha, beta, gamma).sum()
                 loss_vals.append(loss.item())
                 loss.backward()
                 self.opt.step()
@@ -149,7 +178,7 @@ class Evaluator:
 
                 if type == "matres":
                     pred = pred - 4
-                    pred[pred < 0] = 5
+                    pred[pred < 0] = 9
                 print("pred:", pred, "true:", xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
