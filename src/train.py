@@ -70,24 +70,27 @@ class Trainer:
         symm_loss = self.lambda_dict["lambda_symm"] * (hier_loss + temp_loss)
         return symm_loss.sum()
 
-    def _get_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
+    def _get_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor, alpha_reverse: Tensor,
                        xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
         anno_loss = 0
         trans_loss = 0
+        symm_loss = 0
         for i in range(0, batch_size):
             if flag[i] == 0:    # HiEve
                 alpha_loss = self.loss_anno_dict["hieve"](alpha[i][0:4].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
                 beta_loss = self.loss_anno_dict["hieve"](beta[i][0:4].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
                 gamma_loss = self.loss_anno_dict["hieve"](gamma[i][0:4].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
                 anno_loss += (alpha_loss + beta_loss + gamma_loss)
+                symm_loss += self.loss_func_symm(alpha[i][0:4].unsqueeze(0), alpha_reverse[i][0:4].unsqueeze(0))
                 trans_loss += self.loss_func_trans(alpha[i][0:4].unsqueeze(0), beta[i][0:4].unsqueeze(0), gamma[i][0:4].unsqueeze(0))
             elif flag[i] == 1:  # MATRES
                 alpha_loss = self.loss_anno_dict["matres"](alpha[i][4:].unsqueeze(0), xy_rel_id[i].unsqueeze(0))
                 beta_loss = self.loss_anno_dict["matres"](beta[i][4:].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
                 gamma_loss = self.loss_anno_dict["matres"](gamma[i][4:].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
                 anno_loss += (alpha_loss + beta_loss + gamma_loss)
+                symm_loss += self.loss_func_symm(alpha[i][0:4].unsqueeze(0), alpha_reverse[i][0:4].unsqueeze(0))
                 trans_loss += self.loss_func_trans(alpha[i][4:].unsqueeze(0), beta[i][4:].unsqueeze(0), gamma[i][4:].unsqueeze(0))
-        return anno_loss.sum() + trans_loss.sum()
+        return anno_loss.sum() + self.lambda_dict["lambda_symm"] * symm_loss.sum() + self.lambda_dict["lambda_trans"] * trans_loss.sum()
 
 
     def train(self):
@@ -111,7 +114,7 @@ class Trainer:
 
                 alpha, beta, gamma, alpha_reverse = self.model(batch, device)
 
-                loss = self._get_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
                 # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                 # loss += self._get_symm_loss(alpha, alpha_reverse)
                 # loss += self._get_trans_loss(alpha, beta, gamma, flag)
