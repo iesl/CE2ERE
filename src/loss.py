@@ -33,9 +33,9 @@ class TransitivityLoss(Module):
         self.transition_not_loss = TransitionNotLoss()
 
     def forward(self, alpha_logits: Tensor, beta_logits: Tensor, gamma_logits: Tensor):
-        log_y_alpha = self.softmax(alpha_logits[:, 0:4])
-        log_y_beta = self.softmax(beta_logits[:, 0:4])
-        log_y_gamma = self.softmax(gamma_logits[:, 0:4])
+        log_y_alpha = self.softmax(alpha_logits)
+        log_y_beta = self.softmax(beta_logits)
+        log_y_gamma = self.softmax(gamma_logits)
 
         loss = self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 0, 0, 0)
         loss += self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 0, 2, 0)
@@ -55,7 +55,7 @@ class TransitivityLoss(Module):
         loss += self.transition_not_loss(log_y_alpha, log_y_beta, log_y_gamma, 3, 1, 0)
         loss += self.transition_not_loss(log_y_alpha, log_y_beta, log_y_gamma, 3, 1, 2)
 
-        return loss.sum()
+        return loss
 
 
 class SymmetryLoss(Module):
@@ -69,14 +69,14 @@ class SymmetryLoss(Module):
         return loss
 
     def forward(self, alpha_logits: Tensor, alpha_reverse_logits: Tensor):
-        log_y_alpha = self.softmax(alpha_logits[:, 0:4])
-        log_y_alpha_reverse = self.softmax(alpha_reverse_logits[:, 0:4])
+        log_y_alpha = self.softmax(alpha_logits)
+        log_y_alpha_reverse = self.softmax(alpha_reverse_logits)
 
         loss = self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 0, 1)
         loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 1, 0)
         loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 2, 3)
         loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 3, 2)
-        return loss.sum()
+        return loss
 
 
 class CrossCategoryLoss(Module):
@@ -133,4 +133,4 @@ class CrossCategoryLoss(Module):
         loss += self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 6, 2, 6)
         loss += self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 7, 2, 7)
         loss += self.transition_not_loss(log_y_alpha, log_y_beta, log_y_gamma, 7, 2, 2)
-        return loss.sum()
+        return loss

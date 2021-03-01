@@ -48,25 +48,25 @@ class Trainer:
                 beta_loss = self.loss_anno_dict["matres"](beta[i][4:].unsqueeze(0), yz_rel_id[i].unsqueeze(0))
                 gamma_loss = self.loss_anno_dict["matres"](gamma[i][4:].unsqueeze(0), xz_rel_id[i].unsqueeze(0))
             anno_loss += (alpha_loss + beta_loss + gamma_loss)
-        return anno_loss
+        return anno_loss.sum()
 
     def _get_trans_loss(self, alpha: Tensor, beta: Tensor, gamma: Tensor):
-        hier_loss = self.loss_func_trans(alpha[0:4], beta[0:4], gamma[0:4])
-        temp_loss = self.loss_func_trans(alpha[4:], beta[4:], gamma[4:])
+        hier_loss = self.loss_func_trans(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
+        temp_loss = self.loss_func_trans(alpha[:, 4:], beta[:, 4:], gamma[:, 4:])
         trans_loss = self.lambda_dict["lambda_trans"] * (hier_loss + temp_loss)
-        return trans_loss
+        return trans_loss.sum()
 
     def _get_symm_loss(self, alpha: Tensor, alpha_reverse: Tensor):
-        hier_loss = self.loss_func_symm(alpha[0:4], alpha_reverse[0:4])
-        temp_loss = self.loss_func_symm(alpha[4:], alpha_reverse[4:])
+        hier_loss = self.loss_func_symm(alpha[:, 0:4], alpha_reverse[:, 0:4])
+        temp_loss = self.loss_func_symm(alpha[:, 4:], alpha_reverse[:, 4:])
         symm_loss = self.lambda_dict["lambda_symm"] * (hier_loss + temp_loss)
-        return symm_loss
+        return symm_loss.sum()
 
     def train(self):
         # if self.no_valid is False:
         #     self.evaluation()
         #     wandb.log({})
-
+        full_start_time = time.time()
         self.model.zero_grad()
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
@@ -86,7 +86,7 @@ class Trainer:
                 loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                 loss += self._get_symm_loss(alpha, alpha_reverse)
                 loss += self._get_trans_loss(alpha, beta, gamma)
-                loss += self.loss_func_cross(alpha, beta, gamma)
+                loss += self.loss_func_cross(alpha, beta, gamma).sum()
                 loss_vals.append(loss.item())
                 loss.backward()
                 self.opt.step()
@@ -106,6 +106,7 @@ class Trainer:
                 self.evaluation()
 
             wandb.log({})
+        wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
         print("Training done!")
 
     def evaluation(self):
@@ -147,7 +148,8 @@ class Evaluator:
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
 
                 if type == "matres":
-                    pred = pred % 4
+                    pred = pred - 4
+                    pred[pred < 0] = 5
                 print("pred:", pred, "true:", xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
