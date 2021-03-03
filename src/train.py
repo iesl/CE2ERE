@@ -197,12 +197,15 @@ class Evaluator:
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
+        alpha_values = []
+        beta_values = []
+        gamma_values = []
         print(f"Validation-[{type}] start... ", end="")
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
                 device = self.device
                 xy_rel_id = batch[12].to(device)
-                alpha, beta, gamma, alpha_reverse = self.model(batch, device)  # alpha: [16, 8]
+                alpha, beta, gamma, _ = self.model(batch, device)  # alpha: [16, 8]
 
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
@@ -215,6 +218,13 @@ class Evaluator:
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
+
+                alpha_values.extend(pred.tolist())
+                beta_values.extend(torch.max(beta, 1).indices.cpu().numpy().tolist())
+                gamma_values.extend(torch.max(gamma, 1).indices.cpu().numpy().tolist())
+        print("alpha:", alpha)
+        print("beta:", beta)
+        print("gamma:", gamma)
 
         if type == "hieve":
             metrics, result_table = metric(type, y_true=rel_ids, y_pred=pred_vals)
