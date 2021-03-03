@@ -210,7 +210,6 @@ class Evaluator:
                 # if type == "matres":
                 #     pred = pred - 4
                 #     pred[pred < 0] = 9
-                print("xy_rel_id:", xy_rel_id.tolist())
                 print("pred:", pred.tolist())
                 print("true:", xy_rel_ids.tolist())
 
