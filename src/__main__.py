@@ -38,7 +38,7 @@ def create_dataloader(args, device):
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict)
     elif data_type.lower() == "joint":
         num_classes = 8
         hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
