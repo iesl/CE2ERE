@@ -116,11 +116,11 @@ class Trainer:
                 alpha, beta, gamma, alpha_reverse = self.model(batch, device)
 
                 if self.data_type.lower() == "hieve":
-                    loss = self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id)
-                    loss += self.loss_func_trans(alpha, beta, gamma).sum()
+                    loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
+                    loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                 elif self.data_type.lower() == "matres":
-                    loss = self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id)
-                    loss += self.loss_func_trans(alpha, beta, gamma).sum()
+                    loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
+                    loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                 elif self.data_type.lower() == "joint":
                     loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
                     # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
@@ -210,7 +210,10 @@ class Evaluator:
                 # if type == "matres":
                 #     pred = pred - 4
                 #     pred[pred < 0] = 9
-                print("pred:", pred, "true:", xy_rel_ids)
+                print("xy_rel_id:", xy_rel_id.tolist())
+                print("pred:", pred.tolist())
+                print("true:", xy_rel_ids.tolist())
+
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
 

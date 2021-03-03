@@ -14,7 +14,7 @@ def build_parser():
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
     parser.add_argument('--downsample', type=float, default=random.uniform(0.01, 0.2))
     parser.add_argument('--learning_rate', type=float, default=0.001)
-    # parser.add_argument('--lambda_anno', type=float, default=random.uniform(0, 1.0))
+    parser.add_argument('--lambda_anno', type=float, default=random.uniform(0, 1.0))
     parser.add_argument('--lambda_symm', type=float, default=random.uniform(0, 1.0))
     parser.add_argument('--lambda_trans', type=float, default=random.uniform(0, 1.0))
     parser.add_argument('--mlp_size', type=int, default=256)
