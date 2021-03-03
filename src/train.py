@@ -13,9 +13,10 @@ from metrics import metric
 
 
 class Trainer:
-    def __init__(self, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
+    def __init__(self, data_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float, train_dataloader: DataLoader, evaluator: Module,
                  opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module], loss_symmetry: Module,
                  loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool):
+        self.data_type = data_type
         self.model = model
         self.device = device
         self.epochs = epochs
@@ -114,11 +115,18 @@ class Trainer:
 
                 alpha, beta, gamma, alpha_reverse = self.model(batch, device)
 
-                loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
-                # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                # loss += self._get_symm_loss(alpha, alpha_reverse)
-                # loss += self._get_trans_loss(alpha, beta, gamma, flag)
-                # loss += self.loss_func_cross(alpha, beta, gamma).sum()
+                if self.data_type.lower() == "hieve":
+                    loss = self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id)
+                    loss += self.loss_func_trans(alpha, beta, gamma).sum()
+                elif self.data_type.lower() == "matres":
+                    loss = self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id)
+                    loss += self.loss_func_trans(alpha, beta, gamma).sum()
+                elif self.data_type.lower() == "joint":
+                    loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
+                    # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                    # loss += self._get_symm_loss(alpha, alpha_reverse)
+                    # loss += self._get_trans_loss(alpha, beta, gamma, flag)
+                    # loss += self.loss_func_cross(alpha, beta, gamma).sum()
                 loss_vals.append(loss.item())
                 loss.backward()
                 self.opt.step()
@@ -142,18 +150,38 @@ class Trainer:
         print("Training done!")
 
     def evaluation(self):
-        hieve_metrics = self.evaluator.evaluate("hieve")
-        wandb.log(hieve_metrics, commit=False)
-        print("hieve_metrics:", hieve_metrics)
 
-        matres_metrics = self.evaluator.evaluate("matres")
-        wandb.log(matres_metrics, commit=False)
-        print("matres_metrics:", matres_metrics)
+        if self.data_type.lower() == "hieve":
+            hieve_metrics = self.evaluator.evaluate("hieve")
+            wandb.log(hieve_metrics, commit=False)
+            print("hieve_metrics:", hieve_metrics)
 
-        f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"] + matres_metrics["[MATRES] F1 Score"]
-        if self.best_f1_score < f1_score:
-            self.best_f1_score = f1_score
-        wandb.log({"[Both] Best F1 Score": self.best_f1_score}, commit=False)
+            f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"]
+            if self.best_f1_score < f1_score:
+                self.best_f1_score = f1_score
+            wandb.log({"[HiEve] Best F1 Score": self.best_f1_score}, commit=False)
+        elif self.data_type.lower() == "matres":
+            matres_metrics = self.evaluator.evaluate("matres")
+            wandb.log(matres_metrics, commit=False)
+            print("matres_metrics:", matres_metrics)
+
+            f1_score = matres_metrics["[MATRES] F1 Score"]
+            if self.best_f1_score < f1_score:
+                self.best_f1_score = f1_score
+            wandb.log({"[MATRES] Best F1 Score": self.best_f1_score}, commit=False)
+        elif self.data_type.lower() == "joint":
+            hieve_metrics = self.evaluator.evaluate("hieve")
+            wandb.log(hieve_metrics, commit=False)
+            print("hieve_metrics:", hieve_metrics)
+
+            matres_metrics = self.evaluator.evaluate("matres")
+            wandb.log(matres_metrics, commit=False)
+            print("matres_metrics:", matres_metrics)
+
+            f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"] + matres_metrics["[MATRES] F1 Score"]
+            if self.best_f1_score < f1_score:
+                self.best_f1_score = f1_score
+            wandb.log({"[Both] Best F1 Score": self.best_f1_score}, commit=False)
 
 class Evaluator:
     def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
@@ -179,9 +207,9 @@ class Evaluator:
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
 
-                if type == "matres":
-                    pred = pred - 4
-                    pred[pred < 0] = 9
+                # if type == "matres":
+                #     pred = pred - 4
+                #     pred[pred < 0] = 9
                 print("pred:", pred, "true:", xy_rel_ids)
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)

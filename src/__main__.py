@@ -25,11 +25,24 @@ def create_dataloader(args, device):
     log_batch_size = int(args.log_batch_size)
     data_dir = Path(args.data_dir).expanduser()
 
-    hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
-    matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
-
-    if data_type.lower() == "joint":
+    if data_type.lower() == "hieve":
+        num_classes = 4
+        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
+        valid_set_dict, test_set_dict = {}, {}
+        valid_set_dict["hieve"] = hieve_valid_set
+        test_set_dict["hieve"] = hieve_test_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
+    elif data_type.lower() == "matres":
+        num_classes = 4
+        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
+        valid_set_dict, test_set_dict = {}, {}
+        valid_set_dict["matres"] = matres_valid_set
+        test_set_dict["matres"] = matres_test_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
+    elif data_type.lower() == "joint":
         num_classes = 8
+        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
+        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
         joint_train_set = hieve_train_set + matres_train_set
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
@@ -98,6 +111,7 @@ def setup(args):
     loss_cross_category = CrossCategoryLoss()
 
     trainer = Trainer(
+        data_type=args.data_type,
         model=model,
         device=device,
         epochs=args.epochs,
