@@ -224,10 +224,10 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
             train_set = get_hieve_train_set(data_dict, args.downsample, device)
             all_train_set.extend(train_set)
         elif doc_id in valid_range:
-            valid_set = get_hieve_valid_test_set(data_dict, 0.4, device)
+            valid_set = get_hieve_valid_test_set(data_dict, args.downsample, device)
             all_valid_set.extend(valid_set)
         elif doc_id in test_range:
-            test_set = get_hieve_valid_test_set(data_dict, 0.4, device)
+            test_set = get_hieve_valid_test_set(data_dict, args.downsample, device)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"doc_id={doc_id} is out of range!")
