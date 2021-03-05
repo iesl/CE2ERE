@@ -95,9 +95,6 @@ class Trainer:
 
 
     def train(self):
-        # if self.no_valid is False:
-        #     self.evaluation()
-        #     wandb.log({})
         full_start_time = time.time()
         self.model.zero_grad()
         for epoch in range(1, self.epochs+1):
@@ -122,8 +119,8 @@ class Trainer:
                     loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
                     loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                 elif self.data_type.lower() == "joint":
-                    loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
-                    # loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                    # loss = self._get_loss(batch_size, flag, alpha, beta, gamma, alpha_reverse, xy_rel_id, yz_rel_id, xz_rel_id)
+                    loss = self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                     # loss += self._get_symm_loss(alpha, alpha_reverse)
                     # loss += self._get_trans_loss(alpha, beta, gamma, flag)
                     # loss += self.loss_func_cross(alpha, beta, gamma).sum()
@@ -203,7 +200,8 @@ class Trainer:
             wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
 
 class Evaluator:
-    def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
+    def __init__(self, train_type: str, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
+        self.train_type = train_type
         self.model = model
         self.device = device
         self.valid_dataloader_dict = valid_dataloader_dict
@@ -232,9 +230,9 @@ class Evaluator:
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
 
-                # if data_type == "matres":
-                #     pred = pred - 4
-                #     pred[pred < 0] = 9
+                if self.train_type == "joint" and data_type == "matres":
+                    pred = pred - 4
+                    pred[pred < 0] = 9
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
@@ -260,7 +258,7 @@ class Evaluator:
                 metrics[f"[{eval_type}-HiEve] Best F1-PC-CP-AVG"] = self.best_hieve_score
 
         if data_type == "matres":
-            metrics, CM = metric(data_type, y_true=rel_ids, y_pred=pred_vals)
+            metrics, CM = metric(data_type, eval_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
             print("CM:", CM)
             if eval_type == "valid":

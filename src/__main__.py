@@ -96,6 +96,7 @@ def setup(args):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     evaluator = Evaluator(
+        train_type=args.data_type,
         model=model,
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
