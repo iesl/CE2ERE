@@ -152,36 +152,55 @@ class Trainer:
     def evaluation(self):
 
         if self.data_type.lower() == "hieve":
-            hieve_metrics = self.evaluator.evaluate("hieve")
-            wandb.log(hieve_metrics, commit=False)
-            print("hieve_metrics:", hieve_metrics)
+            valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
+            wandb.log(valid_hieve_metrics, commit=False)
+            print("valid_hieve_metrics:", valid_hieve_metrics)
 
-            f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"]
+            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+            wandb.log(test_hieve_metrics, commit=False)
+            print("test_hieve_metrics:", test_hieve_metrics)
+
+            eval_type = "valid"
+            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]
             if self.best_f1_score < f1_score:
                 self.best_f1_score = f1_score
             wandb.log({"[HiEve] Best F1 Score": self.best_f1_score}, commit=False)
         elif self.data_type.lower() == "matres":
-            matres_metrics = self.evaluator.evaluate("matres")
-            wandb.log(matres_metrics, commit=False)
-            print("matres_metrics:", matres_metrics)
+            valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
+            wandb.log(valid_matres_metrics, commit=False)
+            print("valid_matres_metrics:", valid_matres_metrics)
 
-            f1_score = matres_metrics["[MATRES] F1 Score"]
+            test_matres_metrics = self.evaluator.evaluate("matres", "test")
+            wandb.log(test_matres_metrics, commit=False)
+            print("test_matres_metrics:", test_matres_metrics)
+
+            eval_type = "valid"
+            f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
             if self.best_f1_score < f1_score:
                 self.best_f1_score = f1_score
             wandb.log({"[MATRES] Best F1 Score": self.best_f1_score}, commit=False)
         elif self.data_type.lower() == "joint":
-            hieve_metrics = self.evaluator.evaluate("hieve")
-            wandb.log(hieve_metrics, commit=False)
-            print("hieve_metrics:", hieve_metrics)
+            valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
+            wandb.log(valid_hieve_metrics, commit=False)
+            print("valid_hieve_metrics:", valid_hieve_metrics)
 
-            matres_metrics = self.evaluator.evaluate("matres")
-            wandb.log(matres_metrics, commit=False)
-            print("matres_metrics:", matres_metrics)
+            valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
+            wandb.log(valid_matres_metrics, commit=False)
+            print("valid_matres_metrics:", valid_matres_metrics)
 
-            f1_score = hieve_metrics["[HiEve] F1-PC-CP-AVG"] + matres_metrics["[MATRES] F1 Score"]
+            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+            wandb.log(test_hieve_metrics, commit=False)
+            print("test_hieve_metrics:", test_hieve_metrics)
+
+            test_matres_metrics = self.evaluator.evaluate("matres", "test")
+            wandb.log(test_matres_metrics, commit=False)
+            print("test_matres_metrics:", test_matres_metrics)
+
+            eval_type = "valid"
+            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
             if self.best_f1_score < f1_score:
                 self.best_f1_score = f1_score
-            wandb.log({"[Both] Best F1 Score": self.best_f1_score}, commit=False)
+            wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
 
 class Evaluator:
     def __init__(self, model: Module, device: torch.device, valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
@@ -192,15 +211,18 @@ class Evaluator:
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
 
-    def evaluate(self, type: str):
-        dataloader = self.valid_dataloader_dict[type]
+    def evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "valid":
+            dataloader = self.valid_dataloader_dict[data_type]
+        elif eval_type == "test":
+            dataloader = self.test_dataloader_dict[data_type]
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
         alpha_values = []
         beta_values = []
         gamma_values = []
-        print(f"Validation-[{type}] start... ", end="")
+        print(f"Validation-[{eval_type}-{data_type}] start... ", end="")
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
                 device = self.device
@@ -210,11 +232,9 @@ class Evaluator:
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                 pred = torch.max(alpha, 1).indices.cpu().numpy()
 
-                # if type == "matres":
+                # if data_type == "matres":
                 #     pred = pred - 4
                 #     pred[pred < 0] = 9
-                print("pred:", pred.tolist())
-                print("true:", xy_rel_ids.tolist())
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
@@ -222,26 +242,32 @@ class Evaluator:
                 alpha_values.extend(pred.tolist())
                 beta_values.extend(torch.max(beta, 1).indices.cpu().numpy().tolist())
                 gamma_values.extend(torch.max(gamma, 1).indices.cpu().numpy().tolist())
-        print("alpha:", alpha)
-        print("beta:", beta)
-        print("gamma:", gamma)
 
-        if type == "hieve":
-            metrics, result_table = metric(type, y_true=rel_ids, y_pred=pred_vals)
+        print("pred:", pred_vals)
+        print("true:", rel_ids)
+        print("alpha:", alpha_values)
+        print("beta:", beta_values)
+        print("gamma:", gamma_values)
+
+        if data_type == "hieve":
+            metrics, result_table = metric(data_type, eval_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
             print("result_table:", result_table)
-            if self.best_hieve_score < metrics["[HiEve] F1-PC-CP-AVG"]:
-                self.best_hieve_score = metrics["[HiEve] F1-PC-CP-AVG"]
-            metrics["[HiEve] Best F1-PC-CP-AVG"] = self.best_hieve_score
 
-        if type == "matres":
-            metrics, CM = metric(type, y_true=rel_ids, y_pred=pred_vals)
+            if eval_type == "valid":
+                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]:
+                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]
+                metrics[f"[{eval_type}-HiEve] Best F1-PC-CP-AVG"] = self.best_hieve_score
+
+        if data_type == "matres":
+            metrics, CM = metric(data_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
             print("CM:", CM)
-            if self.best_matres_score < metrics["[MATRES] F1 Score"]:
-                self.best_matres_score = metrics["[MATRES] F1 Score"]
-            metrics["[MATRES] Best F1 Score"] = self.best_matres_score
+            if eval_type == "valid":
+                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
+                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
+                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
 
         print("done!")
-        metrics["[Valid] Elapsed Time"] = (time.time() - eval_start_time)
+        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
         return metrics
