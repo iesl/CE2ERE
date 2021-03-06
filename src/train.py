@@ -97,6 +97,8 @@ class Trainer:
     def train(self):
         full_start_time = time.time()
         self.model.zero_grad()
+        scheduler = torch.optim.lr_scheduler.MultiStepLR(self.opt, [self.epochs // 2], gamma=0.1)
+
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
             print()
@@ -127,6 +129,8 @@ class Trainer:
                 loss_vals.append(loss.item())
                 loss.backward()
                 self.opt.step()
+            scheduler.step()
+            
             loss = sum(loss_vals) / len(loss_vals)
             print("loss:", loss)
             wandb.log(
