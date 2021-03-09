@@ -16,13 +16,30 @@ from model import *
 from metric import metric, CM_metric
 from exp import *
 from data import *
+from parser import build_parser
+import wandb
 
 torch.manual_seed(42)
 
+args = build_parser()
+gpu_num = args.gpu_num
+batch_size = args.batch_size
+rst_file_name = args.rst_file_name
+epochs = args.epochs
+dataset = args.dataset
+add_loss = args.add_loss
+finetune = args.finetune
+MAX_EVALS = args.MAX_EVALS
+debugging = args.debugging
 ### Read parameters ###
-if len(sys.argv) > 1:
-    gpu_num, batch_size, rst_file_name, epochs, dataset, add_loss, finetune, MAX_EVALS, debugging = sys.argv[1][4:], int(sys.argv[2][6:]), sys.argv[3], int(sys.argv[4][6:]), sys.argv[5], int(sys.argv[6][9:]), int(sys.argv[7][9:]), int(sys.argv[8][10:]), int(sys.argv[9][10:])
-    
+# if len(sys.argv) > 1:
+#     gpu_num, batch_size, rst_file_name, epochs, dataset, add_loss, finetune, MAX_EVALS, debugging = sys.argv[1][4:], int(sys.argv[2][6:]), sys.argv[3], int(sys.argv[4][6:]), sys.argv[5], int(sys.argv[6][9:]), int(sys.argv[7][9:]), int(sys.argv[8][10:]), int(sys.argv[9][10:])
+
+wandb.init()
+wandb.config.update(args)
+args = wandb.config
+rst_file_name = rst_file_name+wandb.run.id
+
 os.environ["CUDA_VISIBLE_DEVICES"] = gpu_num
 cuda = torch.device('cuda')
 writer = SummaryWriter(comment=rst_file_name.replace(".rst", ""))
@@ -67,6 +84,9 @@ def count_parameters(model):
 def objective(params):
     """Objective function for Hyperparameter Optimization"""
     # Keep track of evals
+
+    print("space:", params)
+
     global ITERATION
     ITERATION += 1
     start = timer()

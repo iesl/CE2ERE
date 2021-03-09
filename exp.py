@@ -3,6 +3,8 @@ import time
 import datetime
 import random
 import numpy as np
+import wandb
+
 from document_reader import *
 from os import listdir
 from os.path import isfile, join
@@ -135,6 +137,11 @@ class exp:
                 loss.backward()
                 self.optimizer.step()
 
+            wandb.log({
+                "[Train] Loss": self.total_train_loss,
+                "Epoch": epoch_i,
+            }, commit=False)
+            wandb.log({})
             # Measure how long this epoch took.
             training_time = format_time(time.time() - t0)
             print("")
@@ -266,11 +273,23 @@ class exp:
                     ### save model parameters to .pt file ###
                     torch.save(self.model, self.MATRES_best_PATH)
                     return 1
-        
+                wandb.log({
+                    "[MATRES] Precision":P,
+                    "[MATRES] Recall": R,
+                    "[MATRES] F1 score": F1,
+                    "[MATRES] Best F1 score": self.MATRES_best_micro_F1,
+                }, commit=False)
+                wandb.log({})
         if eval_data == "HiEve":
             # Report the final accuracy for this validation run.
             cr = classification_report(y_gold, y_pred, output_dict = True)
             rst = classification_report(y_gold, y_pred)
+
+            P_PC = cr['0']['precision']
+            P_CP = cr['1']['precision']
+            R_PC = cr['0']['recall']
+            R_CP = cr['1']['recall']
+
             F1_PC = cr['0']['f1-score']
             F1_CP = cr['1']['f1-score']
             F1_coref = cr['2']['f1-score']
@@ -288,4 +307,11 @@ class exp:
                     self.HiEve_best_prfs = rst
                     torch.save(self.model, self.HiEve_best_PATH)
                     return 1
+                wandb.log({
+                    "[HiEve] Precision": (P_PC + P_CP) / 2.0,
+                    "[HiEve] Recall": (R_PC + R_CP) / 2.0,
+                    "[HiEve] F1 score": F1_PC_CP_avg,
+                    "[HiEve] Best F1 score": self.HiEve_best_F1,
+                }, commit=False)
+                wandb.log({})
         return 0
