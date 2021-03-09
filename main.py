@@ -75,7 +75,10 @@ def objective(params):
         model = roberta_mlp(num_classes, dataset, add_loss, params)
     else:
         model = BiLSTM_MLP(num_classes, dataset, add_loss, params)
-    model.to(cuda)
+
+    if torch.cuda.is_available():
+        model.to(cuda)
+
     model.zero_grad()
     if len(gpu_num) > 1:
         model = nn.DataParallel(model) # you may try to run the experiments with multiple GPUs
@@ -87,15 +90,15 @@ def objective(params):
     # Total number of training steps is [number of batches] x [number of epochs]. 
     # (Note that this is not the same as the number of training samples).
     if dataset == "MATRES":
-        total_steps = len(train_dataloader_MATRES) * epochs
+        total_steps = len(train_dataloader) * epochs
         print("Total steps: [number of batches] x [number of epochs] =", total_steps)
-        matres_exp = exp(cuda, model, epochs, params['learning_rate'], train_dataloader_MATRES, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, None, model_name)
+        matres_exp = exp(cuda, model, epochs, params['learning_rate'], train_dataloader, valid_dataloader_MATRES, test_dataloader_MATRES, None, None, finetune, dataset, MATRES_best_PATH, None, None, model_name)
         T_F1, H_F1 = matres_exp.train()
         matres_exp.evaluate(eval_data = "MATRES", test = True)
     elif dataset == "HiEve":
-        total_steps = len(train_dataloader_HIEVE) * epochs
+        total_steps = len(train_dataloader) * epochs
         print("Total steps: [number of batches] x [number of epochs] =", total_steps)
-        hieve_exp = exp(cuda, model, epochs, params['learning_rate'], train_dataloader_HIEVE, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, None, model_name)
+        hieve_exp = exp(cuda, model, epochs, params['learning_rate'], train_dataloader, None, None, valid_dataloader_HIEVE, test_dataloader_HIEVE, finetune, dataset, None, HiEve_best_PATH, None, model_name)
         T_F1, H_F1 = hieve_exp.train()
         hieve_exp.evaluate(eval_data = "HiEve", test = True)
     elif dataset == "Joint":

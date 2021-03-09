@@ -43,7 +43,10 @@ class exp:
         # if finetune is False, we use fixed roberta embeddings before bilstm and mlp
         self.roberta_size = roberta_size
         if not self.finetune:
-            self.RoBERTaModel = RobertaModel.from_pretrained(self.roberta_size).to(self.cuda)
+            if torch.cuda.is_available():
+                self.RoBERTaModel = RobertaModel.from_pretrained(self.roberta_size).to(self.cuda)
+            else:
+                self.RoBERTaModel = RobertaModel.from_pretrained(self.roberta_size)
         if self.roberta_size == 'roberta-base':
             self.roberta_dim = 768
         else:
@@ -66,7 +69,10 @@ class exp:
         my_list = []
         for sent in x_sent:
             my_list.append(self.RoBERTaModel(sent.unsqueeze(0))[0].view(-1, self.roberta_dim))
-        return torch.stack(my_list).to(self.cuda)
+        if torch.cuda.is_available():
+            return torch.stack(my_list).to(self.cuda)
+        else:
+            return torch.stack(my_list)
     
     def train(self):
         total_t0 = time.time()
@@ -92,17 +98,31 @@ class exp:
                     elapsed = format_time(time.time() - t0)
                     # Report progress.
                     print('  Batch {:>5,}  of  {:>5,}.    Elapsed: {:}.'.format(step, len(self.train_dataloader), elapsed))
-                x_sent = batch[3].to(self.cuda)
-                #print(x_sent)
-                y_sent = batch[4].to(self.cuda)
-                z_sent = batch[5].to(self.cuda)
-                x_position = batch[6].to(self.cuda)
-                y_position = batch[7].to(self.cuda)
-                z_position = batch[8].to(self.cuda)
-                xy = batch[12].to(self.cuda)
-                yz = batch[13].to(self.cuda)
-                xz = batch[14].to(self.cuda)
-                flag = batch[15].to(self.cuda)
+
+                if torch.cuda.is_available():
+                    x_sent = batch[3].to(self.cuda)
+                    #print(x_sent)
+                    y_sent = batch[4].to(self.cuda)
+                    z_sent = batch[5].to(self.cuda)
+                    x_position = batch[6].to(self.cuda)
+                    y_position = batch[7].to(self.cuda)
+                    z_position = batch[8].to(self.cuda)
+                    xy = batch[12].to(self.cuda)
+                    yz = batch[13].to(self.cuda)
+                    xz = batch[14].to(self.cuda)
+                    flag = batch[15].to(self.cuda)
+                else:
+                    # print("batch:", batch)
+                    x_sent = batch[3]
+                    y_sent = batch[4]
+                    z_sent = batch[5]
+                    x_position = batch[6]
+                    y_position = batch[7]
+                    z_position = batch[8]
+                    xy = batch[12]
+                    yz = batch[13]
+                    xz = batch[14]
+                    flag = batch[15]
                 if self.finetune:
                     alpha_logits, beta_logits, gamma_logits, loss = self.model(x_sent, y_sent, z_sent, x_position, y_position, z_position, xy, yz, xz, flag, loss_out = True)
                 else:
@@ -186,16 +206,28 @@ class exp:
         y_gold = []
         # Evaluate data for one epoch
         for batch in dataloader:
-            x_sent = batch[3].to(self.cuda)
-            y_sent = batch[4].to(self.cuda)
-            z_sent = batch[5].to(self.cuda)
-            x_position = batch[6].to(self.cuda)
-            y_position = batch[7].to(self.cuda)
-            z_position = batch[8].to(self.cuda)
-            xy = batch[12].to(self.cuda)
-            yz = batch[13].to(self.cuda)
-            xz = batch[14].to(self.cuda)
-            flag = batch[15].to(self.cuda)
+            if torch.cuda.is_available():
+                x_sent = batch[3].to(self.cuda)
+                y_sent = batch[4].to(self.cuda)
+                z_sent = batch[5].to(self.cuda)
+                x_position = batch[6].to(self.cuda)
+                y_position = batch[7].to(self.cuda)
+                z_position = batch[8].to(self.cuda)
+                xy = batch[12].to(self.cuda)
+                yz = batch[13].to(self.cuda)
+                xz = batch[14].to(self.cuda)
+                flag = batch[15].to(self.cuda)
+            else:
+                x_sent = batch[3]
+                y_sent = batch[4]
+                z_sent = batch[5]
+                x_position = batch[6]
+                y_position = batch[7]
+                z_position = batch[8]
+                xy = batch[12]
+                yz = batch[13]
+                xz = batch[14]
+                flag = batch[15]
             with torch.no_grad():
                 if self.finetune:
                     alpha_logits, beta_logits, gamma_logits = self.model(x_sent, y_sent, z_sent, x_position, y_position, z_position, xy, yz, xz, flag, loss_out = None)

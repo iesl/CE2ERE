@@ -12,7 +12,8 @@ class transition_loss_(torch.nn.Module):
     def __init__(self):
         super(transition_loss_, self).__init__()
         self.zero = Variable(torch.zeros(1), requires_grad=False)
-        self.zero = self.zero.cuda()
+        if torch.cuda.is_available():
+            self.zero = self.zero.cuda()
 
     def forward(self, log_y_alpha, log_y_beta, log_y_gamma, alpha_index, beta_index, gamma_index, label_weight = None):
         if label_weight is None:
@@ -26,8 +27,9 @@ class transition_loss_not_(torch.nn.Module):
         super(transition_loss_not_, self).__init__()
         self.zero = Variable(torch.zeros(1), requires_grad=False)
         self.one = Variable(torch.ones(1), requires_grad=False)
-        self.zero = self.zero.cuda()
-        self.one = self.one.cuda()
+        if torch.cuda.is_available():
+            self.zero = self.zero.cuda()
+            self.one = self.one.cuda()
 
     def forward(self, log_y_alpha, log_y_beta, log_y_gamma, alpha_index, beta_index, gamma_index):
         very_small = 1e-8

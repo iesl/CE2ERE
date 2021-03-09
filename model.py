@@ -125,7 +125,7 @@ class roberta_mlp(nn.Module):
         
 # BiLSTM + MLP
 class BiLSTM_MLP(nn.Module):
-    def __init__(self, num_classes, dataset, add_loss, lambdas, freq = None, Sub = None, Mul = None):
+    def __init__(self, num_classes, dataset, add_loss, lambdas, freq = None, Sub = True, Mul = True):
         super(BiLSTM_MLP, self).__init__()
         self.dataset = dataset
         self.lambdas = lambdas
@@ -138,8 +138,12 @@ class BiLSTM_MLP(nn.Module):
         self.lstm_input_size = int(lambdas['lstm_input_size'])
         self.lstm = nn.LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
         self.num_classes = num_classes # 8: 4 for Hier, 4 for Temp
-        self.hier_class_weights = torch.FloatTensor(hier_weights).cuda()
-        self.temp_class_weights = torch.FloatTensor(temp_weights).cuda()
+        if torch.cuda.is_available():
+            self.hier_class_weights = torch.FloatTensor(hier_weights).cuda()
+            self.temp_class_weights = torch.FloatTensor(temp_weights).cuda()
+        else:
+            self.hier_class_weights = torch.FloatTensor(hier_weights)
+            self.temp_class_weights = torch.FloatTensor(temp_weights)
         self.HiEve_anno_loss = nn.CrossEntropyLoss(weight=self.hier_class_weights)
         self.MATRES_anno_loss = nn.CrossEntropyLoss(weight=self.temp_class_weights)
         self.transitivity_loss_H = transitivity_loss_H_()
