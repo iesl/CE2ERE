@@ -96,18 +96,18 @@ def setup(args):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     evaluator = Evaluator(
-        train_type=args.data_type,
+        train_type=args.data_type.lower(),
         model=model,
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
     )
+    early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)
-    loss_symmetry = SymmetryLoss()
     loss_transitivity = TransitivityLoss()
     loss_cross_category = CrossCategoryLoss()
 
@@ -122,11 +122,13 @@ def setup(args):
         opt=optimizer,
         loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
-        loss_symmetry=loss_symmetry,
         loss_transitivity=loss_transitivity,
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
+        wandb_id=wandb.run.id,
+        early_stopping=early_stopping,
+        eval_step=args.eval_step,
     )
 
     return trainer

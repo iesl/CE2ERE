@@ -1,8 +1,6 @@
 import random
 import time
 from torch.utils.data import DataLoader
-from hyperopt import hp
-from typing import *
 from tqdm import tqdm
 
 from EventDataset import EventDataset

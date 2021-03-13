@@ -3,7 +3,7 @@ from torch import Tensor
 from transformers import RobertaModel
 from typing import Dict, Tuple
 
-from torch.nn import Module, CrossEntropyLoss, Linear, LeakyReLU, LSTM, LogSoftmax
+from torch.nn import Module, Linear, LeakyReLU, LSTM
 
 
 class MLP(Module):
@@ -102,8 +102,8 @@ class BiLSTM_MLP(Module):
             return torch.stack(roberta_list)
 
     def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        sub = torch.sub(tensor1, tensor2)
-        mul = torch.mul(tensor1, tensor2)
+        sub = torch.sub(tensor1, tensor2) # [64, 512]
+        mul = torch.mul(tensor1, tensor2) # [64, 512]
         return torch.cat((tensor1, tensor2, sub, mul), 1)
 
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
@@ -129,12 +129,10 @@ class BiLSTM_MLP(Module):
         alpha_repr = self._get_relation_representation(output_A, output_B) # [batch_size, lstm_hidden_dim * 2 * 4][64, 2048]
         beta_repr = self._get_relation_representation(output_B, output_C)
         gamma_repr = self._get_relation_representation(output_A, output_C)
-        alpha_reverse_repr = self._get_relation_representation(output_B, output_A)
 
         # MLP layer
         alpha_logits = self.MLP(alpha_repr) # [batch_size, num_classes]; [64, 8]
         beta_logits = self.MLP(beta_repr)
         gamma_logits = self.MLP(gamma_repr)
-        alpha_reverse_logits = self.MLP(alpha_reverse_repr)
 
-        return alpha_logits, beta_logits, gamma_logits, alpha_reverse_logits
+        return alpha_logits, beta_logits, gamma_logits
