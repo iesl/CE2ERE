@@ -25,21 +25,21 @@ def create_dataloader(args, device):
     log_batch_size = int(args.log_batch_size)
     data_dir = Path(args.data_dir).expanduser()
 
-    if data_type.lower() == "hieve":
+    if data_type == "hieve":
         num_classes = 4
         hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
-    elif data_type.lower() == "matres":
+    elif data_type == "matres":
         num_classes = 4
         matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict)
-    elif data_type.lower() == "joint":
+    elif data_type == "joint":
         num_classes = 8
         hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
         matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
@@ -88,6 +88,7 @@ def get_init_weights(device: torch.device):
 
 def setup(args):
     device = cuda_if_available(args.no_cuda)
+    args.data_type = args.data_type.lower()
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args, device)
     model = create_model(args, num_classes)
     model = model.to(device)
@@ -96,7 +97,7 @@ def setup(args):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     evaluator = Evaluator(
-        train_type=args.data_type.lower(),
+        train_type=args.data_type,
         model=model,
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
