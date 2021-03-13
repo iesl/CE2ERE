@@ -1,3 +1,5 @@
+import logging
+
 from sklearn.metrics import confusion_matrix, classification_report
 
 
@@ -44,7 +46,6 @@ def metric(data_type, eval_type, y_true, y_pred):
         metrics[f"[{eval_type}-HiEve] F1-PC"] = F1_PC
         metrics[f"[{eval_type}-HiEve] F1-CP"] = F1_CP
         metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"] = F1_PC_CP_avg
-        print("metrics:", metrics)
         return metrics, result_table
 
     return None, None

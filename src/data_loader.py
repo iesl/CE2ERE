@@ -9,6 +9,8 @@ from utils import *
 
 import torch
 
+logger = logging.getLogger("CE2ERE")
+
 # Padding function
 def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
     if isPosTag == False:
@@ -231,13 +233,13 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
             raise ValueError(f"doc_id={doc_id} is out of range!")
 
     elapsed_time = format_time(time.time() - start_time)
-    print("HiEve Preprocessing took {:}".format(elapsed_time))
-    print(f'HiEve training instance num: {len(all_train_set)}, '
+    logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
+    logger.info(f'HiEve training instance num: {len(all_train_set)}, '
           f'valid instance num: {len(all_valid_set)}, '
           f'test instance num: {len(all_test_set)}')
 
     if args.debug:
-        print("debug mode on")
+        logger.info("debug mode on")
         all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
@@ -271,12 +273,12 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
     elapsed_time = format_time(time.time() - start_time)
-    print("MATRES Preprocessing took {:}".format(elapsed_time))
-    print(f'MATRES training instance num: {len(all_train_set)}, '
+    logger.info("MATRES Preprocessing took {:}".format(elapsed_time))
+    logger.info(f'MATRES training instance num: {len(all_train_set)}, '
           f'valid instance num: {len(all_valid_set)}, '
           f'test instance num: {len(all_test_set)}')
     if args.debug:
-        print("debug mode on")
+        logger.info("debug mode on")
         all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set

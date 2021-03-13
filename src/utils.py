@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from os import listdir
 from os.path import isfile, join
@@ -71,16 +72,35 @@ def get_tml_dir_path(tml_file_name: str, all_tml_dir_path_dict: Dict, all_tml_fi
 def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
     lambda_dict = {}
     lambda_dict["lambda_anno"] = args.lambda_anno
-    lambda_dict["lambda_symm"] = args.lambda_symm
     lambda_dict["lambda_trans"] = args.lambda_trans
+    lambda_dict["lambda_cross"] = args.lambda_cross
     return lambda_dict
 
 
 def cuda_if_available(no_cuda: bool) -> torch.device:
+    logger = logging.getLogger("CE2ERE")
     cuda = not no_cuda and torch.cuda.is_available()
     if not no_cuda and not torch.cuda.is_available():
-        print("Requested CUDA but it is not available, running on CPU")
+        logger.info("Requested CUDA but it is not available, running on CPU")
     return torch.device("cuda" if cuda else "cpu")
+
+
+def set_logger(data_type: str, wandb_id: str):
+    log_dir = "./log/"
+    Path(log_dir).mkdir(parents=True, exist_ok=True)
+    logging_path = log_dir + f"{data_type}_{wandb_id}.log"
+
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s [%(levelname)s] %(message)s",
+        handlers=[
+            logging.FileHandler(logging_path),
+            logging.StreamHandler()
+        ]
+    )
+
+    logger = logging.getLogger("CE2ERE")
+    return logger
 
 
 class EarlyStopping:

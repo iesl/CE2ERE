@@ -87,6 +87,7 @@ def get_init_weights(device: torch.device):
 
 
 def setup(args):
+    logger = set_logger(args.data_type, wandb.run.id)
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args, device)
@@ -127,6 +128,7 @@ def setup(args):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
+        logger=logger,
         wandb_id=wandb.run.id,
         early_stopping=early_stopping,
         eval_step=args.eval_step,
