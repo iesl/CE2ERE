@@ -101,9 +101,6 @@ def set_logger(data_type: str, wandb_id: str):
         ]
     )
 
-    logger = logging.getLogger("CE2ERE")
-    return logger
-
 
 class EarlyStopping:
     """

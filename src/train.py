@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 from metrics import metric
 from utils import EarlyStopping
 
-logger = logging.getLogger("CE2ERE")
+logger = logging.getLogger()
 
 class Trainer:
     def __init__(self, data_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,

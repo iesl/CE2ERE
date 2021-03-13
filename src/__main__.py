@@ -84,7 +84,6 @@ def get_init_weights(device: torch.device):
 
 
 def setup(args):
-    logger = set_logger(args.data_type, wandb.run.id)
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args, device)
@@ -136,10 +135,11 @@ def setup(args):
 def main():
     args = build_parser()
     set_seed(args.seed)
-    print(args)
     wandb.init()
     wandb.config.update(args)
     args = wandb.config
+    set_logger(args.data_type, wandb.run.id)
+    logging.info(args)
     trainer = setup(args)
     trainer.train()
 

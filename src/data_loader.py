@@ -9,7 +9,7 @@ from utils import *
 
 import torch
 
-logger = logging.getLogger("CE2ERE")
+logger = logging.getLogger()
 
 # Padding function
 def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
