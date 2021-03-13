@@ -2,7 +2,6 @@ import spacy
 import os
 from nltk import sent_tokenize
 from pathlib import Path
-from torch.nn import Module
 from transformers import RobertaTokenizer
 from typing import *
 import xml.etree.ElementTree as ET

@@ -1,16 +1,13 @@
-import random
 import wandb
 
 from torch.nn import CrossEntropyLoss
-from EventDataset import EventDataset
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
-from loss import TransitivityLoss, CrossCategoryLoss, SymmetryLoss
+from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP
 from parser import *
 from train import Trainer, Evaluator
 from utils import *
 from pathlib import Path
-from torch.utils.data import Dataset, DataLoader
 
 
 def set_seed(seed: int):
@@ -128,7 +125,6 @@ def setup(args):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
-        logger=logger,
         wandb_id=wandb.run.id,
         early_stopping=early_stopping,
         eval_step=args.eval_step,

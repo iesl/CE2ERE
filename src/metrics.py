@@ -1,5 +1,3 @@
-import logging
-
 from sklearn.metrics import confusion_matrix, classification_report
 
 

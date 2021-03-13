@@ -13,13 +13,13 @@ from torch.utils.data import DataLoader
 from metrics import metric
 from utils import EarlyStopping
 
+logger = logging.getLogger("CE2ERE")
 
 class Trainer:
     def __init__(self, data_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int,
-                 loss_anno_dict: Dict[str, Module], loss_transitivity: Module, loss_cross_category: Module,
-                 lambda_dict: Dict[str, float], no_valid: bool, logger: logging, wandb_id: Optional[str] = "",
-                 early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
+                 loss_anno_dict: Dict[str, Module], loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float],
+                 no_valid: bool, wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
         self.data_type = data_type
         self.model = model
         self.device = device
@@ -41,7 +41,6 @@ class Trainer:
         self.best_epoch = -1
         self.early_stopping = early_stopping
         self.eval_step = eval_step
-        self.logger = logger
 
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S')
         self.model_save_dir = "./model/"
@@ -53,7 +52,7 @@ class Trainer:
             self.best_f1_score = f1_score
             self.best_epoch = epoch
             torch.save(self.model, self.model_save_path)
-            self.logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
+            logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
 
     def _get_anno_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
                        xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
@@ -82,8 +81,8 @@ class Trainer:
 
         for epoch in range(1, self.epochs+1):
             epoch_start_time = time.time()
-            self.logger.debug('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
-            self.logger.debug("Training start...")
+            logger.info('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
+            logger.info("Training start...")
             self.model.train()
             loss_vals = []
             for step, batch in enumerate(tqdm(self.train_dataloader)):
@@ -112,7 +111,7 @@ class Trainer:
                 self.opt.step()
 
             loss = sum(loss_vals) / len(loss_vals)
-            self.logger.debug("epoch: %d, loss: %f" % (epoch, loss))
+            logger.info("epoch: %d, loss: %f" % (epoch, loss))
             wandb.log(
                 {
                     "[Train] Epoch": epoch,
@@ -130,17 +129,17 @@ class Trainer:
         self.evaluation(epoch)
         wandb.log({})
         wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
-        self.logger.debug("Training done!")
+        logger.info("Training done!")
 
     def evaluation(self, epoch):
         if self.data_type.lower() == "hieve":
             valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
             wandb.log(valid_hieve_metrics, commit=False)
-            self.logger.debug("valid_hieve_metrics:", valid_hieve_metrics)
+            logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
 
             test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
             wandb.log(test_hieve_metrics, commit=False)
-            self.logger.debug("test_hieve_metrics:", test_hieve_metrics)
+            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]
@@ -151,11 +150,11 @@ class Trainer:
         elif self.data_type.lower() == "matres":
             valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
             wandb.log(valid_matres_metrics, commit=False)
-            self.logger.debug("valid_matres_metrics:", valid_matres_metrics)
+            logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
             test_matres_metrics = self.evaluator.evaluate("matres", "test")
             wandb.log(test_matres_metrics, commit=False)
-            self.logger.debug("test_matres_metrics:", test_matres_metrics)
+            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -166,19 +165,19 @@ class Trainer:
         elif self.data_type.lower() == "joint":
             valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
             wandb.log(valid_hieve_metrics, commit=False)
-            self.logger.debug("valid_hieve_metrics:", valid_hieve_metrics)
+            logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
 
             valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
             wandb.log(valid_matres_metrics, commit=False)
-            self.logger.debug("valid_matres_metrics:", valid_matres_metrics)
+            logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
             test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
             wandb.log(test_hieve_metrics, commit=False)
-            self.logger.debug("test_hieve_metrics:", test_hieve_metrics)
+            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
             test_matres_metrics = self.evaluator.evaluate("matres", "test")
             wandb.log(test_matres_metrics, commit=False)
-            logging.log("test_matres_metrics:", test_matres_metrics)
+            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -204,7 +203,7 @@ class Evaluator:
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
-        self.logger.debug(f"Validation-[{eval_type}-{data_type}] start... ", end="")
+        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
                 device = self.device
@@ -226,7 +225,7 @@ class Evaluator:
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            self.logger.debug("result_table:", result_table)
+            logger.info("result_table: {0}".format(result_table))
 
             if eval_type == "valid":
                 if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]:
@@ -236,12 +235,13 @@ class Evaluator:
         if data_type == "matres":
             metrics, CM = metric(data_type, eval_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            self.logger.debug("CM:", CM)
+            logger.info("CM: {0}".format(CM))
+
             if eval_type == "valid":
                 if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
                     self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
                 metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
 
-        self.logger.debug("done!")
+        logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
         return metrics

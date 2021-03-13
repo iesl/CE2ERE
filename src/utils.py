@@ -1,5 +1,6 @@
 import datetime
 import logging
+import time
 
 from os import listdir
 from os.path import isfile, join
@@ -86,9 +87,10 @@ def cuda_if_available(no_cuda: bool) -> torch.device:
 
 
 def set_logger(data_type: str, wandb_id: str):
+    timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M')
     log_dir = "./log/"
     Path(log_dir).mkdir(parents=True, exist_ok=True)
-    logging_path = log_dir + f"{data_type}_{wandb_id}.log"
+    logging_path = log_dir + f"{data_type}_{timestamp}_{wandb_id}.log"
 
     logging.basicConfig(
         level=logging.DEBUG,
