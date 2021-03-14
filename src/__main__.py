@@ -3,7 +3,7 @@ import wandb
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
-from model import RoBERTa_MLP, BiLSTM_MLP
+from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP
 from parser import *
 from train import Trainer, Evaluator
 from utils import *
@@ -52,14 +52,14 @@ def create_dataloader(args, device):
 
 
 def create_model(args, num_classes):
-    if args.finetune:
+    if args.model == "finetune":
         model = RoBERTa_MLP(
             num_classes=num_classes,
             data_type=args.data_type,
             mlp_size=args.mlp_size,
             hidden_size=args.roberta_hidden_size,
         )
-    else:
+    elif args.model == "bilstm":
         model = BiLSTM_MLP(
             num_classes=num_classes,
             data_type=args.data_type,
@@ -69,6 +69,18 @@ def create_model(args, num_classes):
             lstm_input_size=args.lstm_input_size,
             roberta_size_type="roberta-base",
         )
+    elif args.model == "box":
+        model = Box_BiLSTM_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            hidden_size=args.lstm_hidden_size,
+            num_layers=args.num_layers,
+            mlp_size=args.mlp_size,
+            lstm_input_size=args.lstm_input_size,
+            roberta_size_type="roberta-base",
+        )
+    else:
+        raise ValueError(f"{args.model} is unsupported!")
     return model
 
 

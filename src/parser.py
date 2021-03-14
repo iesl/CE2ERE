@@ -12,6 +12,10 @@ def build_parser():
     parser.add_argument('--data_type', type=str, default="joint", help="dataset: [MATRES | HiEve | Joint]")
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
+
+    parser.add_argument('--model', type=str, default="bilstm", help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning,"
+                                                          "bilstm: roberta-base emb w/o finetuning + BiLSTM,"
+                                                          "box: roberta-base emb w/o finetuning + BiLSTM + Box")
     parser.add_argument('--downsample', type=float, default=0.2)
     parser.add_argument('--learning_rate', type=float, default=0.001)
     parser.add_argument('--lambda_anno', type=float, default=1)

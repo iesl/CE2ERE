@@ -5,6 +5,8 @@ from typing import Dict, Tuple
 
 from torch.nn import Module, Linear, LeakyReLU, LSTM
 
+from embeddings import BoxEmbedding
+
 
 class MLP(Module):
     def __init__(self, hidden_size: int, mlp_size: int, num_classes: int):
@@ -134,5 +136,89 @@ class BiLSTM_MLP(Module):
         alpha_logits = self.MLP(alpha_repr) # [batch_size, num_classes]; [64, 8]
         beta_logits = self.MLP(beta_repr)
         gamma_logits = self.MLP(gamma_repr)
+
+        return alpha_logits, beta_logits, gamma_logits
+
+
+class Box_BiLSTM_MLP(Module):
+    def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
+                 lstm_input_size: int, roberta_size_type="roberta-base"):
+        super().__init__()
+        self.num_classes = num_classes
+        self.data_type = data_type
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.mlp_size = mlp_size
+        self.lstm_input_size = lstm_input_size
+        self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+        self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
+
+        self.roberta_size_type = roberta_size_type
+        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
+        if roberta_size_type == "roberta-base":
+            self.roberta_dim = 768
+        elif roberta_size_type == "roberta-large":
+            self.roberta_dim = 1024
+        else:
+            raise ValueError(f"{roberta_size_type} doesn't exist!")
+
+        self.box_embedding = BoxEmbedding(beta=1, threshold=20)
+
+
+    def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
+        batch_size = position.shape[0]
+        return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
+
+    def _get_roberta_embedding(self, sntc):
+        with torch.no_grad():
+            roberta_list = []
+            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
+                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
+            return torch.stack(roberta_list)
+
+    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
+        """
+        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
+        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
+        """
+        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
+        mul = torch.mul(tensor1, tensor2) # [64, 512]
+        return torch.cat((tensor1, tensor2, sub, mul), -1)
+
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
+        # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
+        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
+        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+
+        # get RoBERTa embedding
+        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
+        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
+        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+
+        # BiLSTM layer
+        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
+        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
+        output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
+
+        # box embedding layer
+        box_A = self.box_embedding.get_box_embeddings(output_A) # [batch_size, min/max, lstm_hidden_dim]; [64, 2, 256]
+        box_B = self.box_embedding.get_box_embeddings(output_B)
+        box_C = self.box_embedding.get_box_embeddings(output_C)
+
+        # Subtraction + Hadamard
+        alpha_repr = self._get_relation_representation(box_A, box_B) # [batch_size, min/max, lstm_hidden_dim * 4]; [64, 2, 1024]
+        beta_repr = self._get_relation_representation(box_B, box_C)
+        gamma_repr = self._get_relation_representation(box_A, box_C)
+
+        # MLP layer
+        batch_size = alpha_repr.shape[0]
+        alpha_logits = self.MLP(alpha_repr.view(batch_size, -1)) # [batch_size, num_classes]; [64, 8]
+        beta_logits = self.MLP(beta_repr.view(batch_size, -1))
+        gamma_logits = self.MLP(gamma_repr.view(batch_size, -1))
 
         return alpha_logits, beta_logits, gamma_logits
