@@ -233,7 +233,6 @@ class Evaluator:
                         thres1 = max(vol_A_B) - vol_A_B_diff
                         vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold2
                         thres2 = max(vol_B_A) - vol_B_A_diff
-                        logger.info("thres1: %f, thres2: %f" % (thres1, thres2))
 
                         # case1: P(A|B) > threshold1 && P(B|A) < threshold2 => A and B are PC, B and A are CP
                         mask = (vol_A_B > thres1) & (vol_B_A < thres2)
@@ -269,7 +268,6 @@ class Evaluator:
                         thres2 = max(vol_A_B) - vol_A_B_diff
                         vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold1
                         thres1 = max(vol_B_A) - vol_B_A_diff
-                        logger.info("thres1: %f, thres2: %f" % (thres1, thres2))
 
                         # case1: P(B|A) > threshold1 && P(A|B) < threshold2 => A is before B, B is after A
                         mask = (vol_B_A > thres1) & (vol_A_B < thres2)
