@@ -22,7 +22,7 @@ def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_l
         one_list[0:len(subword_ids)] = subword_ids
         return one_list
 
-def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, device: torch.device) -> List[Tuple]:
+def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float) -> List[Tuple]:
     train_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -73,7 +73,7 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, device: to
     return train_set
 
 
-def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float, device: torch.device) -> List[Tuple]:
+def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float) -> List[Tuple]:
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -115,7 +115,7 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float, d
 
 
 def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
-                         eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], device: torch.device) -> List[Tuple]:
+                         eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]) -> List[Tuple]:
     """
     eiid_to_event_trigger_dict: eiid = trigger_word
     eiid_pair_to_rel_id_dict: (eiid1, eiid2) = relation_type_id
@@ -172,7 +172,7 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
     return train_set
 
 
-def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], device: torch.device):
+def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]):
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -209,7 +209,7 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
     return final_set
 
 
-def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: torch.device) -> Tuple[List[Any]]:
+def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     hieve_dir, hieve_files = get_hieve_files(data_dir)
     all_train_set, all_valid_set, all_test_set = [], [], []
 
@@ -217,17 +217,17 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):
-        data_dict = hieve_file_reader(hieve_dir, file)
+        data_dict = hieve_file_reader(hieve_dir, file, args.model)
         doc_id = i
 
         if doc_id in train_range:
-            train_set = get_hieve_train_set(data_dict, args.downsample, device)
+            train_set = get_hieve_train_set(data_dict, args.downsample)
             all_train_set.extend(train_set)
         elif doc_id in valid_range:
-            valid_set = get_hieve_valid_test_set(data_dict, args.downsample, device)
+            valid_set = get_hieve_valid_test_set(data_dict, args.downsample)
             all_valid_set.extend(valid_set)
         elif doc_id in test_range:
-            test_set = get_hieve_valid_test_set(data_dict, args.downsample, device)
+            test_set = get_hieve_valid_test_set(data_dict, args.downsample)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"doc_id={doc_id} is out of range!")
@@ -247,27 +247,27 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: 
     return all_train_set, all_valid_set, all_test_set
 
 
-def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], device: torch.device) -> Tuple[List[Any]]:
+def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path = get_matres_files(data_dir)
-    eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path)
+    eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path, args.model)
 
     all_train_set, all_valid_set, all_test_set = [], [], []
     start_time = time.time()
     for i, fname in enumerate(tqdm(eiid_pair_to_rel_id.keys())):
         file_name = fname + ".tml"
         dir_path = get_tml_dir_path(file_name, all_tml_dir_path_dict, all_tml_file_dict)
-        data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger, eiid_pair_to_rel_id)
+        data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger)
 
         eiid_to_event_trigger_dict = eiid_to_event_trigger[fname]
         eiid_pair_to_rel_id_dict = eiid_pair_to_rel_id[fname]
         if file_name in all_tml_file_dict["tb"]:
-            train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict, device)
+            train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_train_set.extend(train_set)
         elif file_name in all_tml_file_dict["aq"]:
-            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, device)
+            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
             all_valid_set.extend(valid_set)
         elif file_name in all_tml_file_dict["pl"]:
-            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, device)
+            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")

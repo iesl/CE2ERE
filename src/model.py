@@ -2,7 +2,7 @@ import torch
 from torch import Tensor
 from transformers import RobertaModel
 from typing import Dict, Tuple
-
+import torch.nn.functional as F
 from torch.nn import Module, Linear, LeakyReLU, LSTM
 
 from embeddings import BoxEmbedding
@@ -20,6 +20,73 @@ class MLP(Module):
         x = self.leaky_relu(x)
         x = self.fc2(x)
         return x
+
+
+class GumbelIntersection(Module):
+    def __init__(self, gumbel_beta: float):
+        super().__init__()
+        self.gumbel_beta = gumbel_beta
+
+    def forward(self, box1: Tensor, box2: Tensor):
+        """
+        returns gumbel intersection box of box1 and box2
+        box1: [batch_size, min/max, dim]
+        box2: [batch_size, min/max, dim]
+        return: [batch_size, min/max, dim]
+        """
+        assert box1.shape[-2] == 2
+        assert box2.shape[-2] == 2
+        input_boxes = torch.stack([box1, box2], dim=1) # [batch_size, box1/box2, min/max, dim]
+        input_boxes_min = input_boxes[..., 0, :]       # [batch_size, box1's min/box2's min, dim]
+        input_boxes_max = input_boxes[..., 1, :]       # [batch_size, box1's max/box2's max, dim]
+
+        boxes_min = self.gumbel_beta * torch.logsumexp(input_boxes_min / self.gumbel_beta, dim=1)   # [batch_size, dim]
+        boxes_min = torch.max(boxes_min, torch.max(input_boxes_min, dim=1).values)                  # [batch_size, dim]
+        boxes_max = -self.gumbel_beta * torch.logsumexp(-input_boxes_max / self.gumbel_beta, dim=1)
+        boxes_max = torch.min(boxes_max, torch.min(input_boxes_max, dim=1).values)                  # [batch_size, dim]
+        return torch.stack([boxes_min, boxes_max], dim=-2)
+
+
+class SoftVolume(Module):
+    def __init__(self, beta:float, gumbel_beta: float):
+        super().__init__()
+        self.euler_gamma = 0.57721566490153286060
+        self.eps = 1e-23
+        self.beta = beta
+        self.gumbel_beta = gumbel_beta
+
+    def forward(self, box: Tensor):
+        """
+        box: [batch_size, min/max, dim]
+        return: volume [batch_size]
+        """
+        assert box.shape[-2] == 2
+        box_min, box_max = box[..., 0, :], box[..., 1, :]
+        inside = box_max - box_min - 2 * self.euler_gamma * self.gumbel_beta
+        soft_plus = F.softplus(inside, beta=self.beta)
+        volume = torch.sum(torch.log(soft_plus + self.eps), dim=-1)
+        return volume
+
+
+class BoxToBoxVolume(Module):
+    def __init__(self, beta: float, gumbel_beta: float):
+        super().__init__()
+        self.gumbel_box = GumbelIntersection(gumbel_beta)
+        self.volume = SoftVolume(beta, gumbel_beta)
+
+    def forward(self, box1: Tensor, box2: Tensor) -> Tensor:
+        """
+        :param box1: Box for relation1. Tensor of shape (..., cen/off, embed_dim)
+        :param box2: Box for relation2. Tensor of shape (..., cen/off, embed_dim)
+        return: log probabilities of P(box1 | box2)
+        """
+        assert box1.shape[-2] == 2
+        assert box2.shape[-2] == 2
+
+        intersection_box = self.gumbel_box(box1, box2)      # [batch_size, min/max, dim]
+        intersection_volume = self.volume(intersection_box) # logP(A, B); [batch_size]
+        box2_volume = self.volume(box2)                     # logP(B); [batch_size]
+        return intersection_volume - box2_volume            # logP(A,B)-logP(B)=logP(A|B); [batch_size]
 
 
 class RoBERTa_MLP(Module):
@@ -142,7 +209,7 @@ class BiLSTM_MLP(Module):
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, roberta_size_type="roberta-base"):
+                 lstm_input_size: int, beta: int , gumbel_beta: int, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -151,7 +218,7 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
-        self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
+        self.MLP = MLP(1, 2 * mlp_size, num_classes)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -163,7 +230,7 @@ class Box_BiLSTM_MLP(Module):
             raise ValueError(f"{roberta_size_type} doesn't exist!")
 
         self.box_embedding = BoxEmbedding(beta=1, threshold=20)
-
+        self.volume = BoxToBoxVolume(beta=beta, gumbel_beta=gumbel_beta)
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
@@ -188,37 +255,26 @@ class Box_BiLSTM_MLP(Module):
 
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
-        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
-        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        x_sntc, y_sntc = batch[3].to(device), batch[4].to(device)
+        x_position, y_position = batch[6].to(device), batch[7].to(device)
 
         # get RoBERTa embedding
         roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
         roberta_y_sntc = self._get_roberta_embedding(y_sntc)
-        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
 
         # BiLSTM layer
         bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
         bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
-        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
 
         output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
-        output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         # box embedding layer
         box_A = self.box_embedding.get_box_embeddings(output_A) # [batch_size, min/max, lstm_hidden_dim]; [64, 2, 256]
         box_B = self.box_embedding.get_box_embeddings(output_B)
-        box_C = self.box_embedding.get_box_embeddings(output_C)
 
-        # Subtraction + Hadamard
-        alpha_repr = self._get_relation_representation(box_A, box_B) # [batch_size, min/max, lstm_hidden_dim * 4]; [64, 2, 1024]
-        beta_repr = self._get_relation_representation(box_B, box_C)
-        gamma_repr = self._get_relation_representation(box_A, box_C)
+        # conditional probabilities
+        vol_A_B = self.volume(box_A, box_B) # [batch_size]; [64]
+        vol_B_A = self.volume(box_B, box_A)
 
-        # MLP layer
-        batch_size = alpha_repr.shape[0]
-        alpha_logits = self.MLP(alpha_repr.view(batch_size, -1)) # [batch_size, num_classes]; [64, 8]
-        beta_logits = self.MLP(beta_repr.view(batch_size, -1))
-        gamma_logits = self.MLP(gamma_repr.view(batch_size, -1))
-
-        return alpha_logits, beta_logits, gamma_logits
+        return vol_A_B, vol_B_A

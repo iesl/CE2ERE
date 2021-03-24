@@ -14,7 +14,8 @@ class BoxEmbedding:
         create box embedding from vector
         shape: [batch_size, box_min/box_max, hidden_dim]
         box_min: bottom-left corner (=center-offset), box_max: top-right corner (= center+offset)
-        center: (box_max+box_min)/2, offset: (box_max-box_min)/2
+        center: (box_max+box_min)/2
+        offset: (box_max-box_min)/2
         """
         len_dim = vector.shape[-1]
         dim = -1

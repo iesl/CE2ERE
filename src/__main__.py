@@ -17,29 +17,29 @@ def set_seed(seed: int):
         torch.cuda.manual_seed(seed)
 
 
-def create_dataloader(args, device):
+def create_dataloader(args):
     data_type = args.data_type
     log_batch_size = int(args.log_batch_size)
     data_dir = Path(args.data_dir).expanduser()
 
     if data_type == "hieve":
         num_classes = 4
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
+        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
     elif data_type == "matres":
         num_classes = 4
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
+        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict)
     elif data_type == "joint":
         num_classes = 8
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir, device)
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir, device)
+        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
         joint_train_set = hieve_train_set + matres_train_set
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
@@ -77,6 +77,8 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
+            beta=args.beta,
+            gumbel_beta=args.gumbel_beta,
             roberta_size_type="roberta-base",
         )
     else:
@@ -98,7 +100,7 @@ def get_init_weights(device: torch.device):
 def setup(args):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args, device)
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args)
     model = create_model(args, num_classes)
     model = model.to(device)
 
@@ -107,10 +109,13 @@ def setup(args):
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     evaluator = Evaluator(
         train_type=args.data_type,
+        model_type=args.model,
         model=model,
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
+        threshold1=args.threshold1,
+        threshold2=args.threshold2,
     )
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
@@ -123,6 +128,7 @@ def setup(args):
 
     trainer = Trainer(
         data_type=args.data_type,
+        model_type=args.model,
         model=model,
         device=device,
         epochs=args.epochs,

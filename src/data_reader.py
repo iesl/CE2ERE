@@ -20,6 +20,16 @@ def get_temp_rel_id(rel_type: str) -> int:
     return temp_rel_id_dict[rel_type]
 
 
+def get_hier_relation_tuple_id(rel_type: str):
+    rel_id_dict = {"SuperSub": (1,0), "SubSuper": (0,1), "Coref": (1,1), "NoRel": (0,0)}
+    return rel_id_dict[rel_type]
+
+
+def get_temp_relation_tuple_id(rel_type: str):
+    rel_id_dict = {"BEFORE": (1,0), "AFTER": (0,1), "EQUAL": (1,1), "VAGUE": (0,0)}
+    return rel_id_dict[rel_type]
+
+
 def token_id_lookup(token_span_SENT: List[List[int]], start_char: int, end_char: int):
     for index, token_span in enumerate(token_span_SENT):
         if start_char >= token_span[0] and end_char <= token_span[1]:
@@ -180,7 +190,7 @@ def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
     return data_dict
 
 
-def read_tsvx_file(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
+def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str) -> Dict[str, Any]:
     """
     tsvx split delimeter is \t
     Text \t doc_content
@@ -214,7 +224,10 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
             }
         elif type == "relation":
             event_id1, event_id2, rel_type = int(line[1]), int(line[2]), line[3]
-            rel_id = get_relation_id(rel_type)
+            if model_type == "box":
+                rel_id = get_hier_relation_tuple_id(rel_type)
+            else:
+                rel_id = get_relation_id(rel_type)
             data_dict["relation_dict"][(event_id1, event_id2)] = {}
             data_dict["relation_dict"][(event_id1, event_id2)]["relation"] = rel_id
         else:
@@ -222,7 +235,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
     return data_dict
 
 
-def read_matres_files(all_txt_file_path: List[Union[str, Path]]) -> Tuple[Dict]:
+def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str) -> Tuple[Dict]:
     """
     eiid: event instance id, eid: event id
     Information about TempEval-3 found on https://arxiv.org/pdf/1206.5333.pdf
@@ -239,7 +252,10 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]]) -> Tuple[Dict]:
                 trigger_word2 = line[2]
                 eiid1 = int(line[3]) # eiid1 = trigger_word_id1
                 eiid2 = int(line[4]) # eiid2 = trigger_word_id2
-                temp_rel_id = get_temp_rel_id(line[5])
+                if model_type == "box":
+                    temp_rel_id = get_temp_relation_tuple_id(line[5])
+                else:
+                    temp_rel_id = get_temp_rel_id(line[5])
 
                 if fname not in eiid_to_event_trigger:
                     eiid_to_event_trigger[fname] = {}
@@ -254,8 +270,7 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]]) -> Tuple[Dict]:
     return eiid_to_event_trigger, eiid_pair_to_rel_id
 
 
-def read_tml_file(dir_path: Union[str, Path], file_name: str,
-                  eiid_to_event_trigger : Dict, eiid_pair_to_rel_id: Dict):
+def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger : Dict):
 
     data_dict = {}
     data_dict["event_dict"] = {}
@@ -338,16 +353,15 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str,
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str) -> Dict[str, Any]:
-    data_dict = read_tsvx_file(data_dir, file)
+def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str) -> Dict[str, Any]:
+    data_dict = read_tsvx_file(data_dir, file, model_type)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)
     return data_dict
 
 
-def matres_file_reader(dir_path: Union[str, Path], file_name: str,
-                  eiid_to_event_trigger : Dict, eiid_pair_to_rel_id: Dict):
-    data_dict = read_tml_file(dir_path, file_name, eiid_to_event_trigger, eiid_pair_to_rel_id)
+def matres_file_reader(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger : Dict):
+    data_dict = read_tml_file(dir_path, file_name, eiid_to_event_trigger)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=False)
     return data_dict
