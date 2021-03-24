@@ -227,8 +227,7 @@ class Evaluator:
                 if self.model_type == "box":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device)
                     vol_A_B, vol_B_A = self.model(batch, device)
-                    print("vol_A_B:", vol_A_B.tolist())
-                    print("vol_B_A:", vol_B_A.tolist())
+
                     if self.train_type == "hieve":
                         vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold1
                         thres1 = max(vol_A_B) - vol_A_B_diff
@@ -240,19 +239,31 @@ class Evaluator:
                         mask = (vol_A_B > thres1) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["10"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
                         mask = (vol_A_B > thres1) & (vol_B_A > thres1)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["11"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case3: P(A|B) < threshold2 && P(B|A) < threshold2 => NoRel
                         mask = (vol_A_B < thres2) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["00"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
                     elif self.train_type == "matres":
                         vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold2
                         thres2 = max(vol_A_B) - vol_A_B_diff
@@ -264,19 +275,31 @@ class Evaluator:
                         mask = (vol_B_A > thres1) & (vol_A_B < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["10"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => Equal
                         mask = (vol_A_B > thres1) & (vol_B_A > thres1)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["11"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case3: P(B|A) < threshold2 && P(A|B) < threshold2 => Vague
                         mask = (vol_A_B < thres2) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["00"])
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
+                        if mask_indices.shape[0] == 1:
+                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
+                        else:
+                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
                 else:
                     xy_rel_id = batch[12].to(device)
                     alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
