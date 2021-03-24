@@ -153,7 +153,7 @@ class Trainer:
             logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
             eval_type = "valid"
-            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]
+            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
             self._update_save_best_score(f1_score, epoch)
             self.early_stopping(self.best_f1_score)
             wandb.log({"[HiEve] Best F1 Score": self.best_f1_score}, commit=False)
@@ -191,7 +191,7 @@ class Trainer:
             logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
-            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
+            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
             self._update_save_best_score(f1_score, epoch)
             self.early_stopping(self.best_f1_score)
             wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
@@ -227,39 +227,53 @@ class Evaluator:
                 if self.model_type == "box":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device)
                     vol_A_B, vol_B_A = self.model(batch, device)
+                    print("vol_A_B:", vol_A_B.tolist())
+                    print("vol_B_A:", vol_B_A.tolist())
                     if self.train_type == "hieve":
+                        vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold1
+                        thres1 = max(vol_A_B) - vol_A_B_diff
+                        vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold2
+                        thres2 = max(vol_B_A) - vol_B_A_diff
+                        logger.info("thres1: %f, thres2: %f" % (thres1, thres2))
+
                         # case1: P(A|B) > threshold1 && P(B|A) < threshold2 => A and B are PC, B and A are CP
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A < self.threshold2)
+                        mask = (vol_A_B > thres1) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * [[1, 0]])
-                        rel_ids.extend(xy_rel_id[mask_indices.squeeze()].tolist())
+                        pred_vals.extend(mask_indices.shape[0] * ["10"])
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
+                        mask = (vol_A_B > thres1) & (vol_B_A > thres1)
                         mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * [[1, 1]])
-                        rel_ids.extend(xy_rel_id[mask_indices.squeeze()].tolist())
+                        pred_vals.extend(mask_indices.shape[0] * ["11"])
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
 
                         # case3: P(A|B) < threshold2 && P(B|A) < threshold2 => NoRel
-                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
+                        mask = (vol_A_B < thres2) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * [[0, 0]])
-                        rel_ids.extend(xy_rel_id[mask_indices.squeeze()].tolist())
+                        pred_vals.extend(mask_indices.shape[0] * ["00"])
+                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
                     elif self.train_type == "matres":
+                        vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold2
+                        thres2 = max(vol_A_B) - vol_A_B_diff
+                        vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold1
+                        thres1 = max(vol_B_A) - vol_B_A_diff
+                        logger.info("thres1: %f, thres2: %f" % (thres1, thres2))
+
                         # case1: P(B|A) > threshold1 && P(A|B) < threshold2 => A is before B, B is after A
-                        mask = (vol_B_A > self.threshold1) & (vol_A_B < self.threshold2)
+                        mask = (vol_B_A > thres1) & (vol_A_B < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["10"])
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => Equal
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
+                        mask = (vol_A_B > thres1) & (vol_B_A > thres1)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["11"])
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
 
                         # case3: P(B|A) < threshold2 && P(A|B) < threshold2 => Vague
-                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
+                        mask = (vol_A_B < thres2) & (vol_B_A < thres2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["00"])
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id[mask_indices.squeeze()].tolist()])
@@ -279,17 +293,17 @@ class Evaluator:
                     rel_ids.extend(xy_rel_ids)
 
         if data_type == "hieve":
-            metrics, result_table = metric(data_type, eval_type, self.train_type, y_true=rel_ids, y_pred=pred_vals)
+            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
             logger.info("result_table: {0}".format(result_table))
 
             if eval_type == "valid":
-                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]:
-                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1-PC-CP-AVG"]
-                metrics[f"[{eval_type}-HiEve] Best F1-PC-CP-AVG"] = self.best_hieve_score
+                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
+                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
+                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
 
         if data_type == "matres":
-            metrics, CM = metric(data_type, eval_type, self.train_type, y_true=rel_ids, y_pred=pred_vals)
+            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
             logger.info("CM: {0}".format(CM))
 
