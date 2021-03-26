@@ -302,8 +302,8 @@ class Evaluator:
 
                     pred_vals.extend(pred)
                     rel_ids.extend(xy_rel_ids)
-            print("pred_vals:\t", pred_vals)
-            print("rel_ids:\t", rel_ids)
+            # print("pred_vals:\t", pred_vals)
+            # print("rel_ids:\t", rel_ids)
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
