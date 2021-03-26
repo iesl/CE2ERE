@@ -86,12 +86,29 @@ def CM_metric(CM):
 
 def CM_metric_box(CM):
     """
-    keys: 00, 01, 10, 11
+    keys:
+    00, 01, 10, 11
     """
     all_ = CM.sum()
-    Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
-    P = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[0][1:4].sum() + CM[1][1:4].sum() + CM[2][1:4].sum() + CM[3][1:4].sum())
-    R = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[1].sum() + CM[2].sum() + CM[3].sum())
+    rows = CM.shape[0]
+    Acc = 0
+    P_numerator, P_denominator = 0, 0
+    R_numerator, R_denominator = 0, 0
+    for i in range(rows):
+        Acc += CM[i][i]
+        P_denominator += CM[i][1:rows].sum()
+        if i==0: continue
+        P_numerator += CM[i][i]
+        R_numerator += CM[i][i]
+        R_denominator += CM[i].sum()
+
+    Acc /= all_
+    P = P_numerator/P_denominator
+    R = R_numerator/R_denominator
     F1 = 2 * P * R / (P + R)
+
+    # Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
+    # P = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[0][1:4].sum() + CM[1][1:4].sum() + CM[2][1:4].sum() + CM[3][1:4].sum())
+    # R = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[1].sum() + CM[2].sum() + CM[3].sum())
 
     return Acc, P, R, F1, CM

@@ -199,7 +199,7 @@ class Trainer:
 class Evaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 threshold1: Optional[int] = -100, threshold2: Optional[int] = -100):
+                 threshold1: float, threshold2: float):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -208,8 +208,8 @@ class Evaluator:
         self.test_dataloader_dict = test_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
-        self.threshold1 = threshold1
-        self.threshold2 = threshold2
+        self.threshold1 = threshold1    # log0.5
+        self.threshold2 = threshold2    # log0.25
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
@@ -226,16 +226,11 @@ class Evaluator:
 
                 if self.model_type == "box":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device)
-                    vol_A_B, vol_B_A = self.model(batch, device)
+                    vol_A_B, vol_B_A = self.model(batch, device) # [batch_size, 1]
 
                     if self.train_type == "hieve":
-                        vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold1
-                        thres1 = max(vol_A_B) - vol_A_B_diff
-                        vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold2
-                        thres2 = max(vol_B_A) - vol_B_A_diff
-
                         # case1: P(A|B) > threshold1 && P(B|A) < threshold2 => A and B are PC, B and A are CP
-                        mask = (vol_A_B > thres1) & (vol_B_A < thres2)
+                        mask = (vol_A_B > self.threshold1) & (vol_B_A < self.threshold2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["10"])
                         if mask_indices.shape[0] == 1:
@@ -245,7 +240,7 @@ class Evaluator:
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
-                        mask = (vol_A_B > thres1) & (vol_B_A > thres1)
+                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["11"])
                         if mask_indices.shape[0] == 1:
@@ -255,7 +250,7 @@ class Evaluator:
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case3: P(A|B) < threshold2 && P(B|A) < threshold2 => NoRel
-                        mask = (vol_A_B < thres2) & (vol_B_A < thres2)
+                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["00"])
                         if mask_indices.shape[0] == 1:
@@ -264,13 +259,8 @@ class Evaluator:
                             xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
                     elif self.train_type == "matres":
-                        vol_A_B_diff = (max(vol_A_B) - min(vol_A_B)) * self.threshold2
-                        thres2 = max(vol_A_B) - vol_A_B_diff
-                        vol_B_A_diff = (max(vol_B_A) - min(vol_B_A)) * self.threshold1
-                        thres1 = max(vol_B_A) - vol_B_A_diff
-
                         # case1: P(B|A) > threshold1 && P(A|B) < threshold2 => A is before B, B is after A
-                        mask = (vol_B_A > thres1) & (vol_A_B < thres2)
+                        mask = (vol_B_A > self.threshold1) & (vol_A_B < self.threshold2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["10"])
                         if mask_indices.shape[0] == 1:
@@ -280,7 +270,7 @@ class Evaluator:
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => Equal
-                        mask = (vol_A_B > thres1) & (vol_B_A > thres1)
+                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["11"])
                         if mask_indices.shape[0] == 1:
@@ -290,7 +280,7 @@ class Evaluator:
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
 
                         # case3: P(B|A) < threshold2 && P(A|B) < threshold2 => Vague
-                        mask = (vol_A_B < thres2) & (vol_B_A < thres2)
+                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
                         mask_indices = mask.nonzero()
                         pred_vals.extend(mask_indices.shape[0] * ["00"])
                         if mask_indices.shape[0] == 1:
@@ -312,11 +302,12 @@ class Evaluator:
 
                     pred_vals.extend(pred)
                     rel_ids.extend(xy_rel_ids)
-
+            print("pred_vals:\t", pred_vals)
+            print("rel_ids:\t", rel_ids)
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            logger.info("result_table: {0}".format(result_table))
+            logger.info("result_table: \n{0}".format(result_table))
 
             if eval_type == "valid":
                 if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
@@ -326,7 +317,7 @@ class Evaluator:
         if data_type == "matres":
             metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            logger.info("CM: {0}".format(CM))
+            logger.info("CM: \n{0}".format(CM))
 
             if eval_type == "valid":
                 if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
