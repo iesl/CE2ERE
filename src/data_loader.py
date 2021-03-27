@@ -80,7 +80,7 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
     return train_set
 
 
-def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float) -> List[Tuple]:
+def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model_type: str) -> List[Tuple]:
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -112,11 +112,18 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], undersmp_ratio: float) -
                 0 # 0: HiEve, 1: MATRES
 
 
-            if xy_rel_id == 3:
-                if random.uniform(0, 1) < undersmp_ratio:
+            if model_type == "box":
+                if xy_rel_id == (0,0):
+                    if random.uniform(0, 1) < downsample:
+                        final_set.append(to_append)
+                else:
                     final_set.append(to_append)
             else:
-                final_set.append(to_append)
+                if xy_rel_id == 3:
+                    if random.uniform(0, 1) < downsample:
+                        final_set.append(to_append)
+                else:
+                    final_set.append(to_append)
 
     return final_set
 
@@ -231,10 +238,10 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             train_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_train_set.extend(train_set)
         elif doc_id in valid_range:
-            valid_set = get_hieve_valid_test_set(data_dict, args.downsample)
+            valid_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
             all_valid_set.extend(valid_set)
         elif doc_id in test_range:
-            test_set = get_hieve_valid_test_set(data_dict, args.downsample)
+            test_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"doc_id={doc_id} is out of range!")
