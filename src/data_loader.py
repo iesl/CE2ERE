@@ -22,7 +22,7 @@ def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_l
         one_list[0:len(subword_ids)] = subword_ids
         return one_list
 
-def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float) -> List[Tuple]:
+def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type: str) -> List[Tuple]:
     train_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -63,13 +63,20 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float) -> List[Tu
                     xy_rel_id, yz_rel_id, xz_rel_id,\
                     0 # 0: HiEve, 1: MATRES
 
-
-                if xy_rel_id == 3 and yz_rel_id == 3: pass # x-y: NoRel and y-z: NoRel
-                elif xy_rel_id == 3 or yz_rel_id == 3 or xz_rel_id == 3: # if one of them is NoRel
-                    if random.uniform(0, 1) < downsample:
+                if model_type == "box":
+                    if xy_rel_id == (0,0) and yz_rel_id == (0,0): pass # x-y: NoRel and y-z: NoRel
+                    elif xy_rel_id == (0,0) or yz_rel_id == (0,0) or xz_rel_id == (0,0): # if one of them is NoRel
+                        if random.uniform(0, 1) < downsample:
+                            train_set.append(to_append)
+                    else:
                         train_set.append(to_append)
                 else:
-                    train_set.append(to_append)
+                    if xy_rel_id == 3 and yz_rel_id == 3: pass # x-y: NoRel and y-z: NoRel
+                    elif xy_rel_id == 3 or yz_rel_id == 3 or xz_rel_id == 3: # if one of them is NoRel
+                        if random.uniform(0, 1) < downsample:
+                            train_set.append(to_append)
+                    else:
+                        train_set.append(to_append)
     return train_set
 
 
@@ -221,7 +228,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         doc_id = i
 
         if doc_id in train_range:
-            train_set = get_hieve_train_set(data_dict, args.downsample)
+            train_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_train_set.extend(train_set)
         elif doc_id in valid_range:
             valid_set = get_hieve_valid_test_set(data_dict, args.downsample)

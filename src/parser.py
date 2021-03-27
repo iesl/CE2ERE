@@ -26,7 +26,7 @@ def build_parser():
     parser.add_argument('--gumbel_beta', type=float, default=0.0001)
 
     parser.add_argument('--threshold1', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.1: -1") # log 0.5
-    parser.add_argument('--threshold2', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991") # log 0.25
+    parser.add_argument('--threshold2', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991") # log 0.25
 
     parser.add_argument('--mlp_size', type=int, default=256)
     parser.add_argument('--num_layers', type=int, default=1)
