@@ -228,7 +228,7 @@ class Evaluator:
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device)
                     vol_A_B, vol_B_A = self.model(batch, device) # [batch_size, 1]
 
-                    if self.train_type == "hieve":
+                    if self.train_type == "hieve" or self.train_type == "joint":
                         # case1: P(A|B) > threshold1 && P(B|A) < threshold2 => A and B are PC, B and A are CP
                         mask = (vol_A_B > self.threshold1) & (vol_B_A < self.threshold2)
                         mask_indices = mask.nonzero()
@@ -258,7 +258,7 @@ class Evaluator:
                         else:
                             xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
                         rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
-                    elif self.train_type == "matres":
+                    elif self.train_type == "matres" or self.train_type == "joint":
                         # case1: P(B|A) > threshold1 && P(A|B) < threshold2 => A is before B, B is after A
                         mask = (vol_B_A > self.threshold1) & (vol_A_B < self.threshold2)
                         mask_indices = mask.nonzero()
