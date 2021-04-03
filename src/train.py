@@ -238,25 +238,26 @@ class Evaluator:
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                    if vol_A_B.shape[-1] == 1:
-                        vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze() # [batch_size]
+                    if vol_A_B.shape[-1] == 2:
+                        if data_type == "hieve":
+                            vol_A_B, vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0]  # [batch_size]
+                            vol_B_C, vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
+                            vol_A_C, vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
+                        elif data_type == "matres":
+                            vol_A_B, vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
+                            vol_B_C, vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
+                            vol_A_C, vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
+                    else:
+                        vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
                         vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
                         vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
 
                     if data_type == "hieve":
-                        if vol_A_B.shape[-1] == 2: # joint case
-                            vol_A_B, vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0] # [batch_size]
-                            vol_B_C, vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
-                            vol_A_C, vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
                         xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, self.threshold)
                         yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, self.threshold)
                         xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, self.threshold)
 
                     elif data_type == "matres":
-                        if vol_A_B.shape[-1] == 2:
-                            vol_A_B, vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
-                            vol_B_C, vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
-                            vol_A_C, vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
                         xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_B_A, vol_A_B, xy_rel_id, self.threshold)
                         yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_C_B, vol_B_C, yz_rel_id, self.threshold)
                         xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_C_A, vol_A_C, xz_rel_id, self.threshold)
