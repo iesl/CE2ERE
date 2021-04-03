@@ -144,8 +144,8 @@ class Trainer:
                 self.evaluation(epoch)
             wandb.log({})
 
-        # self.evaluation(epoch)
-        # wandb.log({})
+        self.evaluation(epoch)
+        wandb.log({})
         wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
         logger.info("Training done!")
 
