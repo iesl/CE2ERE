@@ -13,7 +13,7 @@ from torch.utils.data import DataLoader
 
 from evalulation import threshold_evalution
 from loss import BCELossWithLog
-from metrics import metric
+from metrics import metric, ConstraintViolation
 from utils import EarlyStopping, log1mexp
 
 logger = logging.getLogger()
@@ -220,8 +220,10 @@ class Evaluator:
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
         elif eval_type == "test":
             dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
@@ -246,33 +248,53 @@ class Evaluator:
                             vol_A_B, vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0] # [batch_size]
                             vol_B_C, vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
                             vol_A_C, vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
-                        xy_preds, xy_targets = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, self.threshold)
-                        yz_preds, yz_targets = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, self.threshold)
-                        xz_preds, xz_targets = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, self.threshold)
+                        xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, self.threshold)
 
                     elif data_type == "matres":
                         if vol_A_B.shape[-1] == 2:
                             vol_A_B, vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
                             vol_B_C, vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
                             vol_A_C, vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
-                        xy_preds, xy_targets = threshold_evalution(vol_B_A, vol_A_B, xy_rel_id, self.threshold)
-                        yz_preds, yz_targets = threshold_evalution(vol_C_B, vol_B_C, yz_rel_id, self.threshold)
-                        xz_preds, xz_targets = threshold_evalution(vol_C_A, vol_A_C, xz_rel_id, self.threshold)
+                        xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_B_A, vol_A_B, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_C_B, vol_B_C, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_C_A, vol_A_C, xz_rel_id, self.threshold)
                     pred_vals.extend(xy_preds+yz_preds+xz_preds)
                     rel_ids.extend(xy_targets+yz_targets+xz_targets)
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
                 else:
                     xy_rel_id = batch[12].to(device)
                     alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
                     xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
                     if self.train_type == "hieve" or self.train_type == "matres":
                         pred = torch.max(alpha, 1).indices.cpu().numpy()  # alpha: [16, 4]
+                        alpha_indices = torch.max(alpha, 1).indices
+                        beta_indices = torch.max(beta, 1).indices
+                        gamma_indices = torch.max(gamma, 1).indices
                     else:
                         if data_type == "hieve":
                             pred = torch.max(alpha[:, 0:4], 1).indices.cpu().numpy() # [16, 4]
+                            alpha_indices = torch.max(alpha[:, 0:4], 1).indices
+                            beta_indices = torch.max(beta[:, 0:4], 1).indices
+                            gamma_indices = torch.max(gamma[:, 0:4], 1).indices
                         elif data_type == "matres":
                             pred = torch.max(alpha[:, 4:8], 1).indices.cpu().numpy() # [16, 4]
+                            alpha_indices = torch.max(alpha[:, 4:8], 1).indices
+                            beta_indices = torch.max(beta[:, 4:8], 1).indices
+                            gamma_indices = torch.max(gamma[:, 4:8], 1).indices
+
+                    alpha_indices = [val.item() for val in alpha_indices]
+                    beta_indices = [val.item() for val in beta_indices]
+                    gamma_indices = [val.item() for val in gamma_indices]
+
                     pred_vals.extend(pred)
                     rel_ids.extend(xy_rel_ids)
+                    constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
+
+            logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+            if constraint_violation.all_case_count: # vector model has all_case_count
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)

@@ -100,7 +100,7 @@ def CM_metric_box(CM):
     for i in range(rows):
         Acc += CM[i][i]
         P_denominator += CM[i][1:rows].sum()
-        if i==0: continue
+        if i==0: continue # NoRel, Vague case
         P_numerator += CM[i][i]
         R_numerator += CM[i][i]
         R_denominator += CM[i].sum()
@@ -115,3 +115,107 @@ def CM_metric_box(CM):
     # R = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[1].sum() + CM[2].sum() + CM[3].sum())
 
     return Acc, P, R, F1, CM
+
+
+class ConstraintViolation:
+    """
+    constraint-violation
+    0 = 10, 1 = 01, 2 = 11, 3 = 00
+    [vector model]          [box model]
+    0, 0 - [1,2,3]          10, 10 - [01,11,00]
+    0, 1 - [none]           10, 01 - [none]
+    0, 2 - [1,2,3]          10, 11 - [01,11,00]
+    0, 3 - [1,2]            10, 00 - [01,11]
+    1, 0 - [none]           01, 10 - [none]
+    1, 1 - [0,2,3]          01, 01 - [10,11,00]
+    1, 2 - [0,2,3]          01, 11 - [10,11,00]
+    1, 3 - [0,2]            01, 00 - [10,11]
+    2, 0 - [1,2,3]          11, 10 - [01,11,00]
+    2, 1 - [0,2,3]          11, 01 - [10,11,00]
+    2, 2 - [0,1,3]          11, 11 - [10,01,00]
+    2, 3 - [0,1,2]          11, 00 - [10,01,11]
+    3, 0 - [1,2]            00, 10 - [01,11]
+    3, 1 - [0,2]            00, 01 - [10,11]
+    3, 2 - [0,1,2]          00, 11 - [10,01,11]
+    3, 3 - [none]           00, 00 - [none]
+
+    constraint_violdation:
+    [box]    violation_dict {key=violation case, value=[all_count for first two, count per each case]}
+    [vector] violation_dict {key=violation case, value=count per each case}
+             all_case_count {key=possible case, }
+    """
+    def __init__(self, model_type):
+        super().__init__()
+        if model_type == "box":
+            self.violation_dict = {
+                ("10", "10", "01"): [0, 0], ("10", "10", "11"): [0, 0], ("10", "10", "00"): [0, 0],
+                ("10", "01"): [0, 0],
+                ("10", "11", "01"): [0, 0], ("10", "11", "11"): [0, 0], ("10", "11", "00"): [0, 0],
+                ("10", "00", "01"): [0, 0], ("10", "00", "11"): [0, 0],
+                ("01", "10"): [0, 0],
+                ("01", "01", "10"): [0, 0], ("01", "01", "11"): [0, 0], ("01", "01", "00"): [0, 0],
+                ("01", "11", "10"): [0, 0], ("01", "11", "11"): [0, 0], ("01", "11", "00"): [0, 0],
+                ("01", "00", "10"): [0, 0], ("01", "00", "11"): [0, 0],
+                ("11", "10", "01"): [0, 0], ("11", "10", "11"): [0, 0], ("11", "10", "00"): [0, 0],
+                ("11", "01", "10"): [0, 0], ("11", "01", "11"): [0, 0], ("11", "01", "00"): [0, 0],
+                ("11", "11", "10"): [0, 0], ("11", "11", "01"): [0, 0], ("11", "11", "00"): [0, 0],
+                ("11", "00", "10"): [0, 0], ("11", "00", "01"): [0, 0], ("11", "00", "11"): [0, 0],
+                ("00", "10", "01"): [0, 0], ("00", "10", "11"): [0, 0],
+                ("00", "01", "10"): [0, 0], ("00", "01", "11"): [0, 0],
+                ("00", "11", "10"): [0, 0], ("00", "11", "01"): [0, 0], ("00", "11", "11"): [0, 0],
+                ("00", "00"): [0, 0],
+            }
+            self.all_case_count = None
+        else:
+            self.violation_dict = {
+                (0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0,
+                (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0,
+                (0, 3, 1): 0, (0, 3, 2): 0,
+                (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0,
+                (1, 2, 0): 0, (1, 2, 2): 0, (1, 2, 3): 0,
+                (1, 3, 0): 0, (1, 3, 2): 0,
+                (2, 0, 1): 0, (2, 0, 2): 0, (2, 0, 3): 0,
+                (2, 1, 0): 0, (2, 1, 2): 0, (2, 1, 3): 0,
+                (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0,
+                (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0,
+                (3, 0, 1): 0, (3, 0, 2): 0,
+                (3, 1, 0): 0, (3, 1, 2): 0,
+                (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0,
+            }
+            self.all_case_count = {
+                (0, 0): 0, (0, 1): 0, (0, 2): 0, (0, 3): 0,
+                (1, 0): 0, (1, 1): 0, (1, 2): 0, (1, 3): 0,
+                (2, 0): 0, (2, 1): 0, (2, 2): 0, (2, 3): 0,
+                (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0
+            }
+
+    def update_violation_count_box(self, xy_constraint_dict, yz_constraint_dict, xz_constraint_dict):
+        # update each violation dict key using xy, yz, xz constraint dict
+        for key, value in self.violation_dict.items():
+            if len(key) == 2: # (10, 01), (01, 10), (00, 00) cases
+                xy, yz = key
+                xy_indices = xy_constraint_dict[xy]
+                yz_indices = yz_constraint_dict[yz]
+                all_cases = len(xy_indices & yz_indices)
+                value[0] += all_cases
+            else:
+                xy, yz, xz = key
+                xy_indices = xy_constraint_dict[xy]
+                yz_indices = yz_constraint_dict[yz]
+                xz_indices = xz_constraint_dict[xz]
+                all_cases = len(xy_indices & yz_indices)
+                value[0] += all_cases
+                value[1] += len(xy_indices & yz_indices & xz_indices)
+
+    def update_violation_count_vector(self, alpha_indices, beta_indices, gamma_indices):
+        # update each violation dict key using xy, yz, xz constraint dict
+        assert len(alpha_indices) == len(beta_indices) == len(gamma_indices)
+        for i in range(len(alpha_indices)):
+            xy = alpha_indices[i]
+            yz = alpha_indices[i]
+            xz = gamma_indices[i]
+
+            key = (xy, yz, xz)
+            if key in self.violation_dict.keys():
+                self.violation_dict[(xy, yz, xz)] += 1
+            self.all_case_count[(xy, yz)] += 1
