@@ -114,8 +114,7 @@ def setup(args):
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
-        threshold1=args.threshold1,
-        threshold2=args.threshold2,
+        threshold=args.threshold,
     )
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 

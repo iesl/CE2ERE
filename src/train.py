@@ -10,6 +10,9 @@ from tqdm import tqdm
 from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
+
+from evalulation import threshold_evalution
+from loss import BCELossWithLog
 from metrics import metric
 from utils import EarlyStopping, log1mexp
 
@@ -38,6 +41,7 @@ class Trainer:
         self.loss_func_cross = loss_cross_category
 
         self.cross_entropy_loss = CrossEntropyLoss()
+        self.bce_loss = BCELossWithLog()
 
         self.no_valid = no_valid
         self.best_f1_score = 0.0
@@ -54,7 +58,7 @@ class Trainer:
         if self.best_f1_score < f1_score:
             self.best_f1_score = f1_score
             self.best_epoch = epoch
-            torch.save(self.model, self.model_save_path)
+            torch.save(self.model.state_dict(), self.model_save_path)
             logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
 
     def _get_anno_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
@@ -92,10 +96,13 @@ class Trainer:
                 device = self.device
                 if self.model_type == "box":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
-                    vol_A_B, vol_B_A = self.model(batch, device) # [batch_size]
-
-                    # binary cross entropy log loss
-                    loss = -(xy_rel_id[:, 0] * vol_A_B + xy_rel_id[:, 1] * log1mexp(vol_B_A)).sum()
+                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    flag = batch[15]  # 0: HiEve, 1: MATRES
+                    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                    loss += self.bce_loss(vol_B_C, vol_C_B, yz_rel_id, flag)
+                    loss += self.bce_loss(vol_A_C, vol_C_A, xz_rel_id, flag)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
@@ -137,8 +144,8 @@ class Trainer:
                 self.evaluation(epoch)
             wandb.log({})
 
-        self.evaluation(epoch)
-        wandb.log({})
+        # self.evaluation(epoch)
+        # wandb.log({})
         wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
         logger.info("Training done!")
 
@@ -199,7 +206,7 @@ class Trainer:
 class Evaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 threshold1: float, threshold2: float):
+                 threshold: float):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -208,8 +215,7 @@ class Evaluator:
         self.test_dataloader_dict = test_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
-        self.threshold1 = threshold1    # log0.5
-        self.threshold2 = threshold2    # log0.25
+        self.threshold = threshold
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
@@ -225,69 +231,35 @@ class Evaluator:
                 device = self.device
 
                 if self.model_type == "box":
-                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device)
-                    vol_A_B, vol_B_A = self.model(batch, device) # [batch_size, 1]
+                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                    if self.train_type == "hieve" or self.train_type == "joint":
-                        # case1: P(A|B) > threshold1 && P(B|A) < threshold2 => A and B are PC, B and A are CP
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A < self.threshold2)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["10"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
+                    if vol_A_B.shape[-1] == 1:
+                        vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze() # [batch_size]
+                        vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
+                        vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
 
-                        # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["11"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
+                    if data_type == "hieve":
+                        if vol_A_B.shape[-1] == 2: # joint case
+                            vol_A_B, vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0] # [batch_size]
+                            vol_B_C, vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
+                            vol_A_C, vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
+                        xy_preds, xy_targets = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, self.threshold)
 
-                        # case3: P(A|B) < threshold2 && P(B|A) < threshold2 => NoRel
-                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["00"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
-                    elif self.train_type == "matres" or self.train_type == "joint":
-                        # case1: P(B|A) > threshold1 && P(A|B) < threshold2 => A is before B, B is after A
-                        mask = (vol_B_A > self.threshold1) & (vol_A_B < self.threshold2)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["10"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
-
-                        # case2: P(A|B) > threshold1 && P(B|A) > threshold1 => Equal
-                        mask = (vol_A_B > self.threshold1) & (vol_B_A > self.threshold1)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["11"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
-
-                        # case3: P(B|A) < threshold2 && P(A|B) < threshold2 => Vague
-                        mask = (vol_A_B < self.threshold2) & (vol_B_A < self.threshold2)
-                        mask_indices = mask.nonzero()
-                        pred_vals.extend(mask_indices.shape[0] * ["00"])
-                        if mask_indices.shape[0] == 1:
-                            xy_rel_id_list = [[x.item() for x in xy_rel_id[mask_indices.squeeze()]]]
-                        else:
-                            xy_rel_id_list = xy_rel_id[mask_indices.squeeze()].tolist()
-                        rel_ids.extend([''.join(map(str, item)) for item in xy_rel_id_list])
+                    elif data_type == "matres":
+                        if vol_A_B.shape[-1] == 2:
+                            vol_A_B, vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
+                            vol_B_C, vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
+                            vol_A_C, vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
+                        xy_preds, xy_targets = threshold_evalution(vol_B_A, vol_A_B, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets = threshold_evalution(vol_C_B, vol_B_C, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets = threshold_evalution(vol_C_A, vol_A_C, xz_rel_id, self.threshold)
+                    pred_vals.extend(xy_preds+yz_preds+xz_preds)
+                    rel_ids.extend(xy_targets+yz_targets+xz_targets)
                 else:
                     xy_rel_id = batch[12].to(device)
                     alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
@@ -299,7 +271,6 @@ class Evaluator:
                             pred = torch.max(alpha[:, 0:4], 1).indices.cpu().numpy() # [16, 4]
                         elif data_type == "matres":
                             pred = torch.max(alpha[:, 4:8], 1).indices.cpu().numpy() # [16, 4]
-
                     pred_vals.extend(pred)
                     rel_ids.extend(xy_rel_ids)
 

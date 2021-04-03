@@ -2,6 +2,8 @@ import torch
 from torch import Tensor
 from torch.nn import Module, LogSoftmax
 
+from utils import log1mexp
+
 
 class TransitionLoss(Module):
     def __init__(self):
@@ -57,28 +59,6 @@ class TransitivityLoss(Module):
 
         return loss
 
-
-class SymmetryLoss(Module):
-    def __init__(self):
-        super().__init__()
-        self.softmax = LogSoftmax(dim=1)
-
-    def symmetry_loss(self, log_y_alpha, log_y_alpha_reverse, alpha_index, alpha_reverse_index):
-        zero = torch.zeros(1).to(log_y_alpha.device)
-        loss = torch.max(zero, log_y_alpha[:, alpha_index] - log_y_alpha_reverse[:, alpha_reverse_index])
-        return loss
-
-    def forward(self, alpha_logits: Tensor, alpha_reverse_logits: Tensor):
-        log_y_alpha = self.softmax(alpha_logits)
-        log_y_alpha_reverse = self.softmax(alpha_reverse_logits)
-
-        loss = self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 0, 1)
-        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 1, 0)
-        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 2, 3)
-        loss += self.symmetry_loss(log_y_alpha, log_y_alpha_reverse, 3, 2)
-        return loss
-
-
 class CrossCategoryLoss(Module):
     def __init__(self):
         super().__init__()
@@ -133,4 +113,29 @@ class CrossCategoryLoss(Module):
         loss += self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 6, 2, 6)
         loss += self.transition_loss(log_y_alpha, log_y_beta, log_y_gamma, 7, 2, 7)
         loss += self.transition_not_loss(log_y_alpha, log_y_beta, log_y_gamma, 7, 2, 2)
+        return loss
+
+
+class BCELossWithLog(Module):
+    """
+    binary cross entropy loss with log probabilities
+    """
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, volume1, volume2, labels, flag):
+        """
+        volume1: P(A|B); [batch_size, # of datasets]
+        volume1: P(B|A); [batch_size, # of datasets]
+        labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
+        flag:   [batch_size]; 0: HiEve, 1: MATRES
+        """
+        if volume1.shape[-1] == 1:
+            loss = -(labels[:, 0] * volume1 + labels[:, 1] * log1mexp(volume2)).sum()
+        else:
+            hieve_mask = (flag == 0).nonzero()
+            hieve_loss = -(labels[:, 0][hieve_mask] * volume1[hieve_mask] + labels[:, 1][hieve_mask] * log1mexp(volume2[hieve_mask])).sum()
+            matres_mask = (flag == 1).nonzero()
+            matres_loss = -(labels[:, 0][matres_mask] * volume1[matres_mask] + labels[:, 1][matres_mask] * log1mexp(volume2[matres_mask])).sum()
+            loss = hieve_loss + matres_loss
         return loss

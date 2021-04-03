@@ -238,10 +238,10 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             train_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_train_set.extend(train_set)
         elif doc_id in valid_range:
-            valid_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+            valid_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_valid_set.extend(valid_set)
         elif doc_id in test_range:
-            test_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+            test_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"doc_id={doc_id} is out of range!")
@@ -278,10 +278,10 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_train_set.extend(train_set)
         elif file_name in all_tml_file_dict["aq"]:
-            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+            valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_valid_set.extend(valid_set)
         elif file_name in all_tml_file_dict["pl"]:
-            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+            test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_test_set.extend(test_set)
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
