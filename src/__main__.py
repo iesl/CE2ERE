@@ -77,8 +77,8 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
-            beta=args.beta,
-            gumbel_beta=args.gumbel_beta,
+            volume_temp=args.volume_temp,
+            intersection_temp=args.intersection_temp,
             roberta_size_type="roberta-base",
         )
     else:

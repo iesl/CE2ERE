@@ -261,8 +261,8 @@ class Evaluator:
                         xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_B_A, vol_A_B, xy_rel_id, self.threshold)
                         yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_C_B, vol_B_C, yz_rel_id, self.threshold)
                         xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_C_A, vol_A_C, xz_rel_id, self.threshold)
-                    pred_vals.extend(xy_preds+yz_preds+xz_preds)
-                    rel_ids.extend(xy_targets+yz_targets+xz_targets)
+                    pred_vals.extend(xy_preds)
+                    rel_ids.extend(xy_targets)
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
                 else:
                     xy_rel_id = batch[12].to(device)
@@ -300,7 +300,7 @@ class Evaluator:
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            logger.info("result_table: \n{0}".format(result_table))
+            logger.info("hieve-result_table: \n{0}".format(result_table))
 
             if eval_type == "valid":
                 if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
@@ -310,7 +310,7 @@ class Evaluator:
         if data_type == "matres":
             metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
             assert metrics is not None
-            logger.info("CM: \n{0}".format(CM))
+            logger.info("matres-confusion_matrix: \n{0}".format(CM))
 
             if eval_type == "valid":
                 if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:

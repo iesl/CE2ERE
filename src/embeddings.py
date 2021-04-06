@@ -4,9 +4,9 @@ from torch.nn.functional import softplus
 
 
 class BoxEmbedding:
-    def __init__(self, beta: float = 1.0, threshold: float = 20):
+    def __init__(self, volume_temp: float = 1.0, threshold: float = 20):
         super().__init__()
-        self.beta = beta
+        self.volume_temp = volume_temp
         self.threshold = threshold
 
     def get_box_embeddings(self, vector: torch.Tensor):
@@ -27,7 +27,7 @@ class BoxEmbedding:
         # box_min: [batch_size, vector_dim/2]; [64, 256]
         box_min = vector.index_select(dim, torch.tensor(list(range(split_point)), dtype=torch.int64, device=vector.device))
         delta = vector.index_select(dim, torch.tensor(list(range(split_point, len_dim)), dtype=torch.int64, device=vector.device))
-        box_max = box_min + softplus(delta, beta=self.beta, threshold=self.threshold)
+        box_max = box_min + softplus(delta, beta=1 / self.volume_temp, threshold=self.threshold)
 
         assert box_min.shape == box_max.shape
         assert (box_max >= box_min).all()
