@@ -103,6 +103,15 @@ class Trainer:
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                     loss += self.bce_loss(vol_B_C, vol_C_B, yz_rel_id, flag)
                     loss += self.bce_loss(vol_A_C, vol_C_A, xz_rel_id, flag)
+                elif self.model == "vector":
+                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    flag = batch[15]  # 0: HiEve, 1: MATRES
+                    prob_A_B, prob_B_A, prob_B_C, prob_C_B, prob_A_C, prob_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    loss += self.bce_loss(prob_A_B, prob_B_A, xy_rel_id, flag)
+                    loss += self.bce_loss(prob_B_C, prob_C_B, yz_rel_id, flag)
+                    loss += self.bce_loss(prob_A_C, prob_C_A, xz_rel_id, flag)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
@@ -264,6 +273,39 @@ class Evaluator:
                     pred_vals.extend(xy_preds+yz_preds+xz_preds)
                     rel_ids.extend(xy_targets+yz_targets+xz_targets)
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+                elif self.model_type == "vector":
+                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    prob_A_B, prob_B_A, prob_B_C, prob_C_B, prob_A_C, prob_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
+
+                    if prob_A_B.shape[-1] == 2:
+                        if data_type == "hieve":
+                            prob_A_B, prob_B_A = prob_A_B[:, 0], prob_B_A[:, 0]  # [batch_size]
+                            prob_B_C, prob_C_B = prob_B_C[:, 0], prob_C_B[:, 0]
+                            prob_A_C, prob_C_A = prob_A_C[:, 0], prob_C_A[:, 0]
+                        elif data_type == "matres":
+                            prob_A_B, prob_B_A = prob_A_B[:, 1], prob_B_A[:, 1]
+                            prob_B_C, prob_C_B = prob_B_C[:, 1], prob_C_B[:, 1]
+                            prob_A_C, prob_C_A = prob_A_C[:, 1], prob_C_A[:, 1]
+                    else:
+                        prob_A_B, prob_B_A = prob_A_B.squeeze(), prob_B_A.squeeze()  # [batch_size]
+                        prob_B_C, prob_C_B = prob_B_C.squeeze(), prob_C_B.squeeze()
+                        prob_A_C, prob_C_A = prob_A_C.squeeze(), prob_C_A.squeeze()
+
+                    if data_type == "hieve":
+                        xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(prob_A_B, prob_B_A, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(prob_B_C, prob_C_B, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(prob_A_C, prob_C_A, xz_rel_id, self.threshold)
+
+                    elif data_type == "matres":
+                        xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(prob_B_A, prob_A_B, xy_rel_id, self.threshold)
+                        yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(prob_C_B, prob_B_C, yz_rel_id, self.threshold)
+                        xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(prob_C_A, prob_A_C, xz_rel_id, self.threshold)
+                    pred_vals.extend(xy_preds+yz_preds+xz_preds)
+                    rel_ids.extend(xy_targets+yz_targets+xz_targets)
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+
                 else:
                     xy_rel_id = batch[12].to(device)
                     alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]

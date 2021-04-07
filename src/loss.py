@@ -126,7 +126,7 @@ class BCELossWithLog(Module):
     def forward(self, volume1, volume2, labels, flag):
         """
         volume1: P(A|B); [batch_size, # of datasets]
-        volume1: P(B|A); [batch_size, # of datasets]
+        volume2: P(B|A); [batch_size, # of datasets]
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """

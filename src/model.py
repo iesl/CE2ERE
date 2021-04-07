@@ -208,6 +208,87 @@ class BiLSTM_MLP(Module):
 
         return alpha_logits, beta_logits, gamma_logits
 
+class Vector_BiLSTM_MLP(Module):
+    def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
+                 lstm_input_size: int, beta: int , roberta_size_type="roberta-base"):
+        super().__init__()
+        self.num_classes = num_classes
+        self.data_type = data_type
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.mlp_size = mlp_size
+        self.lstm_input_size = lstm_input_size
+        self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+
+        self.roberta_size_type = roberta_size_type
+        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
+        if roberta_size_type == "roberta-base":
+            self.roberta_dim = 768
+        elif roberta_size_type == "roberta-large":
+            self.roberta_dim = 1024
+        else:
+            raise ValueError(f"{roberta_size_type} doesn't exist!")
+
+
+    def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
+        batch_size = position.shape[0]
+        return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
+
+    def _get_roberta_embedding(self, sntc):
+        with torch.no_grad():
+            roberta_list = []
+            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
+                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
+            return torch.stack(roberta_list)
+
+    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
+        """
+        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
+        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
+        """
+        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
+        mul = torch.mul(tensor1, tensor2) # [64, 512]
+        return torch.cat((tensor1, tensor2, sub, mul), -1)
+
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
+        # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
+        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
+        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+
+        # get RoBERTa embedding
+        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
+        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
+        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+
+        # BiLSTM layer
+        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
+        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
+        output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
+
+        # vector preojection layer
+        output_A1 = self.MLP(output_A)
+        output_B1 = self.MLP(output_B)
+        output_C1 = self.MLP(output_C)
+
+        output_A2 = self.MLP(output_A)
+        output_B2 = self.MLP(output_B)
+        output_C2 = self.MLP(output_C)
+
+        prob_A_B = torch.sigmoid(torch.dot(output_A1,output_B1))
+        prob_B_C = torch.sigmoid(torch.dot(output_B1,output_C1))
+        prob_A_C = torch.sigmoid(torch.dot(output_C1,output_A1))
+        prob_B_A = torch.sigmoid(torch.dot(output_A2,output_B2))
+        prob_C_B = torch.sigmoid(torch.dot(output_C2,output_B2))
+        prob_C_A = torch.sigmoid(torch.dot(output_C2,output_A2))
+        
+        return prob_A_B, prob_B_A, prob_B_C, prob_C_B, prob_A_C, prob_C_A
+
+
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,

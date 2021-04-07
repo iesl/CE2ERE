@@ -21,7 +21,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
             return metrics, None
 
         CM = confusion_matrix(y_true, y_pred)
-        if model_type == "box":
+        if model_type == "box" or model_type = "vector":
             Acc, P, R, F1, _ = CM_metric_box(CM)
         else:
             Acc, P, R, F1, _ = CM_metric(CM)
@@ -40,7 +40,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
         result_dict = classification_report(y_true, y_pred, output_dict=True)
         result_table = classification_report(y_true, y_pred)
 
-        if model_type == "box":
+        if model_type == "box" or model_type = "vector":
             if "10" not in result_dict.keys():
                 metrics[f"[{eval_type}-HiEve] Precision"] = 0
                 metrics[f"[{eval_type}-HiEve] Recall"] = 0

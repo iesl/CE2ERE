@@ -3,7 +3,7 @@ import wandb
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
-from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP
+from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
 from train import Trainer, Evaluator
 from utils import *
@@ -67,6 +67,17 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
+            roberta_size_type="roberta-base",
+        )
+    elif args.model == "vector":
+        model = Vector_BiLSTM_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            hidden_size=args.lstm_hidden_size,
+            num_layers=args.num_layers,
+            mlp_size=args.mlp_size,
+            lstm_input_size=args.lstm_input_size,
+            beta=args.beta,
             roberta_size_type="roberta-base",
         )
     elif args.model == "box":

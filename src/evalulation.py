@@ -16,7 +16,7 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
 
     # HiEve - case2: P(A|B) < threshold1 && P(B|A) > threshold1 => A and B are CP, B and A are PC
     # MATRES - case2: P(B|A) < threshold1 && P(A|B) > threshold1 => A is after B, B is before A
-    mask = (volume1 > threshold) & (volume2 > threshold)
+    mask = (volume1 < threshold) & (volume2 > threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
     # HiEve - case3: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
