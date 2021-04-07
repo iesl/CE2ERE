@@ -217,8 +217,8 @@ class Vector_BiLSTM_MLP(Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
-        self.FF1 = MLP(2*hidden_size, 2 * mlp_size, 2*hidden_size)
-        self.FF2 = MLP(2*hidden_size, 2 * mlp_size, 2*hidden_size)
+        self.FF1 = MLP(2*hidden_size, 4 * mlp_size, 2*hidden_size)
+        self.FF2 = MLP(2*hidden_size, 4 * mlp_size, 2*hidden_size)
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
