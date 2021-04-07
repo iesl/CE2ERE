@@ -1,6 +1,6 @@
 import torch
 from torch import Tensor
-from torch.nn import Module, LogSoftmax
+from torch.nn import Module, LogSoftmax , BCEWithLogitsLoss
 
 from utils import log1mexp
 
@@ -139,3 +139,32 @@ class BCELossWithLog(Module):
             matres_loss = -(labels[:, 0][matres_mask] * volume1[matres_mask] + labels[:, 1][matres_mask] * log1mexp(volume2[matres_mask])).sum()
             loss = hieve_loss + matres_loss
         return loss
+
+
+
+class BCELogitLoss():
+
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, logit1, logit2, labels, flag):
+        """
+        logit1: P(A|B); [batch_size, # of datasets]
+        logit2: P(B|A); [batch_size, # of datasets]
+        labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
+        flag:   [batch_size]; 0: HiEve, 1: MATRES
+        """
+        bll = BCEWithLogitsLoss() #https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+
+        if logit1.shape[-1] == 1:
+            loss = bll(logit1,labels[:,0]) + bll(logit2, labels[:,1])
+        else:
+            hieve_mask = (flag == 0).nonzero()
+            hieve_loss =  bll(logit1[hieve_mask],labels[:,0][hieve_mask]) + bll(logit2[hieve_mask], labels[:,1][hieve_mask]) 
+            matres_mask = (flag == 1).nonzero()
+            matres_loss = bll(logit1[matres_mask],labels[:,0][matres_mask]) + bll(logit2[matres_mask], labels[:,1][matres_mask]) 
+            loss = hieve_loss + matres_loss
+        return loss
+
+    

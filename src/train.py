@@ -12,7 +12,7 @@ from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 
 from evalulation import threshold_evalution
-from loss import BCELossWithLog
+from loss import BCELossWithLog, BCELogitLoss
 from metrics import metric, ConstraintViolation
 from utils import EarlyStopping, log1mexp
 
@@ -42,7 +42,7 @@ class Trainer:
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
-
+        self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
         self.best_epoch = -1
@@ -108,10 +108,10 @@ class Trainer:
                     yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
-                    prob_A_B, prob_B_A, prob_B_C, prob_C_B, prob_A_C, prob_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss = self.bce_loss(prob_A_B, prob_B_A, xy_rel_id, flag)
-                    loss += self.bce_loss(prob_B_C, prob_C_B, yz_rel_id, flag)
-                    loss += self.bce_loss(prob_A_C, prob_C_A, xz_rel_id, flag)
+                    logits_A_B, logits_B_A, logits_B_C, logits_C_B, logits_A_C, logits_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
+                    loss += self.bce_logit_loss(logits_B_C, ogits_C_B, yz_rel_id, flag)
+                    loss += self.bce_logit_loss(logits_A_C, logits_C_A, xz_rel_id, flag)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
