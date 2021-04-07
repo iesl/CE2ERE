@@ -220,6 +220,7 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+        self.MLP = MLP(2 * hidden_size, 2 * mlp_size, hidden_size)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -273,8 +274,12 @@ class Box_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
+        output_A = self.MLP(output_A) #[batch_size, lstm_hidden_dim]; [64, 256]
+        output_B = self.MLP(output_B)
+        output_C = self.MLP(output_C)
+
         # box embedding layer
-        box_A = self.box_embedding.get_box_embeddings(output_A).unsqueeze(dim=1)  # [batch_size, 1, min/max, lstm_hidden_dim]; [64, 1, 2, 256]
+        box_A = self.box_embedding.get_box_embeddings(output_A).unsqueeze(dim=1)  # [batch_size, 1, min/max, lstm_hidden_dim]; [64, 1, 2, 128]
         box_B = self.box_embedding.get_box_embeddings(output_B).unsqueeze(dim=1)
         box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
 
