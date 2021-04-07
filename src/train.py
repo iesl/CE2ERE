@@ -109,7 +109,7 @@ class Trainer:
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     prob_A_B, prob_B_A, prob_B_C, prob_C_B, prob_A_C, prob_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss += self.bce_loss(prob_A_B, prob_B_A, xy_rel_id, flag)
+                    loss = self.bce_loss(prob_A_B, prob_B_A, xy_rel_id, flag)
                     loss += self.bce_loss(prob_B_C, prob_C_B, yz_rel_id, flag)
                     loss += self.bce_loss(prob_A_C, prob_C_A, xz_rel_id, flag)
                 else:
