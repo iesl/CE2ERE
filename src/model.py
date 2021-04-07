@@ -217,6 +217,7 @@ class Vector_BiLSTM_MLP(Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
+        self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
@@ -271,15 +272,15 @@ class Vector_BiLSTM_MLP(Module):
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         # vector preojection layer
-        output_A1 = self.MLP(output_A)
+        output_A1 = self.MLP(output_A) #[batch_size, num_classes]
         output_B1 = self.MLP(output_B)
         output_C1 = self.MLP(output_C)
 
-        output_A2 = self.MLP(output_A)
+        output_A2 = self.MLP(output_A) #[batch_size, num_classes]
         output_B2 = self.MLP(output_B)
         output_C2 = self.MLP(output_C)
 
-        prob_A_B = torch.sigmoid(torch.dot(output_A1,output_B1))
+        prob_A_B = torch.sigmoid(torch.dot(output_A1,output_B1))  #[batch_size, num_classes]
         prob_B_C = torch.sigmoid(torch.dot(output_B1,output_C1))
         prob_A_C = torch.sigmoid(torch.dot(output_C1,output_A1))
         prob_B_A = torch.sigmoid(torch.dot(output_A2,output_B2))
