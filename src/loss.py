@@ -139,8 +139,8 @@ class BCELossWithLog(Module):
             loss = self.loss_calculation(volume1, volume2, labels[:, 0], labels[:, 1])
         else:
             hieve_mask = (flag == 0).nonzero()
-            hieve_loss = self.loss_calculation(volume1[hieve_mask], volume2[hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
+            hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
-            matres_loss = self.loss_calculation(volume1[matres_mask], volume2[matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
+            matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
             loss = hieve_loss + matres_loss
         return loss

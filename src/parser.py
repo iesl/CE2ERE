@@ -31,6 +31,7 @@ def build_parser():
                         help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")  # log 0.5
 
     parser.add_argument('--mlp_size', type=int, default=256)
+    parser.add_argument('--double_output_dim', type=int, default=50) # will be doubled to get box embedding
     parser.add_argument('--num_layers', type=int, default=1)
     parser.add_argument('--roberta_hidden_size', type=int, default=1024, help="roberta-base: 768, roberta-large: 1024")
 
