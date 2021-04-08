@@ -224,7 +224,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str) -> Di
             }
         elif type == "relation":
             event_id1, event_id2, rel_type = int(line[1]), int(line[2]), line[3]
-            if model_type == "box":
+            if model_type == "box" or model_type == "vector":
                 rel_id = get_hier_relation_tuple_id(rel_type)
             else:
                 rel_id = get_relation_id(rel_type)
@@ -252,7 +252,7 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                 trigger_word2 = line[2]
                 eiid1 = int(line[3]) # eiid1 = trigger_word_id1
                 eiid2 = int(line[4]) # eiid2 = trigger_word_id2
-                if model_type == "box":
+                if model_type == "box" or model_type == "vector":
                     temp_rel_id = get_temp_relation_tuple_id(line[5])
                 else:
                     temp_rel_id = get_temp_rel_id(line[5])
