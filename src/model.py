@@ -211,7 +211,7 @@ class BiLSTM_MLP(Module):
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, volume_temp: int , intersection_temp: int, double_output_dim: int, roberta_size_type="roberta-base"):
+                 lstm_input_size: int, volume_temp: int , intersection_temp: int, quadruple_output_dim: int, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -220,7 +220,8 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
-        self.MLP = MLP(2 * hidden_size, 2 * mlp_size, 2 * double_output_dim)
+        # quadruple output dim for box embedding and joint case as we divide output_dim into two for hieve & matres
+        self.MLP = MLP(2 * hidden_size, 2 * mlp_size, 4 * quadruple_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -274,7 +275,7 @@ class Box_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        output_A = self.MLP(output_A) #[batch_size, lstm_hidden_dim]; [64, 256]
+        output_A = self.MLP(output_A) #[batch_size, 4 * quadruple_output_dim]; [64, 44]
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 
