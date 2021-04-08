@@ -124,8 +124,26 @@ class BCELossWithLog(Module):
         super().__init__()
 
     def loss_calculation(self, volume1, volume2, label1, label2):
-        loss = -(label1 * volume1 + (1 - label1) * log1mexp(volume1) + label2 * volume2 + (1 - label2) * log1mexp(volume2)).sum()
-        return loss
+        # loss = -(label1 * volume1 + (1 - label1) * log1mexp(volume1) + label2 * volume2 + (1 - label2) * log1mexp(volume2)).sum()
+        vol1_pos_loss = (label1 * volume1).sum()
+        vol1_neg_loss = ((1 - label1) * log1mexp(volume1)).sum()
+        vol1_loss = vol1_pos_loss+vol1_neg_loss
+
+        vol2_pos_loss = (label2 * volume2).sum()
+        vol2_neg_loss = ((1 - label2) * log1mexp(volume2)).sum()
+        vol2_loss = vol2_pos_loss + vol2_neg_loss
+
+        loss = vol1_loss + vol2_loss
+
+        if torch.isnan(loss):
+            print("vol1:", volume1.shape, volume1)
+            print("vol2:", volume2.shape, volume2)
+            print("label1:", label1.shape, label1)
+            print("label2:", label2.shape, label2)
+            print("vol1_pos_loss:", vol1_pos_loss, "vol1_neg_loss:", vol1_neg_loss, "vol2_pos_loss:", vol2_pos_loss, "vol2_neg_loss:", vol2_neg_loss)
+            print("loss:",loss)
+        assert not torch.isnan(loss)
+        return -loss
 
     def forward(self, volume1, volume2, labels, flag):
         """

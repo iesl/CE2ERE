@@ -101,6 +101,7 @@ class Trainer:
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                    assert not torch.isnan(loss)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
