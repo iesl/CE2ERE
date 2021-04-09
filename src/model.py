@@ -88,7 +88,7 @@ class BoxToBoxVolume(Module):
         box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
         conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
         assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
-        return conditional_prob
+        return conditional_prob.to(torch.float64)
 
 
 class RoBERTa_MLP(Module):
