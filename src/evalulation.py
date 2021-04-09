@@ -9,23 +9,19 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
     """
     preds, targets = [], []
     constraint_dict = {}
-    # HiEve - case1: P(A|B) > threshold1 && P(B|A) < threshold1 => A and B are PC, B and A are CP
-    # MATRES - case1: P(B|A) > threshold1 && P(A|B) < threshold1 => A is before B, B is after A
+    # case1: P(A|B) >= threshold1 && P(B|A) <= threshold1 => A and B are PC, B and A are CP, A is before B, B is after A
     mask = (volume1 >= threshold) & (volume2 <= threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "10")
 
-    # HiEve - case2: P(A|B) < threshold1 && P(B|A) > threshold1 => A and B are CP, B and A are PC
-    # MATRES - case2: P(B|A) < threshold1 && P(A|B) > threshold1 => A is after B, B is before A
+    # case2: P(A|B) < threshold1 && P(B|A) > threshold1 => A and B are CP, B and A are PC, A is after B, B is before A
     mask = (volume1 < threshold) & (volume2 > threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
-    # HiEve - case3: P(A|B) > threshold1 && P(B|A) > threshold1 => CoRef
-    # MATRES - case3: P(A|B) > threshold1 && P(B|A) > threshold1 => Equal
+    # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
     mask = (volume1 >= threshold) & (volume2 >= threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
 
-    # HiEve - case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel
-    # MATRES - case4: P(B|A) < threshold1 && P(A|B) < threshold1 => Vague
+    # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
     mask = (volume1 < threshold) & (volume2 < threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
 
