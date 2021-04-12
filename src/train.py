@@ -11,7 +11,7 @@ from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 
-from evalulation import threshold_evalution
+from evalulation import threshold_evalution, two_threshold_evalution
 from loss import BCELossWithLog
 from metrics import metric, ConstraintViolation
 from utils import EarlyStopping, log1mexp
@@ -22,7 +22,7 @@ class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool,
-                 wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
+                 debug: bool, wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -48,6 +48,7 @@ class Trainer:
         self.best_epoch = -1
         self.early_stopping = early_stopping
         self.eval_step = eval_step
+        self.debug = debug
 
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S')
         self.model_save_dir = "./model/"
@@ -100,6 +101,8 @@ class Trainer:
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    print("vol_A_B:", vol_A_B.shape, vol_A_B.tolist())
+                    print("vol_B_A:", vol_B_A.shape, vol_B_A.tolist())
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                     assert not torch.isnan(loss)
                 else:
@@ -154,9 +157,10 @@ class Trainer:
             wandb.log(valid_hieve_metrics, commit=False)
             logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
 
-            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-            wandb.log(test_hieve_metrics, commit=False)
-            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+            if not self.debug:
+                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+                wandb.log(test_hieve_metrics, commit=False)
+                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
@@ -169,9 +173,10 @@ class Trainer:
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
-            test_matres_metrics = self.evaluator.evaluate("matres", "test")
-            wandb.log(test_matres_metrics, commit=False)
-            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+            if not self.debug:
+                test_matres_metrics = self.evaluator.evaluate("matres", "test")
+                wandb.log(test_matres_metrics, commit=False)
+                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -188,13 +193,14 @@ class Trainer:
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
-            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-            wandb.log(test_hieve_metrics, commit=False)
-            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+            if not self.debug:
+                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+                wandb.log(test_hieve_metrics, commit=False)
+                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
-            test_matres_metrics = self.evaluator.evaluate("matres", "test")
-            wandb.log(test_matres_metrics, commit=False)
-            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+                test_matres_metrics = self.evaluator.evaluate("matres", "test")
+                wandb.log(test_matres_metrics, commit=False)
+                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -205,7 +211,7 @@ class Trainer:
 class Evaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold: float, matres_threshold: float):
+                 hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float, matres_threshold2: float):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -214,8 +220,10 @@ class Evaluator:
         self.test_dataloader_dict = test_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
-        self.hieve_threshold = hieve_threshold
-        self.matres_threshold = matres_threshold
+        self.hieve_threshold1 = hieve_threshold1
+        self.hieve_threshold2 = hieve_threshold2
+        self.matres_threshold1 = matres_threshold1
+        self.matres_threshold2 = matres_threshold2
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
@@ -253,13 +261,19 @@ class Evaluator:
                         vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
 
                     if data_type == "hieve":
-                        threshold = self.hieve_threshold
+                        threshold1 = self.hieve_threshold1
+                        threshold2 = self.hieve_threshold2
                     if data_type == "matres":
-                        threshold = self.matres_threshold
+                        threshold1 = self.matres_threshold1
+                        threshold2 = self.matres_threshold2
 
-                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
-                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
-                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
+
+                    # xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
+                    # yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
+                    # xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
                     pred_vals.extend(xy_preds)
                     rel_ids.extend(xy_targets)
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
