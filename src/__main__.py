@@ -115,8 +115,10 @@ def setup(args):
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
-        hieve_threshold=args.hieve_threshold,
-        matres_threshold=args.matres_threshold,
+        hieve_threshold1=args.hieve_threshold1,
+        hieve_threshold2=args.hieve_threshold2,
+        matres_threshold1=args.matres_threshold1,
+        matres_threshold2=args.matres_threshold2,
     )
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
@@ -146,6 +148,7 @@ def setup(args):
         wandb_id=wandb.run.id,
         early_stopping=early_stopping,
         eval_step=args.eval_step,
+        debug=args.debug,
     )
 
     return trainer
