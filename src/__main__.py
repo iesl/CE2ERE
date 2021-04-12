@@ -146,6 +146,7 @@ def setup(args):
         wandb_id=wandb.run.id,
         early_stopping=early_stopping,
         eval_step=args.eval_step,
+        debug=args.debug,
     )
 
     return trainer

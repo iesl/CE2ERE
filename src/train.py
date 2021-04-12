@@ -21,8 +21,8 @@ logger = logging.getLogger()
 class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
-                 loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool,
-                 wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
+                 loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool, debug: Optional[bool] = False,
+                 wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int] = 1):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -43,6 +43,7 @@ class Trainer:
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
 
+        self.debug = debug
         self.no_valid = no_valid
         self.best_f1_score = 0.0
         self.best_epoch = -1
@@ -100,7 +101,10 @@ class Trainer:
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                    # print("vol_A_B:", vol_A_B.shape, vol_A_B.tolist())
+                    # print("vol_B_A:", vol_B_A.shape, vol_B_A.tolist())
+                    # loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                    loss = -(xy_rel_id[:, 0] * vol_A_B + xy_rel_id[:, 1] * log1mexp(vol_B_A)).sum() # wrong obj function
                     assert not torch.isnan(loss)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
@@ -154,9 +158,10 @@ class Trainer:
             wandb.log(valid_hieve_metrics, commit=False)
             logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
 
-            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-            wandb.log(test_hieve_metrics, commit=False)
-            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+            if not self.debug:
+                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+                wandb.log(test_hieve_metrics, commit=False)
+                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
@@ -169,9 +174,10 @@ class Trainer:
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
-            test_matres_metrics = self.evaluator.evaluate("matres", "test")
-            wandb.log(test_matres_metrics, commit=False)
-            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+            if not self.debug:
+                test_matres_metrics = self.evaluator.evaluate("matres", "test")
+                wandb.log(test_matres_metrics, commit=False)
+                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -188,13 +194,14 @@ class Trainer:
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
 
-            test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-            wandb.log(test_hieve_metrics, commit=False)
-            logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+            if not self.debug:
+                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
+                wandb.log(test_hieve_metrics, commit=False)
+                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
 
-            test_matres_metrics = self.evaluator.evaluate("matres", "test")
-            wandb.log(test_matres_metrics, commit=False)
-            logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+                test_matres_metrics = self.evaluator.evaluate("matres", "test")
+                wandb.log(test_matres_metrics, commit=False)
+                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
