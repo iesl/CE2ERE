@@ -110,7 +110,7 @@ class Trainer:
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     logits_A_B, logits_B_A, logits_B_C, logits_C_B, logits_A_C, logits_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                     loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
-                    loss += self.bce_logit_loss(logits_B_C, ogits_C_B, yz_rel_id, flag)
+                    loss += self.bce_logit_loss(logits_B_C, logits_C_B, yz_rel_id, flag)
                     loss += self.bce_logit_loss(logits_A_C, logits_C_A, xz_rel_id, flag)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
