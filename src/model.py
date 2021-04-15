@@ -284,10 +284,10 @@ class Box_BiLSTM_MLP(Module):
         box_B = self.box_embedding.get_box_embeddings(output_B).unsqueeze(dim=1)
         box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
 
-        if data_type == "joint":
-            box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
-            box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
-            box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
+        # if data_type == "joint":
+        box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
+        box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
+        box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
 
         # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
