@@ -212,7 +212,7 @@ class BiLSTM_MLP(Module):
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
                  lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int, hieve_mlp_size: int,
-                 matres_mlp_size: int, roberta_size_type="roberta-base"):
+                 proj_output_dim: int, matres_mlp_size: int, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -223,8 +223,8 @@ class Box_BiLSTM_MLP(Module):
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
         # quadruple output dim for box embedding and joint case as we divide output_dim into two for hieve & matres
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
-        self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2 * mlp_output_dim)
-        self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2 * mlp_output_dim)
+        self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
+        self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
