@@ -79,7 +79,10 @@ def create_model(args, num_classes):
             lstm_input_size=args.lstm_input_size,
             volume_temp=args.volume_temp,
             intersection_temp=args.intersection_temp,
-            quadruple_output_dim=args.quadruple_output_dim,
+            mlp_output_dim=args.mlp_output_dim,
+            hieve_mlp_size=args.hieve_mlp_size,
+            matres_mlp_size=args.matres_mlp_size,
+            proj_output_dim=args.proj_output_dim,
             roberta_size_type="roberta-base",
         )
     else:
