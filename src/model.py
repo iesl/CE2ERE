@@ -221,7 +221,7 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
-        # quadruple output dim for box embedding and joint case as we divide output_dim into two for hieve & matres
+
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
         self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
         self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
