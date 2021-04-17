@@ -126,7 +126,8 @@ def setup(args):
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)
-    loss_transitivity = TransitivityLoss()
+    loss_transitivity_h = TransitivityLoss()
+    loss_transitivity_t = TransitivityLoss()
     loss_cross_category = CrossCategoryLoss()
 
     trainer = Trainer(
@@ -141,7 +142,8 @@ def setup(args):
         opt=optimizer,
         loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
-        loss_transitivity=loss_transitivity,
+        loss_transitivity_h=loss_transitivity_h,
+        loss_transitivity_t=loss_transitivity_t,
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,

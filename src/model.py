@@ -247,15 +247,6 @@ class Box_BiLSTM_MLP(Module):
                 roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
             return torch.stack(roberta_list)
 
-    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        """
-        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        """
-        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
-        return torch.cat((tensor1, tensor2, sub, mul), -1)
-
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
@@ -285,9 +276,9 @@ class Box_BiLSTM_MLP(Module):
         box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
 
         # if data_type == "joint":
-        box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
-        box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
-        box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
+        #     box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
+        #     box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
+        #     box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
 
         # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)

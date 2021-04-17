@@ -21,7 +21,7 @@ logger = logging.getLogger()
 class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
-                 loss_transitivity: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool,
+                 loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool,
                  debug: bool, wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
         self.data_type = data_type
         self.model_type = model_type
@@ -37,7 +37,8 @@ class Trainer:
 
         self.loss_type = loss_type
         self.loss_anno_dict = loss_anno_dict
-        self.loss_func_trans = loss_transitivity
+        self._get_trans_loss_h = loss_transitivity_h
+        self._get_trans_loss_t = loss_transitivity_t
         self.loss_func_cross = loss_cross_category
 
         self.cross_entropy_loss = CrossEntropyLoss()
@@ -100,8 +101,10 @@ class Trainer:
                     yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
-                    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                    vol_A_Bs, vol_B_As, vol_B_Cs, vol_C_Bs, vol_A_Cs, vol_C_As = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    loss = 0
+                    for i in range(vol_A_Bs):
+                        loss += self.bce_loss(vol_A_Bs[i], vol_B_As[i], xy_rel_id, flag)
                     assert not torch.isnan(loss)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
@@ -120,7 +123,8 @@ class Trainer:
                     elif self.data_type == "joint":
                         loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                         if self.loss_type:
-                            loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss(alpha, beta, gamma)
+                            loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_h(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
+                            loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_t(alpha[:, 4:8], beta[:, 4:8], gamma[:, 4:8])
                             if self.loss_type == 2:
                                 loss += (self.lambda_dict["lambda_cross"] * self.loss_func_cross(alpha, beta, gamma)).sum()
 
