@@ -134,15 +134,6 @@ class BCELossWithLog(Module):
         vol2_loss = vol2_pos_loss + vol2_neg_loss
 
         loss = vol1_loss + vol2_loss
-
-        if torch.isnan(loss):
-            print("vol1:", volume1.shape, volume1)
-            print("vol2:", volume2.shape, volume2)
-            print("label1:", label1.shape, label1)
-            print("label2:", label2.shape, label2)
-            print("vol1_pos_loss:", vol1_pos_loss, "vol1_neg_loss:", vol1_neg_loss, "vol2_pos_loss:", vol2_pos_loss, "vol2_neg_loss:", vol2_neg_loss)
-            print("loss:",loss)
-        assert not torch.isnan(loss)
         return -loss
 
     def forward(self, volume1, volume2, labels, flag):

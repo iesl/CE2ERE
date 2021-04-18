@@ -275,9 +275,9 @@ class Box_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        # output_A = self.MLP(output_A) #[batch_size, 4 * quadruple_output_dim]; [64, 44]
-        # output_B = self.MLP(output_B)
-        # output_C = self.MLP(output_C)
+        output_A = self.MLP(output_A) #[batch_size, 4 * quadruple_output_dim]; [64, 44]
+        output_B = self.MLP(output_B)
+        output_C = self.MLP(output_C)
 
         # box embedding layer
         box_A = self.box_embedding.get_box_embeddings(output_A).unsqueeze(dim=1)  # [batch_size, 1, min/max, lstm_hidden_dim]; [64, 1, 2, 128]
@@ -285,9 +285,9 @@ class Box_BiLSTM_MLP(Module):
         box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
 
         # if data_type == "joint":
-        #     box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
-        #     box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
-        #     box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
+        box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
+        box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
+        box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
 
         # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
