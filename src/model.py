@@ -217,8 +217,8 @@ class Vector_BiLSTM_MLP(Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
-        self.FF1 = MLP(2*hidden_size, 4 * mlp_size, 2*hidden_size)
-        self.FF2 = MLP(2*hidden_size, 4 * mlp_size, 2*hidden_size)
+        self.FF1 = MLP(2*hidden_size, 4 * mlp_size, 1)
+        self.FF2 = MLP(2*hidden_size, 4 * mlp_size, 1)
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
@@ -272,23 +272,23 @@ class Vector_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        print("output_A shape",output_A.shape)
+        
         # vector preojection layer
-        output_A1 = self.FF1(output_A) #[batch_size, num_classes]
+        output_A1 = self.FF1(output_A) #[batch_size, lstm_hidden_dim * 2] [32,512]
         output_B1 = self.FF1(output_B)
         output_C1 = self.FF1(output_C)
 
-        output_A2 = self.FF2(output_A) #[batch_size, num_classes]
+        output_A2 = self.FF2(output_A) #[batch_size, num_classes] [32,512]
         output_B2 = self.FF2(output_B)
         output_C2 = self.FF2(output_C)
-
-        logits_A_B = torch.dot(output_A1,output_B1)  #[batch_size, num_classes]
-        logits_B_C = torch.dot(output_B1,output_C1)
-        logits_A_C = torch.dot(output_C1,output_A1)
-        logits_B_A = torch.dot(output_A2,output_B2)
-        logits_C_B = torch.dot(output_C2,output_B2)
-        logits_C_A = torch.dot(output_C2,output_A2)
-
+        print("SHAPE", output_A1.size())
+        logits_A_B = torch.mul(output_A1,output_B1)  #[batch_size, num_classes]
+        logits_B_C = torch.mul(output_B1,output_C1)
+        logits_A_C = torch.mul(output_A1,output_C1)
+        logits_B_A = torch.mul(output_B2,output_A2)
+        logits_C_B = torch.mul(output_C2,output_B2)
+        logits_C_A = torch.mul(output_C2,output_A2)
+        print("LOGIT SHAPE", logits_A_B.size())
         return logits_A_B, logits_B_A, logits_B_C, logits_C_B, logits_A_C, logits_C_A
 
 

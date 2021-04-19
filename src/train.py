@@ -103,14 +103,14 @@ class Trainer:
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                     loss += self.bce_loss(vol_B_C, vol_C_B, yz_rel_id, flag)
                     loss += self.bce_loss(vol_A_C, vol_C_A, xz_rel_id, flag)
-                elif self.model == "vector":
+                elif self.model_type == "vector":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                     yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
                     logits_A_B, logits_B_A, logits_B_C, logits_C_B, logits_A_C, logits_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                     loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
-                    loss += self.bce_logit_loss(logits_B_C, ogits_C_B, yz_rel_id, flag)
+                    loss += self.bce_logit_loss(logits_B_C, logits_C_B, yz_rel_id, flag)
                     loss += self.bce_logit_loss(logits_A_C, logits_C_A, xz_rel_id, flag)
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
