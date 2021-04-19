@@ -103,7 +103,7 @@ class Trainer:
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                     loss += self.bce_loss(vol_B_C, vol_C_B, yz_rel_id, flag)
                     loss += self.bce_loss(vol_A_C, vol_C_A, xz_rel_id, flag)
-                elif self.model == "vector":
+                elif self.model_type == "vector":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                     yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
