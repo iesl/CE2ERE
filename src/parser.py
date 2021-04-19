@@ -21,7 +21,10 @@ def build_parser():
     parser.add_argument('--lambda_anno', type=float, default=1)
     parser.add_argument('--lambda_trans', type=float, default=0)
     parser.add_argument('--lambda_cross', type=float, default=0)
-
+    parser.add_argument('--beta', type=float, default=0.1)
+    parser.add_argument('--threshold', type=float, default=-0.301029996,
+                        help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
+    parser.add_argument('--gumbel_beta', type=float, default=0.0001)
     parser.add_argument('--volume_temp', type=float, default=10)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
 
@@ -38,8 +41,8 @@ def build_parser():
 
 
 
-    parser.add_argument('--mlp_size', type=int, default=256)
-    parser.add_argument('--mlp_output_dim', type=int, default=64)
+
+
 
     parser.add_argument('--num_layers', type=int, default=1)
     parser.add_argument('--roberta_hidden_size', type=int, default=1024, help="roberta-base: 768, roberta-large: 1024")
