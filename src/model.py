@@ -281,7 +281,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
-        if data_type == "joint":
+        elif data_type == "joint":
             output_A_hieve = self.MLP_hieve(output_A) # [output_dim, 2*proj_output_dim]
             output_B_hieve = self.MLP_hieve(output_B)
             output_C_hieve = self.MLP_hieve(output_C)
