@@ -156,8 +156,6 @@ class BCELogitLoss(Module):
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """
-         #https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
-        print("LOGIT SHAPE",logit1.size())
 
         if logit1.shape[-1] == 1:
             loss = self.bll(logit1,labels[:,0]) + self.bll(logit2, labels[:,1])
@@ -166,15 +164,13 @@ class BCELogitLoss(Module):
 
             # loss between P(A|B) and labels[:,0] for HiEve Data +
             # loss between P(B|A) and labels[:,1] for HiEve Data
-            hieve_loss =  self.bll(logit1[:,0][hieve_mask],labels[:,0][hieve_mask]) + self.bll(logit2[:,0][hieve_mask], labels[:,1][hieve_mask]) 
+            hieve_loss = self.bll(logit1[:,0][hieve_mask],labels[:,0][hieve_mask]) + self.bll(logit2[:,0][hieve_mask], labels[:,1][hieve_mask])
             
             
             matres_mask = (flag == 1).nonzero()
 
             # loss between P(A|B) and labels[:,0] for MATRES Data +
             # loss between P(B|A) and labels[:,1] for MATRES Data
-            matres_loss = self.bll(logit1[:,1][matres_mask],labels[:,0][matres_mask]) + self.bll(logit2[:,1][matres_mask], labels[:,1][matres_mask]) 
+            matres_loss = self.bll(logit1[:,1][matres_mask],labels[:,0][matres_mask]) + self.bll(logit2[:,1][matres_mask], labels[:,1][matres_mask])
             loss = hieve_loss + matres_loss
         return loss
-
-    

@@ -210,15 +210,17 @@ class BiLSTM_MLP(Module):
 
 class Vector_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, beta: int , roberta_size_type="roberta-base"):
+                 lstm_input_size: int, beta: float, mlp_output_dim: int, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
-        self.FF1 = MLP(2*hidden_size, 4 * mlp_size, 1)
-        self.FF2 = MLP(2*hidden_size, 4 * mlp_size, 1)
+
+        self.FF1 = MLP(2*hidden_size, mlp_size, mlp_output_dim)
+        self.FF2 = MLP(2*hidden_size, mlp_size, mlp_output_dim)
+
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
@@ -244,15 +246,6 @@ class Vector_BiLSTM_MLP(Module):
                 roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
             return torch.stack(roberta_list)
 
-    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        """
-        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        """
-        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
-        return torch.cat((tensor1, tensor2, sub, mul), -1)
-
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
@@ -272,24 +265,35 @@ class Vector_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        
+
         # vector preojection layer
-        output_A1 = self.FF1(output_A) #[batch_size, lstm_hidden_dim * 2] [32,512]
+        output_A1 = self.FF1(output_A) #[batch_size, hidden_dim]
         output_B1 = self.FF1(output_B)
         output_C1 = self.FF1(output_C)
 
-        output_A2 = self.FF2(output_A) #[batch_size, num_classes] [32,512]
+        output_A2 = self.FF2(output_A) #[batch_size, hidden_dim]
         output_B2 = self.FF2(output_B)
         output_C2 = self.FF2(output_C)
-        print("SHAPE", output_A1.size())
-        logits_A_B = torch.mul(output_A1,output_B1)  #[batch_size, num_classes]
-        logits_B_C = torch.mul(output_B1,output_C1)
-        logits_A_C = torch.mul(output_A1,output_C1)
-        logits_B_A = torch.mul(output_B2,output_A2)
-        logits_C_B = torch.mul(output_C2,output_B2)
-        logits_C_A = torch.mul(output_C2,output_A2)
-        print("LOGIT SHAPE", logits_A_B.size())
-        return logits_A_B, logits_B_A, logits_B_C, logits_C_B, logits_A_C, logits_C_A
+
+        batch_size, hidden_dim = output_A1.shape[0], output_A1.shape[1]
+        output_A1 = output_A1.view(batch_size * hidden_dim, -1).squeeze()
+        output_B1 = output_B1.view(batch_size * hidden_dim, -1).squeeze()
+        output_C1 = output_C1.view(batch_size * hidden_dim, -1).squeeze()
+
+        output_A2 = output_A2.view(batch_size * hidden_dim, -1).squeeze()
+        output_B2 = output_B2.view(batch_size * hidden_dim, -1).squeeze()
+        output_C2 = output_C2.view(batch_size * hidden_dim, -1).squeeze()
+
+        dot_A_B = torch.dot(output_A1, output_B1) # value
+        dot_B_C = torch.dot(output_B1, output_C1)
+        dot_A_C = torch.dot(output_A1, output_C1)
+
+        dot_B_A = torch.dot(output_B2, output_A2)
+        dot_C_B = torch.dot(output_C2, output_B2)
+        dot_C_A = torch.dot(output_C2, output_A2)
+
+        return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
+
 
 
 
