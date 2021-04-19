@@ -123,20 +123,34 @@ class BCELossWithLog(Module):
     def __init__(self):
         super().__init__()
 
+    def loss_calculation(self, volume1, volume2, label1, label2):
+        # loss = -(label1 * volume1 + (1 - label1) * log1mexp(volume1) + label2 * volume2 + (1 - label2) * log1mexp(volume2)).sum()
+        vol1_pos_loss = (label1 * volume1).sum()
+        vol1_neg_loss = ((1 - label1) * log1mexp(volume1)).sum()
+        vol1_loss = vol1_pos_loss+vol1_neg_loss
+
+        vol2_pos_loss = (label2 * volume2).sum()
+        vol2_neg_loss = ((1 - label2) * log1mexp(volume2)).sum()
+        vol2_loss = vol2_pos_loss + vol2_neg_loss
+
+        loss = vol1_loss + vol2_loss
+        return -loss
+
     def forward(self, volume1, volume2, labels, flag):
         """
         volume1: P(A|B); [batch_size, # of datasets]
         volume2: P(B|A); [batch_size, # of datasets]
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
+        -(labels[:, 0] * log volume1 + (1 - labels[:, 0]) * log(1 - volume1) + labels[:, 1] * log volume2 + (1 - labels[:, 1]) * log(1 - volume2)).sum()
         """
         if volume1.shape[-1] == 1:
-            loss = -(labels[:, 0] * volume1 + labels[:, 1] * log1mexp(volume2)).sum()
+            loss = self.loss_calculation(volume1, volume2, labels[:, 0], labels[:, 1])
         else:
             hieve_mask = (flag == 0).nonzero()
-            hieve_loss = -(labels[:, 0][hieve_mask] * volume1[hieve_mask] + labels[:, 1][hieve_mask] * log1mexp(volume2[hieve_mask])).sum()
+            hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
-            matres_loss = -(labels[:, 0][matres_mask] * volume1[matres_mask] + labels[:, 1][matres_mask] * log1mexp(volume2[matres_mask])).sum()
+            matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
             loss = hieve_loss + matres_loss
         return loss
 

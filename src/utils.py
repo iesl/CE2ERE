@@ -147,7 +147,7 @@ def log1mexp(x: torch.Tensor, split_point=_LOG1MEXP_SPLIT_POINT, exp_zero_eps=1e
     Z = torch.zeros_like(x)
     # this clamp is necessary because expm1(log_p) will give zero when log_p=1,
     # ie. p=1
-    logexpm1 = torch.log((-torch.expm1(x[logexpm1_switch])).clamp_min(1e-38))
+    logexpm1 = torch.log((-torch.expm1(x[logexpm1_switch])).clamp_min(1e-30))
     # hack the backward pass
     # if expm1(x) gets very close to zero, then the grad log() will produce inf
     # and inf*0 = nan. Hence clip the grad so that it does not produce inf

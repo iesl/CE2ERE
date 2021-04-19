@@ -48,10 +48,13 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
             else:
                 P_PC = result_dict['10']['precision']   # Parent-Child - precision
                 P_CP = result_dict['01']['precision']   # Child-Parent - precision
+                P_CR = result_dict['11']['precision']   # CoRef - precision
                 R_PC = result_dict['10']['recall']      # Parent-Child - recall
                 R_CP = result_dict['01']['recall']      # Parent-Child - recall
+                R_CR = result_dict['11']['recall']      # CoRef - recall
                 F1_PC = result_dict['10']['f1-score']   # Parent-Child - f1 score
                 F1_CP = result_dict['01']['f1-score']   # Child-Parent - f1 score
+                F1_CR = result_dict['11']['f1-score']   # CoRef - f1 score
                 metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC+P_CP)/2
                 metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC+R_CP)/2
                 metrics[f"[{eval_type}-HiEve] F1 Score"] = (F1_PC+F1_CP)/2

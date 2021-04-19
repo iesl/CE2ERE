@@ -23,9 +23,9 @@ class MLP(Module):
 
 
 class GumbelIntersection(Module):
-    def __init__(self, gumbel_beta: float):
+    def __init__(self, intersection_temp: float):
         super().__init__()
-        self.gumbel_beta = gumbel_beta
+        self.intersection_temp = intersection_temp
 
     def forward(self, box1: Tensor, box2: Tensor):
         """
@@ -40,20 +40,20 @@ class GumbelIntersection(Module):
         input_boxes_min = input_boxes[..., 0, :]       # [batch_size, box1's min/box2's min, # of datasets, dim]
         input_boxes_max = input_boxes[..., 1, :]       # [batch_size, box1's max/box2's max, # of datasets, dim]
 
-        boxes_min = self.gumbel_beta * torch.logsumexp(input_boxes_min / self.gumbel_beta, dim=1)   # [batch_size, # of datasets, dim]
+        boxes_min = self.intersection_temp * torch.logsumexp(input_boxes_min / self.intersection_temp, dim=1)   # [batch_size, # of datasets, dim]
         boxes_min = torch.max(boxes_min, torch.max(input_boxes_min, dim=1).values)                  # [batch_size, # of datasets, dim]
-        boxes_max = -self.gumbel_beta * torch.logsumexp(-input_boxes_max / self.gumbel_beta, dim=1)
+        boxes_max = -self.intersection_temp * torch.logsumexp(-input_boxes_max / self.intersection_temp, dim=1)
         boxes_max = torch.min(boxes_max, torch.min(input_boxes_max, dim=1).values)                  # [batch_size, # of datasets, dim]
         return torch.stack([boxes_min, boxes_max], dim=-2) # [batch_size, # of datasets, min/max, dim]
 
 
 class SoftVolume(Module):
-    def __init__(self, beta:float, gumbel_beta: float):
+    def __init__(self, volume_temp: float, intersection_temp: float):
         super().__init__()
         self.euler_gamma = 0.57721566490153286060
         self.eps = 1e-23
-        self.beta = beta
-        self.gumbel_beta = gumbel_beta
+        self.volume_temp = volume_temp
+        self.intersection_temp = intersection_temp
 
     def forward(self, box: Tensor):
         """
@@ -62,17 +62,17 @@ class SoftVolume(Module):
         """
         assert box.shape[-2] == 2
         box_min, box_max = box[..., 0, :], box[..., 1, :]           # [batch_size, # of datasets, dim]
-        inside = box_max - box_min - 2 * self.euler_gamma * self.gumbel_beta
-        soft_plus = F.softplus(inside, beta=self.beta)
+        inside = box_max - box_min - 2 * self.euler_gamma * self.intersection_temp
+        soft_plus = F.softplus(inside, beta=1 / self.volume_temp)
         volume = torch.sum(torch.log(soft_plus + self.eps), dim=-1) # [batch_size, # of datasets]
         return volume
 
 
 class BoxToBoxVolume(Module):
-    def __init__(self, beta: float, gumbel_beta: float):
+    def __init__(self, volume_temp: float, intersection_temp: float):
         super().__init__()
-        self.gumbel_box = GumbelIntersection(gumbel_beta)
-        self.volume = SoftVolume(beta, gumbel_beta)
+        self.gumbel_box = GumbelIntersection(intersection_temp)
+        self.volume = SoftVolume(volume_temp, intersection_temp)
 
     def forward(self, box1: Tensor, box2: Tensor) -> Tensor:
         """
@@ -88,7 +88,7 @@ class BoxToBoxVolume(Module):
         box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
         conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
         assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
-        return conditional_prob
+        return conditional_prob.to(torch.float64)
 
 
 class RoBERTa_MLP(Module):
@@ -295,7 +295,8 @@ class Vector_BiLSTM_MLP(Module):
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, beta: int , gumbel_beta: int, roberta_size_type="roberta-base"):
+                 lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int, hieve_mlp_size: int,
+                 proj_output_dim: int, matres_mlp_size: int, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -304,6 +305,10 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+
+        self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
+        self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
+        self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -314,8 +319,8 @@ class Box_BiLSTM_MLP(Module):
         else:
             raise ValueError(f"{roberta_size_type} doesn't exist!")
 
-        self.box_embedding = BoxEmbedding(beta=beta, threshold=20)
-        self.volume = BoxToBoxVolume(beta=beta, gumbel_beta=gumbel_beta)
+        self.box_embedding = BoxEmbedding(volume_temp=volume_temp, threshold=20)
+        self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
@@ -328,15 +333,6 @@ class Box_BiLSTM_MLP(Module):
                 roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
                 roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
             return torch.stack(roberta_list)
-
-    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        """
-        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        """
-        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
-        return torch.cat((tensor1, tensor2, sub, mul), -1)
 
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
@@ -357,17 +353,44 @@ class Box_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        # box embedding layer
-        box_A = self.box_embedding.get_box_embeddings(output_A).unsqueeze(dim=1)  # [batch_size, 1, min/max, lstm_hidden_dim]; [64, 1, 2, 256]
-        box_B = self.box_embedding.get_box_embeddings(output_B).unsqueeze(dim=1)
-        box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
+        output_A = self.MLP(output_A) #[batch_size, mlp_output_dim]; [64, 44]
+        output_B = self.MLP(output_B)
+        output_C = self.MLP(output_C)
 
+        if data_type == "hieve":
+            output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
+            output_B = self.MLP_hieve(output_B).unsqueeze(1)
+            output_C = self.MLP_hieve(output_C).unsqueeze(1)
+        elif data_type == "matres":
+            output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
+            output_B = self.MLP_matres(output_B).unsqueeze(1)
+            output_C = self.MLP_matres(output_C).unsqueeze(1)
         if data_type == "joint":
-            # conditional probabilities
-            box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
-            box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
-            box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
+            output_A_hieve = self.MLP_hieve(output_A) # [output_dim, 2*proj_output_dim]
+            output_B_hieve = self.MLP_hieve(output_B)
+            output_C_hieve = self.MLP_hieve(output_C)
+            output_A_matres = self.MLP_matres(output_A) # [output_dim, 2*proj_output_dim]
+            output_B_matres = self.MLP_matres(output_B)
+            output_C_matres = self.MLP_matres(output_C)
+            output_A = torch.stack([output_A_hieve, output_A_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
+            output_B = torch.stack([output_B_hieve, output_B_matres], dim=1)
+            output_C = torch.stack([output_C_hieve, output_C_matres], dim=1)
 
+        dataset_num = output_A.shape[1]
+        boxes_A, boxes_B, boxes_C = [], [], []
+        for i in range(dataset_num):
+            # box embedding layer
+            box_A_tmp = self.box_embedding.get_box_embeddings(output_A[..., i, :]).unsqueeze(dim=1)  # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
+            box_B_tmp = self.box_embedding.get_box_embeddings(output_B[..., i, :]).unsqueeze(dim=1)
+            box_C_tmp = self.box_embedding.get_box_embeddings(output_C[..., i, :]).unsqueeze(dim=1)
+            boxes_A.append(box_A_tmp)
+            boxes_B.append(box_B_tmp)
+            boxes_C.append(box_C_tmp)
+        box_A = torch.cat(boxes_A, dim=1) # [batch_size, # of boxes, min/max, 2*proj_output_dim/2]
+        box_B = torch.cat(boxes_B, dim=1)
+        box_C = torch.cat(boxes_C, dim=1)
+
+        # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
         vol_B_A = self.volume(box_B, box_A) # [batch_size, # of datasets]
         vol_B_C = self.volume(box_B, box_C) # [batch_size, # of datasets]
