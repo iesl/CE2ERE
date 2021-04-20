@@ -157,9 +157,11 @@ class BCELossWithLog(Module):
 
 
 class BCELogitLoss(Module):
+
+
     def __init__(self):
         super().__init__()
-        self.bll = BCEWithLogitsLoss() #https://pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html
+        self.bll = BCEWithLogitsLoss()
 
     def forward(self, logit1, logit2, labels, flag):
         """
@@ -168,10 +170,15 @@ class BCELogitLoss(Module):
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """
-
+        
+        labels = labels.type(torch.FloatTensor)
         if logit1.shape[-1] == 1:
+            
             loss = self.bll(logit1,labels[:,0]) + self.bll(logit2, labels[:,1])
+            
         else:
+     
+       
             hieve_mask = (flag == 0).nonzero()
 
             # loss between P(A|B) and labels[:,0] for HiEve Data +
