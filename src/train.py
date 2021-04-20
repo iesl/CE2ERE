@@ -115,7 +115,7 @@ class Trainer:
                     loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
                     loss += self.bce_logit_loss(logits_B_C, logits_C_B, yz_rel_id, flag)
                     loss += self.bce_logit_loss(logits_A_C, logits_C_A, xz_rel_id, flag)
-                    assert not torch.isnan(loss)
+                    #assert not torch.isnan(loss)
 
                 else:
                     xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
@@ -224,7 +224,7 @@ class Trainer:
 class Evaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold: float, matres_threshold: float):
+                 hieve_threshold: float, matres_threshold: float, threshold:float):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -235,7 +235,7 @@ class Evaluator:
         self.best_matres_score = 0.0
         self.hieve_threshold = hieve_threshold
         self.matres_threshold = matres_threshold
-
+        self.threshold = threshold
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]

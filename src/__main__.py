@@ -135,6 +135,7 @@ def setup(args):
         test_dataloader_dict=test_dataloader_dict,
         hieve_threshold=args.hieve_threshold,
         matres_threshold=args.matres_threshold,
+        threshold = args.threshold
     )
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
