@@ -273,6 +273,7 @@ class Box_BiLSTM_MLP(Module):
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 
+        # projection layers
         if data_type == "hieve":
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
