@@ -243,17 +243,24 @@ class Evaluator:
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                     yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                     xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    flag = batch[15]  # 0: HiEve, 1: MATRES
                     vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                     if vol_A_B.shape[-1] == 2:
                         if data_type == "hieve":
-                            vol_A_B, vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0]  # [batch_size]
-                            vol_B_C, vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
-                            vol_A_C, vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
+                            vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
+                            vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
+                            vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
+                            xy_rel_id = xy_rel_id[flag == 0]
+                            yz_rel_id = yz_rel_id[flag == 0]
+                            xz_rel_id = xz_rel_id[flag == 0]
                         elif data_type == "matres":
-                            vol_A_B, vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
-                            vol_B_C, vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
-                            vol_A_C, vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
+                            vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
+                            vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
+                            vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
+                            xy_rel_id = xy_rel_id[flag == 1]
+                            yz_rel_id = yz_rel_id[flag == 1]
+                            xz_rel_id = xz_rel_id[flag == 1]
                     else:
                         vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
                         vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
