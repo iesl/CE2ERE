@@ -1,6 +1,5 @@
 from sklearn.metrics import confusion_matrix, classification_report
 
-
 def metric(data_type, eval_type, model_type, y_true, y_pred):
     """
     confusion matrix ex)
