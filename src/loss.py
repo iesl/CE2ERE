@@ -163,8 +163,7 @@ class BCELogitLoss(Module):
             loss = self.bll(logit1,labels[:,0]) + self.bll(logit2, labels[:,1])
             
         else:
-            print("LABELS",labels[:,0].type())
-            print("LOGIT",logit1[:,0].type())
+        
             hieve_mask = (flag == 0).nonzero()
 
             # loss between P(A|B) and labels[:,0] for HiEve Data +
