@@ -79,6 +79,9 @@ def create_model(args, num_classes):
             lstm_input_size=args.lstm_input_size,
             beta=args.beta,
             mlp_output_dim=args.mlp_output_dim,
+            hieve_mlp_size = args.hieve_mlp_size,
+            proj_output_dim = args.proj_output_dim, 
+            matres_mlp_size= args.matres_mlp_size,
             roberta_size_type="roberta-base",
         )
     elif args.model == "box":
