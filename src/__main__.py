@@ -1,5 +1,4 @@
 import wandb
-
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
@@ -129,7 +128,8 @@ def setup(args):
         device=device,
         valid_dataloader_dict=valid_dataloader_dict,
         test_dataloader_dict=test_dataloader_dict,
-        threshold=args.threshold,
+        hieve_threshold=args.hieve_threshold,
+        matres_threshold=args.matres_threshold,
     )
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
@@ -137,7 +137,9 @@ def setup(args):
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)
-    loss_transitivity = TransitivityLoss()
+    # loss_transitivity = TransitivityLoss()
+    loss_transitivity_h = TransitivityLoss()
+    loss_transitivity_t = TransitivityLoss()
     loss_cross_category = CrossCategoryLoss()
 
     trainer = Trainer(
@@ -152,13 +154,16 @@ def setup(args):
         opt=optimizer,
         loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
-        loss_transitivity=loss_transitivity,
+        loss_transitivity_h=loss_transitivity_h,
+        loss_transitivity_t=loss_transitivity_t,
+        # loss_transitivity=loss_transitivity,
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
         wandb_id=wandb.run.id,
         early_stopping=early_stopping,
         eval_step=args.eval_step,
+        debug=args.debug,
     )
 
     return trainer
