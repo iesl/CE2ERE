@@ -98,10 +98,8 @@ class Trainer:
                 device = self.device
                 if self.model_type == "box":
                     xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
-                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
-                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                     flag = batch[15]  # 0: HiEve, 1: MATRES
-                    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                    vol_A_B, vol_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                     loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                     assert not torch.isnan(loss)
                 else:
