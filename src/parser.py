@@ -30,6 +30,10 @@ def build_parser():
 
     parser.add_argument('--mlp_size', type=int, default=256)
     parser.add_argument('--mlp_output_dim', type=int, default=64)
+    parser.add_argument('--proj_output_dim', type = int, default=64)
+    parser.add_argument('--hieve_mlp_size', type = int, default=64)
+    parser.add_argument('--matres_mlp_size', type = int, default=32)
+    
     parser.add_argument('--num_layers', type=int, default=1)
     parser.add_argument('--roberta_hidden_size', type=int, default=1024, help="roberta-base: 768, roberta-large: 1024")
 
