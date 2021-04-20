@@ -248,15 +248,6 @@ class Box_BiLSTM_MLP(Module):
                 roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
             return torch.stack(roberta_list)
 
-    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        """
-        tensor1: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        tensor2: [batch_size, min/max, hidden_dim]; [64, 2, 256]
-        """
-        sub = torch.sub(tensor1, tensor2) # [64, 2, 256]
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
-        return torch.cat((tensor1, tensor2, sub, mul), -1)
-
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
@@ -280,26 +271,14 @@ class Box_BiLSTM_MLP(Module):
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 
-        # output_A2 = self.MLP2(output_A) #[batch_size, 2 * quadruple_output_dim]; [64, 22]
-        # output_B2 = self.MLP2(output_B)
-        # output_C2 = self.MLP2(output_C)
-
+        output_A = self.MLP2(output_A) #[batch_size, 2 * quadruple_output_dim]; [64, 22]
+        output_B = self.MLP2(output_B)
+        output_C = self.MLP2(output_C)
 
         # box embedding layer
         box_A = self.box_embedding.get_box_embeddings(output_A).unsqueeze(dim=1)  # [batch_size, 1, min/max, 2 * quadruple_output_dim]; [64, 1, 2, 128]
         box_B = self.box_embedding.get_box_embeddings(output_B).unsqueeze(dim=1)
         box_C = self.box_embedding.get_box_embeddings(output_C).unsqueeze(dim=1)
-
-        # if data_type == "joint":
-        box_A = torch.cat(torch.chunk(box_A, 2, dim=-1), dim=1) # [batch_size, hieve/matres, min/max, dim]
-        box_B = torch.cat(torch.chunk(box_B, 2, dim=-1), dim=1)
-        box_C = torch.cat(torch.chunk(box_C, 2, dim=-1), dim=1)
-        # print("boxA:", box_A.shape, box_A.tolist())
-        # print("boxA[0]:", torch.chunk(box_A, 2, dim=-1)[0].shape, torch.chunk(box_A, 2, dim=-1)[0].tolist())
-        # print("boxA[1]:", torch.chunk(box_A, 2, dim=-1)[1].shape, torch.chunk(box_A, 2, dim=-1)[1].tolist())
-        # box_A = torch.chunk(box_A, 2, dim=-1)[1]
-        # box_B = torch.chunk(box_B, 2, dim=-1)[1]
-        # box_C = torch.chunk(box_C, 2, dim=-1)[1]
 
         # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
