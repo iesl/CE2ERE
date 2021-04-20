@@ -288,7 +288,10 @@ class Vector_BiLSTM_MLP(Module):
         dot_B_A = torch.dot(output_B2, output_A2)
         dot_C_B = torch.dot(output_C2, output_B2)
         dot_C_A = torch.dot(output_C2, output_A2)
-
+        print("hidden size", hidden_dim)
+        print("batch size", batch_size)
+        print("dot_A_B", dot_A_B)
+        print("outputA1", output_A1.size())
         return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
 
 
