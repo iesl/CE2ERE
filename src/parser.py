@@ -25,10 +25,10 @@ def build_parser():
     parser.add_argument('--volume_temp', type=float, default=1)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
 
-    parser.add_argument('--hieve_threshold', type=float, default=-0.602059991,
-                        help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1") # log 0.5
-    parser.add_argument('--matres_threshold', type=float, default=-0.602059991,
-                        help="log0.75: -0.124938737, log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")  # log 0.5
+    parser.add_argument('--hieve_threshold1', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1") # log 0.5
+    parser.add_argument('--hieve_threshold2', type=float, default=-0.602059991) # log 0.5
+    parser.add_argument('--matres_threshold1', type=float, default=-0.602059991)  # log 0.5
+    parser.add_argument('--matres_threshold2', type=float, default=-0.602059991)  # log 0.5
 
     parser.add_argument('--mlp_size', type=int, default=256) # mlp hidden dim
     parser.add_argument('--quadruple_output_dim', type=int, default=50) # mlp output dim; quadruple for box embedding and joint case

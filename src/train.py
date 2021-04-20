@@ -11,7 +11,7 @@ from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 
-from evalulation import threshold_evalution
+from evalulation import threshold_evalution, two_threshold_evalution
 from loss import BCELossWithLog
 from metrics import metric, ConstraintViolation
 from utils import EarlyStopping, log1mexp
@@ -210,7 +210,7 @@ class Trainer:
 class Evaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold: float, matres_threshold: float):
+                 hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float, matres_threshold2: float):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -219,8 +219,10 @@ class Evaluator:
         self.test_dataloader_dict = test_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
-        self.hieve_threshold = hieve_threshold
-        self.matres_threshold = matres_threshold
+        self.hieve_threshold1 = hieve_threshold1
+        self.hieve_threshold2 = hieve_threshold2
+        self.matres_threshold1 = matres_threshold1
+        self.matres_threshold2 = matres_threshold2
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
@@ -258,13 +260,19 @@ class Evaluator:
                         vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
 
                     if data_type == "hieve":
-                        threshold = self.hieve_threshold
+                        threshold1 = self.hieve_threshold1
+                        threshold2 = self.hieve_threshold2
                     if data_type == "matres":
-                        threshold = self.matres_threshold
+                        threshold1 = self.matres_threshold1
+                        threshold2 = self.matres_threshold2
 
-                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
-                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
-                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                    # xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
+                    # yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
+                    # xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
+
                     pred_vals.extend(xy_preds)
                     rel_ids.extend(xy_targets)
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
@@ -296,7 +304,8 @@ class Evaluator:
                     pred_vals.extend(pred)
                     rel_ids.extend(xy_rel_ids)
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
-
+            logger.debug("pred_vals: \t"+ str(pred_vals))
+            logger.debug("rel_ids: \t"+ str(rel_ids))
             logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
             if constraint_violation.all_case_count: # vector model has all_case_count
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
