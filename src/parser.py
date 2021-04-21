@@ -48,5 +48,5 @@ def build_parser():
                         help="1: within task-constraints, 2: within task & cross constraints")
     parser.add_argument('--patience', type=int, default=5, help="patience for early stopping")
     parser.add_argument('--eval_step', type=int, default=1, help="evaluation every n epochs")
-
+    parser.add_argument('--eval_type', type=str, default="one", choices=["one", "two"], help="evaluate wheter using one threshold or two threshold")
     return parser.parse_args()

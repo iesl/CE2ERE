@@ -206,7 +206,7 @@ class Trainer:
             self.early_stopping(self.best_f1_score)
             wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
 
-class Evaluator:
+class OneThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
                  hieve_threshold: float, matres_threshold: float):
@@ -271,6 +271,136 @@ class Evaluator:
                     xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
                     yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
                     xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                    pred_vals.extend(xy_preds)
+                    rel_ids.extend(xy_targets)
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+                else:
+                    xy_rel_id = batch[12].to(device)
+                    alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
+                    xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
+                    if self.train_type == "hieve" or self.train_type == "matres":
+                        pred = torch.max(alpha, 1).indices.cpu().numpy()  # alpha: [16, 4]
+                        alpha_indices = torch.max(alpha, 1).indices
+                        beta_indices = torch.max(beta, 1).indices
+                        gamma_indices = torch.max(gamma, 1).indices
+                    else:
+                        if data_type == "hieve":
+                            pred = torch.max(alpha[:, 0:4], 1).indices.cpu().numpy() # [16, 4]
+                            alpha_indices = torch.max(alpha[:, 0:4], 1).indices
+                            beta_indices = torch.max(beta[:, 0:4], 1).indices
+                            gamma_indices = torch.max(gamma[:, 0:4], 1).indices
+                        elif data_type == "matres":
+                            pred = torch.max(alpha[:, 4:8], 1).indices.cpu().numpy() # [16, 4]
+                            alpha_indices = torch.max(alpha[:, 4:8], 1).indices
+                            beta_indices = torch.max(beta[:, 4:8], 1).indices
+                            gamma_indices = torch.max(gamma[:, 4:8], 1).indices
+
+                    alpha_indices = [val.item() for val in alpha_indices]
+                    beta_indices = [val.item() for val in beta_indices]
+                    gamma_indices = [val.item() for val in gamma_indices]
+
+                    pred_vals.extend(pred)
+                    rel_ids.extend(xy_rel_ids)
+                    constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
+
+            logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+            if constraint_violation.all_case_count: # vector model has all_case_count
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+
+        if data_type == "hieve":
+            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+            assert metrics is not None
+            logger.info("hieve-result_table: \n{0}".format(result_table))
+
+            if eval_type == "valid":
+                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
+                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
+                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
+
+        if data_type == "matres":
+            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+            assert metrics is not None
+            logger.info("matres-confusion_matrix: \n{0}".format(CM))
+
+            if eval_type == "valid":
+                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
+                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
+                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
+
+        logger.info("done!")
+        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
+        return metrics
+
+
+class TwoThresholdEvaluator:
+    def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
+                 valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
+                 hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float,  matres_threshold2: float):
+        self.train_type = train_type
+        self.model_type = model_type
+        self.model = model
+        self.device = device
+        self.valid_dataloader_dict = valid_dataloader_dict
+        self.test_dataloader_dict = test_dataloader_dict
+        self.best_hieve_score = 0.0
+        self.best_matres_score = 0.0
+        self.hieve_threshold1 = hieve_threshold1
+        self.hieve_threshold2 = hieve_threshold2
+        self.matres_threshold1 = matres_threshold1
+        self.matres_threshold2 = matres_threshold2
+
+    def evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "valid":
+            dataloader = self.valid_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        elif eval_type == "test":
+            dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        self.model.eval()
+        pred_vals, rel_ids = [], []
+        eval_start_time = time.time()
+        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+
+                if self.model_type == "box":
+                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                    yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                    xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                    flag = batch[15]  # 0: HiEve, 1: MATRES
+                    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
+
+                    if vol_A_B.shape[-1] == 2:
+                        if data_type == "hieve":
+                            vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
+                            vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
+                            vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
+                            xy_rel_id = xy_rel_id[flag == 0]
+                            yz_rel_id = yz_rel_id[flag == 0]
+                            xz_rel_id = xz_rel_id[flag == 0]
+                        elif data_type == "matres":
+                            vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
+                            vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
+                            vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
+                            xy_rel_id = xy_rel_id[flag == 1]
+                            yz_rel_id = yz_rel_id[flag == 1]
+                            xz_rel_id = xz_rel_id[flag == 1]
+                    else:
+                        vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
+                        vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
+                        vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
+
+                    if data_type == "hieve":
+                        threshold1 = self.hieve_threshold1
+                        threshold2 = self.hieve_threshold2
+                    if data_type == "matres":
+                        threshold1 = self.matres_threshold1
+                        threshold2 = self.matres_threshold2
+
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
                     pred_vals.extend(xy_preds)
                     rel_ids.extend(xy_targets)
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
