@@ -182,7 +182,6 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
                             xy_rel_id, yz_rel_id, xz_rel_id,\
                             1  # 0: HiEve, 1: MATRES
 
-
                         train_set.append(to_append)
     return train_set
 
@@ -246,17 +245,17 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             raise ValueError(f"doc_id={doc_id} is out of range!")
 
     if args.model == "box":
-        with open(data_dir / "hieve_valid_test_set/valid_box.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_valid_box.pickle", 'rb') as handle:
             valid_box = pickle.load(handle)
             all_valid_set.extend(valid_box)
-        with open(data_dir / "hieve_valid_test_set/test_box.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_test_box.pickle", 'rb') as handle:
             test_box = pickle.load(handle)
             all_test_set.extend(test_box)
     else:
-        with open(data_dir / "hieve_valid_test_set/valid_vec.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_valid_vec.pickle", 'rb') as handle:
             valid_vec = pickle.load(handle)
             all_valid_set.extend(valid_vec)
-        with open(data_dir / "hieve_valid_test_set/test_vec.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_test_vec.pickle", 'rb') as handle:
             test_vec = pickle.load(handle)
             all_test_set.extend(test_vec)
 
@@ -292,13 +291,26 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_train_set.extend(train_set)
         elif file_name in all_tml_file_dict["aq"]:
-            valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
-            all_valid_set.extend(valid_set)
+            pass
         elif file_name in all_tml_file_dict["pl"]:
-            test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
-            all_test_set.extend(test_set)
+            pass
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
+
+    if args.model == "box":
+        with open(data_dir / "matres_valid_test_set/matres_valid_box.pickle", 'rb') as handle:
+            valid_box = pickle.load(handle)
+            all_valid_set.extend(valid_box)
+        with open(data_dir / "matres_valid_test_set/matres_test_box.pickle", 'rb') as handle:
+            test_box = pickle.load(handle)
+            all_test_set.extend(test_box)
+    else:
+        with open(data_dir / "matres_valid_test_set/matres_valid_vec.pickle", 'rb') as handle:
+            valid_vec = pickle.load(handle)
+            all_valid_set.extend(valid_vec)
+        with open(data_dir / "matres_valid_test_set/matres_test_vec.pickle", 'rb') as handle:
+            test_vec = pickle.load(handle)
+            all_test_set.extend(test_vec)
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("MATRES Preprocessing took {:}".format(elapsed_time))
