@@ -252,10 +252,10 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             test_box = pickle.load(handle)
             all_test_set.extend(test_box)
     else:
-        with open(data_dir / "hieve_valid_test_set/hieve_valid_vec.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_valid_vector.pickle", 'rb') as handle:
             valid_vec = pickle.load(handle)
             all_valid_set.extend(valid_vec)
-        with open(data_dir / "hieve_valid_test_set/hieve_test_vec.pickle", 'rb') as handle:
+        with open(data_dir / "hieve_valid_test_set/hieve_test_vector.pickle", 'rb') as handle:
             test_vec = pickle.load(handle)
             all_test_set.extend(test_vec)
 
@@ -305,10 +305,10 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             test_box = pickle.load(handle)
             all_test_set.extend(test_box)
     else:
-        with open(data_dir / "matres_valid_test_set/matres_valid_vec.pickle", 'rb') as handle:
+        with open(data_dir / "matres_valid_test_set/matres_valid_vector.pickle", 'rb') as handle:
             valid_vec = pickle.load(handle)
             all_valid_set.extend(valid_vec)
-        with open(data_dir / "matres_valid_test_set/matres_test_vec.pickle", 'rb') as handle:
+        with open(data_dir / "matres_valid_test_set/matres_test_vector.pickle", 'rb') as handle:
             test_vec = pickle.load(handle)
             all_test_set.extend(test_vec)
 

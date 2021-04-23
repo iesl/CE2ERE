@@ -309,9 +309,9 @@ class Box_BiLSTM_MLP(Module):
 
         # conditional probabilities
         vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
-        vol_B_A = self.volume(box_B, box_A) # [batch_size, # of datasets]
-        vol_B_C = self.volume(box_B, box_C) # [batch_size, # of datasets]
-        vol_C_B = self.volume(box_C, box_B) # [batch_size, # of datasets]
-        vol_A_C = self.volume(box_A, box_C) # [batch_size, # of datasets]
-        vol_C_A = self.volume(box_C, box_A) # [batch_size, # of datasets]
+        vol_B_A = self.volume(box_B, box_A)
+        vol_B_C = self.volume(box_B, box_C)
+        vol_C_B = self.volume(box_C, box_B)
+        vol_A_C = self.volume(box_A, box_C)
+        vol_C_A = self.volume(box_C, box_A)
         return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A
