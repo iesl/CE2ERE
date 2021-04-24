@@ -14,7 +14,7 @@ from torch.utils.data import DataLoader
 from evalulation import threshold_evalution, two_threshold_evalution
 from loss import BCELossWithLog
 from metrics import metric, ConstraintViolation
-from utils import EarlyStopping, log1mexp
+from utils import EarlyStopping
 
 logger = logging.getLogger()
 
@@ -304,7 +304,7 @@ class OneThresholdEvaluator:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
             logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            if constraint_violation.all_case_count: # vector model has all_case_count
+            if constraint_violation.all_case_count:
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
