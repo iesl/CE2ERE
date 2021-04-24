@@ -18,11 +18,11 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
     # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
-    mask = (volume1 >= threshold) & (volume2 >= threshold)
+    mask = (volume1 >= threshold) & (volume2 > threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
 
     # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
-    mask = (volume1 < threshold) & (volume2 < threshold)
+    mask = (volume1 < threshold) & (volume2 <= threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
 
     return preds, targets, constraint_dict
@@ -48,11 +48,11 @@ def two_threshold_evalution(volume1, volume2, relation_label, threshold1, thresh
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
     # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
-    mask = (volume1 >= threshold1) & (volume2 >= threshold2)
+    mask = (volume1 >= threshold1) & (volume2 > threshold2)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
 
     # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
-    mask = (volume1 < threshold1) & (volume2 < threshold2)
+    mask = (volume1 < threshold1) & (volume2 <= threshold2)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
 
     return preds, targets, constraint_dict
