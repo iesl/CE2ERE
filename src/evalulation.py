@@ -64,7 +64,7 @@ def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict
     preds.extend(mask_indices.shape[0] * [key])
     if mask_indices.shape[0] == 1:
         relation_label_list = [[x.item() for x in relation_label[mask_indices.squeeze()]]]
-        mask_constraint_indices = [mask_indices.squeeze()]
+        mask_constraint_indices = [mask_indices.squeeze().item()]
     else:
         relation_label_list = relation_label[mask_indices.squeeze()].tolist()
         mask_constraint_indices = mask_indices.squeeze().tolist()
