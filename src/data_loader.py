@@ -333,18 +333,18 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
 
     for data_type, valid_set in valid_set_dict.items():
         if data_type == "hieve":
-            valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=True)
+            valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
-            valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=True)
+            valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
         else:
             raise ValueError(f"dataset={data_type} is not supported at this time!")
         valid_dataloader_dict[data_type] = valid_dataloader
 
     for data_type, test_set in test_set_dict.items():
         if data_type == "hieve":
-            test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=True)
+            test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
-            test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=True)
+            test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
         else:
             raise ValueError(f"dataset={data_type} is not supported at this time!")
         test_dataloader_dict[data_type] = test_dataloader
