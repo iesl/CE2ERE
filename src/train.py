@@ -381,9 +381,6 @@ class OneThresholdEvaluator:
                             xy_rel_id = xy_rel_id[flag == 0]
                             yz_rel_id = yz_rel_id[flag == 0]
                             xz_rel_id = xz_rel_id[flag == 0]
-                            print("vol_A_B:", vol_A_B.shape, vol_A_B.tolist())
-                            print("vol_B_C:", vol_B_C.shape, vol_B_C.tolist())
-                            print("xy_rel_id:", xy_rel_id.shape, xy_rel_id.tolist())
                         elif data_type == "matres":
                             vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
                             vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
