@@ -171,14 +171,20 @@ class BCELogitLoss(Module):
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """
         
-        labels = labels.type(torch.FloatTensor)
+        labels = labels.type(logit1.type())
+        #logit1 = logit1.type(torch.LongTensor)
+        #logit2 = logit2.type(torch.LongTensor)
         if logit1.shape[-1] == 1:
             
             loss = self.bll(logit1,labels[:,0]) + self.bll(logit2, labels[:,1])
             
         else:
+
      
        
+
+        
+
             hieve_mask = (flag == 0).nonzero()
 
             # loss between P(A|B) and labels[:,0] for HiEve Data +
