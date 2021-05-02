@@ -22,11 +22,11 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
     # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
-    mask = (volume1 >= threshold) & (volume2 >= threshold)
+    mask = (volume1 >= threshold) & (volume2 > threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
 
     # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
-    mask = (volume1 < threshold) & (volume2 < threshold)
+    mask = (volume1 < threshold) & (volume2 <= threshold)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
 
     return preds, targets, constraint_dict
@@ -52,11 +52,11 @@ def two_threshold_evalution(volume1, volume2, relation_label, threshold1, thresh
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
 
     # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
-    mask = (volume1 >= threshold1) & (volume2 >= threshold2)
+    mask = (volume1 >= threshold1) & (volume2 > threshold2)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
 
     # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
-    mask = (volume1 < threshold1) & (volume2 < threshold2)
+    mask = (volume1 < threshold1) & (volume2 <= threshold2)
     update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
 
     return preds, targets, constraint_dict
@@ -68,7 +68,7 @@ def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict
     preds.extend(mask_indices.shape[0] * [key])
     if mask_indices.shape[0] == 1:
         relation_label_list = [[x.item() for x in relation_label[mask_indices.squeeze()]]]
-        mask_constraint_indices = [mask_indices.squeeze()]
+        mask_constraint_indices = [mask_indices.squeeze().item()]
     else:
         relation_label_list = relation_label[mask_indices.squeeze()].tolist()
         mask_constraint_indices = mask_indices.squeeze().tolist()

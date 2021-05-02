@@ -4,7 +4,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, Evaluator
+from train import Trainer, OneThresholdEvaluator, TwoThresholdEvaluator
 from utils import *
 from pathlib import Path
 
@@ -125,20 +125,47 @@ def setup(args):
     wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
-    evaluator = Evaluator(
-        train_type=args.data_type,
-        model_type=args.model,
-        model=model,
-        device=device,
-        valid_dataloader_dict=valid_dataloader_dict,
-        test_dataloader_dict=test_dataloader_dict,
-        hieve_threshold=args.hieve_threshold,
-        matres_threshold=args.matres_threshold,
 
 
 
 
-    )
+
+
+
+
+
+
+
+
+
+
+
+
+    if args.eval_type == "one":
+        evaluator = OneThresholdEvaluator(
+            train_type=args.data_type,
+            model_type=args.model,
+            model=model,
+            device=device,
+            valid_dataloader_dict=valid_dataloader_dict,
+            test_dataloader_dict=test_dataloader_dict,
+            hieve_threshold=args.hieve_threshold,
+            matres_threshold=args.matres_threshold,
+        )
+    elif args.eval_type == "two":
+        evaluator = TwoThresholdEvaluator(
+            train_type=args.data_type,
+            model_type=args.model,
+            model=model,
+            device=device,
+            valid_dataloader_dict=valid_dataloader_dict,
+            test_dataloader_dict=test_dataloader_dict,
+            hieve_threshold1=args.hieve_threshold1,
+            hieve_threshold2=args.hieve_threshold2,
+            matres_threshold1=args.matres_threshold1,
+            matres_threshold2=args.matres_threshold2,
+        )
+
     early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
     hier_weights, temp_weights = get_init_weights(device)
