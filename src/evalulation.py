@@ -58,7 +58,6 @@ def two_threshold_evalution(volume1, volume2, relation_label, threshold1, thresh
     return preds, targets, constraint_dict
 
 
-
 def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, key):
     mask_indices = mask.nonzero()
     preds.extend(mask_indices.shape[0] * [key])

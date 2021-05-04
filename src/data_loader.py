@@ -64,7 +64,7 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
                     xy_rel_id, yz_rel_id, xz_rel_id,\
                     0 # 0: HiEve, 1: MATRES
 
-                if model_type == "box":
+                if model_type == "box" or  model_type == "vector":
                     if xy_rel_id == (0,0) and yz_rel_id == (0,0): pass # x-y: NoRel and y-z: NoRel
                     elif xy_rel_id == (0,0) or yz_rel_id == (0,0) or xz_rel_id == (0,0): # if one of them is NoRel
                         if random.uniform(0, 1) < downsample:

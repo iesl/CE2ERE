@@ -208,6 +208,147 @@ class BiLSTM_MLP(Module):
 
         return alpha_logits, beta_logits, gamma_logits
 
+class Vector_BiLSTM_MLP(Module):
+    def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
+                 lstm_input_size: int, beta: float, mlp_output_dim: int, hieve_mlp_size: int,
+                 proj_output_dim: int, matres_mlp_size: int, roberta_size_type="roberta-base"):
+        super().__init__()
+        self.num_classes = num_classes
+        self.data_type = data_type
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.mlp_size = mlp_size
+
+        # self.FF1 = MLP(2*hidden_size, mlp_size, mlp_output_dim)
+        # self.FF2 = MLP(2*hidden_size, mlp_size, mlp_output_dim)
+
+        self.FF1_MLP_hieve = MLP(2*hidden_size, hieve_mlp_size, 1)
+        self.FF1_MLP_matres = MLP(2*hidden_size, matres_mlp_size, 1)
+
+        self.FF2_MLP_hieve = MLP(2*hidden_size, hieve_mlp_size, 1)
+        self.FF2_MLP_matres = MLP(2*hidden_size, matres_mlp_size, 1)
+
+        self.lstm_input_size = lstm_input_size
+        self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+
+        self.roberta_size_type = roberta_size_type
+        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
+        if roberta_size_type == "roberta-base":
+            self.roberta_dim = 768
+        elif roberta_size_type == "roberta-large":
+            self.roberta_dim = 1024
+        else:
+            raise ValueError(f"{roberta_size_type} doesn't exist!")
+
+
+    def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
+        batch_size = position.shape[0]
+        return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
+
+    def _get_roberta_embedding(self, sntc):
+        with torch.no_grad():
+            roberta_list = []
+            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
+                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
+            return torch.stack(roberta_list)
+
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
+        # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
+        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
+        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+
+        # get RoBERTa embedding
+        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
+        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
+        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+
+        # BiLSTM layer
+        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
+        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
+        output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
+
+
+        # # vector preojection layer
+        # output_A1 = self.FF1(output_A) #[batch_size, mlp_output_dim]
+        # output_B1 = self.FF1(output_B)
+        # output_C1 = self.FF1(output_C)
+
+        if data_type == "hieve":
+            output_A1 = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]
+            output_B1 = self.FF1_MLP_hieve(output_B)
+            output_C1 = self.FF1_MLP_hieve(output_C)
+
+            output_A2 = self.FF2_MLP_hieve(output_A) #[batch_size, 2*proj_output_dim]
+            output_B2 = self.FF2_MLP_hieve(output_B)
+            output_C2 = self.FF2_MLP_hieve(output_C)
+
+        elif data_type == "matres":
+            output_A1 = self.FF1_MLP_matres(output_A) #[batch_size, 1]
+            output_B1 = self.FF1_MLP_matres(output_B)
+            output_C1 = self.FF1_MLP_matres(output_C)
+
+            output_A2 = self.FF2_MLP_matres(output_A) #[batch_size, 1]
+            output_B2 = self.FF2_MLP_matres(output_B)
+            output_C2 = self.FF2_MLP_matres(output_C)
+
+        elif data_type == "joint":
+            output_A1_hieve = self.FF1_MLP_hieve(output_A) #[batch_size,1]
+            output_B1_hieve = self.FF1_MLP_hieve(output_B)
+            output_C1_hieve = self.FF1_MLP_hieve(output_C)
+
+            output_A2_hieve = self.FF2_MLP_hieve(output_A) #[batch_size, 1]
+            output_B2_hieve = self.FF2_MLP_hieve(output_B)
+            output_C2_hieve = self.FF2_MLP_hieve(output_C)
+
+            output_A1_matres = self.FF1_MLP_matres(output_A) #[batch_size, 1]
+            output_B1_matres = self.FF1_MLP_matres(output_B)
+            output_C1_matres = self.FF1_MLP_matres(output_C)
+
+            output_A2_matres = self.FF2_MLP_matres(output_A) #[batch_size, 1]
+            output_B2_matres = self.FF2_MLP_matres(output_B)
+            output_C2_matres = self.FF2_MLP_matres(output_C)
+
+            output_A1 = torch.cat((output_A1_hieve, output_A1_matres), 1)  #[batch_size, 2]
+            output_B1 = torch.cat((output_B1_hieve, output_B1_matres), 1)  
+            output_C1 = torch.cat((output_C1_hieve, output_C1_matres), 1)
+
+            output_A2 = torch.cat((output_A2_hieve, output_A2_matres), 1)
+            output_B2 = torch.cat((output_B2_hieve, output_B2_matres), 1)
+            output_C2 = torch.cat((output_C2_hieve, output_C2_matres), 1)
+
+
+        # batch_size, hidden_dim = output_A1.shape[0], output_A1.shape[1]
+        # output_A1 = output_A1.view(batch_size * hidden_dim, -1).squeeze()
+        # output_B1 = output_B1.view(batch_size * hidden_dim, -1).squeeze()
+        # output_C1 = output_C1.view(batch_size * hidden_dim, -1).squeeze()
+
+        # output_A2 = output_A2.view(batch_size * hidden_dim, -1).squeeze()
+        # output_B2 = output_B2.view(batch_size * hidden_dim, -1).squeeze()
+        # output_C2 = output_C2.view(batch_size * hidden_dim, -1).squeeze()
+
+        # dot_A_B = torch.dot(output_A1, output_B1) # value
+        # dot_B_C = torch.dot(output_B1, output_C1)
+        # dot_A_C = torch.dot(output_A1, output_C1)
+
+        # dot_B_A = torch.dot(output_B2, output_A2)
+        # dot_C_B = torch.dot(output_C2, output_B2)
+        # dot_C_A = torch.dot(output_C2, output_A2)
+
+        dot_A_B = torch.mul(output_A1, output_B1) # [batch_size, 2] or [batch_size, 1]
+        dot_B_C = torch.mul(output_B1, output_C1)
+        dot_A_C = torch.mul(output_A1, output_C1)
+
+        dot_B_A = torch.mul(output_B2, output_A2)
+        dot_C_B = torch.mul(output_C2, output_B2)
+        dot_C_A = torch.mul(output_C2, output_A2)
+
+        return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
+
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,

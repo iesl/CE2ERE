@@ -1,6 +1,6 @@
 import torch
 from torch import Tensor
-from torch.nn import Module, LogSoftmax
+from torch.nn import Module, LogSoftmax , BCEWithLogitsLoss
 
 from utils import log1mexp
 
@@ -139,7 +139,7 @@ class BCELossWithLog(Module):
     def forward(self, volume1, volume2, labels, flag):
         """
         volume1: P(A|B); [batch_size, # of datasets]
-        volume1: P(B|A); [batch_size, # of datasets]
+        volume2: P(B|A); [batch_size, # of datasets]
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         -(labels[:, 0] * log volume1 + (1 - labels[:, 0]) * log(1 - volume1) + labels[:, 1] * log volume2 + (1 - labels[:, 1]) * log(1 - volume2)).sum()
@@ -151,5 +151,40 @@ class BCELossWithLog(Module):
             hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
             matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
+            loss = hieve_loss + matres_loss
+        return loss
+
+
+class BCELogitLoss(Module):
+    def __init__(self):
+        super().__init__()
+        self.bll = BCEWithLogitsLoss()
+
+    def forward(self, logit1, logit2, labels, flag):
+        """
+        logit1: P(A|B); [batch_size, # of datasets]
+        logit2: P(B|A); [batch_size, # of datasets]
+        labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
+        flag:   [batch_size]; 0: HiEve, 1: MATRES
+        """
+        
+        labels = labels.type(torch.FloatTensor)
+        if logit1.shape[-1] == 1:
+            
+            loss = self.bll(logit1,labels[:,0]) + self.bll(logit2, labels[:,1])
+            
+        else:
+            print("LABELS",labels[:,0].type())
+            print("LOGIT",logit1[:,0].type())
+            hieve_mask = (flag == 0).nonzero()
+
+            # loss between P(A|B) and labels[:,0] for HiEve Data +
+            # loss between P(B|A) and labels[:,1] for HiEve Data
+            hieve_loss = self.bll(logit1[:,0][hieve_mask],labels[:,0][hieve_mask]) + self.bll(logit2[:,0][hieve_mask], labels[:,1][hieve_mask])
+            matres_mask = (flag == 1).nonzero()
+
+            # loss between P(A|B) and labels[:,0] for MATRES Data +
+            # loss between P(B|A) and labels[:,1] for MATRES Data
+            matres_loss = self.bll(logit1[:,1][matres_mask],labels[:,0][matres_mask]) + self.bll(logit2[:,1][matres_mask], labels[:,1][matres_mask])
             loss = hieve_loss + matres_loss
         return loss
