@@ -214,10 +214,11 @@ class ConstraintViolation:
         assert len(alpha_indices) == len(beta_indices) == len(gamma_indices)
         for i in range(len(alpha_indices)):
             xy = alpha_indices[i]
-            yz = alpha_indices[i]
+            yz = beta_indices[i]
             xz = gamma_indices[i]
+            violation_key = (xy, yz, xz)
+            if violation_key in self.violation_dict.keys():
+                self.violation_dict[violation_key] += 1
 
-            key = (xy, yz, xz)
-            if key in self.violation_dict.keys():
-                self.violation_dict[(xy, yz, xz)] += 1
-            self.all_case_count[(xy, yz)] += 1
+            total_key = (xy, yz)
+            self.all_case_count[total_key] += 1
