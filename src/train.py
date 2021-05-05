@@ -250,9 +250,9 @@ class TwoThresholdEvaluator:
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
-                vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
-                vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
+                # vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
+                # vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
+                # vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
