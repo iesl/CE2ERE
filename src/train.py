@@ -22,7 +22,8 @@ class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module, lambda_dict: Dict[str, float], no_valid: bool,
-                 debug: bool, wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int]=1):
+                 debug: bool, wandb_id: Optional[str] = "", early_stopping: Optional[EarlyStopping] = None, eval_step: Optional[int] = 1,
+                 patience: Optional[int] = 8):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -50,6 +51,7 @@ class Trainer:
         self.early_stopping = early_stopping
         self.eval_step = eval_step
         self.debug = debug
+        self.patience = patience
 
         timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S')
         self.model_save_dir = "./model/"
@@ -148,6 +150,9 @@ class Trainer:
             # evaluate
             if epoch % self.eval_step == 0 and self.no_valid is False:
                 self.evaluation(epoch)
+                if (epoch - self.best_epoch) >= self.patience:
+                    print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
+                    break
             wandb.log({})
 
         self.evaluation(epoch)
@@ -169,7 +174,6 @@ class Trainer:
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
             self._update_save_best_score(f1_score, epoch)
-            self.early_stopping(self.best_f1_score)
             wandb.log({"[HiEve] Best F1 Score": self.best_f1_score}, commit=False)
 
         elif self.data_type == "matres":
@@ -185,7 +189,6 @@ class Trainer:
             eval_type = "valid"
             f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
             self._update_save_best_score(f1_score, epoch)
-            self.early_stopping(self.best_f1_score)
             wandb.log({"[MATRES] Best F1 Score": self.best_f1_score}, commit=False)
 
         elif self.data_type == "joint":
@@ -209,7 +212,6 @@ class Trainer:
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
             self._update_save_best_score(f1_score, epoch)
-            self.early_stopping(self.best_f1_score)
             wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
 
 class TwoThresholdEvaluator:

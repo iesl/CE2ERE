@@ -181,6 +181,7 @@ def setup(args):
         early_stopping=early_stopping,
         eval_step=args.eval_step,
         debug=args.debug,
+        patience=args.patience,
     )
 
     return trainer
