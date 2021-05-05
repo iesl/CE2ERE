@@ -244,7 +244,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         else:
             raise ValueError(f"doc_id={doc_id} is out of range!")
 
-    if args.model == "box":
+    if args.model == "box" or args.model == "vector":
         with open(data_dir / "hieve_valid_test_set/hieve_valid_box.pickle", 'rb') as handle:
             valid_box = pickle.load(handle)
             all_valid_set.extend(valid_box)
@@ -297,7 +297,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
-    if args.model == "box":
+    if args.model == "box" or args.model == "vector":
         with open(data_dir / "matres_valid_test_set/matres_valid_box.pickle", 'rb') as handle:
             valid_box = pickle.load(handle)
             all_valid_set.extend(valid_box)
