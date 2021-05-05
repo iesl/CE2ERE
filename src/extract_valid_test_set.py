@@ -25,7 +25,7 @@ def box_rel_id_to_vec_rel_id(box_rel_id):
     return rel_id_dict[box_rel_id]
 
 
-def extract_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float) -> List[Tuple]:
+def extract_hieve_valid_test_constraint_set(data_dict: Dict[str, Any], downsample: float) -> List[Tuple]:
     train_box_set = []
     train_vec_set = []
     event_dict = data_dict["event_dict"]
@@ -99,7 +99,7 @@ def extract_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float) -
     return train_box_set, train_vec_set
 
 
-def extract_matres_valid_test_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
+def extract_matres_valid_test_constraint_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
                          eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]) -> List[Tuple]:
     """
     eiid_to_event_trigger_dict: eiid = trigger_word
@@ -164,10 +164,124 @@ def extract_matres_valid_test_set(data_dict: Dict[str, Any], eiid_to_event_trigg
     return box_set, vec_set
 
 
+def extract_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float) -> List[Tuple]:
+    train_box_set = []
+    train_vec_set = []
+    event_dict = data_dict["event_dict"]
+    sntc_dict = data_dict["sentences"]
+    relation_dict = data_dict["relation_dict"]
+    num_event = len(event_dict)
+
+    for x in range(1, num_event + 1):
+        for y in range(x + 1, num_event + 1):
+            x_sntc_id = event_dict[x]["sent_id"]
+            y_sntc_id = event_dict[y]["sent_id"]
+
+            x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
+            y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
+
+            x_position = event_dict[x]["roberta_subword_id"]
+            y_position = event_dict[y]["roberta_subword_id"]
+
+            x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+            y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+            xy_rel_id = relation_dict[(x, y)]["relation"]
+
+            if xy_rel_id == (0,0):
+                if random.uniform(0, 1) < downsample:
+                    box_to_append = \
+                        str(x), str(y), str(x), \
+                        x_sntc, y_sntc, x_sntc, \
+                        x_position, y_position, x_position, \
+                        x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+                        xy_rel_id, xy_rel_id, xy_rel_id, \
+                        0  # 0: HiEve, 1: MATRES
+                    train_box_set.append(box_to_append)
+                    vec_to_append = \
+                        str(x), str(y), str(x), \
+                        x_sntc, y_sntc, x_sntc, \
+                        x_position, y_position, x_position, \
+                        x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+                        box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id), \
+                        0  # 0: HiEve, 1: MATRES
+                    train_vec_set.append(vec_to_append)
+            else:
+                box_to_append = \
+                    str(x), str(y), str(x), \
+                    x_sntc, y_sntc, x_sntc, \
+                    x_position, y_position, x_position, \
+                    x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+                    xy_rel_id, xy_rel_id, xy_rel_id, \
+                    0  # 0: HiEve, 1: MATRES
+                train_box_set.append(box_to_append)
+                vec_to_append = \
+                    str(x), str(y), str(x), \
+                    x_sntc, y_sntc, x_sntc, \
+                    x_position, y_position, x_position, \
+                    x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+                    box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id), \
+                    0  # 0: HiEve, 1: MATRES
+                train_vec_set.append(vec_to_append)
+
+    return train_box_set, train_vec_set
+
+
+def extract_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]) -> List[Tuple]:
+    """
+    eiid_to_event_trigger_dict: eiid = trigger_word
+    eiid_pair_to_rel_id_dict: (eiid1, eiid2) = relation_type_id
+    """
+    box_set, vec_set = [], []
+    event_dict = data_dict["event_dict"]
+    sntc_dict = data_dict["sentences"]
+    eiid_dict = data_dict["eiid_dict"]
+
+    for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
+        xy_rel_id = eiid_pair_to_rel_id_dict[(eiid1, eiid2)]
+
+        x_evnt_id = eiid_dict[eiid1]["eID"]
+        y_evnt_id = eiid_dict[eiid2]["eID"]
+
+        x_sntc_id = event_dict[x_evnt_id]["sent_id"]
+        y_sntc_id = event_dict[y_evnt_id]["sent_id"]
+
+        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+
+        x_position = event_dict[x_evnt_id]["roberta_subword_id"]
+        y_position = event_dict[y_evnt_id]["roberta_subword_id"]
+
+        x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+        y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+        box_to_append = \
+            x_evnt_id, y_evnt_id, x_evnt_id,\
+            x_sntc, y_sntc, x_sntc,\
+            x_position, y_position, x_position,\
+            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+            xy_rel_id, xy_rel_id, xy_rel_id,\
+            1  # 0: HiEve, 1: MATRES
+        box_set.append(box_to_append)
+        vec_to_append = \
+            x_evnt_id, y_evnt_id, x_evnt_id,\
+            x_sntc, y_sntc, x_sntc,\
+            x_position, y_position, x_position,\
+            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+            box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id), box_rel_id_to_vec_rel_id(xy_rel_id),\
+            1  # 0: HiEve, 1: MATRES
+        vec_set.append(vec_to_append)
+
+    return box_set, vec_set
+
+
 def main():
     set_seed(10)
     data_dir = Path("../data").expanduser()
     hieve_dir, hieve_files = get_hieve_files(data_dir)
+
+    all_valid_box_violation_set, all_test_box_violation_set = [], []
+    all_valid_vec_violation_set, all_test_vec_violation_set = [], []
     all_valid_box_set, all_test_box_set = [], []
     all_valid_vec_set, all_test_vec_set = [], []
 
@@ -177,14 +291,33 @@ def main():
         data_dict = hieve_file_reader(hieve_dir, file, "box")
         doc_id = i
         if doc_id in valid_range:
+            valid_box_set, valid_vec_set = extract_hieve_valid_test_constraint_set(data_dict, downsample)
+            all_valid_box_violation_set.extend(valid_box_set)
+            all_valid_vec_violation_set.extend(valid_vec_set)
+
             valid_box_set, valid_vec_set = extract_hieve_valid_test_set(data_dict, downsample)
             all_valid_box_set.extend(valid_box_set)
             all_valid_vec_set.extend(valid_vec_set)
         elif doc_id in test_range:
+            test_box_set, test_vec_set = extract_hieve_valid_test_constraint_set(data_dict, downsample)
+            all_test_box_violation_set.extend(test_box_set)
+            all_test_vec_violation_set.extend(test_vec_set)
+
             test_box_set, test_vec_set = extract_hieve_valid_test_set(data_dict, downsample)
             all_test_box_set.extend(test_box_set)
             all_test_vec_set.extend(test_vec_set)
 
+    # constraint violation valid/test dataset
+    with open('hieve_valid_cv_vector.pickle', 'wb') as handle:
+        pickle.dump(all_valid_vec_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('hieve_valid_cv_box.pickle', 'wb') as handle:
+        pickle.dump(all_valid_box_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('hieve_test_cv_vector.pickle', 'wb') as handle:
+        pickle.dump(all_test_vec_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('hieve_test_cv_box.pickle', 'wb') as handle:
+        pickle.dump(all_test_box_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    # valid/test dataset
     with open('hieve_valid_vector.pickle', 'wb') as handle:
         pickle.dump(all_valid_vec_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
     with open('hieve_valid_box.pickle', 'wb') as handle:
@@ -194,10 +327,11 @@ def main():
     with open('hieve_test_box.pickle', 'wb') as handle:
         pickle.dump(all_test_box_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-
     all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path = get_matres_files(data_dir)
     eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path, "box")
 
+    all_valid_box_violation_set, all_test_box_violation_set = [], []
+    all_valid_vec_violation_set, all_test_vec_violation_set = [], []
     all_valid_box_set, all_test_box_set = [], []
     all_valid_vec_set, all_test_vec_set = [], []
     for i, fname in enumerate(tqdm(eiid_pair_to_rel_id.keys())):
@@ -210,16 +344,33 @@ def main():
         if file_name in all_tml_file_dict["tb"]:
             pass
         elif file_name in all_tml_file_dict["aq"]:
-            valid_box_set, valid_vec_set = extract_matres_valid_test_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            valid_box_set, valid_vec_set = extract_matres_valid_test_constraint_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            all_valid_box_violation_set.extend(valid_box_set)
+            all_valid_vec_violation_set.extend(valid_vec_set)
+            valid_box_set, valid_vec_set = extract_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
             all_valid_box_set.extend(valid_box_set)
             all_valid_vec_set.extend(valid_vec_set)
         elif file_name in all_tml_file_dict["pl"]:
-            test_box_set, test_vec_set = extract_matres_valid_test_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            test_box_set, test_vec_set = extract_matres_valid_test_constraint_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            all_test_box_violation_set.extend(test_box_set)
+            all_test_vec_violation_set.extend(test_vec_set)
+            test_box_set, test_vec_set = extract_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
             all_test_box_set.extend(test_box_set)
             all_test_vec_set.extend(test_vec_set)
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
+    # constraint violation valid/test dataset
+    with open('matres_valid_cv_vector.pickle', 'wb') as handle:
+        pickle.dump(all_valid_vec_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('matres_valid_cv_box.pickle', 'wb') as handle:
+        pickle.dump(all_valid_box_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('matres_test_cv_vector.pickle', 'wb') as handle:
+        pickle.dump(all_test_vec_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    with open('matres_test_cv_box.pickle', 'wb') as handle:
+        pickle.dump(all_test_box_violation_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    # valid/test dataset
     with open('matres_valid_vector.pickle', 'wb') as handle:
         pickle.dump(all_valid_vec_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
     with open('matres_valid_box.pickle', 'wb') as handle:
@@ -229,19 +380,41 @@ def main():
     with open('matres_test_box.pickle', 'wb') as handle:
         pickle.dump(all_test_box_set, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    with open('matres_valid_vector.pickle', 'rb') as handle:
+def check():
+    with open('/Users/ehwang/PycharmProjects/CE2ERE/data/matres_valid_test_set/matres_valid_vector.pickle', 'rb') as handle:
+        valid_vector_origin = pickle.load(handle)
+        print(len(valid_vector_origin))
+    with open('/Users/ehwang/PycharmProjects/CE2ERE/data/matres_valid_test_set/matres_valid_box.pickle', 'rb') as handle:
+        valid_box_origin = pickle.load(handle)
+        print(len(valid_box_origin))
+    with open('/Users/ehwang/PycharmProjects/CE2ERE/data/matres_valid_test_set/matres_test_vector.pickle', 'rb') as handle:
+        test_vector_origin = pickle.load(handle)
+        print(len(test_vector_origin))
+    with open('/Users/ehwang/PycharmProjects/CE2ERE/data/matres_valid_test_set/matres_test_box.pickle', 'rb') as handle:
+        test_box_origin = pickle.load(handle)
+        print(len(test_box_origin))
+
+    # cv: valid/test for constraint violation evaluation. Uses the train dataloader which includes x,y,z
+    # regular valid/test only includes x, y, x
+    with open('matres_valid_cv_vector.pickle', 'rb') as handle:
         valid_vector = pickle.load(handle)
         print(len(valid_vector))
-    with open('matres_valid_box.pickle', 'rb') as handle:
+    with open('matres_valid_cv_box.pickle', 'rb') as handle:
         valid_box = pickle.load(handle)
         print(len(valid_box))
-    with open('matres_test_vector.pickle', 'rb') as handle:
+    with open('matres_test_cv_vector.pickle', 'rb') as handle:
         test_vector = pickle.load(handle)
         print(len(test_vector))
-    with open('matres_test_box.pickle', 'rb') as handle:
+    with open('matres_test_cv_box.pickle', 'rb') as handle:
         test_box = pickle.load(handle)
         print(len(test_box))
 
+    assert (valid_vector_origin == valid_vector)
+    assert (valid_box_origin == valid_box)
+    assert (test_box_origin == test_box)
+    assert (test_vector_origin == test_vector)
+
 
 if __name__ == '__main__':
-    main()
+    # main()
+    check()

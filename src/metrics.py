@@ -149,7 +149,7 @@ class ConstraintViolation:
     """
     def __init__(self, model_type):
         super().__init__()
-        if model_type == "box" or  model_type == "vector":
+        if model_type == "box" or model_type == "vector":
             self.violation_dict = {
                 ("10", "10", "01"): 0, ("10", "10", "11"): 0, ("10", "10", "00"): 0,
                 ("10", "11", "01"): 0, ("10", "11", "11"): 0, ("10", "11", "00"): 0,

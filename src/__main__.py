@@ -24,31 +24,48 @@ def create_dataloader(args):
 
     if data_type == "hieve":
         num_classes = 4
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
+
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["hieve"] = hieve_valid_cv_set
+        test_cv_set_dict["hieve"] = hieve_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "matres":
         num_classes = 4
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict)
+
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["matres"] = matres_valid_cv_set
+        test_cv_set_dict["matres"] = matres_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "joint":
         num_classes = 8
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
         joint_train_set = hieve_train_set + matres_train_set
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["hieve"] = hieve_test_set
         test_set_dict["matres"] = matres_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, joint_train_set, valid_set_dict, test_set_dict)
 
-    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["hieve"] = hieve_valid_cv_set
+        test_cv_set_dict["hieve"] = hieve_test_cv_set
+        valid_cv_set_dict["matres"] = matres_valid_cv_set
+        test_cv_set_dict["matres"] = matres_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, joint_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
+
+    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes
 
 
 def create_model(args, num_classes):
@@ -118,7 +135,7 @@ def get_init_weights(device: torch.device):
 def setup(args):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args)
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
     model = create_model(args, num_classes)
     model = model.to(device)
 
@@ -134,6 +151,8 @@ def setup(args):
             device=device,
             valid_dataloader_dict=valid_dataloader_dict,
             test_dataloader_dict=test_dataloader_dict,
+            valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+            test_cv_dataloader_dict=test_cv_dataloader_dict,
         )
     else:
         if args.eval_type == "one":
@@ -145,6 +164,8 @@ def setup(args):
                 device=device,
                 valid_dataloader_dict=valid_dataloader_dict,
                 test_dataloader_dict=test_dataloader_dict,
+                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+                test_cv_dataloader_dict=test_cv_dataloader_dict,
                 hieve_threshold=args.hieve_threshold,
                 matres_threshold=args.matres_threshold,
             )
@@ -157,6 +178,8 @@ def setup(args):
                 device=device,
                 valid_dataloader_dict=valid_dataloader_dict,
                 test_dataloader_dict=test_dataloader_dict,
+                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+                test_cv_dataloader_dict=test_cv_dataloader_dict,
                 hieve_threshold1=args.hieve_threshold1,
                 hieve_threshold2=args.hieve_threshold2,
                 matres_threshold1=args.matres_threshold1,

@@ -162,11 +162,15 @@ class Trainer:
             valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
             wandb.log(valid_hieve_metrics, commit=False)
             logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
+            cv_valid_hieve_metrics = self.evaluator.evaluate("hieve", "cv-valid")
+            logger.info("cv-valid_hieve_metrics: {0}".format(cv_valid_hieve_metrics))
 
             if not self.debug:
                 test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
                 wandb.log(test_hieve_metrics, commit=False)
                 logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+                cv_test_hieve_metrics = self.evaluator.evaluate("hieve", "cv-test")
+                logger.info("cv-test_hieve_metrics: {0}".format(cv_test_hieve_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
@@ -177,11 +181,15 @@ class Trainer:
             valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
+            cv_valid_matres_metrics = self.evaluator.evaluate("matres", "cv-valid")
+            logger.info("cv-valid_matres_metrics: {0}".format(cv_valid_matres_metrics))
 
             if not self.debug:
                 test_matres_metrics = self.evaluator.evaluate("matres", "test")
                 wandb.log(test_matres_metrics, commit=False)
                 logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+                cv_test_matres_metrics = self.evaluator.evaluate("matres", "cv-test")
+                logger.info("cv-test_matres_metrics: {0}".format(cv_test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -192,19 +200,27 @@ class Trainer:
             valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
             wandb.log(valid_hieve_metrics, commit=False)
             logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
+            cv_valid_hieve_metrics = self.evaluator.evaluate("hieve", "cv-valid")
+            logger.info("cv-valid_hieve_metrics: {0}".format(cv_valid_hieve_metrics))
 
             valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
             wandb.log(valid_matres_metrics, commit=False)
             logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
+            cv_valid_matres_metrics = self.evaluator.evaluate("matres", "cv-valid")
+            logger.info("cv-valid_matres_metrics: {0}".format(cv_valid_matres_metrics))
 
             if not self.debug:
                 test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
                 wandb.log(test_hieve_metrics, commit=False)
                 logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
+                cv_test_hieve_metrics = self.evaluator.evaluate("hieve", "cv-test")
+                logger.info("cv-test_hieve_metrics: {0}".format(cv_test_hieve_metrics))
 
                 test_matres_metrics = self.evaluator.evaluate("matres", "test")
                 wandb.log(test_matres_metrics, commit=False)
                 logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
+                cv_test_matres_metrics = self.evaluator.evaluate("matres", "cv-test")
+                logger.info("cv-test_matres_metrics: {0}".format(cv_test_matres_metrics))
 
             eval_type = "valid"
             f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
@@ -215,6 +231,7 @@ class Trainer:
 class TwoThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
+                 valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
                  hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float,  matres_threshold2: float):
         self.train_type = train_type
         self.model_type = model_type
@@ -222,6 +239,8 @@ class TwoThresholdEvaluator:
         self.device = device
         self.valid_dataloader_dict = valid_dataloader_dict
         self.test_dataloader_dict = test_dataloader_dict
+        self.valid_cv_dataloader_dict = valid_cv_dataloader_dict
+        self.test_cv_dataloader_dict = test_cv_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
         self.hieve_threshold1 = hieve_threshold1
@@ -232,9 +251,15 @@ class TwoThresholdEvaluator:
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
-            constraint_violation = ConstraintViolation(self.model_type)
+            constraint_violation = None
         elif eval_type == "test":
             dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = None
+        elif eval_type == "cv-valid":
+            dataloader = self.valid_cv_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        elif eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
@@ -287,10 +312,12 @@ class TwoThresholdEvaluator:
                 xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
                 pred_vals.extend(xy_preds)
                 rel_ids.extend(xy_targets)
-                constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+                if constraint_violation:
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
-            logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+            if constraint_violation:
+                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
@@ -320,6 +347,7 @@ class TwoThresholdEvaluator:
 class OneThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
+                 valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
                  hieve_threshold: float, matres_threshold: float):
         self.train_type = train_type
         self.model_type = model_type
@@ -327,6 +355,8 @@ class OneThresholdEvaluator:
         self.device = device
         self.valid_dataloader_dict = valid_dataloader_dict
         self.test_dataloader_dict = test_dataloader_dict
+        self.valid_cv_dataloader_dict = valid_cv_dataloader_dict
+        self.test_cv_dataloader_dict = test_cv_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
         self.hieve_threshold = hieve_threshold
@@ -335,9 +365,15 @@ class OneThresholdEvaluator:
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
-            constraint_violation = ConstraintViolation(self.model_type)
+            constraint_violation = None
         elif eval_type == "test":
             dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = None
+        elif eval_type == "cv-valid":
+            dataloader = self.valid_cv_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        elif eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
@@ -388,10 +424,13 @@ class OneThresholdEvaluator:
                 xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
                 pred_vals.extend(xy_preds)
                 rel_ids.extend(xy_targets)
-                constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
-            logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+                if constraint_violation:
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+
+            if constraint_violation:
+                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
@@ -420,22 +459,31 @@ class OneThresholdEvaluator:
 
 class VectorBiLSTMEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
-                 valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader]):
+                 valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
+                 valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader]):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
         self.device = device
         self.valid_dataloader_dict = valid_dataloader_dict
         self.test_dataloader_dict = test_dataloader_dict
+        self.valid_cv_dataloader_dict = valid_cv_dataloader_dict
+        self.test_cv_dataloader_dict = test_cv_dataloader_dict
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
-            constraint_violation = ConstraintViolation(self.model_type)
+            constraint_violation = None
         elif eval_type == "test":
             dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = None
+        elif eval_type == "cv-valid":
+            dataloader = self.valid_cv_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        elif eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
@@ -471,10 +519,11 @@ class VectorBiLSTMEvaluator:
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
-                constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
-
-            logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+                if constraint_violation:
+                    constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
+            if constraint_violation:
+                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
