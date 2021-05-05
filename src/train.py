@@ -250,6 +250,10 @@ class TwoThresholdEvaluator:
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
+                vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
+                vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
+                vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
+
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
                         vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
@@ -285,8 +289,7 @@ class TwoThresholdEvaluator:
                 constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
             logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            if constraint_violation.all_case_count:
-                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
@@ -382,8 +385,7 @@ class OneThresholdEvaluator:
                 constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
             logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            if constraint_violation.all_case_count:
-                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
@@ -466,8 +468,7 @@ class VectorBiLSTMEvaluator:
                 constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
             logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-            if constraint_violation.all_case_count:
-                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+            logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         if data_type == "hieve":
             metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)

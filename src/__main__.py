@@ -78,6 +78,7 @@ def create_model(args, num_classes):
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
             mlp_output_dim=args.mlp_output_dim,
+            proj_output_dim=args.proj_output_dim,
             hieve_mlp_size=args.hieve_mlp_size,
             matres_mlp_size=args.matres_mlp_size,
             roberta_size_type="roberta-base",
