@@ -102,30 +102,7 @@ def set_logger(data_type: str, wandb_id: str):
     )
 
 
-class EarlyStopping:
-    """
-    Stop looping if a value is stagnant.
-    """
-    def __init__(self, name, patience):
-        self.name = name
-        self.patience = patience
-        self.count = 0
-        self.value = 0
-
-    def __call__(self, value):
-        if self.value >= value:
-            self.count += 1
-            if self.count >= self.patience:
-                raise Exception(
-                    f"EarlyStopping: {self.name} has not changed in {self.patience} steps."
-                )
-        else:
-            self.value = value
-            self.count = 0
-
-
 _LOG1MEXP_SPLIT_POINT = torch.tensor(0.5).log()
-
 def log1mexp(x: torch.Tensor, split_point=_LOG1MEXP_SPLIT_POINT, exp_zero_eps=1e-7) -> torch.Tensor:
     """
     Computes log(1 - exp(x)).

@@ -5,7 +5,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, OneThresholdEvaluator, TwoThresholdEvaluator
+from train import Trainer, OneThresholdEvaluator, TwoThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
 
@@ -77,11 +77,9 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
-            beta=args.beta,
             mlp_output_dim=args.mlp_output_dim,
-            hieve_mlp_size = args.hieve_mlp_size,
-            proj_output_dim = args.proj_output_dim, 
-            matres_mlp_size= args.matres_mlp_size,
+            hieve_mlp_size=args.hieve_mlp_size,
+            matres_mlp_size=args.matres_mlp_size,
             roberta_size_type="roberta-base",
         )
     elif args.model == "box":
@@ -126,31 +124,43 @@ def setup(args):
     wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
-    if args.eval_type == "one":
-        evaluator = OneThresholdEvaluator(
+    if args.model != "box" and args.model != "vector":
+        print("Using VectorBiLSTMEvaluator..!")
+        evaluator = VectorBiLSTMEvaluator(
             train_type=args.data_type,
             model_type=args.model,
             model=model,
             device=device,
             valid_dataloader_dict=valid_dataloader_dict,
             test_dataloader_dict=test_dataloader_dict,
-            hieve_threshold=args.hieve_threshold,
-            matres_threshold=args.matres_threshold,
         )
-    elif args.eval_type == "two":
-        evaluator = TwoThresholdEvaluator(
-            train_type=args.data_type,
-            model_type=args.model,
-            model=model,
-            device=device,
-            valid_dataloader_dict=valid_dataloader_dict,
-            test_dataloader_dict=test_dataloader_dict,
-            hieve_threshold1=args.hieve_threshold1,
-            hieve_threshold2=args.hieve_threshold2,
-            matres_threshold1=args.matres_threshold1,
-            matres_threshold2=args.matres_threshold2,
-        )
-    early_stopping = EarlyStopping("Accuracy", patience=args.patience)
+    else:
+        if args.eval_type == "one":
+            print("Using OneThresholdEvaluator..!")
+            evaluator = OneThresholdEvaluator(
+                train_type=args.data_type,
+                model_type=args.model,
+                model=model,
+                device=device,
+                valid_dataloader_dict=valid_dataloader_dict,
+                test_dataloader_dict=test_dataloader_dict,
+                hieve_threshold=args.hieve_threshold,
+                matres_threshold=args.matres_threshold,
+            )
+        elif args.eval_type == "two":
+            print("Using TwoThresholdEvaluator..!")
+            evaluator = TwoThresholdEvaluator(
+                train_type=args.data_type,
+                model_type=args.model,
+                model=model,
+                device=device,
+                valid_dataloader_dict=valid_dataloader_dict,
+                test_dataloader_dict=test_dataloader_dict,
+                hieve_threshold1=args.hieve_threshold1,
+                hieve_threshold2=args.hieve_threshold2,
+                matres_threshold1=args.matres_threshold1,
+                matres_threshold2=args.matres_threshold2,
+            )
 
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
@@ -178,7 +188,6 @@ def setup(args):
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
         wandb_id=wandb.run.id,
-        early_stopping=early_stopping,
         eval_step=args.eval_step,
         debug=args.debug,
         patience=args.patience,
