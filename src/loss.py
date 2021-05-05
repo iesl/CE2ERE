@@ -167,7 +167,7 @@ class BCELogitLoss(Module):
         labels: [batch_size, 2]; PC: (1,0), CP: (0,1), CR: (1,1), VG: (0,0)
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """
-        labels = labels.type(torch.FloatTensor)
+        labels = labels.to(device=logit1.device, dtype=torch.float)
         if logit1.shape[-1] == 1:
             loss = self.bll(logit1, labels[:,0].unsqueeze(-1)) + self.bll(logit2, labels[:,1].unsqueeze(-1))
         else:
