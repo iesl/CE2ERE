@@ -230,8 +230,7 @@ def main():
     if args.load_model:
         assert args.saved_model != ""
         assert args.wandb_id != ""
-        data_dir = Path(args.data_dir).expanduser()
-        model_state_dict_path = data_dir / args.saved_model
+        model_state_dict_path = Path(args.saved_model).expanduser()
         print("Loading model state dict...", end="", flush=True)
         model_state_dict = torch.load(model_state_dict_path, map_location="cpu")
         print("done!")
