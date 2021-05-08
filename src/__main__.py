@@ -9,6 +9,7 @@ from train import Trainer, OneThresholdEvaluator, TwoThresholdEvaluator, VectorB
 from utils import *
 from pathlib import Path
 
+logger = logging.getLogger()
 
 def set_seed(seed: int):
     torch.manual_seed(seed)
@@ -132,14 +133,18 @@ def get_init_weights(device: torch.device):
     return torch.tensor(hier_weights, dtype=torch.float).to(device), torch.tensor(temp_weights, dtype=torch.float).to(device)
 
 
-def setup(args):
+def setup(args, saved_model=None):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
-    model = create_model(args, num_classes)
-    model = model.to(device)
 
-    wandb.watch(model)
+    if saved_model:
+        model = saved_model.to(device)
+    else:
+        model = create_model(args, num_classes)
+        model = model.to(device)
+
+    # wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     if args.model != "box" and args.model != "vector":
@@ -211,25 +216,52 @@ def setup(args):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
-        wandb_id=wandb.run.id,
+        wandb_id="wandb.run.id",
         eval_step=args.eval_step,
         debug=args.debug,
         patience=args.patience,
     )
 
-    return trainer
+    return trainer, evaluator
 
 
 def main():
     args = build_parser()
-    set_seed(args.seed)
-    wandb.init()
-    wandb.config.update(args)
-    args = wandb.config
-    set_logger(args.data_type, wandb.run.id)
-    logging.info(args)
-    trainer = setup(args)
-    trainer.train()
+    if args.load_model:
+        assert args.saved_model != ""
+        assert args.wandb_id != ""
+        data_dir = Path(args.data_dir).expanduser()
+        model_state_dict_path = data_dir / args.saved_model
+        print("Loading model state dict...", end="", flush=True)
+        model_state_dict = torch.load(model_state_dict_path, map_location="cpu")
+        print("done!")
+
+        wandb.init(reinit=True)
+
+        api = wandb.Api()
+        run = api.run(args.wandb_id)
+        wandb.config.update(run.config, allow_val_change=True)
+        args = wandb.config
+        set_logger(args.data_type, args.wandb_id.replace("/", "_"))
+
+        num_classes = 4
+        if args.model == "joint":
+            num_classes = 8
+
+        model = create_model(args, num_classes)
+        model.load_state_dict(model_state_dict)
+        trainer, evaluator = setup(args, model)
+        trainer.evaluation(-1)
+
+    else:
+        set_seed(args.seed)
+        wandb.init()
+        wandb.config.update(args)
+        args = wandb.config
+        set_logger(args.data_type, wandb.run.id)
+        logging.info(args)
+        trainer, evaluator = setup(args)
+        trainer.train()
 
 
 if __name__ == '__main__':

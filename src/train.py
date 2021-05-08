@@ -83,79 +83,84 @@ class Trainer:
         trans_loss = self.lambda_dict["lambda_trans"] * (hier_loss + temp_loss)
         return trans_loss.sum()
 
-    def train(self):
+    def train(self, saved_model=None):
         full_start_time = time.time()
         self.model.zero_grad()
 
-        for epoch in range(1, self.epochs+1):
-            epoch_start_time = time.time()
-            logger.info('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
-            logger.info("Training start...")
-            self.model.train()
-            loss_vals = []
-            for step, batch in enumerate(tqdm(self.train_dataloader)):
-                device = self.device
-                if self.model_type == "box":
-                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
-                    flag = batch[15]  # 0: HiEve, 1: MATRES
-                    vol_A_B, vol_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
-                    assert not torch.isnan(loss)
-                elif self.model_type == "vector":
-                    xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
-                    flag = batch[15]  # 0: HiEve, 1: MATRES
-                    logits_A_B, logits_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                    loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
-                    assert not torch.isnan(loss)
-                else:
-                    xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
-                    flag = batch[15]  # 0: HiEve, 1: MATRES
-                    batch_size = xy_rel_id.size(0)
-                    alpha, beta, gamma = self.model(batch, device) # [batch_size, 8]
-
-                    if self.data_type == "hieve":
-                        loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
-                        if self.loss_type:
-                            loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
-                    elif self.data_type == "matres":
-                        loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
-                        if self.loss_type:
-                            loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
-                    elif self.data_type == "joint":
-                        loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
-                        if self.loss_type:
-                            loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_h(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
-                            loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_t(alpha[:, 4:8], beta[:, 4:8], gamma[:, 4:8])
-                            if self.loss_type == 2:
-                                loss += (self.lambda_dict["lambda_cross"] * self.loss_func_cross(alpha, beta, gamma)).sum()
-
-                loss_vals.append(loss.item())
-                loss.backward()
-                self.opt.step()
-
-            loss = sum(loss_vals) / len(loss_vals)
-            logger.info("epoch: %d, loss: %f" % (epoch, loss))
-            wandb.log(
-                {
-                    "[Train] Epoch": epoch,
-                    "[Train] Loss": loss,
-                    "[Train] Elapsed Time:": (time.time() - epoch_start_time)
-                },
-                commit=False,
-            )
-
+        if saved_model:
             # evaluate
-            if epoch % self.eval_step == 0 and self.no_valid is False:
-                self.evaluation(epoch)
-                if (epoch - self.best_epoch) >= self.patience:
-                    print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
-                    break
+            self.evaluation(epoch=-1, model=saved_model)
             wandb.log({})
+        else:
+            for epoch in range(1, self.epochs+1):
+                epoch_start_time = time.time()
+                logger.info('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
+                logger.info("Training start...")
+                self.model.train()
+                loss_vals = []
+                for step, batch in enumerate(tqdm(self.train_dataloader)):
+                    device = self.device
+                    if self.model_type == "box":
+                        xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                        flag = batch[15]  # 0: HiEve, 1: MATRES
+                        vol_A_B, vol_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                        assert not torch.isnan(loss)
+                    elif self.model_type == "vector":
+                        xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                        flag = batch[15]  # 0: HiEve, 1: MATRES
+                        logits_A_B, logits_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
+                        assert not torch.isnan(loss)
+                    else:
+                        xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
+                        flag = batch[15]  # 0: HiEve, 1: MATRES
+                        batch_size = xy_rel_id.size(0)
+                        alpha, beta, gamma = self.model(batch, device) # [batch_size, 8]
 
-        self.evaluation(epoch)
-        wandb.log({})
-        wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
-        logger.info("Training done!")
+                        if self.data_type == "hieve":
+                            loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
+                            if self.loss_type:
+                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
+                        elif self.data_type == "matres":
+                            loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
+                            if self.loss_type:
+                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
+                        elif self.data_type == "joint":
+                            loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
+                            if self.loss_type:
+                                loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_h(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4])
+                                loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_t(alpha[:, 4:8], beta[:, 4:8], gamma[:, 4:8])
+                                if self.loss_type == 2:
+                                    loss += (self.lambda_dict["lambda_cross"] * self.loss_func_cross(alpha, beta, gamma)).sum()
+
+                    loss_vals.append(loss.item())
+                    loss.backward()
+                    self.opt.step()
+
+                loss = sum(loss_vals) / len(loss_vals)
+                logger.info("epoch: %d, loss: %f" % (epoch, loss))
+                wandb.log(
+                    {
+                        "[Train] Epoch": epoch,
+                        "[Train] Loss": loss,
+                        "[Train] Elapsed Time:": (time.time() - epoch_start_time)
+                    },
+                    commit=False,
+                )
+
+                # evaluate
+                if epoch % self.eval_step == 0 and self.no_valid is False:
+                    self.evaluation(epoch)
+                    if (epoch - self.best_epoch) >= self.patience:
+                        print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
+                        break
+                wandb.log({})
+
+            self.evaluation(epoch)
+            wandb.log({})
+            wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
+            logger.info("Training done!")
 
     def evaluation(self, epoch):
         if self.data_type == "hieve":
