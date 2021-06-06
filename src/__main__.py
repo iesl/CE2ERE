@@ -144,7 +144,7 @@ def setup(args, saved_model=None):
         model = create_model(args, num_classes)
         model = model.to(device)
 
-    # wandb.watch(model)
+    wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     if args.model != "box" and args.model != "vector":
@@ -216,7 +216,7 @@ def setup(args, saved_model=None):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
-        wandb_id="wandb.run.id",
+        wandb_id=wandb.run.id,
         eval_step=args.eval_step,
         debug=args.debug,
         patience=args.patience,
