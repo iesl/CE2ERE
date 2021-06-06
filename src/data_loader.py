@@ -245,8 +245,8 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
                 test_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
                 all_test_set.extend(test_set)
 
-        if doc_id not in train_range+valid_range+test_range:
-            raise ValueError(f"doc_id={doc_id} is out of range!")
+        # if doc_id not in train_range+valid_range+test_range:
+        #     raise ValueError(f"doc_id={doc_id} is out of range!")
 
     all_valid_cv_set, all_test_cv_set = [], []
     if args.model == "box" or args.model == "vector":
@@ -324,8 +324,8 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
                 test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
                 all_test_set.extend(test_set)
 
-        if file_name not in all_tml_file_dict["tb"]+all_tml_file_dict["aq"]+all_tml_file_dict["pl"]:
-            raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
+        # if file_name not in all_tml_file_dict["tb"]+all_tml_file_dict["aq"]+all_tml_file_dict["pl"]:
+        #     raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
     all_valid_cv_set, all_test_cv_set = [], []
     if args.model == "box" or args.model == "vector":
