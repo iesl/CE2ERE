@@ -1,4 +1,4 @@
-from metrics import metric
+from src.metrics import metric
 import torch
 
 

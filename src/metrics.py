@@ -46,39 +46,68 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
                 metrics[f"[{eval_type}-HiEve] Recall"] = 0
                 metrics[f"[{eval_type}-HiEve] F1 Score"] = 0
             else:
-                P_PC = result_dict['10']['precision']   # Parent-Child - precision
-                P_CP = result_dict['01']['precision']   # Child-Parent - precision
-                P_CR = result_dict['11']['precision']   # CoRef - precision
-                R_PC = result_dict['10']['recall']      # Parent-Child - recall
-                R_CP = result_dict['01']['recall']      # Parent-Child - recall
-                R_CR = result_dict['11']['recall']      # CoRef - recall
-                F1_PC = result_dict['10']['f1-score']   # Parent-Child - f1 score
-                F1_CP = result_dict['01']['f1-score']   # Child-Parent - f1 score
-                F1_CR = result_dict['11']['f1-score']   # CoRef - f1 score
-                metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC+P_CP)/2
-                metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC+R_CP)/2
-                metrics[f"[{eval_type}-HiEve] F1 Score"] = (F1_PC+F1_CP)/2
+                pc_results = result_dict['10']
+                cp_results = result_dict['01']
+                cr_results = result_dict['11']
+
+                # P_PC = result_dict['10']['precision']   # Parent-Child - precision
+                # P_CP = result_dict['01']['precision']   # Child-Parent - precision
+                # P_CR = result_dict['11']['precision']   # CoRef - precision
+
+                # R_PC = result_dict['10']['recall']      # Parent-Child - recall
+                # R_CP = result_dict['01']['recall']      # Parent-Child - recall
+                # R_CR = result_dict['11']['recall']      # CoRef - recall
+                # F1_PC = result_dict['10']['f1-score']   # Parent-Child - f1 score
+                # F1_CP = result_dict['01']['f1-score']   # Child-Parent - f1 score
+                # F1_CR = result_dict['11']['f1-score']   # CoRef - f1 score
         else:
-            P_PC = result_dict['0']['precision'] # Parent-Child - precision
-            P_CP = result_dict['1']['precision']  # Child-Parent - precision
+            pc_results = result_dict['0']
+            cp_results = result_dict['1']
+            cr_results = result_dict['2']
+            # nr_results = result_dict['3']
+            
+            # P_PC = result_dict['0']['precision'] # Parent-Child - precision
+            # P_CP = result_dict['1']['precision']  # Child-Parent - precision
 
-            R_PC = result_dict['0']['recall'] # Parent-Child - recall
-            R_CP = result_dict['1']['recall'] # Child-Parent - recall
+            # R_PC = result_dict['0']['recall'] # Parent-Child - recall
+            # R_CP = result_dict['1']['recall'] # Child-Parent - recall
 
-            F1_PC = result_dict['0']['f1-score'] # Parent-Child
-            F1_CP = result_dict['1']['f1-score'] # Child-Parent
-            F1_CR = result_dict['2']['f1-score'] # CoRef
-            F1_NR = result_dict['3']['f1-score'] # NoRel
-            F1_PC_CP_avg = (F1_PC + F1_CP) / 2.0
+            # F1_PC = result_dict['0']['f1-score'] # Parent-Child
+            # F1_CP = result_dict['1']['f1-score'] # Child-Parent
+            # F1_CR = result_dict['2']['f1-score'] # CoRef
+            # F1_NR = result_dict['3']['f1-score'] # NoRel
+            # F1_PC_CP_avg = (F1_PC + F1_CP) / 2.0
 
-            metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC + P_CP) / 2
-            metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC + R_CP) / 2
-            metrics[f"[{eval_type}-HiEve] F1-PC"] = F1_PC
-            metrics[f"[{eval_type}-HiEve] F1-CP"] = F1_CP
-            metrics[f"[{eval_type}-HiEve] F1 Score"] = F1_PC_CP_avg
+            # metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC + P_CP) / 2
+            # metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC + R_CP) / 2
+            # metrics[f"[{eval_type}-HiEve] F1-PC"] = F1_PC
+            # metrics[f"[{eval_type}-HiEve] F1-CP"] = F1_CP
+            # metrics[f"[{eval_type}-HiEve] F1 Score"] = F1_PC_CP_avg
+
+        pc_precision, pc_recall, pc_f1, pc_support = pc_results.values()
+        cp_precision, cp_recall, cp_f1, cp_support = cp_results.values()
+        cr_precision, cr_recall, cr_f1, cr_support = cr_results.values()
+
+        metrics[f"[{eval_type}-HiEve] Precision"] = get_joint_metric(
+            pc_precision, pc_support,
+            cp_precision, cp_support
+        )
+        metrics[f"[{eval_type}-HiEve] Recall"] = get_joint_metric(
+            pc_recall, pc_support,
+            cp_recall, cp_support
+        )
+        metrics[f"[{eval_type}-HiEve] F1 Score"] = (metrics[f"[{eval_type}-HiEve] Precision"] * metrics[f"[{eval_type}-HiEve] Recall"]) / \
+                                                   (metrics[f"[{eval_type}-HiEve] Precision"] + metrics[f"[{eval_type}-HiEve] Recall"]) * 2
         return metrics, result_table
 
     return None, None
+
+
+def get_joint_metric(metric_a: float, support_a: int, metric_b: float, support_b: int) -> float:
+    a_count = metric_a * support_a
+    b_count = metric_b * support_b
+
+    return (a_count + b_count) / (support_a + support_b)
 
 
 def CM_metric(CM):
