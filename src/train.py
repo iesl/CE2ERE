@@ -280,11 +280,6 @@ class TwoThresholdEvaluator:
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                if self.model_type == "vector":
-                    vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
-                    vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
-                    vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
-
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
                         vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
@@ -393,11 +388,6 @@ class OneThresholdEvaluator:
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
-
-                if self.model_type == "vector":
-                    vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
-                    vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
-                    vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
@@ -530,25 +520,25 @@ class VectorBiLSTMEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
-        if data_type == "hieve":
-            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("hieve-result_table: \n{0}".format(result_table))
+        # if data_type == "hieve":
+        #     metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+        #     assert metrics is not None
+        #     logger.info("hieve-result_table: \n{0}".format(result_table))
+        #
+        #     if eval_type == "valid":
+        #         if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
+        #             self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
+        #         metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
 
-            if eval_type == "valid":
-                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
-                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
-                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
+        # if data_type == "matres":
+        metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+        assert metrics is not None
+        logger.info("matres-confusion_matrix: \n{0}".format(CM))
 
-        if data_type == "matres":
-            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("matres-confusion_matrix: \n{0}".format(CM))
-
-            if eval_type == "valid":
-                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
-                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
-                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
+        if eval_type == "valid":
+            if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
+                self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
+            metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
 
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
