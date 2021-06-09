@@ -533,12 +533,12 @@ class VectorBiLSTMEvaluator:
         # if data_type == "matres":
         metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         assert metrics is not None
-        logger.info("matres-confusion_matrix: \n{0}".format(CM))
+        logger.info("HiEve-confusion_matrix: \n{0}".format(CM))
 
         if eval_type == "valid":
-            if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
-                self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
-            metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
+            if self.best_matres_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
+                self.best_matres_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
+            metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_matres_score
 
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
