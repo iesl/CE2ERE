@@ -423,7 +423,8 @@ class Box_BiLSTM_MLP(Module):
         boxes_A, boxes_B, boxes_C = [], [], []
         for i in range(dataset_num):
             # box embedding layer
-            box_A_tmp = self.box_embedding.get_box_embeddings(output_A[..., i, :]).unsqueeze(dim=1)  # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
+            # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
+            box_A_tmp = self.box_embedding.get_box_embeddings(output_A[..., i, :]).unsqueeze(dim=1)
             box_B_tmp = self.box_embedding.get_box_embeddings(output_B[..., i, :]).unsqueeze(dim=1)
             box_C_tmp = self.box_embedding.get_box_embeddings(output_C[..., i, :]).unsqueeze(dim=1)
             boxes_A.append(box_A_tmp)

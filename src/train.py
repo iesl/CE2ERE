@@ -163,190 +163,40 @@ class Trainer:
             logger.info("Training done!")
 
     def evaluation(self, epoch):
-        if self.data_type == "hieve":
-            valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
-            wandb.log(valid_hieve_metrics, commit=False)
-            logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
-            cv_valid_hieve_metrics = self.evaluator.evaluate("hieve", "cv-valid")
-            logger.info("cv-valid_hieve_metrics: {0}".format(cv_valid_hieve_metrics))
+        valid_metrics, test_metrics = {}, {}
+        cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
+        if self.data_type == "hieve" or self.data_type == "joint":
+            valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
+            cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
 
             if not self.debug:
-                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-                wandb.log(test_hieve_metrics, commit=False)
-                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
-                cv_test_hieve_metrics = self.evaluator.evaluate("hieve", "cv-test")
-                logger.info("cv-test_hieve_metrics: {0}".format(cv_test_hieve_metrics))
+                test_metrics.update(self.evaluator.evaluate("hieve", "test"))
+                cv_test_metrics.update(self.evaluator.evaluate("hieve", "cv-test"))
 
-            eval_type = "valid"
-            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"]
-            self._update_save_best_score(f1_score, epoch)
-            wandb.log({"[HiEve] Best F1 Score": self.best_f1_score}, commit=False)
-
-        elif self.data_type == "matres":
-            valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
-            wandb.log(valid_matres_metrics, commit=False)
-            logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
-            cv_valid_matres_metrics = self.evaluator.evaluate("matres", "cv-valid")
-            logger.info("cv-valid_matres_metrics: {0}".format(cv_valid_matres_metrics))
+        if self.data_type == "matres" or self.data_type == "joint":
+            valid_metrics.update(self.evaluator.evaluate("matres", "valid"))
+            cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid"))
 
             if not self.debug:
-                test_matres_metrics = self.evaluator.evaluate("matres", "test")
-                wandb.log(test_matres_metrics, commit=False)
-                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
-                cv_test_matres_metrics = self.evaluator.evaluate("matres", "cv-test")
-                logger.info("cv-test_matres_metrics: {0}".format(cv_test_matres_metrics))
+                test_metrics.update(self.evaluator.evaluate("matres", "test"))
+                cv_test_metrics.update(self.evaluator.evaluate("matres", "cv-test"))
 
-            eval_type = "valid"
-            f1_score = valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
-            self._update_save_best_score(f1_score, epoch)
-            wandb.log({"[MATRES] Best F1 Score": self.best_f1_score}, commit=False)
+        logger.info("valid_metrics: {0}".format(valid_metrics))
+        logger.info("cv_valid_metrics: {0}".format(cv_valid_metrics))
+        wandb.log(valid_metrics, commit=False)
 
-        elif self.data_type == "joint":
-            valid_hieve_metrics = self.evaluator.evaluate("hieve", "valid")
-            wandb.log(valid_hieve_metrics, commit=False)
-            logger.info("valid_hieve_metrics: {0}".format(valid_hieve_metrics))
-            cv_valid_hieve_metrics = self.evaluator.evaluate("hieve", "cv-valid")
-            logger.info("cv-valid_hieve_metrics: {0}".format(cv_valid_hieve_metrics))
+        if not self.debug:
+            logger.info("test_metrics: {0}".format(test_metrics))
+            logger.info("cv_test_metrics: {0}".format(cv_test_metrics))
+            wandb.log(test_metrics, commit=False)
 
-            valid_matres_metrics = self.evaluator.evaluate("matres", "valid")
-            wandb.log(valid_matres_metrics, commit=False)
-            logger.info("valid_matres_metrics: {0}".format(valid_matres_metrics))
-            cv_valid_matres_metrics = self.evaluator.evaluate("matres", "cv-valid")
-            logger.info("cv-valid_matres_metrics: {0}".format(cv_valid_matres_metrics))
+        if self.data_type != "joint":   # single task
+            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
+        else:                           # joint task
+            f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
 
-            if not self.debug:
-                test_hieve_metrics = self.evaluator.evaluate("hieve", "test")
-                wandb.log(test_hieve_metrics, commit=False)
-                logger.info("test_hieve_metrics: {0}".format(test_hieve_metrics))
-                cv_test_hieve_metrics = self.evaluator.evaluate("hieve", "cv-test")
-                logger.info("cv-test_hieve_metrics: {0}".format(cv_test_hieve_metrics))
-
-                test_matres_metrics = self.evaluator.evaluate("matres", "test")
-                wandb.log(test_matres_metrics, commit=False)
-                logger.info("test_matres_metrics: {0}".format(test_matres_metrics))
-                cv_test_matres_metrics = self.evaluator.evaluate("matres", "cv-test")
-                logger.info("cv-test_matres_metrics: {0}".format(cv_test_matres_metrics))
-
-            eval_type = "valid"
-            f1_score = valid_hieve_metrics[f"[{eval_type}-HiEve] F1 Score"] + valid_matres_metrics[f"[{eval_type}-MATRES] F1 Score"]
-            self._update_save_best_score(f1_score, epoch)
-            wandb.log({f"[{eval_type}-Both] Best F1 Score": self.best_f1_score}, commit=False)
-
-
-class TwoThresholdEvaluator:
-    def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
-                 valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
-                 valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float,  matres_threshold2: float):
-        self.train_type = train_type
-        self.model_type = model_type
-        self.model = model
-        self.device = device
-        self.valid_dataloader_dict = valid_dataloader_dict
-        self.test_dataloader_dict = test_dataloader_dict
-        self.valid_cv_dataloader_dict = valid_cv_dataloader_dict
-        self.test_cv_dataloader_dict = test_cv_dataloader_dict
-        self.best_hieve_score = 0.0
-        self.best_matres_score = 0.0
-        self.hieve_threshold1 = hieve_threshold1
-        self.hieve_threshold2 = hieve_threshold2
-        self.matres_threshold1 = matres_threshold1
-        self.matres_threshold2 = matres_threshold2
-
-    def evaluate(self, data_type: str, eval_type: str):
-        if eval_type == "valid":
-            dataloader = self.valid_dataloader_dict[data_type]
-            constraint_violation = None
-        elif eval_type == "test":
-            dataloader = self.test_dataloader_dict[data_type]
-            constraint_violation = None
-        elif eval_type == "cv-valid":
-            dataloader = self.valid_cv_dataloader_dict[data_type]
-            constraint_violation = ConstraintViolation(self.model_type)
-        elif eval_type == "cv-test":
-            dataloader = self.test_cv_dataloader_dict[data_type]
-            constraint_violation = ConstraintViolation(self.model_type)
-        self.model.eval()
-        pred_vals, rel_ids = [], []
-        eval_start_time = time.time()
-        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
-        with torch.no_grad():
-            for i, batch in enumerate(dataloader):
-                device = self.device
-
-                xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
-                yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
-                xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
-                flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
-
-                if self.model_type == "vector":
-                    vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
-                    vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
-                    vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
-
-                if vol_A_B.shape[-1] == 2:
-                    if data_type == "hieve":
-                        vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
-                        vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
-                        vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
-                        xy_rel_id = xy_rel_id[flag == 0]
-                        yz_rel_id = yz_rel_id[flag == 0]
-                        xz_rel_id = xz_rel_id[flag == 0]
-                    elif data_type == "matres":
-                        vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]  # [batch_size]
-                        vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
-                        vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
-                        xy_rel_id = xy_rel_id[flag == 1]
-                        yz_rel_id = yz_rel_id[flag == 1]
-                        xz_rel_id = xz_rel_id[flag == 1]
-                else:
-                    vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
-                    vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
-                    vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
-
-                if data_type == "hieve":
-                    threshold1 = self.hieve_threshold1
-                    threshold2 = self.hieve_threshold2
-                if data_type == "matres":
-                    threshold1 = self.matres_threshold1
-                    threshold2 = self.matres_threshold2
-
-                xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
-                yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
-                xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
-                pred_vals.extend(xy_preds)
-                rel_ids.extend(xy_targets)
-                if constraint_violation:
-                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
-
-            if constraint_violation:
-                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
-
-        if data_type == "hieve":
-            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("hieve-result_table: \n{0}".format(result_table))
-
-            if eval_type == "valid":
-                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
-                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
-                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
-
-        if data_type == "matres":
-            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("matres-confusion_matrix: \n{0}".format(CM))
-
-            if eval_type == "valid":
-                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
-                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
-                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
-
-        logger.info("done!")
-        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
-        return metrics
+        self._update_save_best_score(f1_score, epoch)
+        wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
 
 
 class OneThresholdEvaluator:
@@ -437,25 +287,12 @@ class OneThresholdEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
-        if data_type == "hieve":
-            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("hieve-result_table: \n{0}".format(result_table))
+        metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
 
-            if eval_type == "valid":
-                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
-                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
-                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
-
-        if data_type == "matres":
-            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("matres-confusion_matrix: \n{0}".format(CM))
-
-            if eval_type == "valid":
-                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
-                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
-                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
+        if eval_type == "valid":
+            if self.best_matres_score < metrics[f"[{eval_type}-{data_type}] F1 Score"]:
+                self.best_matres_score = metrics[f"[{eval_type}-{data_type}] F1 Score"]
+            metrics[f"[{eval_type}-{data_type}] Best F1 Score"] = self.best_matres_score
 
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
@@ -530,25 +367,12 @@ class VectorBiLSTMEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
-        if data_type == "hieve":
-            metrics, result_table = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("hieve-result_table: \n{0}".format(result_table))
+        metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
 
-            if eval_type == "valid":
-                if self.best_hieve_score < metrics[f"[{eval_type}-HiEve] F1 Score"]:
-                    self.best_hieve_score = metrics[f"[{eval_type}-HiEve] F1 Score"]
-                metrics[f"[{eval_type}-HiEve] Best F1 Score"] = self.best_hieve_score
-
-        if data_type == "matres":
-            metrics, CM = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-            assert metrics is not None
-            logger.info("matres-confusion_matrix: \n{0}".format(CM))
-
-            if eval_type == "valid":
-                if self.best_matres_score < metrics[f"[{eval_type}-MATRES] F1 Score"]:
-                    self.best_matres_score = metrics[f"[{eval_type}-MATRES] F1 Score"]
-                metrics[f"[{eval_type}-MATRES] Best F1 Score"] = self.best_matres_score
+        if eval_type == "valid":
+            if self.best_matres_score < metrics[f"[{eval_type}-{data_type}] F1 Score"]:
+                self.best_matres_score = metrics[f"[{eval_type}-{data_type}] F1 Score"]
+            metrics[f"[{eval_type}-{data_type}] Best F1 Score"] = self.best_matres_score
 
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
