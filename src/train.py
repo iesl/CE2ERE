@@ -288,12 +288,6 @@ class OneThresholdEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-
-        if eval_type == "valid":
-            if self.best_matres_score < metrics[f"[{eval_type}-{data_type}] F1 Score"]:
-                self.best_matres_score = metrics[f"[{eval_type}-{data_type}] F1 Score"]
-            metrics[f"[{eval_type}-{data_type}] Best F1 Score"] = self.best_matres_score
-
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
         return metrics
@@ -368,12 +362,6 @@ class VectorBiLSTMEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
-
-        if eval_type == "valid":
-            if self.best_matres_score < metrics[f"[{eval_type}-{data_type}] F1 Score"]:
-                self.best_matres_score = metrics[f"[{eval_type}-{data_type}] F1 Score"]
-            metrics[f"[{eval_type}-{data_type}] Best F1 Score"] = self.best_matres_score
-
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
         return metrics

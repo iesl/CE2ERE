@@ -145,7 +145,10 @@ class BCELossWithLog(Module):
         -(labels[:, 0] * log volume1 + (1 - labels[:, 0]) * log(1 - volume1) + labels[:, 1] * log volume2 + (1 - labels[:, 1]) * log(1 - volume2)).sum()
         """
         if volume1.shape[-1] == 1:
-            loss = self.loss_calculation(volume1, volume2, labels[:, 0].unsqueeze(-1), labels[:, 1].unsqueeze(-1))
+            label1 = labels[:, 0].unsqueeze(-1)
+            label2 = labels[:, 1].unsqueeze(-1)
+            assert volume1.shape == label1.shape and volume2.shape == label2.shape
+            loss = self.loss_calculation(volume1, volume2, label1, label2)
         else:
             hieve_mask = (flag == 0).nonzero()
             hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
