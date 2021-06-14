@@ -5,7 +5,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
+from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator, TwoThresholdEvaluator
 from utils import *
 from pathlib import Path
 
@@ -174,22 +174,22 @@ def setup(args, saved_model=None):
                 hieve_threshold=args.hieve_threshold,
                 matres_threshold=args.matres_threshold,
             )
-        # elif args.eval_type == "two":
-        #     print("Using TwoThresholdEvaluator..!")
-        #     evaluator = TwoThresholdEvaluator(
-        #         train_type=args.data_type,
-        #         model_type=args.model,
-        #         model=model,
-        #         device=device,
-        #         valid_dataloader_dict=valid_dataloader_dict,
-        #         test_dataloader_dict=test_dataloader_dict,
-        #         valid_cv_dataloader_dict=valid_cv_dataloader_dict,
-        #         test_cv_dataloader_dict=test_cv_dataloader_dict,
-        #         hieve_threshold1=args.hieve_threshold1,
-        #         hieve_threshold2=args.hieve_threshold2,
-        #         matres_threshold1=args.matres_threshold1,
-        #         matres_threshold2=args.matres_threshold2,
-        #     )
+        elif args.eval_type == "two":
+            print("Using TwoThresholdEvaluator..!")
+            evaluator = TwoThresholdEvaluator(
+                train_type=args.data_type,
+                model_type=args.model,
+                model=model,
+                device=device,
+                valid_dataloader_dict=valid_dataloader_dict,
+                test_dataloader_dict=test_dataloader_dict,
+                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+                test_cv_dataloader_dict=test_cv_dataloader_dict,
+                hieve_threshold1=args.hieve_threshold1,
+                hieve_threshold2=args.hieve_threshold2,
+                matres_threshold1=args.matres_threshold1,
+                matres_threshold2=args.matres_threshold2,
+            )
 
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
@@ -240,6 +240,8 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
+        if "load_valid" not in run.config:
+            wandb.config.update({"load_valid": 1}, allow_val_change=True)
         args = wandb.config
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
 

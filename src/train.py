@@ -89,7 +89,7 @@ class Trainer:
 
         if saved_model:
             # evaluate
-            self.evaluation(epoch=-1, model=saved_model)
+            self.evaluation()
             wandb.log({})
         else:
             for epoch in range(1, self.epochs+1):
@@ -162,7 +162,7 @@ class Trainer:
             wandb.log({"Full Elapsed Time": (time.time() - full_start_time)})
             logger.info("Training done!")
 
-    def evaluation(self, epoch):
+    def evaluation(self, epoch: Optional[int] = -1):
         valid_metrics, test_metrics = {}, {}
         cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
         if self.data_type == "hieve" or self.data_type == "joint":
@@ -244,11 +244,6 @@ class OneThresholdEvaluator:
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                if self.model_type == "vector":
-                    vol_A_B, vol_B_A = torch.log(vol_A_B + 1e-10), torch.log(vol_B_A + 1e-10)
-                    vol_B_C, vol_C_B = torch.log(vol_B_C + 1e-10), torch.log(vol_C_B + 1e-10)
-                    vol_A_C, vol_C_A = torch.log(vol_A_C + 1e-10), torch.log(vol_C_A + 1e-10)
-
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
                         vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
@@ -280,6 +275,98 @@ class OneThresholdEvaluator:
                 pred_vals.extend(xy_preds)
                 rel_ids.extend(xy_targets)
 
+                if constraint_violation:
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+
+            if constraint_violation:
+                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+
+        metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+        logger.info("done!")
+        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
+        return metrics
+
+
+class TwoThresholdEvaluator:
+    def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
+                 valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
+                 valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
+                 hieve_threshold1: float, hieve_threshold2: float, matres_threshold1: float,  matres_threshold2: float):
+        self.train_type = train_type
+        self.model_type = model_type
+        self.model = model
+        self.device = device
+        self.valid_dataloader_dict = valid_dataloader_dict
+        self.test_dataloader_dict = test_dataloader_dict
+        self.valid_cv_dataloader_dict = valid_cv_dataloader_dict
+        self.test_cv_dataloader_dict = test_cv_dataloader_dict
+        self.best_hieve_score = 0.0
+        self.best_matres_score = 0.0
+        self.hieve_threshold1 = hieve_threshold1
+        self.hieve_threshold2 = hieve_threshold2
+        self.matres_threshold1 = matres_threshold1
+        self.matres_threshold2 = matres_threshold2
+
+    def evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "valid":
+            dataloader = self.valid_dataloader_dict[data_type]
+            constraint_violation = None
+        elif eval_type == "test":
+            dataloader = self.test_dataloader_dict[data_type]
+            constraint_violation = None
+        elif eval_type == "cv-valid":
+            dataloader = self.valid_cv_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        elif eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
+            constraint_violation = ConstraintViolation(self.model_type)
+        self.model.eval()
+        pred_vals, rel_ids = [], []
+        eval_start_time = time.time()
+        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+
+                xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                flag = batch[15]  # 0: HiEve, 1: MATRES
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
+
+                if vol_A_B.shape[-1] == 2:
+                    if data_type == "hieve":
+                        vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
+                        vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
+                        vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
+                        xy_rel_id = xy_rel_id[flag == 0]
+                        yz_rel_id = yz_rel_id[flag == 0]
+                        xz_rel_id = xz_rel_id[flag == 0]
+                    elif data_type == "matres":
+                        vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]  # [batch_size]
+                        vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
+                        vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
+                        xy_rel_id = xy_rel_id[flag == 1]
+                        yz_rel_id = yz_rel_id[flag == 1]
+                        xz_rel_id = xz_rel_id[flag == 1]
+                else:
+                    vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
+                    vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
+                    vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
+
+                if data_type == "hieve":
+                    threshold1 = self.hieve_threshold1
+                    threshold2 = self.hieve_threshold2
+                if data_type == "matres":
+                    threshold1 = self.matres_threshold1
+                    threshold2 = self.matres_threshold2
+
+                xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
+                pred_vals.extend(xy_preds)
+                rel_ids.extend(xy_targets)
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
