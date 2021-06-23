@@ -5,7 +5,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, OneThresholdEvaluator, TwoThresholdEvaluator, VectorBiLSTMEvaluator
+from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator, TwoThresholdEvaluator
 from utils import *
 from pathlib import Path
 
@@ -144,7 +144,7 @@ def setup(args, saved_model=None):
         model = create_model(args, num_classes)
         model = model.to(device)
 
-    # wandb.watch(model)
+    wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
     if args.model != "box" and args.model != "vector":
@@ -216,7 +216,7 @@ def setup(args, saved_model=None):
         loss_cross_category=loss_cross_category,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
-        wandb_id="wandb.run.id",
+        wandb_id=wandb.run.id,
         eval_step=args.eval_step,
         debug=args.debug,
         patience=args.patience,
@@ -240,6 +240,8 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
+        if "load_valid" not in run.config:
+            wandb.config.update({"load_valid": 1}, allow_val_change=True)
         args = wandb.config
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
 

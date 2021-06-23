@@ -9,13 +9,13 @@ def build_parser():
     parser.add_argument('--debug', default=False, action='store_true', help="whether to use debug data or not")
     parser.add_argument('--log_batch_size', type=int, default=4, help="batch size for training will be 2**log_batch_size")
     parser.add_argument('--epochs', type=int, default=80, help="number of epochs to train")
-    parser.add_argument('--data_type', type=str, default="joint", help="dataset: [MATRES | HiEve | Joint]")
+    parser.add_argument('--data_type', type=str, default="joint", choices=["matres", "hieve", "joint"], help="dataset: [MATRES | HiEve | Joint]")
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
 
-    parser.add_argument('--model', type=str, default="bilstm", help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning,"
-                                                          "bilstm: roberta-base emb w/o finetuning + BiLSTM,"
-                                                          "box: roberta-base emb w/o finetuning + BiLSTM + Box")
+    parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector"],
+                        help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning, bilstm: roberta-base emb w/o finetuning + BiLSTM, box: roberta-base emb w/o finetuning + BiLSTM + Box")
+
     parser.add_argument('--downsample', type=float, default=0.2)
     parser.add_argument('--learning_rate', type=float, default=0.001)
     parser.add_argument('--lambda_anno', type=float, default=1)
@@ -61,5 +61,6 @@ def build_parser():
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
+    parser.add_argument('--load_valid', type=int, default=1, help="0: false, 1: true")
 
     return parser.parse_args()

@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
 
+logger = logging.getLogger()
 
 def metric(data_type, eval_type, model_type, y_true, y_pred):
     """
@@ -14,33 +15,17 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     => (i, j) indicates the number of samples with true label being i-th class and predicted label being j-th class.
     """
     metrics = {}
-    if data_type == "matres":
-        if len(y_true) == 0 or len(y_pred) == 0:
-            metrics[f"[{eval_type}-MATRES] Precision"] = 0
-            metrics[f"[{eval_type}-MATRES] Recall"] = 0
-            metrics[f"[{eval_type}-MATRES] F1 Score"] = 0
-            return metrics, None
+    CM = confusion_matrix(y_true, y_pred)
+    if model_type == "box" or model_type == "vector":
+        Acc, P, R, F1, _ = CM_metric_box(CM)
+    else:
+        Acc, P, R, F1, _ = CM_metric(CM)
+    metrics[f"[{eval_type}-{data_type}] Precision"] = P
+    metrics[f"[{eval_type}-{data_type}] Recall"] = R
+    metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-        CM = confusion_matrix(y_true, y_pred)
-        if model_type == "box" or model_type == "vector":
-            Acc, P, R, F1, _ = CM_metric_box(CM)
-        else:
-            Acc, P, R, F1, _ = CM_metric(CM)
-        metrics[f"[{eval_type}-MATRES] Precision"] = P
-        metrics[f"[{eval_type}-MATRES] Recall"] = R
-        metrics[f"[{eval_type}-MATRES] F1 Score"] = F1
-        return metrics, CM
-
+    result_dict = classification_report(y_true, y_pred, output_dict=True)
     if data_type == "hieve":
-        if len(y_true) == 0 or len(y_pred) == 0:
-            metrics[f"[{eval_type}-HiEve] Precision"] = 0
-            metrics[f"[{eval_type}-HiEve] Recall"] = 0
-            metrics[f"[{eval_type}-HiEve] F1 Score"] = 0
-            return metrics, None
-
-        result_dict = classification_report(y_true, y_pred, output_dict=True)
-        result_table = classification_report(y_true, y_pred)
-
         if model_type == "box" or model_type == "vector":
             if "10" not in result_dict.keys():
                 metrics[f"[{eval_type}-HiEve] Precision"] = 0

@@ -82,6 +82,54 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
     return train_set
 
 
+def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model_type: str) -> List[Tuple]:
+    final_set = []
+    event_dict = data_dict["event_dict"]
+    sntc_dict = data_dict["sentences"]
+    relation_dict = data_dict["relation_dict"]
+    num_event = len(event_dict)
+
+    for x in range(1, num_event+1):
+        for y in range(x+1, num_event+1):
+            x_sntc_id = event_dict[x]["sent_id"]
+            y_sntc_id = event_dict[y]["sent_id"]
+
+            x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
+            y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
+
+            x_position = event_dict[x]["roberta_subword_id"]
+            y_position = event_dict[y]["roberta_subword_id"]
+
+            x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+            y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+            xy_rel_id = relation_dict[(x, y)]["relation"]
+
+            to_append = \
+                str(x), str(y), str(x),\
+                x_sntc, y_sntc, x_sntc,\
+                x_position, y_position, x_position,\
+                x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+                xy_rel_id, xy_rel_id, xy_rel_id,\
+                0 # 0: HiEve, 1: MATRES
+
+
+            if model_type == "box":
+                if xy_rel_id == (0,0):
+                    if random.uniform(0, 1) < downsample:
+                        final_set.append(to_append)
+                else:
+                    final_set.append(to_append)
+            else:
+                if xy_rel_id == 3:
+                    if random.uniform(0, 1) < downsample:
+                        final_set.append(to_append)
+                else:
+                    final_set.append(to_append)
+
+    return final_set
+
+
 def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
                          eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]) -> List[Tuple]:
     """
@@ -139,6 +187,42 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
     return train_set
 
 
+def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]):
+    final_set = []
+    event_dict = data_dict["event_dict"]
+    sntc_dict = data_dict["sentences"]
+    eiid_dict = data_dict["eiid_dict"]
+
+    for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
+        xy_rel_id = eiid_pair_to_rel_id_dict[(eiid1, eiid2)]
+
+        x_evnt_id = eiid_dict[eiid1]["eID"]
+        y_evnt_id = eiid_dict[eiid2]["eID"]
+
+        x_sntc_id = event_dict[x_evnt_id]["sent_id"]
+        y_sntc_id = event_dict[y_evnt_id]["sent_id"]
+
+        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+
+        x_position = event_dict[x_evnt_id]["roberta_subword_id"]
+        y_position = event_dict[y_evnt_id]["roberta_subword_id"]
+
+        x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+        y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+        to_append = \
+            x_evnt_id, y_evnt_id, x_evnt_id,\
+            x_sntc, y_sntc, x_sntc,\
+            x_position, y_position, x_position,\
+            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
+            xy_rel_id, xy_rel_id, xy_rel_id,\
+            1 # 0: HiEve, 1: MATRES
+
+        final_set.append(to_append)
+    return final_set
+
+
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     hieve_dir, hieve_files = get_hieve_files(data_dir)
     all_train_set, all_valid_set, all_test_set = [], [], []
@@ -147,27 +231,35 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model)
+        data_dict = hieve_file_reader(hieve_dir, file, args.model) # data_reader.py
         doc_id = i
 
         if doc_id in train_range:
             train_set = get_hieve_train_set(data_dict, args.downsample, args.model)
             all_train_set.extend(train_set)
-        elif doc_id in valid_range:
-            pass
-        elif doc_id in test_range:
-            pass
-        else:
-            raise ValueError(f"doc_id={doc_id} is out of range!")
+
+        if not args.load_valid:
+            if doc_id in valid_range:
+                valid_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+                all_valid_set.extend(valid_set)
+            elif doc_id in test_range:
+                test_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+                all_test_set.extend(test_set)
+
+        # if doc_id not in train_range+valid_range+test_range:
+        #     raise ValueError(f"doc_id={doc_id} is out of range!")
 
     all_valid_cv_set, all_test_cv_set = [], []
     if args.model == "box" or args.model == "vector":
-        with open(data_dir / "hieve_valid_test_set/hieve_valid_box.pickle", 'rb') as handle:
-            valid_box = pickle.load(handle)
-            all_valid_set.extend(valid_box)
-        with open(data_dir / "hieve_valid_test_set/hieve_test_box.pickle", 'rb') as handle:
-            test_box = pickle.load(handle)
-            all_test_set.extend(test_box)
+        if args.load_valid:
+            with open(data_dir / "hieve_valid_test_set/hieve_valid_box.pickle", 'rb') as handle:
+                valid_box = pickle.load(handle)
+                all_valid_set.extend(valid_box)
+            with open(data_dir / "hieve_valid_test_set/hieve_test_box.pickle", 'rb') as handle:
+                test_box = pickle.load(handle)
+                all_test_set.extend(test_box)
+
+        ############## load constraint violation ##############
         with open(data_dir / "constraint_violation/hieve/hieve_valid_cv_box.pickle", 'rb') as handle:
             valid_vec = pickle.load(handle)
             all_valid_cv_set.extend(valid_vec)
@@ -175,12 +267,15 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             test_vec = pickle.load(handle)
             all_test_cv_set.extend(test_vec)
     else:
-        with open(data_dir / "hieve_valid_test_set/hieve_valid_vector.pickle", 'rb') as handle:
-            valid_vec = pickle.load(handle)
-            all_valid_set.extend(valid_vec)
-        with open(data_dir / "hieve_valid_test_set/hieve_test_vector.pickle", 'rb') as handle:
-            test_vec = pickle.load(handle)
-            all_test_set.extend(test_vec)
+        if args.load_valid:
+            with open(data_dir / "hieve_valid_test_set/hieve_valid_vector.pickle", 'rb') as handle:
+                valid_vec = pickle.load(handle)
+                all_valid_set.extend(valid_vec)
+            with open(data_dir / "hieve_valid_test_set/hieve_test_vector.pickle", 'rb') as handle:
+                test_vec = pickle.load(handle)
+                all_test_set.extend(test_vec)
+
+        ############## load constraint violation ##############
         with open(data_dir / "constraint_violation/hieve/hieve_valid_cv_vector.pickle", 'rb') as handle:
             valid_vec = pickle.load(handle)
             all_valid_cv_set.extend(valid_vec)
@@ -213,7 +308,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
     start_time = time.time()
     for i, fname in enumerate(tqdm(eiid_pair_to_rel_id.keys())):
         file_name = fname + ".tml"
-        dir_path = get_tml_dir_path(file_name, all_tml_dir_path_dict, all_tml_file_dict)
+        dir_path = get_tml_dir_path(file_name, all_tml_dir_path_dict, all_tml_file_dict) # get directory corresponding to filename
         data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger)
 
         eiid_to_event_trigger_dict = eiid_to_event_trigger[fname]
@@ -221,21 +316,29 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
         if file_name in all_tml_file_dict["tb"]:
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_train_set.extend(train_set)
-        elif file_name in all_tml_file_dict["aq"]:
-            pass
-        elif file_name in all_tml_file_dict["pl"]:
-            pass
-        else:
-            raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
+
+        if not args.load_valid:
+            if file_name in all_tml_file_dict["aq"]:
+                valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+                all_valid_set.extend(valid_set)
+            elif file_name in all_tml_file_dict["pl"]:
+                test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+                all_test_set.extend(test_set)
+
+        # if file_name not in all_tml_file_dict["tb"]+all_tml_file_dict["aq"]+all_tml_file_dict["pl"]:
+        #     raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
     all_valid_cv_set, all_test_cv_set = [], []
     if args.model == "box" or args.model == "vector":
-        with open(data_dir / "matres_valid_test_set/matres_valid_box.pickle", 'rb') as handle:
-            valid_box = pickle.load(handle)
-            all_valid_set.extend(valid_box)
-        with open(data_dir / "matres_valid_test_set/matres_test_box.pickle", 'rb') as handle:
-            test_box = pickle.load(handle)
-            all_test_set.extend(test_box)
+        if args.load_valid:
+            with open(data_dir / "matres_valid_test_set/matres_valid_box.pickle", 'rb') as handle:
+                valid_box = pickle.load(handle)
+                all_valid_set.extend(valid_box)
+            with open(data_dir / "matres_valid_test_set/matres_test_box.pickle", 'rb') as handle:
+                test_box = pickle.load(handle)
+                all_test_set.extend(test_box)
+
+        ############### load constraint violation ###############
         with open(data_dir / "constraint_violation/matres/matres_valid_cv_box.pickle", 'rb') as handle:
             valid_box = pickle.load(handle)
             all_valid_cv_set.extend(valid_box)
@@ -243,12 +346,15 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             test_box = pickle.load(handle)
             all_test_cv_set.extend(test_box)
     else:
-        with open(data_dir / "matres_valid_test_set/matres_valid_vector.pickle", 'rb') as handle:
-            valid_vec = pickle.load(handle)
-            all_valid_set.extend(valid_vec)
-        with open(data_dir / "matres_valid_test_set/matres_test_vector.pickle", 'rb') as handle:
-            test_vec = pickle.load(handle)
-            all_test_set.extend(test_vec)
+        if args.load_valid:
+            with open(data_dir / "matres_valid_test_set/matres_valid_vector.pickle", 'rb') as handle:
+                valid_vec = pickle.load(handle)
+                all_valid_set.extend(valid_vec)
+            with open(data_dir / "matres_valid_test_set/matres_test_vector.pickle", 'rb') as handle:
+                test_vec = pickle.load(handle)
+                all_test_set.extend(test_vec)
+
+        ############### load constraint violation ###############
         with open(data_dir / "constraint_violation/matres/matres_valid_cv_vector.pickle", 'rb') as handle:
             valid_box = pickle.load(handle)
             all_valid_cv_set.extend(valid_box)
@@ -278,6 +384,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
     train_dataloader = DataLoader(EventDataset(train_set), batch_size=2 ** log_batch_size, shuffle=True)
     valid_dataloader_dict, test_dataloader_dict = {}, {}
 
+    # create validation dataloader
     for data_type, valid_set in valid_set_dict.items():
         if data_type == "hieve":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -287,6 +394,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
             raise ValueError(f"dataset={data_type} is not supported at this time!")
         valid_dataloader_dict[data_type] = valid_dataloader
 
+    # create test dataloader
     for data_type, test_set in test_set_dict.items():
         if data_type == "hieve":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -297,6 +405,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
         test_dataloader_dict[data_type] = test_dataloader
 
     valid_cv_dataloader_dict, test_cv_dataloader_dict = {}, {}
+    # create validation constraint violdation dataloader
     for data_type, valid_set in valid_cv_set_dict.items():
         if data_type == "hieve":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -306,6 +415,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
             raise ValueError(f"dataset={data_type} is not supported at this time!")
         valid_cv_dataloader_dict[data_type] = valid_dataloader
 
+    # create test constraint violdation dataloader
     for data_type, test_set in test_cv_set_dict.items():
         if data_type == "hieve":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
