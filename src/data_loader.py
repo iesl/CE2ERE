@@ -113,7 +113,7 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
                 0 # 0: HiEve, 1: MATRES
 
 
-            if model_type == "box":
+            if model_type == "box" or model_type == "vector":
                 if xy_rel_id == (0,0):
                     if random.uniform(0, 1) < downsample:
                         final_set.append(to_append)
