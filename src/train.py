@@ -50,7 +50,7 @@ class Trainer:
         self.debug = debug
         self.patience = patience
 
-        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y%m%d%H%M%S')
+        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
         self.model_save_dir = "./model/"
         Path(self.model_save_dir).mkdir(parents=True, exist_ok=True)
         self.model_save_path = self.model_save_dir + f"{data_type}_{timestamp}_{wandb_id}.pt"
@@ -94,7 +94,7 @@ class Trainer:
         else:
             for epoch in range(1, self.epochs+1):
                 epoch_start_time = time.time()
-                logger.info('======== Epoch {:} / {:} ========'.format(epoch, self.epochs))
+                logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
                 logger.info("Training start...")
                 self.model.train()
                 loss_vals = []
@@ -152,9 +152,9 @@ class Trainer:
                 # evaluate
                 if epoch % self.eval_step == 0 and self.no_valid is False:
                     self.evaluation(epoch)
-                    if (epoch - self.best_epoch) >= self.patience:
-                        print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
-                        break
+                    # if (epoch - self.best_epoch) >= self.patience:
+                    #     print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
+                    #     break
                 wandb.log({})
 
             self.evaluation(epoch)
