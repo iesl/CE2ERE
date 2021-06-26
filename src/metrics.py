@@ -17,6 +17,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     """
     metrics = {}
     CM = confusion_matrix(y_true, y_pred)
+    logger.info("confusion_matrix: \n{0}".format(CM))
     if model_type == "box" or model_type == "vector":
         Acc, P, R, F1, _ = CM_metric_box(CM)
     else:
@@ -26,44 +27,20 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
     result_dict = classification_report(y_true, y_pred, output_dict=True)
+    logger.info("classifiction_report: \n{0}".format(classification_report(y_true, y_pred)))
     if data_type == "hieve":
         if model_type == "box" or model_type == "vector":
             pc_results = result_dict["10"]  # Parent-Child: precision, recall, f1, support
             cp_results = result_dict["01"]  # Child-Parent: ~
-            cr_results = result_dict["11"]  # CoRef:        ~
-            nr_results = result_dict["00"]  # NoRel:        ~, ignored when calculate F1
         else:
             pc_results = result_dict["0"]   # Parent-Child: precision,recall, f1, support
             cp_results = result_dict["1"]   # Child-Parent: ~
-            cr_results = result_dict["2"]   # CoRef:        ~
-            nr_results = result_dict["3"]   # NoRel:        ~, ignored when calculate F1
 
         pc_precision, pc_recall, pc_f1, pc_support = pc_results.values()
         cp_precision, cp_recall, cp_f1, cp_support = cp_results.values()
-        cr_precision, cr_recall, cr_f1, cr_support = cr_results.values()
-        nr_precision, nr_recall, nr_f1, nr_support = nr_results.values()
-        precisions = [pc_precision, cp_precision, cr_precision, nr_precision]
-        recalls = [pc_recall, cp_recall, cr_recall, nr_recall]
-        supports = [pc_support, cp_support, cr_support, nr_support]
-        f1s = [pc_f1, cp_f1, cr_f1, nr_f1]
-
-        micro_precision = get_micro_metric(precisions[:3], supports[:3])
-        micro_recall = get_micro_metric(recalls[:3], supports[:3])
-        macro_precision = get_macro_metric(precisions[:3])
-        macro_recall = get_macro_metric(recalls[:3])
-        micro_f1, macro_f1 = get_f1_score(micro_precision, micro_recall), get_f1_score(macro_precision, macro_recall)
-
-        metrics[f"[{eval_type}-HiEve] Precision v2"] = micro_precision
-        metrics[f"[{eval_type}-HiEve] Recall v2"] = micro_recall
-        metrics[f"[{eval_type}-HiEve] F1 Score v2"] = micro_f1
-
-        result_table = generate_result_table(
-            precisions, recalls, supports, f1s,
-            micro_precision, macro_precision,
-            micro_recall, macro_recall,
-            micro_f1, macro_f1
-        )
-        logger.info("result_table_v2: \n{0}".format(result_table))
+        f1_scores = [pc_f1, cp_f1]
+        macro_f1_score = get_macro_metric(f1_scores)
+        logger.info("macro f1 score: \n{0}".format(macro_f1_score))
 
     return metrics
 
