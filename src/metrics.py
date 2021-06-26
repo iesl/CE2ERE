@@ -40,7 +40,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
         cp_precision, cp_recall, cp_f1, cp_support = cp_results.values()
         f1_scores = [pc_f1, cp_f1]
         macro_f1_score = get_macro_metric(f1_scores)
-        logger.info("macro f1 score: \n{0}".format(macro_f1_score))
+        logger.info("macro f1 score: {:.4f}".format(macro_f1_score))
 
     return metrics
 
