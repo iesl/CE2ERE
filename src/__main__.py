@@ -5,7 +5,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator, TwoThresholdEvaluator
+from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
 
@@ -160,36 +160,19 @@ def setup(args, saved_model=None):
             test_cv_dataloader_dict=test_cv_dataloader_dict,
         )
     else:
-        if args.eval_type == "one":
-            print("Using OneThresholdEvaluator..!")
-            evaluator = OneThresholdEvaluator(
-                train_type=args.data_type,
-                model_type=args.model,
-                model=model,
-                device=device,
-                valid_dataloader_dict=valid_dataloader_dict,
-                test_dataloader_dict=test_dataloader_dict,
-                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
-                test_cv_dataloader_dict=test_cv_dataloader_dict,
-                hieve_threshold=args.hieve_threshold,
-                matres_threshold=args.matres_threshold,
-            )
-        elif args.eval_type == "two":
-            print("Using TwoThresholdEvaluator..!")
-            evaluator = TwoThresholdEvaluator(
-                train_type=args.data_type,
-                model_type=args.model,
-                model=model,
-                device=device,
-                valid_dataloader_dict=valid_dataloader_dict,
-                test_dataloader_dict=test_dataloader_dict,
-                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
-                test_cv_dataloader_dict=test_cv_dataloader_dict,
-                hieve_threshold1=args.hieve_threshold1,
-                hieve_threshold2=args.hieve_threshold2,
-                matres_threshold1=args.matres_threshold1,
-                matres_threshold2=args.matres_threshold2,
-            )
+        print("Using OneThresholdEvaluator..!")
+        evaluator = OneThresholdEvaluator(
+            train_type=args.data_type,
+            model_type=args.model,
+            model=model,
+            device=device,
+            valid_dataloader_dict=valid_dataloader_dict,
+            test_dataloader_dict=test_dataloader_dict,
+            valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+            test_cv_dataloader_dict=test_cv_dataloader_dict,
+            hieve_threshold=args.hieve_threshold,
+            matres_threshold=args.matres_threshold,
+        )
 
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}

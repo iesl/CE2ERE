@@ -1,3 +1,4 @@
+import logging
 import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
 
@@ -27,15 +28,10 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     result_dict = classification_report(y_true, y_pred, output_dict=True)
     if data_type == "hieve":
         if model_type == "box" or model_type == "vector":
-            if "10" not in result_dict.keys():
-                metrics[f"[{eval_type}-HiEve] Precision"] = 0
-                metrics[f"[{eval_type}-HiEve] Recall"] = 0
-                metrics[f"[{eval_type}-HiEve] F1 Score"] = 0
-            else:
-                pc_results = result_dict["10"]  # Parent-Child: precision, recall, f1, support
-                cp_results = result_dict["01"]  # Child-Parent: ~
-                cr_results = result_dict["11"]  # CoRef:        ~
-                nr_results = result_dict["00"]  # NoRel:        ~, ignored when calculate F1
+            pc_results = result_dict["10"]  # Parent-Child: precision, recall, f1, support
+            cp_results = result_dict["01"]  # Child-Parent: ~
+            cr_results = result_dict["11"]  # CoRef:        ~
+            nr_results = result_dict["00"]  # NoRel:        ~, ignored when calculate F1
         else:
             pc_results = result_dict["0"]   # Parent-Child: precision,recall, f1, support
             cp_results = result_dict["1"]   # Child-Parent: ~
@@ -57,9 +53,9 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
         macro_recall = get_macro_metric(recalls[:3])
         micro_f1, macro_f1 = get_f1_score(micro_precision, micro_recall), get_f1_score(macro_precision, macro_recall)
 
-        metrics[f"[{eval_type}-HiEve] Precision"] = micro_precision
-        metrics[f"[{eval_type}-HiEve] Recall"] = micro_recall
-        metrics[f"[{eval_type}-HiEve] F1 Score"] = micro_f1
+        metrics[f"[{eval_type}-HiEve] Precision v2"] = micro_precision
+        metrics[f"[{eval_type}-HiEve] Recall v2"] = micro_recall
+        metrics[f"[{eval_type}-HiEve] F1 Score v2"] = micro_f1
 
         result_table = generate_result_table(
             precisions, recalls, supports, f1s,
@@ -67,10 +63,9 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
             micro_recall, macro_recall,
             micro_f1, macro_f1
         )
+        logger.info("result_table_v2: \n{0}".format(result_table))
 
-        return metrics, result_table
-
-    return None, None
+    return metrics
 
 
 def get_micro_metric(metrics: list, supports: list) -> float:
