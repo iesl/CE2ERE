@@ -336,7 +336,6 @@ class OneThresholdEvaluator:
                 self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
                 self.create_disttribution_plot(vol_bc, vol_cb, "vol_bc", "vol_cb", rel_ids, label)
                 self.create_disttribution_plot(vol_ac, vol_ca, "vol_ac", "vol_ca", rel_ids, label)
-            assert False
         return metrics
 
 

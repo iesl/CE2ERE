@@ -227,6 +227,8 @@ def main():
         wandb.config.update(run.config, allow_val_change=True)
         if "load_valid" not in run.config:
             wandb.config.update({"load_valid": 1}, allow_val_change=True)
+        if "save_plot" not in run.config:
+            wandb.config.update({"save_plot": args.save_plot}, allow_val_change=True)
         args = wandb.config
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
 
