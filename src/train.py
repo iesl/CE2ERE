@@ -5,6 +5,10 @@ from pathlib import Path
 
 import torch
 import wandb
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 from torch import Tensor
 from tqdm import tqdm
 from typing import Dict, Union, Optional
@@ -203,7 +207,7 @@ class OneThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
                  valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold: float, matres_threshold: float):
+                 hieve_threshold: float, matres_threshold: float, save_plot: int, wandb_id: Optional[str]=""):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -216,6 +220,38 @@ class OneThresholdEvaluator:
         self.best_matres_score = 0.0
         self.hieve_threshold = hieve_threshold
         self.matres_threshold = matres_threshold
+        self.save_plot = save_plot
+
+        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
+        self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
+        Path(self.fig_save_dir).mkdir(parents=True, exist_ok=True)
+
+
+    def create_disttribution_plot(self, prob1, prob2, p1_name, p2_name, rids, target):
+        rids = np.array(rids)
+        rids_index = (rids == target).nonzero()[0]
+        prob1 = np.array(prob1)[rids_index]
+        prob2 = np.array(prob2)[rids_index]
+
+        # print(len(rids_index), len(prob1), len(prob2))
+
+        df = pd.DataFrame()
+        df['index'] = rids_index
+        df[p1_name] = prob1
+        df[p2_name] = prob2
+
+        df = pd.melt(df, id_vars="index", var_name="type", value_name="prob")
+        sns.catplot(x='index', y='prob', hue='type', data=df, kind='bar')
+        plt.savefig(self.fig_save_dir + f"{p1_name}_{target}_distribution.png")
+        plt.clf()
+
+        fig, axs = plt.subplots(2)
+        counts1, bins1 = np.histogram(prob1)
+        counts2, bins2 = np.histogram(prob2)
+        axs[0].hist(bins1[:-1], bins1, weights=counts1)
+        axs[1].hist(bins2[:-1], bins2, weights=counts2)
+        plt.savefig(self.fig_save_dir + f"{p1_name}_{target}_frequency.png")
+        plt.clf()
 
     def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
@@ -232,8 +268,10 @@ class OneThresholdEvaluator:
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
+        vol_ab, vol_bc, vol_ac = [], [], []
+        vol_ba, vol_cb, vol_ca = [], [], []
         eval_start_time = time.time()
-        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
+        logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
                 device = self.device
@@ -274,6 +312,12 @@ class OneThresholdEvaluator:
                 xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
                 pred_vals.extend(xy_preds)
                 rel_ids.extend(xy_targets)
+                vol_ab.extend(torch.exp(vol_A_B).tolist())
+                vol_ba.extend(torch.exp(vol_B_A).tolist())
+                vol_bc.extend(torch.exp(vol_B_C).tolist())
+                vol_cb.extend(torch.exp(vol_C_B).tolist())
+                vol_ac.extend(torch.exp(vol_A_C).tolist())
+                vol_ca.extend(torch.exp(vol_C_A).tolist())
 
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
@@ -285,6 +329,14 @@ class OneThresholdEvaluator:
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
+
+        ####### conditional probabilities #######
+        if eval_type == "test" and self.save_plot:
+            for label in ["10", "01", "11", "00"]:
+                self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
+                self.create_disttribution_plot(vol_bc, vol_cb, "vol_bc", "vol_cb", rel_ids, label)
+                self.create_disttribution_plot(vol_ac, vol_ca, "vol_ac", "vol_ca", rel_ids, label)
+            assert False
         return metrics
 
 
@@ -319,7 +371,7 @@ class VectorBiLSTMEvaluator:
         self.model.eval()
         pred_vals, rel_ids = [], []
         eval_start_time = time.time()
-        logger.info(f"Validation-[{eval_type}-{data_type}] start... ")
+        logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
                 device = self.device

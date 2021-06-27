@@ -172,6 +172,8 @@ def setup(args, saved_model=None):
             test_cv_dataloader_dict=test_cv_dataloader_dict,
             hieve_threshold=args.hieve_threshold,
             matres_threshold=args.matres_threshold,
+            save_plot=args.save_plot,
+            wandb_id=wandb.run.id,
         )
 
     hier_weights, temp_weights = get_init_weights(device)
