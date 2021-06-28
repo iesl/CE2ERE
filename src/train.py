@@ -15,7 +15,7 @@ from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 
-from evalulation import threshold_evalution, two_threshold_evalution
+from evalulation import threshold_evalution
 from loss import BCELossWithLog, BCELogitLoss
 from metrics import metric, ConstraintViolation
 
@@ -226,24 +226,21 @@ class OneThresholdEvaluator:
         self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
         Path(self.fig_save_dir).mkdir(parents=True, exist_ok=True)
 
-
     def create_disttribution_plot(self, prob1, prob2, p1_name, p2_name, rids, target):
         rids = np.array(rids)
         rids_index = (rids == target).nonzero()[0]
         prob1 = np.array(prob1)[rids_index]
         prob2 = np.array(prob2)[rids_index]
 
-        # print(len(rids_index), len(prob1), len(prob2))
+        # df = pd.DataFrame()
+        # df['index'] = rids_index
+        # df[p1_name] = prob1
+        # df[p2_name] = prob2
 
-        df = pd.DataFrame()
-        df['index'] = rids_index
-        df[p1_name] = prob1
-        df[p2_name] = prob2
-
-        df = pd.melt(df, id_vars="index", var_name="type", value_name="prob")
-        sns.catplot(x='index', y='prob', hue='type', data=df, kind='bar')
-        plt.savefig(self.fig_save_dir + f"{p1_name}_{target}_distribution.png")
-        plt.clf()
+        # df = pd.melt(df, id_vars="index", var_name="type", value_name="prob")
+        # sns.catplot(x='index', y='prob', hue='type', data=df, kind='bar')
+        # plt.savefig(self.fig_save_dir + f"{p1_name}_{target}_distribution.png")
+        # plt.clf()
 
         fig, axs = plt.subplots(2)
         counts1, bins1 = np.histogram(prob1)
@@ -314,10 +311,6 @@ class OneThresholdEvaluator:
                 rel_ids.extend(xy_targets)
                 vol_ab.extend(torch.exp(vol_A_B).tolist())
                 vol_ba.extend(torch.exp(vol_B_A).tolist())
-                vol_bc.extend(torch.exp(vol_B_C).tolist())
-                vol_cb.extend(torch.exp(vol_C_B).tolist())
-                vol_ac.extend(torch.exp(vol_A_C).tolist())
-                vol_ca.extend(torch.exp(vol_C_A).tolist())
 
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
@@ -331,11 +324,9 @@ class OneThresholdEvaluator:
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
 
         ####### conditional probabilities #######
-        if eval_type == "test" and self.save_plot:
+        if eval_type == "valid" and self.save_plot:
             for label in ["10", "01", "11", "00"]:
                 self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
-                self.create_disttribution_plot(vol_bc, vol_cb, "vol_bc", "vol_cb", rel_ids, label)
-                self.create_disttribution_plot(vol_ac, vol_ca, "vol_ac", "vol_ca", rel_ids, label)
         return metrics
 
 
