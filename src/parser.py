@@ -16,8 +16,8 @@ def build_parser():
     parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector"],
                         help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning, bilstm: roberta-base emb w/o finetuning + BiLSTM, box: roberta-base emb w/o finetuning + BiLSTM + Box")
 
-    parser.add_argument('--downsample', type=float, default=0.2)
-    parser.add_argument('--learning_rate', type=float, default=0.001)
+    parser.add_argument('--downsample', type=float, default=0.01)
+    parser.add_argument('--learning_rate', type=float, default=1e-7)
     parser.add_argument('--lambda_anno', type=float, default=1)
     parser.add_argument('--lambda_trans', type=float, default=0)
     parser.add_argument('--lambda_cross', type=float, default=0)
@@ -30,7 +30,7 @@ def build_parser():
     parser.add_argument('--matres_threshold', type=float, default=-0.301029996,
                         help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1") # log 0.5
 
-    parser.add_argument('--mlp_size', type=int, default=256) # mlp hidden dim
+    parser.add_argument('--mlp_size', type=int, default=512) # mlp hidden dim
     parser.add_argument('--mlp_output_dim', type=int, default=32) # mlp output dim;
     parser.add_argument('--hieve_mlp_size', type=int, default=64)
     parser.add_argument('--matres_mlp_size', type=int, default=64)

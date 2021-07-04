@@ -247,8 +247,6 @@ def main():
         set_seed()
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
-        if args.debug:
-            wandb.config.update({"downsample": 0.01}, allow_val_change=True)
         args = wandb.config
         set_logger(args.data_type, wandb.run.id)
         logging.info(args)
