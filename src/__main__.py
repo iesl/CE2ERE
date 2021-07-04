@@ -8,14 +8,16 @@ from parser import *
 from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
-
+# torch.manual_seed(42)
 logger = logging.getLogger()
 
-def set_seed(seed: int):
-    torch.manual_seed(seed)
-    random.seed(seed)
+def set_seed():
+    torch_seed = 42
+    random_seed = 10
+    torch.manual_seed(torch_seed)
+    random.seed(random_seed)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed(torch_seed)
 
 
 def create_dataloader(args):
@@ -242,9 +244,11 @@ def main():
         trainer.evaluation(-1)
 
     else:
-        set_seed(args.seed)
+        set_seed()
         wandb.init()
-        wandb.config.update(args)
+        wandb.config.update(args, allow_val_change=True)
+        if args.debug:
+            wandb.config.update({"downsample": 0.01}, allow_val_change=True)
         args = wandb.config
         set_logger(args.data_type, wandb.run.id)
         logging.info(args)

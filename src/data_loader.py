@@ -1,3 +1,4 @@
+import json
 import pickle
 import random
 import time
@@ -227,7 +228,19 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     hieve_dir, hieve_files = get_hieve_files(data_dir)
     all_train_set, all_valid_set, all_test_set = [], [], []
 
-    train_range, valid_range, test_range = range(0, 60), range(60, 80), range(80, 100)
+    train_range, valid_range, test_range = [], [], []
+    with open(data_dir / "hievents_v2/sorted_dict.json") as f:
+        sorted_dict = json.load(f)
+    i = 0
+    for (key, value) in sorted_dict.items():
+        i += 1
+        key = int(key)
+        if i <= 20:
+            test_range.append(key)
+        elif i <= 40:
+            valid_range.append(key)
+        else:
+            train_range.append(key)
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):
@@ -240,10 +253,10 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
         if not args.load_valid:
             if doc_id in valid_range:
-                valid_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+                valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model)
                 all_valid_set.extend(valid_set)
             elif doc_id in test_range:
-                test_set = get_hieve_valid_test_set(data_dict, args.downsample, args.model)
+                test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model)
                 all_test_set.extend(test_set)
 
         # if doc_id not in train_range+valid_range+test_range:
@@ -290,12 +303,13 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
           f'test instance num: {len(all_test_set)}')
 
     if args.debug:
-        logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
-        all_valid_set = all_train_set
-        all_test_set = all_train_set
-        all_valid_cv_set = all_train_set
-        all_test_cv_set = all_train_set
+        # logger.info("debug mode on")
+        # all_train_set = all_train_set[0:100]
+        # all_valid_set = all_train_set
+        # all_test_set = all_train_set
+        # all_valid_cv_set = all_train_set
+        # all_test_cv_set = all_train_set
+        logger.info("hieve length debugging mode: %d".format(len(all_train_set)))
 
     return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 

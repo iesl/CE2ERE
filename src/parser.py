@@ -42,7 +42,7 @@ def build_parser():
     parser.add_argument('--lstm_hidden_size', type=int, default=256, help="BiLSTM layer hidden dimension")
     parser.add_argument('--lstm_input_size', type=int, default=768, help="BiLSTM layer input dimension")
 
-    parser.add_argument('--seed', type=int, default=random.randint(0, 2 ** 32), help="seed for random number generator")
+    # parser.add_argument('--seed', type=int, default=random.randint(0, 2 ** 32), help="seed for random number generator")
     parser.add_argument('--no_valid', default=False, action='store_true', help="turn off evaluation step")
     parser.add_argument('--loss_type', type=int, default=0,
                         help="1: within task-constraints, 2: within task & cross constraints")
