@@ -1,3 +1,4 @@
+import ast
 import json
 import pickle
 import random
@@ -225,9 +226,12 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
 
 
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
-    hieve_dir, hieve_files = get_hieve_files(data_dir)
+    # hieve_dir, hieve_files = get_hieve_files(data_dir)
+    hieve_dir = data_dir / "hievents_v2/processed/"
+    with open(data_dir / "hievents_v2/hieve_files_order.txt") as f:
+        hieve_files = ast.literal_eval(f.read())
+    print("hieve_files:", hieve_files)
     all_train_set, all_valid_set, all_test_set = [], [], []
-
     train_range, valid_range, test_range = [], [], []
     with open(data_dir / "hievents_v2/sorted_dict.json") as f:
         sorted_dict = json.load(f)
