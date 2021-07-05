@@ -227,9 +227,13 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
-        for key,value in sorted(vars(args).items()):
-            if key not in wandb.config.keys():
-                wandb.config.update({key: value}, allow_val_change=True)
+        if "load_valid" not in run.config:
+            wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
+        if "save_plot" not in run.config:
+            wandb.config.update({"save_plot": 1}, allow_val_change=True)
+        if "symm_eval" not in run.config:
+            wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
+
         args = wandb.config
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
