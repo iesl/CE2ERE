@@ -140,7 +140,7 @@ def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional
 
         event_dict[event_id]["sent_id"] = sntc_id
         event_dict[event_id]["token_id"] = id_lookup(token_span_DOC, start_char)
-        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char)
+        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char) + 1
     return data_dict
 
 
@@ -190,7 +190,24 @@ def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
     return data_dict
 
 
-def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str) -> Dict[str, Any]:
+def add_hieve_symmetric_data(data_dict, model_type, event_id1, event_id2, rel_type):
+    if model_type == "box" or model_type == "vector":
+        rel_id = get_hier_relation_tuple_id(rel_type)
+    else:
+        rel_id = get_relation_id(rel_type)
+    data_dict["relation_dict"][(event_id2, event_id1)] = {}
+    data_dict["relation_dict"][(event_id2, event_id1)]["relation"] = rel_id
+
+
+def add_matres_symmetric_data(eiid_pair_to_rid_per_fname, model_type, eiid1, eiid2, rel_type):
+    if model_type == "box" or model_type == "vector":
+        temp_rel_id = get_temp_relation_tuple_id(rel_type)
+    else:
+        temp_rel_id = get_temp_rel_id(rel_type)
+    eiid_pair_to_rid_per_fname[(eiid2, eiid1)] = temp_rel_id
+
+
+def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm_eval: int) -> Dict[str, Any]:
     """
     tsvx split delimeter is \t
     Text \t doc_content
@@ -202,6 +219,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str) -> Di
     Text    Syrian rebels delivered six U.N.
     Event   1   delivered   Occurence   14
     Relation    20  21  NoRel	true	wished	drew
+    Relation	1	3	SuperSub	true	carrying	attack
     """
     data_dict = {}
     data_dict["doc_id"] = file.replace(".tsvx", "")
@@ -230,12 +248,18 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str) -> Di
                 rel_id = get_relation_id(rel_type)
             data_dict["relation_dict"][(event_id1, event_id2)] = {}
             data_dict["relation_dict"][(event_id1, event_id2)]["relation"] = rel_id
+
+            if symm_eval:
+                if line[3] == "SuperSub":
+                    add_hieve_symmetric_data(data_dict, model_type, int(line[1]), int(line[2]), "SubSuper")
+                if line[3] == "SubSuper":
+                    add_hieve_symmetric_data(data_dict, model_type, int(line[1]), int(line[2]), "SuperSub")
         else:
             raise ValueError("File is not in HiEve tsvx format...")
     return data_dict
 
 
-def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str) -> Tuple[Dict]:
+def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str, symm_eval: int) -> Tuple[Dict]:
     """
     eiid: event instance id, eid: event id
     Information about TempEval-3 found on https://arxiv.org/pdf/1206.5333.pdf
@@ -262,6 +286,12 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                     eiid_pair_to_rel_id[fname] = {}
                 eiid_pair_to_rel_id[fname][(eiid1, eiid2)] = temp_rel_id
 
+                if symm_eval:
+                    if line[5].lower() == "before":
+                        add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "AFTER")
+                    if line[5].lower() == "after":
+                        add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "BEFORE")
+
                 if eiid1 not in eiid_to_event_trigger[fname].keys():
                     eiid_to_event_trigger[fname][eiid1] = trigger_word1
                 if eiid2 not in eiid_to_event_trigger[fname].keys():
@@ -270,7 +300,7 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
     return eiid_to_event_trigger, eiid_pair_to_rel_id
 
 
-def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger : Dict):
+def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger: Dict):
 
     data_dict = {}
     data_dict["event_dict"] = {}
@@ -353,14 +383,14 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str) -> Dict[str, Any]:
-    data_dict = read_tsvx_file(data_dir, file, model_type)
+def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm_eval: int) -> Dict[str, Any]:
+    data_dict = read_tsvx_file(data_dir, file, model_type, symm_eval)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)
     return data_dict
 
 
-def matres_file_reader(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger : Dict):
+def matres_file_reader(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger: Dict):
     data_dict = read_tml_file(dir_path, file_name, eiid_to_event_trigger)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=False)

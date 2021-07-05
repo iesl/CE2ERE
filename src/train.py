@@ -222,15 +222,26 @@ class OneThresholdEvaluator:
         self.matres_threshold = matres_threshold
         self.save_plot = save_plot
 
-        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
-        self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
-        Path(self.fig_save_dir).mkdir(parents=True, exist_ok=True)
+        if self.save_plot:
+            timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
+            self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
+            Path(self.fig_save_dir).mkdir(parents=True, exist_ok=True)
 
     def create_disttribution_plot(self, prob1, prob2, p1_name, p2_name, rids, target):
         rids = np.array(rids)
-        rids_index = (rids == target).nonzero()[0]
-        prob1 = np.array(prob1)[rids_index]
-        prob2 = np.array(prob2)[rids_index]
+        rids_index1 = (rids == target).nonzero()[0]
+        rids_index2 = (rids == target[::-1]).nonzero()[0]
+        prob1 = np.array(prob1)[rids_index1]
+        prob2 = np.array(prob2)[rids_index2]
+
+        # print("========================================================================")
+        # print(target)
+        # print(rids)
+        # print("rids_index1", rids_index1)
+        # print("rids_index2", rids_index2)
+        # print(p1_name, prob1)
+        # print(p2_name, prob2)
+        # print("========================================================================")
 
         # df = pd.DataFrame()
         # df['index'] = rids_index
@@ -246,8 +257,14 @@ class OneThresholdEvaluator:
         counts1, bins1 = np.histogram(prob1)
         counts2, bins2 = np.histogram(prob2)
         axs[0].hist(bins1[:-1], bins1, weights=counts1)
+        axs[0].set_ylabel("count")
+
         axs[1].hist(bins2[:-1], bins2, weights=counts2)
-        plt.savefig(self.fig_save_dir + f"{p1_name}_{target}_frequency.png")
+        axs[1].set_xlabel("probability")
+        axs[1].set_ylabel("count")
+        axs[0].set_title(f"{p1_name}[top] and {p2_name}[bottom]-a:{target[0]},b:{target[1]}")
+
+        plt.savefig(self.fig_save_dir + f"{p1_name}_{p2_name}_{target}_frequency.png")
         plt.clf()
 
     def evaluate(self, data_type: str, eval_type: str):
@@ -327,6 +344,7 @@ class OneThresholdEvaluator:
         if eval_type == "valid" and self.save_plot:
             for label in ["10", "01", "11", "00"]:
                 self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
+                logger.info("# of {0} labels: {1}".format(label, len((np.array(rel_ids)==label).nonzero()[0])))
         return metrics
 
 

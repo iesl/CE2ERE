@@ -93,7 +93,7 @@ def set_logger(data_type: str, wandb_id: str):
     logging_path = log_dir + f"{data_type}_{timestamp}_{wandb_id}.log"
 
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
         format="%(asctime)s [%(levelname)s] %(message)s",
         handlers=[
             logging.FileHandler(logging_path),

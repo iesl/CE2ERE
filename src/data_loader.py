@@ -16,7 +16,7 @@ from typing import List, Tuple, Dict, Any, Optional, Union
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 512):
     if isPosTag == False:
         one_list = [1] * max_sent_len
         one_list[0:len(subword_ids)] = subword_ids
@@ -36,55 +36,61 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
     for x in range(1, num_event+1):
         for y in range(x+1, num_event+1):
             for z in range(y+1, num_event+1):
-                x_sntc_id = event_dict[x]["sent_id"]
-                y_sntc_id = event_dict[y]["sent_id"]
-                z_sntc_id = event_dict[z]["sent_id"]
-
-                # get list of subword ids related to the specific sentence id
-                # then padding the list of subword ids
-                x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-                y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-                z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-
-                x_position = event_dict[x]["roberta_subword_id"]
-                y_position = event_dict[y]["roberta_subword_id"]
-                z_position = event_dict[z]["roberta_subword_id"]
-
-                x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-                y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
-                z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
-
-                # rel_id: {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
-                xy_rel_id = relation_dict[(x, y)]["relation"]
-                yz_rel_id = relation_dict[(y, z)]["relation"]
-                xz_rel_id = relation_dict[(x, z)]["relation"]
-
-                to_append = \
-                    str(x), str(y), str(z),\
-                    x_sntc, y_sntc, z_sntc,\
-                    x_position, y_position, z_position,\
-                    x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag,\
-                    xy_rel_id, yz_rel_id, xz_rel_id,\
-                    0 # 0: HiEve, 1: MATRES
-
-                if model_type == "box" or  model_type == "vector":
-                    if xy_rel_id == (0,0) and yz_rel_id == (0,0): pass # x-y: NoRel and y-z: NoRel
-                    elif xy_rel_id == (0,0) or yz_rel_id == (0,0) or xz_rel_id == (0,0): # if one of them is NoRel
-                        if random.uniform(0, 1) < downsample:
-                            train_set.append(to_append)
-                    else:
-                        train_set.append(to_append)
-                else:
-                    if xy_rel_id == 3 and yz_rel_id == 3: pass # x-y: NoRel and y-z: NoRel
-                    elif xy_rel_id == 3 or yz_rel_id == 3 or xz_rel_id == 3: # if one of them is NoRel
-                        if random.uniform(0, 1) < downsample:
-                            train_set.append(to_append)
-                    else:
-                        train_set.append(to_append)
+                append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict)
     return train_set
 
 
-def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model_type: str) -> List[Tuple]:
+def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict):
+    x_sntc_id = event_dict[x]["sent_id"]
+    y_sntc_id = event_dict[y]["sent_id"]
+    z_sntc_id = event_dict[z]["sent_id"]
+
+    # get list of subword ids related to the specific sentence id
+    # then padding the list of subword ids
+    x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+    y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+    z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+
+    x_position = event_dict[x]["roberta_subword_id"]
+    y_position = event_dict[y]["roberta_subword_id"]
+    z_position = event_dict[z]["roberta_subword_id"]
+
+    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+    # rel_id: {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
+    xy_rel_id = relation_dict[(x, y)]["relation"]
+    yz_rel_id = relation_dict[(y, z)]["relation"]
+    xz_rel_id = relation_dict[(x, z)]["relation"]
+
+    to_append = \
+        str(x), str(y), str(z), \
+        x_sntc, y_sntc, z_sntc, \
+        x_position, y_position, z_position, \
+        x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag, \
+        xy_rel_id, yz_rel_id, xz_rel_id, \
+        0  # 0: HiEve, 1: MATRES
+
+    if model_type == "box" or model_type == "vector":
+        if xy_rel_id == (0, 0) and yz_rel_id == (0, 0):
+            pass  # x-y: NoRel and y-z: NoRel
+        elif xy_rel_id == (0, 0) or yz_rel_id == (0, 0) or xz_rel_id == (0, 0):  # if one of them is NoRel
+            if random.uniform(0, 1) < downsample:
+                train_set.append(to_append)
+        else:
+            train_set.append(to_append)
+    else:
+        if xy_rel_id == 3 and yz_rel_id == 3:
+            pass  # x-y: NoRel and y-z: NoRel
+        elif xy_rel_id == 3 or yz_rel_id == 3 or xz_rel_id == 3:  # if one of them is NoRel
+            if random.uniform(0, 1) < downsample:
+                train_set.append(to_append)
+        else:
+            train_set.append(to_append)
+
+
+def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model_type: str, symm_eval: int) -> List[Tuple]:
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -93,43 +99,49 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
 
     for x in range(1, num_event+1):
         for y in range(x+1, num_event+1):
-            x_sntc_id = event_dict[x]["sent_id"]
-            y_sntc_id = event_dict[y]["sent_id"]
-
-            x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
-            y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
-
-            x_position = event_dict[x]["roberta_subword_id"]
-            y_position = event_dict[y]["roberta_subword_id"]
-
-            x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-            y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
-
-            xy_rel_id = relation_dict[(x, y)]["relation"]
-
-            to_append = \
-                str(x), str(y), str(x),\
-                x_sntc, y_sntc, x_sntc,\
-                x_position, y_position, x_position,\
-                x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
-                xy_rel_id, xy_rel_id, xy_rel_id,\
-                0 # 0: HiEve, 1: MATRES
-
-
-            if model_type == "box" or model_type == "vector":
-                if xy_rel_id == (0,0):
-                    if random.uniform(0, 1) < downsample:
-                        final_set.append(to_append)
-                else:
-                    final_set.append(to_append)
-            else:
-                if xy_rel_id == 3:
-                    if random.uniform(0, 1) < downsample:
-                        final_set.append(to_append)
-                else:
-                    final_set.append(to_append)
+            append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict)
+            if symm_eval and (model_type == "box" or model_type == "vector"):
+                if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
+                    append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
 
     return final_set
+
+
+def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict):
+    x_sntc_id = event_dict[x]["sent_id"]
+    y_sntc_id = event_dict[y]["sent_id"]
+
+    x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
+    y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
+
+    x_position = event_dict[x]["roberta_subword_id"]
+    y_position = event_dict[y]["roberta_subword_id"]
+
+    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+    xy_rel_id = relation_dict[(x, y)]["relation"]
+
+    to_append = \
+        str(x), str(y), str(x), \
+        x_sntc, y_sntc, x_sntc, \
+        x_position, y_position, x_position, \
+        x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+        xy_rel_id, xy_rel_id, xy_rel_id, \
+        0  # 0: HiEve, 1: MATRES
+
+    if model_type == "box" or model_type == "vector":
+        if xy_rel_id == (0, 0):
+            if random.uniform(0, 1) < downsample:
+                final_set.append(to_append)
+        else:
+            final_set.append(to_append)
+    else:
+        if xy_rel_id == 3:
+            if random.uniform(0, 1) < downsample:
+                final_set.append(to_append)
+        else:
+            final_set.append(to_append)
 
 
 def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
@@ -189,39 +201,45 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
     return train_set
 
 
-def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int]):
+def append_matres_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict):
+    xy_rel_id = eiid_pair_to_rel_id_dict[(eiid1, eiid2)]
+
+    x_evnt_id = eiid_dict[eiid1]["eID"]
+    y_evnt_id = eiid_dict[eiid2]["eID"]
+
+    x_sntc_id = event_dict[x_evnt_id]["sent_id"]
+    y_sntc_id = event_dict[y_evnt_id]["sent_id"]
+
+    x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+    y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+
+    x_position = event_dict[x_evnt_id]["roberta_subword_id"]
+    y_position = event_dict[y_evnt_id]["roberta_subword_id"]
+
+    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+
+    to_append = \
+        x_evnt_id, y_evnt_id, x_evnt_id, \
+        x_sntc, y_sntc, x_sntc, \
+        x_position, y_position, x_position, \
+        x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
+        xy_rel_id, xy_rel_id, xy_rel_id, \
+        1  # 0: HiEve, 1: MATRES
+
+    final_set.append(to_append)
+
+
+def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], symm_eval: int):
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
     eiid_dict = data_dict["eiid_dict"]
 
     for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
-        xy_rel_id = eiid_pair_to_rel_id_dict[(eiid1, eiid2)]
-
-        x_evnt_id = eiid_dict[eiid1]["eID"]
-        y_evnt_id = eiid_dict[eiid2]["eID"]
-
-        x_sntc_id = event_dict[x_evnt_id]["sent_id"]
-        y_sntc_id = event_dict[y_evnt_id]["sent_id"]
-
-        x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-        y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-
-        x_position = event_dict[x_evnt_id]["roberta_subword_id"]
-        y_position = event_dict[y_evnt_id]["roberta_subword_id"]
-
-        x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-        y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
-
-        to_append = \
-            x_evnt_id, y_evnt_id, x_evnt_id,\
-            x_sntc, y_sntc, x_sntc,\
-            x_position, y_position, x_position,\
-            x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag,\
-            xy_rel_id, xy_rel_id, xy_rel_id,\
-            1 # 0: HiEve, 1: MATRES
-
-        final_set.append(to_append)
+        append_matres_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+        if symm_eval and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
+            append_matres_dataset(final_set, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
     return final_set
 
 
@@ -249,7 +267,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     start_time = time.time()
     for i, file in enumerate(tqdm(hieve_files)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model) # data_reader.py
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval) # data_reader.py
         doc_id = i
 
         if doc_id in train_range:
@@ -258,12 +276,12 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
         if not args.load_valid:
             if doc_id in valid_range:
-                valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model)
+                valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
                 all_valid_set.extend(valid_set)
                 cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
                 all_valid_cv_set.extend(cv_valid_set)
             elif doc_id in test_range:
-                test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model)
+                test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
                 all_test_set.extend(test_set)
                 cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
                 all_test_cv_set.extend(cv_test_set)
@@ -310,7 +328,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
@@ -322,7 +340,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
 def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path = get_matres_files(data_dir)
-    eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path, args.model)
+    eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path, args.model, args.symm_eval)
 
     all_train_set, all_valid_set, all_test_set = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
@@ -338,12 +356,12 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_train_set.extend(train_set)
         elif file_name in all_tml_file_dict["aq"]:
-            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
             all_valid_set.extend(valid_set)
             cv_valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_valid_cv_set.extend(cv_valid_set)
         elif file_name in all_tml_file_dict["pl"]:
-            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict)
+            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
             all_test_set.extend(test_set)
             cv_test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
             all_test_cv_set.extend(cv_test_set)
@@ -357,7 +375,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
           f'test instance num: {len(all_test_set)}')
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set

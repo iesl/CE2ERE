@@ -56,4 +56,6 @@ def build_parser():
     parser.add_argument('--load_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
 
+    parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
+
     return parser.parse_args()
