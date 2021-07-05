@@ -341,7 +341,7 @@ class OneThresholdEvaluator:
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
 
         ####### conditional probabilities #######
-        if eval_type == "valid" and self.save_plot:
+        if eval_type == "test" and self.save_plot:
             for label in ["10", "01", "11", "00"]:
                 self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
                 logger.info("# of {0} labels: {1}".format(label, len((np.array(rel_ids)==label).nonzero()[0])))
