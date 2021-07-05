@@ -8,12 +8,13 @@ from parser import *
 from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
-# torch.manual_seed(42)
 logger = logging.getLogger()
 
-def set_seed():
-    torch_seed = 42
-    random_seed = 10
+def set_seed(seed):
+    # torch_seed = 42
+    # random_seed = 10
+    torch_seed = seed
+    random_seed = seed
     torch.manual_seed(torch_seed)
     random.seed(random_seed)
     if torch.cuda.is_available():
@@ -227,14 +228,12 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
-        if "load_valid" not in run.config:
-            wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
-        if "save_plot" not in run.config:
-            wandb.config.update({"save_plot": 1}, allow_val_change=True)
-        if "symm_eval" not in run.config:
-            wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
+        wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
+        wandb.config.update({"save_plot": 1}, allow_val_change=True)
+        wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
 
         args = wandb.config
+        set_seed(args.seed)
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
         num_classes = 4
@@ -247,7 +246,7 @@ def main():
         trainer.evaluation(-1)
 
     else:
-        set_seed()
+        set_seed(args.seed)
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
         args = wandb.config

@@ -227,12 +227,11 @@ class OneThresholdEvaluator:
             self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
             Path(self.fig_save_dir).mkdir(parents=True, exist_ok=True)
 
-    def create_disttribution_plot(self, prob1, prob2, p1_name, p2_name, rids, target):
+    def create_disttribution_plot(self, eval_type, prob1, prob2, p1_name, p2_name, rids, target):
         rids = np.array(rids)
-        rids_index1 = (rids == target).nonzero()[0]
-        rids_index2 = (rids == target[::-1]).nonzero()[0]
-        prob1 = np.array(prob1)[rids_index1]
-        prob2 = np.array(prob2)[rids_index2]
+        rids_index = (rids == target).nonzero()[0]
+        prob1 = np.array(prob1)[rids_index]
+        prob2 = np.array(prob2)[rids_index]
 
         # print("========================================================================")
         # print(target)
@@ -264,7 +263,7 @@ class OneThresholdEvaluator:
         axs[1].set_ylabel("count")
         axs[0].set_title(f"{p1_name}[top] and {p2_name}[bottom]-a:{target[0]},b:{target[1]}")
 
-        plt.savefig(self.fig_save_dir + f"{p1_name}_{p2_name}_{target}_frequency.png")
+        plt.savefig(self.fig_save_dir + f"{eval_type}_{p1_name}_{p2_name}_{target}_frequency.png")
         plt.clf()
 
     def evaluate(self, data_type: str, eval_type: str):
@@ -281,9 +280,10 @@ class OneThresholdEvaluator:
             dataloader = self.test_cv_dataloader_dict[data_type]
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
-        pred_vals, rel_ids = [], []
+        preds, targets = [], []
         vol_ab, vol_bc, vol_ac = [], [], []
         vol_ba, vol_cb, vol_ca = [], [], []
+        rids = []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -324,10 +324,11 @@ class OneThresholdEvaluator:
                 xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
                 yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
                 xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
-                pred_vals.extend(xy_preds)
-                rel_ids.extend(xy_targets)
+                preds.extend(xy_preds)
+                targets.extend(xy_targets)
                 vol_ab.extend(torch.exp(vol_A_B).tolist())
                 vol_ba.extend(torch.exp(vol_B_A).tolist())
+                rids.extend([''.join(map(str, item)) for item in xy_rel_id.tolist()])
 
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
@@ -336,15 +337,15 @@ class OneThresholdEvaluator:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
 
-        metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
+        metrics = metric(data_type, eval_type, self.model_type, y_true=targets, y_pred=preds)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
 
-        ####### conditional probabilities #######
-        if eval_type == "test" and self.save_plot:
+        ####### plot for conditional probabilities #######
+        if (eval_type == "valid" or eval_type == "test") and self.save_plot:
             for label in ["10", "01", "11", "00"]:
-                self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, label)
-                logger.info("# of {0} labels: {1}".format(label, len((np.array(rel_ids)==label).nonzero()[0])))
+                self.create_disttribution_plot(eval_type, vol_ab, vol_ba, "vol_ab", "vol_ba", rids, label)
+                logger.info("# of {0} labels: {1}".format(label, len((np.array(rids)==label).nonzero()[0])))
         return metrics
 
 
