@@ -11,10 +11,10 @@ from pathlib import Path
 logger = logging.getLogger()
 
 def set_seed(seed):
-    # torch_seed = 42
-    # random_seed = 10
-    torch_seed = seed
-    random_seed = seed
+    torch_seed = 42
+    random_seed = 10
+    # torch_seed = seed
+    # random_seed = seed
     torch.manual_seed(torch_seed)
     random.seed(random_seed)
     if torch.cuda.is_available():
