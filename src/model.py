@@ -350,15 +350,15 @@ class Box_BiLSTM_MLP(Module):
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
         self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
         self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
+        self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
         if self.loss_type:
             self.MLP_relation = MLP(6 * hidden_size, 2 * mlp_size, mlp_output_dim)
             self.MLP_rhieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
             self.MLP_rmatres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
-            self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
             self.softvol = SoftVolume(volume_temp, intersection_temp)
-            
+
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
         if roberta_size_type == "roberta-base":
