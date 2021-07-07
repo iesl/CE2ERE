@@ -356,7 +356,9 @@ class Box_BiLSTM_MLP(Module):
             self.MLP_relation = MLP(6 * hidden_size, 2 * mlp_size, mlp_output_dim)
             self.MLP_rhieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
             self.MLP_rmatres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
-
+            self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
+            self.softvol = SoftVolume(volume_temp, intersection_temp)
+            
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
         if roberta_size_type == "roberta-base":
@@ -367,8 +369,6 @@ class Box_BiLSTM_MLP(Module):
             raise ValueError(f"{roberta_size_type} doesn't exist!")
 
         self.box_embedding = BoxEmbedding(volume_temp=volume_temp, threshold=20)
-        self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
-        self.softvol = SoftVolume(volume_temp, intersection_temp)
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
