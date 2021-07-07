@@ -237,7 +237,7 @@ def main():
         wandb.config.update({"fix_seed": args.fix_seed}, allow_val_change=True)
 
         args = wandb.config
-        set_seed(args.seed)
+        set_seed(args.seed, args.fix_seed)
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
         num_classes = 4

@@ -46,7 +46,7 @@ class Trainer:
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
-        self.kl_div = KLDivLoss(log_target=True)
+        self.kl_div = KLDivLoss(log_target=True, size_average=False)
         self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
