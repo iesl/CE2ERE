@@ -352,7 +352,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
@@ -399,7 +399,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
           f'test instance num: {len(all_test_set)}')
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set

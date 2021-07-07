@@ -158,6 +158,33 @@ class BCELossWithLog(Module):
         return loss
 
 
+class BCELossWithLogR(Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, volume, label, flag):
+        """
+        volume: P(A,B | AB)
+        label: 1 or 0
+        PC, CP, CR: P(A,B|AB) -> 1 and NR: P(A,B|AB) -> 0
+        """
+        pc_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 1 and lbl[1] == 0]
+        cp_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 1]
+        cr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 1 and lbl[1] == 1]
+        nr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 0]
+        if volume.shape[-1] == 1:
+            pc_vol = volume[pc_indices]
+            cp_vol = volume[cp_indices]
+            cr_vol = volume[cr_indices]
+            nr_vol = volume[nr_indices]
+            loss = -(pc_vol.sum() + cp_vol.sum() + cr_vol.sum() + log1mexp(nr_vol).sum())
+        # else:
+        #     hieve_loss = -(pc_vol[:,0][flag == 0].sum() + cp_vol[:,0][flag == 0].sum() + cr_vol[:,0][flag == 0].sum() + log1mexp(nr_vol[:,0][flag == 0]).sum())
+        #     matres_loss = -(pc_vol[:,1][flag == 1].sum() + cp_vol[:,1][flag == 1].sum() + cr_vol[:,1][flag == 1].sum() + log1mexp(nr_vol[:,1][flag == 1]).sum())
+        #     loss = hieve_loss + matres_loss
+        return loss
+
+
 class BCELogitLoss(Module):
     def __init__(self):
         super().__init__()

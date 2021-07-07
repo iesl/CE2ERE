@@ -12,11 +12,11 @@ import matplotlib.pyplot as plt
 from torch import Tensor
 from tqdm import tqdm
 from typing import Dict, Union, Optional
-from torch.nn import Module, CrossEntropyLoss
+from torch.nn import Module, CrossEntropyLoss, KLDivLoss
 from torch.utils.data import DataLoader
 
 from evalulation import threshold_evalution
-from loss import BCELossWithLog, BCELogitLoss
+from loss import BCELossWithLog, BCELossWithLogR, BCELogitLoss
 from metrics import metric, ConstraintViolation
 
 logger = logging.getLogger()
@@ -46,6 +46,7 @@ class Trainer:
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
+        self.kl_div = KLDivLoss(log_target=True)
         self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
@@ -107,8 +108,10 @@ class Trainer:
                     if self.model_type == "box":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
-                        vol_A_B, vol_B_A, _, _, _, _ = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        vol_A_B, vol_B_A, _, _, _, _, inter_AB, rvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                        if self.loss_type:
+                            loss += self.kl_div(inter_AB, rvol_AB)
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
@@ -294,7 +297,7 @@ class OneThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
