@@ -162,7 +162,7 @@ class BCELossWithLogR(Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, volume, label, flag):
+    def forward(self, ivol, rvol, label, flag):
         """
         volume: P(A,B | AB)
         label: 1 or 0
@@ -172,11 +172,12 @@ class BCELossWithLogR(Module):
         cp_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 1]
         cr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 1 and lbl[1] == 1]
         nr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 0]
-        if volume.shape[-1] == 1:
-            pc_vol = volume[pc_indices]
-            cp_vol = volume[cp_indices]
-            cr_vol = volume[cr_indices]
-            nr_vol = volume[nr_indices]
+        if rvol.shape[-1] == 1:
+            condi = min(ivol, rvol).values - max(ivol, rvol).values
+            pc_vol = condi[pc_indices]
+            cp_vol = condi[cp_indices]
+            cr_vol = condi[cr_indices]
+            nr_vol = condi[nr_indices]
             loss = -(pc_vol.sum() + cp_vol.sum() + cr_vol.sum() + log1mexp(nr_vol).sum())
         # else:
         #     hieve_loss = -(pc_vol[:,0][flag == 0].sum() + cp_vol[:,0][flag == 0].sum() + cr_vol[:,0][flag == 0].sum() + log1mexp(nr_vol[:,0][flag == 0]).sum())

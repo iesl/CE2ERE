@@ -47,6 +47,7 @@ class Trainer:
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
         self.kl_div = KLDivLoss()
+        self.rbce_loss = BCELossWithLogR()
         self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
@@ -111,7 +112,7 @@ class Trainer:
                         vol_A_B, vol_B_A, _, _, _, _, inter_AB, rvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
-                            _loss = self.kl_div(inter_AB, rvol_AB)
+                            _loss = self.rbce_loss(inter_AB, rvol_AB)
                             loss += _loss
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
