@@ -158,31 +158,30 @@ class BCELossWithLog(Module):
         return loss
 
 
-class BCELossWithLogR(Module):
+class BCELossWithLogP(Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, ivol, rvol, label, flag):
+    def forward(self, pvol, label, flag):
         """
-        volume: P(A,B | AB)
+        volume: P((A n B n AB) | AB)
         label: 1 or 0
         PC, CP, CR: P(A,B|AB) -> 1 and NR: P(A,B|AB) -> 0
         """
-        pc_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 1 and lbl[1] == 0]
-        cp_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 1]
-        cr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 1 and lbl[1] == 1]
+        not_nr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] != 0 or lbl[1] != 0]
         nr_indices = [i for i, lbl in enumerate(label.tolist()) if lbl[0] == 0 and lbl[1] == 0]
-        if rvol.shape[-1] == 1:
-            condi = min(ivol, rvol).values - max(ivol, rvol).values
-            pc_vol = condi[pc_indices]
-            cp_vol = condi[cp_indices]
-            cr_vol = condi[cr_indices]
-            nr_vol = condi[nr_indices]
-            loss = -(pc_vol.sum() + cp_vol.sum() + cr_vol.sum() + log1mexp(nr_vol).sum())
-        # else:
-        #     hieve_loss = -(pc_vol[:,0][flag == 0].sum() + cp_vol[:,0][flag == 0].sum() + cr_vol[:,0][flag == 0].sum() + log1mexp(nr_vol[:,0][flag == 0]).sum())
-        #     matres_loss = -(pc_vol[:,1][flag == 1].sum() + cp_vol[:,1][flag == 1].sum() + cr_vol[:,1][flag == 1].sum() + log1mexp(nr_vol[:,1][flag == 1]).sum())
-        #     loss = hieve_loss + matres_loss
+        assert len(not_nr_indices) + len(nr_indices) == pvol.shape[0]
+
+        if pvol.shape[-1] == 1:
+            not_nr_vol = pvol[not_nr_indices]
+            nr_vol = pvol[nr_indices]
+            loss = -(not_nr_vol.sum() + log1mexp(nr_vol).sum())
+        else:
+            not_nr_pvol = pvol[not_nr_indices]
+            nr_pvol = pvol[nr_indices]
+            hieve_loss = -(not_nr_pvol[:,0][flag == 0].sum() + log1mexp(nr_pvol[:,0][flag == 0]).sum())
+            matres_loss = -(not_nr_pvol[:,1][flag == 1].sum() + log1mexp(nr_pvol[:,1][flag == 1]).sum())
+            loss = hieve_loss + matres_loss
         return loss
 
 

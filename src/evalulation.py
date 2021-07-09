@@ -27,6 +27,22 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
 
     return preds, targets, constraint_dict
 
+"""
+input: volume1 tensor, volume2 tensor, label
+threshold = 0.5
+ vol1   vol2  label
+0[0.65, 0.30] [01]   -> pred: 10 true: 01
+1[0.30, 0.65] [00]   -> pred: 01 true: 00
+2[0.55, 0.52] [01]   -> pred: 11 true: 01
+3[0.45, 0.42] [10]   -> pred: 00 true: 10
+4[0.66, 0.42] [10]   -> pred: 10 true: 10
+
+return:
+pc:
+0,4
+pred: [10, 10, 01, 11, 00]
+targets: [01, 10, 00, 01, 10]
+"""
 
 def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, key):
     mask_indices = mask.nonzero()

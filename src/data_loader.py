@@ -223,8 +223,6 @@ def append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc
         train_set.append(to_append)
 
 
-
-
 def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], symm_eval: int):
     final_set = []
     event_dict = data_dict["event_dict"]
@@ -297,52 +295,18 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         if doc_id in train_range:
             train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
             all_train_set.extend(train_set)
-
-        if not args.load_valid:
-            if doc_id in valid_range:
-                valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-                all_valid_set.extend(valid_set)
-                cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-                all_valid_cv_set.extend(cv_valid_set)
-            elif doc_id in test_range:
-                test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-                all_test_set.extend(test_set)
-                cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
-                all_test_cv_set.extend(cv_test_set)
-        # else:
-        #     raise ValueError(f"doc_id={doc_id} is out of range!")
-
-    if args.load_valid:
-        if args.model == "box" or args.model == "vector":
-            with open(data_dir / "hieve_valid_test_set/hieve_valid_box.pickle", 'rb') as handle:
-                valid_box = pickle.load(handle)
-                all_valid_set.extend(valid_box)
-            with open(data_dir / "hieve_valid_test_set/hieve_test_box.pickle", 'rb') as handle:
-                test_box = pickle.load(handle)
-                all_test_set.extend(test_box)
-
-            ############## load constraint violation ##############
-            with open(data_dir / "constraint_violation/hieve/hieve_valid_cv_box.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_cv_set.extend(valid_vec)
-            with open(data_dir / "constraint_violation/hieve/hieve_test_cv_box.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_cv_set.extend(test_vec)
+        elif doc_id in valid_range:
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_valid_cv_set.extend(cv_valid_set)
+        elif doc_id in test_range:
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_test_cv_set.extend(cv_test_set)
         else:
-            with open(data_dir / "hieve_valid_test_set/hieve_valid_vector.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_set.extend(valid_vec)
-            with open(data_dir / "hieve_valid_test_set/hieve_test_vector.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_set.extend(test_vec)
-
-            ############## load constraint violation ##############
-            with open(data_dir / "constraint_violation/hieve/hieve_valid_cv_vector.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_cv_set.extend(valid_vec)
-            with open(data_dir / "constraint_violation/hieve/hieve_test_cv_vector.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_cv_set.extend(test_vec)
+            raise ValueError(f"doc_id={doc_id} is out of range!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
@@ -379,51 +343,18 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
         if file_name in all_tml_file_dict["tb"]:
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict, args.symm_train)
             all_train_set.extend(train_set)
-        if not args.load_valid:
-            if file_name in all_tml_file_dict["aq"]:
-                valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
-                all_valid_set.extend(valid_set)
-                cv_valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
-                all_valid_cv_set.extend(cv_valid_set)
-            elif file_name in all_tml_file_dict["pl"]:
-                test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
-                all_test_set.extend(test_set)
-                cv_test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
-                all_test_cv_set.extend(cv_test_set)
-        # else:
-        #     raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
-
-    if args.load_valid:
-        if args.model == "box" or args.model == "vector":
-            with open(data_dir / "matres_valid_test_set/matres_valid_box.pickle", 'rb') as handle:
-                valid_box = pickle.load(handle)
-                all_valid_set.extend(valid_box)
-            with open(data_dir / "matres_valid_test_set/matres_test_box.pickle", 'rb') as handle:
-                test_box = pickle.load(handle)
-                all_test_set.extend(test_box)
-
-            ############## load constraint violation ##############
-            with open(data_dir / "constraint_violation/matres/matres_valid_cv_box.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_cv_set.extend(valid_vec)
-            with open(data_dir / "constraint_violation/matres/matres_test_cv_box.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_cv_set.extend(test_vec)
+        elif file_name in all_tml_file_dict["aq"]:
+            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
+            all_valid_set.extend(valid_set)
+            cv_valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            all_valid_cv_set.extend(cv_valid_set)
+        elif file_name in all_tml_file_dict["pl"]:
+            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
+            all_test_set.extend(test_set)
+            cv_test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            all_test_cv_set.extend(cv_test_set)
         else:
-            with open(data_dir / "matres_valid_test_set/matres_valid_vector.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_set.extend(valid_vec)
-            with open(data_dir / "matres_valid_test_set/matres_test_vector.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_set.extend(test_vec)
-
-            ############## load constraint violation ##############
-            with open(data_dir / "constraint_violation/matres/matres_valid_cv_vector.pickle", 'rb') as handle:
-                valid_vec = pickle.load(handle)
-                all_valid_cv_set.extend(valid_vec)
-            with open(data_dir / "constraint_violation/matres/matres_test_cv_vector.pickle", 'rb') as handle:
-                test_vec = pickle.load(handle)
-                all_test_cv_set.extend(test_vec)
+            raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("MATRES Preprocessing took {:}".format(elapsed_time))

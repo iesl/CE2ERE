@@ -87,7 +87,7 @@ class BoxToBoxVolume(Module):
         box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
         conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
         assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
-        return intersection_volume, conditional_prob
+        return intersection_box, conditional_prob
 
 
 class RoBERTa_MLP(Module):
@@ -354,10 +354,7 @@ class Box_BiLSTM_MLP(Module):
 
         self.loss_type = loss_type
         if self.loss_type:
-            self.MLP_relation = MLP(6 * hidden_size, 2 * mlp_size, mlp_output_dim)
-            self.MLP_rhieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
-            self.MLP_rmatres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
-            self.softvol = SoftVolume(volume_temp, intersection_temp)
+            self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, mlp_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -406,19 +403,14 @@ class Box_BiLSTM_MLP(Module):
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         if self.loss_type:
-            # relation representation using Hadamard
-            rel_AB = self._get_relation_representation(output_A, output_B)  # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
-            rel_BC = self._get_relation_representation(output_B, output_C)
-            rel_AC = self._get_relation_representation(output_A, output_C)
+            # pair-wise representation using Hadamard
+            pairAB = self.MLP_pair(self._get_relation_representation(output_A, output_B))  # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
+            pairBC = self.MLP_pair(self._get_relation_representation(output_B, output_C))
+            pairAC = self.MLP_pair(self._get_relation_representation(output_A, output_C))
 
         output_A = self.MLP(output_A) #[batch_size, mlp_output_dim]; [64, 44]
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
-
-        if self.loss_type:
-            rel_AB = self.MLP_relation(rel_AB)
-            rel_BC = self.MLP_relation(rel_BC)
-            rel_AC = self.MLP_relation(rel_AC)
 
         # projection layers
         if data_type == "hieve":
@@ -426,23 +418,19 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
-
             if self.loss_type:
-                # relation
-                rel_AB = self.MLP_rhieve(rel_AB).unsqueeze(1)
-                rel_BC = self.MLP_rhieve(rel_BC).unsqueeze(1)
-                rel_AC = self.MLP_rhieve(rel_AC).unsqueeze(1)
+                pairAB = self.MLP_hieve(pairAB).unsqueeze(1)
+                pairBC = self.MLP_hieve(pairBC).unsqueeze(1)
+                pairAC = self.MLP_hieve(pairAC).unsqueeze(1)
         elif data_type == "matres":
             # event word
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
-
             if self.loss_type:
-                # relation
-                rel_AB = self.MLP_rmatres(rel_AB).unsqueeze(1)
-                rel_BC = self.MLP_rmatres(rel_BC).unsqueeze(1)
-                rel_AC = self.MLP_rmatres(rel_AC).unsqueeze(1)
+                pairAB = self.MLP_matres(pairAB).unsqueeze(1)
+                pairBC = self.MLP_matres(pairBC).unsqueeze(1)
+                pairAC = self.MLP_matres(pairAC).unsqueeze(1)
         elif data_type == "joint":
             output_A_hieve = self.MLP_hieve(output_A) # [output_dim, 2*proj_output_dim]
             output_B_hieve = self.MLP_hieve(output_B)
@@ -455,21 +443,20 @@ class Box_BiLSTM_MLP(Module):
             output_C = torch.stack([output_C_hieve, output_C_matres], dim=1)
 
             if self.loss_type:
-                # relation
-                rel_AB_hieve = self.MLP_rhieve(rel_AB)
-                rel_BC_hieve = self.MLP_rhieve(rel_BC)
-                rel_AC_hieve = self.MLP_rhieve(rel_AC)
-                rel_AB_matres = self.MLP_rmatres(rel_AB)
-                rel_BC_matres = self.MLP_rmatres(rel_BC)
-                rel_AC_matres = self.MLP_rmatres(rel_AC)
-                rel_AB = torch.stack([rel_AB_hieve, rel_AB_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
-                rel_BC = torch.stack([rel_BC_hieve, rel_BC_matres], dim=1)
-                rel_AC = torch.stack([rel_AC_hieve, rel_AC_matres], dim=1)
+                pairAB_hieve = self.MLP_hieve(pairAB)
+                pairBC_hieve = self.MLP_hieve(pairBC)
+                pairAC_hieve = self.MLP_hieve(pairAC)
+                pairAB_matres = self.MLP_matres(pairAB)
+                pairBC_matres = self.MLP_matres(pairBC)
+                pairAC_matres = self.MLP_matres(pairAC)
+                pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
+                pairBC = torch.stack([pairBC_hieve, pairBC_matres], dim=1)
+                pairAC = torch.stack([pairAC_hieve, pairAC_matres], dim=1)
 
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
         if self.loss_type:
-            rboxes_AB, rboxes_BC, rboxes_AC = [], [], []
+            pboxes_AB, pboxes_BC, pboxes_AC = [], [], []
         for i in range(dataset_num):
             # box embedding layer
             # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
@@ -480,33 +467,34 @@ class Box_BiLSTM_MLP(Module):
             boxes_B.append(box_B_tmp)
             boxes_C.append(box_C_tmp)
             if self.loss_type:
-                rbox_AB_tmp = self.box_embedding.get_box_embeddings(rel_AB[..., i, :]).unsqueeze(dim=1)
-                rbox_BC_tmp = self.box_embedding.get_box_embeddings(rel_BC[..., i, :]).unsqueeze(dim=1)
-                rbox_AC_tmp = self.box_embedding.get_box_embeddings(rel_AC[..., i, :]).unsqueeze(dim=1)
+                pbox_AB_tmp = self.box_embedding.get_box_embeddings(pairAB[..., i, :]).unsqueeze(dim=1)
+                pbox_BC_tmp = self.box_embedding.get_box_embeddings(pairBC[..., i, :]).unsqueeze(dim=1)
+                pbox_AC_tmp = self.box_embedding.get_box_embeddings(pairAC[..., i, :]).unsqueeze(dim=1)
 
-                rboxes_AB.append(rbox_AB_tmp)
-                rboxes_BC.append(rbox_BC_tmp)
-                rboxes_AC.append(rbox_AC_tmp)
+                pboxes_AB.append(pbox_AB_tmp)
+                pboxes_BC.append(pbox_BC_tmp)
+                pboxes_AC.append(pbox_AC_tmp)
 
         box_A = torch.cat(boxes_A, dim=1) # [batch_size, # of boxes, min/max, 2*proj_output_dim/2]
         box_B = torch.cat(boxes_B, dim=1)
         box_C = torch.cat(boxes_C, dim=1)
 
         if self.loss_type:
-            rbox_AB = torch.cat(rboxes_AB, dim=1)
+            pbox_AB = torch.cat(pboxes_AB, dim=1)
             # rbox_BC = torch.cat(rboxes_BC, dim=1)
             # rbox_AC = torch.cat(rboxes_AC, dim=1)
 
         # conditional probabilities
         inter_AB, vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
-        _, vol_B_A = self.volume(box_B, box_A)
+        inter_BA, vol_B_A = self.volume(box_B, box_A)
         inter_BC, vol_B_C = self.volume(box_B, box_C)
         _, vol_C_B = self.volume(box_C, box_B)
         inter_AC, vol_A_C = self.volume(box_A, box_C)
         _, vol_C_A = self.volume(box_C, box_A)
 
         if self.loss_type:
-            rvol_AB = self.softvol(rbox_AB)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, inter_AB, rvol_AB
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, pvol_BA = self.volume(inter_BA, pbox_AB)
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, pvol_BA
         else:
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None

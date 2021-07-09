@@ -16,7 +16,7 @@ from torch.nn import Module, CrossEntropyLoss, KLDivLoss
 from torch.utils.data import DataLoader
 
 from evalulation import threshold_evalution
-from loss import BCELossWithLog, BCELossWithLogR, BCELogitLoss
+from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss
 from metrics import metric, ConstraintViolation
 
 logger = logging.getLogger()
@@ -46,8 +46,7 @@ class Trainer:
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
-        self.kl_div = KLDivLoss()
-        self.rbce_loss = BCELossWithLogR()
+        self.pbce_loss = BCELossWithLogP()
         self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
@@ -109,10 +108,11 @@ class Trainer:
                     if self.model_type == "box":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
-                        vol_A_B, vol_B_A, _, _, _, _, inter_AB, rvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        vol_A_B, vol_B_A, _, _, _, _, pvol_AB, pvol_BA = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
-                            _loss = self.rbce_loss(inter_AB, rvol_AB)
+                            _loss = self.bce_loss(pvol_AB, pvol_BA, xy_rel_id, flag)
+                            print("loss1:", loss.item(),"loss2:",_loss.item())
                             loss += _loss
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
@@ -161,9 +161,9 @@ class Trainer:
                 # evaluate
                 if epoch % self.eval_step == 0 and self.no_valid is False:
                     self.evaluation(epoch)
-                    # if (epoch - self.best_epoch) >= self.patience:
-                    #     print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
-                    #     break
+                    if (epoch - self.best_epoch) >= self.patience:
+                        print(f"\nAccuracy has not changed in {self.patience} steps! Stopping the run after final evaluation...")
+                        break
                 wandb.log({})
 
             self.evaluation(epoch)
@@ -299,7 +299,7 @@ class OneThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
