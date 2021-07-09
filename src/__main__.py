@@ -10,13 +10,9 @@ from utils import *
 from pathlib import Path
 logger = logging.getLogger()
 
-def set_seed(seed, fix_seed):
-    if fix_seed:
-        torch_seed = 42
-        random_seed = 10
-    else:
-        torch_seed = seed
-        random_seed = seed
+def set_seed():
+    torch_seed = 42
+    random_seed = 10
     torch.manual_seed(torch_seed)
     random.seed(random_seed)
     if torch.cuda.is_available():
@@ -251,7 +247,7 @@ def main():
         trainer.evaluation(-1)
 
     else:
-        set_seed(args.seed, args.fix_seed)
+        set_seed()
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
         args = wandb.config
