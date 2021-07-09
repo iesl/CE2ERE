@@ -108,11 +108,10 @@ class Trainer:
                     if self.model_type == "box":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
-                        vol_A_B, vol_B_A, _, _, _, _, pvol_AB, pvol_BA = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        vol_A_B, vol_B_A, _, _, _, _, pvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
-                            _loss = self.bce_loss(pvol_AB, pvol_BA, xy_rel_id, flag)
-                            print("loss1:", loss.item(),"loss2:",_loss.item())
+                            _loss = self.pbce_loss(pvol_AB, xy_rel_id, flag)
                             loss += _loss
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
