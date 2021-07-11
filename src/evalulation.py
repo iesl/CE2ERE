@@ -48,8 +48,6 @@ def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict
     mask_indices = mask.nonzero()
     if mask_indices.shape[1] > 0:
         preds.extend(mask_indices.shape[0] * [key])
-        import torch
-        mask_indices = torch.tensor([])
         if mask_indices.shape[0] == 1:
             relation_label_list = [[x.item() for x in relation_label[mask_indices.squeeze()]]]
             mask_constraint_indices = [mask_indices.squeeze().item()]
