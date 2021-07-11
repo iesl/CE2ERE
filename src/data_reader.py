@@ -207,7 +207,7 @@ def add_matres_symmetric_data(eiid_pair_to_rid_per_fname, model_type, eiid1, eii
     eiid_pair_to_rid_per_fname[(eiid2, eiid1)] = temp_rel_id
 
 
-def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm_eval: int) -> Dict[str, Any]:
+def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm: int) -> Dict[str, Any]:
     """
     tsvx split delimeter is \t
     Text \t doc_content
@@ -249,7 +249,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm_
             data_dict["relation_dict"][(event_id1, event_id2)] = {}
             data_dict["relation_dict"][(event_id1, event_id2)]["relation"] = rel_id
 
-            if symm_eval:
+            if symm:
                 if line[3] == "SuperSub":
                     add_hieve_symmetric_data(data_dict, model_type, int(line[1]), int(line[2]), "SubSuper")
                 if line[3] == "SubSuper":
@@ -383,8 +383,8 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm_eval: int) -> Dict[str, Any]:
-    data_dict = read_tsvx_file(data_dir, file, model_type, symm_eval)
+def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm: int) -> Dict[str, Any]:
+    data_dict = read_tsvx_file(data_dir, file, model_type, symm)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)
     return data_dict
