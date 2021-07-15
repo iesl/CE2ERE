@@ -1,8 +1,5 @@
 import ast
-import json
-import pickle
 import random
-import time
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -16,7 +13,7 @@ from typing import List, Tuple, Dict, Any, Optional, Union
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 512):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
     if isPosTag == False:
         one_list = [1] * max_sent_len
         one_list[0:len(subword_ids)] = subword_ids
@@ -266,48 +263,42 @@ def append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, e
 
 
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
-    # hieve_dir, hieve_files = get_hieve_files(data_dir)
     hieve_dir = data_dir / "hievents_v2/processed/"
-    with open(data_dir / "hievents_v2/hieve_files_order.txt") as f:
-        hieve_files = ast.literal_eval(f.read())
+    with open(data_dir / "hievents_v2/hieve_train.txt") as f:
+        hieve_train = ast.literal_eval(f.read())
+    with open(data_dir / "hievents_v2/hieve_valid.txt") as f:
+        hieve_valid = ast.literal_eval(f.read())
+    with open(data_dir / "hievents_v2/hieve_test.txt") as f:
+        hieve_test = ast.literal_eval(f.read())
 
     all_train_set, all_valid_set, all_test_set = [], [], []
-    train_range, valid_range, test_range = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
-    with open(data_dir / "hievents_v2/sorted_dict.json") as f:
-        sorted_dict = json.load(f)
-    i = 0
-    for (key, value) in sorted_dict.items():
-        i += 1
-        key = int(key)
-        if i <= 20:
-            test_range.append(key)
-        elif i <= 40:
-            valid_range.append(key)
-        else:
-            train_range.append(key)
 
     start_time = time.time()
-    for i, file in enumerate(tqdm(hieve_files)):
-        doc_id = i
-        if doc_id in train_range:
-            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
-            train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
-            all_train_set.extend(train_set)
-        elif doc_id in valid_range:
-            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-            all_valid_set.extend(valid_set)
-            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-            all_valid_cv_set.extend(cv_valid_set)
-        elif doc_id in test_range:
-            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-            all_test_set.extend(test_set)
-            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
-            all_test_cv_set.extend(cv_test_set)
-        else:
-            raise ValueError(f"doc_id={doc_id} is out of range!")
+    print("HiEve train files processing...", end="")
+    for i, file in enumerate(tqdm(hieve_train)):
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
+        train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
+        all_train_set.extend(train_set)
+    print("done!")
+
+    print("HiEve valid files processing...", end="")
+    for i, file in enumerate(tqdm(hieve_valid)):
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+        all_valid_set.extend(valid_set)
+        cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+        all_valid_cv_set.extend(cv_valid_set)
+    print("done!")
+
+    print("HiEve test files processing...", end="")
+    for i, file in enumerate(tqdm(hieve_test)):
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+        all_test_set.extend(test_set)
+        cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+        all_test_cv_set.extend(cv_test_set)
+    print("done!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
