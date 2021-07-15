@@ -208,6 +208,8 @@ def setup(args, saved_model=None):
         eval_step=args.eval_step,
         debug=args.debug,
         patience=args.patience,
+        cv_valid=args.cv_valid,
+        model_save=args.model_save,
     )
 
     return trainer, evaluator

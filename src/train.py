@@ -25,7 +25,7 @@ class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module, loss_pairwise_box: float,
-                 lambda_dict: Dict[str, float], no_valid: bool, debug: bool,
+                 lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
                  wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8):
         self.data_type = data_type
         self.model_type = model_type
@@ -57,17 +57,24 @@ class Trainer:
         self.debug = debug
         self.patience = patience
 
-        timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
-        self.model_save_dir = "./model/"
-        Path(self.model_save_dir).mkdir(parents=True, exist_ok=True)
-        self.model_save_path = self.model_save_dir + f"{data_type}_{timestamp}_{wandb_id}.pt"
+        self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
+        self.model_save = model_save
+
+        if self.model_save:
+            timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
+            self.model_save_dir = "./model/"
+            Path(self.model_save_dir).mkdir(parents=True, exist_ok=True)
+            self.model_save_path = self.model_save_dir + f"{data_type}_{timestamp}_{wandb_id}.pt"
 
     def _update_save_best_score(self, f1_score: float, epoch: int):
         if self.best_f1_score < f1_score:
             self.best_f1_score = f1_score
             self.best_epoch = epoch
-            torch.save(self.model.state_dict(), self.model_save_path)
-            logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
+            if self.model_save:
+                torch.save(self.model.state_dict(), self.model_save_path)
+                logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
+            else:
+                logger.info("best epoch: %s, best f1 score: %f" % (self.best_epoch, self.best_f1_score))
 
     def _get_anno_loss(self, batch_size: int, flag: Tensor, alpha: Tensor, beta: Tensor, gamma: Tensor,
                        xy_rel_id: Tensor, yz_rel_id: Tensor, xz_rel_id: Tensor):
@@ -176,7 +183,7 @@ class Trainer:
         cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
         if self.data_type == "hieve" or self.data_type == "joint":
             valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
-            cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
+            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
 
             if not self.debug:
                 test_metrics.update(self.evaluator.evaluate("hieve", "test"))
@@ -184,7 +191,7 @@ class Trainer:
 
         if self.data_type == "matres" or self.data_type == "joint":
             valid_metrics.update(self.evaluator.evaluate("matres", "valid"))
-            cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid"))
+            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid"))
 
             if not self.debug:
                 test_metrics.update(self.evaluator.evaluate("matres", "test"))
