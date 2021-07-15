@@ -10,12 +10,13 @@ from utils import *
 from pathlib import Path
 logger = logging.getLogger()
 
+
 def set_seed():
     seed = 0
     torch.manual_seed(seed)
     random.seed(seed)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
 
 
 def create_dataloader(args):
