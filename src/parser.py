@@ -21,6 +21,7 @@ def build_parser():
     parser.add_argument('--lambda_anno', type=float, default=1)
     parser.add_argument('--lambda_trans', type=float, default=0)
     parser.add_argument('--lambda_cross', type=float, default=0)
+    parser.add_argument('--lambda_pair', type=float, default=0)
 
     parser.add_argument('--volume_temp', type=float, default=1)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
@@ -42,20 +43,17 @@ def build_parser():
     parser.add_argument('--lstm_hidden_size', type=int, default=256, help="BiLSTM layer hidden dimension")
     parser.add_argument('--lstm_input_size', type=int, default=768, help="BiLSTM layer input dimension")
 
-    # parser.add_argument('--seed', type=int, default=random.randint(0, 2 ** 32), help="seed for random number generator")
-    # parser.add_argument('--fix_seed', type=int, default=1, help="whether fix seed or not")
-
     parser.add_argument('--no_valid', default=False, action='store_true', help="turn off evaluation step")
     parser.add_argument('--loss_type', type=int, default=0,
                         help="1: within task-constraints, 2: within task & cross constraints")
-    parser.add_argument('--patience', type=int, default=5, help="patience for early stopping")
+    parser.add_argument('--patience', type=int, default=10, help="patience for early stopping")
     parser.add_argument('--eval_step', type=int, default=1, help="evaluation every n epochs")
     parser.add_argument('--eval_type', type=str, default="one", choices=["one", "two"], help="evaluate wheter using one threshold or two threshold")
 
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
-    parser.add_argument('--load_valid', type=int, default=0, help="0: false, 1: true")
+    # parser.add_argument('--load_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
 
     parser.add_argument('--symm_train', type=int, default=0, help="0: false, 1: true")
