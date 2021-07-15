@@ -217,6 +217,8 @@ def setup(args, saved_model=None):
 
 def main():
     args = build_parser()
+    set_seed()
+
     if args.load_model:
         assert args.saved_model != ""
         assert args.wandb_id != ""
@@ -250,7 +252,6 @@ def main():
         trainer.evaluation(-1)
 
     else:
-        set_seed()
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
         args = wandb.config
