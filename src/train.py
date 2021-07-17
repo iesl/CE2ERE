@@ -23,7 +23,7 @@ logger = logging.getLogger()
 class Trainer:
     def __init__(self, data_type: str, model_type: str, model: Module, device: torch.device, epochs: int, learning_rate: float,
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
-                 loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module, loss_pairwise_box: float,
+                 loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
                  wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8):
         self.data_type = data_type
@@ -43,7 +43,6 @@ class Trainer:
         self._get_trans_loss_h = loss_transitivity_h
         self._get_trans_loss_t = loss_transitivity_t
         self.loss_func_cross = loss_cross_category
-        self.loss_pairwise_box = loss_pairwise_box
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog()
@@ -119,7 +118,7 @@ class Trainer:
                         vol_A_B, vol_B_A, _, _, _, _, pvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
-                            loss += self.loss_pairwise_box * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag)
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
