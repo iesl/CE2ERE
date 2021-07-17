@@ -10,11 +10,7 @@ from utils import get_hieve_files
 
 
 def set_seed():
-    torch.manual_seed(10)
     random.seed(10)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed(10)
-
 
 def main():
     set_seed()
