@@ -1,0 +1,80 @@
+2021-07-04 13:46:57,157 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.001, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_eval': 1}
+2021-07-04 13:46:57,158 [INFO] Requested CUDA but it is not available, running on CPU
+2021-07-04 13:47:30,102 [INFO] HiEve Preprocessing took 0:00:33
+2021-07-04 13:47:30,102 [INFO] HiEve training instance num: 5833, valid instance num: 8452, test instance num: 6155
+2021-07-04 13:47:30,102 [INFO] debug mode on
+2021-07-04 13:47:30,336 [INFO] hieve length debugging mode: %d
+2021-07-04 13:47:31,187 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+2021-07-04 13:47:31,188 [INFO] Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "do_sample": false,
+  "eos_token_id": 2,
+  "eos_token_ids": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+2021-07-04 13:47:32,063 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
+2021-07-04 13:47:34,794 [INFO] ======== Epoch 1 / 10 ========
+2021-07-04 13:47:34,794 [INFO] Training start...
+2021-07-04 13:48:14,937 [INFO] epoch: 1, loss: 441.582955
+2021-07-04 13:48:14,938 [INFO] [valid-hieve] start... 
+2021-07-04 13:48:50,871 [INFO] confusion_matrix: 
+[[81  0  0  1]
+ [ 8  0  0  0]
+ [ 8  0  0  0]
+ [ 1  0  0  1]]
+2021-07-04 13:48:50,881 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.83      0.99      0.90        82
+          01       0.00      0.00      0.00         8
+          10       0.00      0.00      0.00         8
+          11       0.50      0.50      0.50         2
+
+    accuracy                           0.82       100
+   macro avg       0.33      0.37      0.35       100
+weighted avg       0.69      0.82      0.75       100
+
+2021-07-04 13:48:50,881 [INFO] macro f1 score: 0.0000
+2021-07-04 13:48:50,881 [INFO] done!

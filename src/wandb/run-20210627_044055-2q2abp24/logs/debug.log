@@ -1,0 +1,73 @@
+2021-06-27 04:40:55,179 INFO    MainThread:30777 [wandb_setup.py:_flush():69] setting env: {}
+2021-06-27 04:40:55,179 INFO    MainThread:30777 [wandb_setup.py:_flush():69] setting login settings: {}
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [wandb_init.py:_log_setup():319] Logging user logs to /Users/ehwang/PycharmProjects/CE2ERE/src/wandb/run-20210627_044055-2q2abp24/logs/debug.log
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [wandb_init.py:_log_setup():320] Logging internal logs to /Users/ehwang/PycharmProjects/CE2ERE/src/wandb/run-20210627_044055-2q2abp24/logs/debug-internal.log
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [wandb_init.py:init():352] calling init triggers
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [wandb_init.py:init():359] wandb.init called with sweep_config: {}
+config: {}
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [wandb_init.py:init():401] starting backend
+2021-06-27 04:40:55,180 INFO    MainThread:30777 [backend.py:_multiprocessing_setup():71] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2021-06-27 04:40:55,192 INFO    MainThread:30777 [backend.py:ensure_launched():123] starting backend process...
+2021-06-27 04:40:55,202 INFO    MainThread:30777 [backend.py:ensure_launched():128] started backend process with pid: 30790
+2021-06-27 04:40:55,204 INFO    MainThread:30777 [wandb_init.py:init():406] backend started and connected
+2021-06-27 04:40:55,207 INFO    MainThread:30777 [wandb_init.py:init():446] updated telemetry
+2021-06-27 04:40:55,208 INFO    MainThread:30777 [wandb_init.py:init():465] communicating current version
+2021-06-27 04:40:56,437 INFO    MainThread:30777 [wandb_init.py:init():470] got version response upgrade_message: "wandb version 0.10.32 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2021-06-27 04:40:56,437 INFO    MainThread:30777 [wandb_init.py:init():478] communicating run to backend with 30 second timeout
+2021-06-27 04:40:56,709 INFO    MainThread:30777 [wandb_init.py:init():503] starting run threads in backend
+2021-06-27 04:40:56,875 INFO    MainThread:30777 [wandb_run.py:_console_start():1422] atexit reg
+2021-06-27 04:40:56,876 INFO    MainThread:30777 [wandb_run.py:_redirect():1285] redirect: SettingsConsole.REDIRECT
+2021-06-27 04:40:56,876 INFO    MainThread:30777 [wandb_run.py:_redirect():1290] Redirecting console.
+2021-06-27 04:40:56,876 INFO    MainThread:30777 [redirect.py:install():213] install start
+2021-06-27 04:40:56,877 INFO    MainThread:30777 [redirect.py:install():228] install stop
+2021-06-27 04:40:56,877 INFO    MainThread:30777 [redirect.py:install():213] install start
+2021-06-27 04:40:56,877 INFO    MainThread:30777 [redirect.py:install():228] install stop
+2021-06-27 04:40:56,877 INFO    MainThread:30777 [wandb_run.py:_redirect():1336] Redirects installed.
+2021-06-27 04:40:56,877 INFO    MainThread:30777 [wandb_init.py:init():527] run started, returning control to user process
+2021-06-27 04:40:56,878 INFO    MainThread:30777 [wandb_run.py:_config_callback():669] config_cb None None {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.5902, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 10, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0}
+2021-06-27 04:40:56,880 INFO    MainThread:30777 [wandb_config.py:__setitem__():142] config set data_type = hieve - <bound method Run._config_callback of <wandb.sdk.wandb_run.Run object at 0x7f81dcbcd8d0>>
+2021-06-27 04:40:56,880 INFO    MainThread:30777 [wandb_run.py:_config_callback():669] config_cb data_type hieve None
+2021-06-27 04:41:30,041 INFO    MainThread:30777 [wandb_watch.py:watch():39] Watching
+2021-06-27 04:42:52,359 INFO    MainThread:30777 [wandb_run.py:_atexit_cleanup():1392] got exitcode: 1
+2021-06-27 04:42:52,360 INFO    MainThread:30777 [wandb_run.py:_restore():1364] restore
+2021-06-27 04:42:52,360 INFO    MainThread:30777 [redirect.py:uninstall():232] uninstall start
+2021-06-27 04:42:52,360 INFO    MainThread:30777 [redirect.py:_stop():287] _stop: stdout
+2021-06-27 04:42:52,361 INFO    stdout    :30777 [redirect.py:_pipe_relay():129] relay done saw last write: stdout
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:_stop():293] _stop closed: stdout
+2021-06-27 04:42:52,361 INFO    stdout    :30777 [redirect.py:_pipe_relay():145] relay done done: stdout
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:_stop():299] _stop joined: stdout
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:_stop():301] _stop rd closed: stdout
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:uninstall():236] uninstall done
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:uninstall():232] uninstall start
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:_stop():287] _stop: stderr
+2021-06-27 04:42:52,361 INFO    MainThread:30777 [redirect.py:_stop():293] _stop closed: stderr
+2021-06-27 04:42:52,362 INFO    stderr    :30777 [redirect.py:_pipe_relay():129] relay done saw last write: stderr
+2021-06-27 04:42:52,362 INFO    stderr    :30777 [redirect.py:_pipe_relay():145] relay done done: stderr
+2021-06-27 04:42:52,362 INFO    MainThread:30777 [redirect.py:_stop():299] _stop joined: stderr
+2021-06-27 04:42:52,362 INFO    MainThread:30777 [redirect.py:_stop():301] _stop rd closed: stderr
+2021-06-27 04:42:52,362 INFO    MainThread:30777 [redirect.py:uninstall():236] uninstall done
+2021-06-27 04:42:52,616 INFO    MainThread:30777 [wandb_run.py:_wait_for_finish():1515] got exit ret: file_counts {
+  wandb_count: 1
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 28898
+  total_bytes: 28898
+}
+
+2021-06-27 04:42:54,623 INFO    MainThread:30777 [wandb_run.py:_wait_for_finish():1515] got exit ret: done: true
+exit_result {
+}
+file_counts {
+  wandb_count: 5
+  media_count: 1
+}
+pusher_stats {
+  uploaded_bytes: 101331
+  total_bytes: 101331
+}
+
+2021-06-27 04:42:55,736 INFO    MainThread:30777 [wandb_run.py:_show_summary():1670] rendering summary
+2021-06-27 04:42:55,737 INFO    MainThread:30777 [wandb_run.py:_show_history():1708] rendering history
+2021-06-27 04:42:55,737 INFO    MainThread:30777 [wandb_run.py:_show_files():1737] logging synced files

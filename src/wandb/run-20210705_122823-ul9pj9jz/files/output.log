@@ -1,0 +1,127 @@
+2021-07-05 12:28:24,814 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'matres', 'finetune': False, 'model': 'box', 'downsample': 0.001, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_eval': 1}
+2021-07-05 12:28:24,814 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/274 [00:00<?, ?it/s]roberta_subword_id 1 3
+roberta_subword_id 1 14
+roberta_subword_id 1 16
+roberta_subword_id 2 6
+roberta_subword_id 3 3
+roberta_subword_id 3 7
+roberta_subword_id 4 3
+roberta_subword_id 4 7
+roberta_subword_id 7 3
+roberta_subword_id 8 3
+roberta_subword_id 8 27
+roberta_subword_id 9 10
+roberta_subword_id 10 11
+roberta_subword_id 11  0%|          | 1/274 [00:00<00:48,  5.58it/s] 7
+roberta_subword_id 11 41
+roberta_subword_id 12 6
+roberta_subword_id 12 19
+roberta_subword_id 4 19
+roberta_subword_id 8 23
+roberta_subword_id 0 8
+roberta_subword_id 1 23
+roberta_subword_id 5 22
+roberta_subword_id 5 13
+roberta_subword_id 9 5
+roberta_subword_id 4 11
+roberta_subword_id 5 4
+roberta_subword_id 8 2
+roberta_subword_id 3 3
+roberta_subword_id 7 4
+roberta_subword_id 4 10
+roberta_subword_id 5 4
+roberta_subword_id 5 8
+roberta_subword_id 8 6
+roberta_subword_id 8 25
+roberta_subword_id 9 2
+roberta_subword_id 12 6
+roberta_subword_id 12 10
+roberta_subword_id 13 3
+roberta_subword_id 14 6
+roberta_subword_id 14 9
+roberta_subword_id 15 2
+roberta_subword_id 15 4
+roberta_subword_id 16 2
+roberta_subword_id 18 6
+roberta_subword_id 18 11
+roberta_subword_id 22 6
+roberta_subword_id 23 2
+roberta_subword_id 23 6
+roberta_subword_id 23   1%|          | 3/274 [00:00<00:45,  5.98it/s]26
+roberta_subword_id 23 31
+roberta_subword_id 0 4
+roberta_subword_id 0 15
+roberta_subword_id 1 22
+roberta_subword_id 2 4
+roberta_subword_id 2 8
+roberta_subword_id 2 9
+roberta_subword_id 2 22
+roberta_subword_id 3 3
+roberta_subword_id 4 8
+roberta_subword_id 4 15
+roberta_subword_id 4 31
+roberta_subword_id 5 14
+roberta_subword_id 0 10
+roberta_subword_id 1 9
+roberta_subword_id 1 28
+roberta_subword_id 4 5
+roberta_subword_id 2 3
+roberta_subword_id 3 3
+roberta_subword_id 5 3
+roberta_subword_id 5 18
+roberta_subword_id 0 20
+  2%|▏         | 5/274 [00:00<00:36,  7.28it/s]roberta_subword_id 0 5
+roberta_subword_id 1 3
+roberta_subword_id 3 20
+roberta_subword_id 1 5
+roberta_subword_id 0 7
+roberta_subword_id 2 7
+roberta_subword_id 0 10
+roberta_subword_id 1 3
+roberta_subword_id 1 18
+roberta_subword_id 2 3
+roberta_subword_id 3 3
+roberta_subword_id 4 3
+roberta_subword_id 4 12
+roberta_subword_id 4 24
+roberta_subword_id 4 84
+roberta_subword_id 4 103
+roberta_subword_id 6 5
+roberta_subword_id 6 9
+roberta_subword_id 7 2
+roberta_subword_id 7 10
+roberta_subword_id 8 7
+roberta_subword_id 9 17
+roberta_subword_id 9 29
+roberta_subword_id 10 26
+roberta_subword_id 11 15
+roberta_subword_id 12 21
+roberta_subword_id 12 26
+roberta_subword_id 13 4
+roberta_subword_id 14 21
+roberta_subword_id 14 29
+roberta_subword_id 15 5
+roberta_subword_id 15 32
+roberta_subword_id 16 6
+roberta_subword_id 16 22
+roberta_subword_id 17 11
+  2%|▏         | 5/274 [00:00<00:46,  5.73it/s]
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
+    trainer, evaluator = setup(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 141, in setup
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 42, in create_dataloader
+    matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 351, in matres_data_loader
+    data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 398, in matres_file_reader
+    data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=False)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 144, in assign_sntc_id_to_event_dict
+    print("roberta_subword_id", sntc_id, event_dict[event_id]["roberta_subword_id"])
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/wandb/sdk/lib/redirect.py", line 26, in write
+    self.stream.flush()
+KeyboardInterrupt

@@ -3,18 +3,20 @@ import wandb
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
-from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP
+from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, Evaluator
+from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
+logger = logging.getLogger()
 
 
-def set_seed(seed: int):
+def set_seed():
+    seed = 0
     torch.manual_seed(seed)
     random.seed(seed)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(seed)
+        torch.cuda.manual_seed_all(seed)
 
 
 def create_dataloader(args):
@@ -24,31 +26,48 @@ def create_dataloader(args):
 
     if data_type == "hieve":
         num_classes = 4
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict)
+
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["hieve"] = hieve_valid_cv_set
+        test_cv_set_dict["hieve"] = hieve_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "matres":
         num_classes = 4
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict)
+
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["matres"] = matres_valid_cv_set
+        test_cv_set_dict["matres"] = matres_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "joint":
         num_classes = 8
-        hieve_train_set, hieve_valid_set, hieve_test_set = hieve_data_loader(args, data_dir)
-        matres_train_set, matres_valid_set, matres_test_set = matres_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
         joint_train_set = hieve_train_set + matres_train_set
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["hieve"] = hieve_test_set
         test_set_dict["matres"] = matres_test_set
-        train_dataloader, valid_dataloader_dict, test_dataloader_dict = get_dataloaders(log_batch_size, joint_train_set, valid_set_dict, test_set_dict)
 
-    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["hieve"] = hieve_valid_cv_set
+        test_cv_set_dict["hieve"] = hieve_test_cv_set
+        valid_cv_set_dict["matres"] = matres_valid_cv_set
+        test_cv_set_dict["matres"] = matres_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, joint_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
+
+    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes
 
 
 def create_model(args, num_classes):
@@ -69,6 +88,20 @@ def create_model(args, num_classes):
             lstm_input_size=args.lstm_input_size,
             roberta_size_type="roberta-base",
         )
+    elif args.model == "vector":
+        model = Vector_BiLSTM_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            hidden_size=args.lstm_hidden_size,
+            num_layers=args.num_layers,
+            mlp_size=args.mlp_size,
+            lstm_input_size=args.lstm_input_size,
+            mlp_output_dim=args.mlp_output_dim,
+            proj_output_dim=args.proj_output_dim,
+            hieve_mlp_size=args.hieve_mlp_size,
+            matres_mlp_size=args.matres_mlp_size,
+            roberta_size_type="roberta-base",
+        )
     elif args.model == "box":
         model = Box_BiLSTM_MLP(
             num_classes=num_classes,
@@ -79,7 +112,11 @@ def create_model(args, num_classes):
             lstm_input_size=args.lstm_input_size,
             volume_temp=args.volume_temp,
             intersection_temp=args.intersection_temp,
-            quadruple_output_dim=args.quadruple_output_dim,
+            mlp_output_dim=args.mlp_output_dim,
+            hieve_mlp_size=args.hieve_mlp_size,
+            matres_mlp_size=args.matres_mlp_size,
+            proj_output_dim=args.proj_output_dim,
+            loss_type=args.loss_type,
             roberta_size_type="roberta-base",
         )
     else:
@@ -98,35 +135,55 @@ def get_init_weights(device: torch.device):
     return torch.tensor(hier_weights, dtype=torch.float).to(device), torch.tensor(temp_weights, dtype=torch.float).to(device)
 
 
-def setup(args):
+def setup(args, saved_model=None):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, num_classes = create_dataloader(args)
-    model = create_model(args, num_classes)
-    model = model.to(device)
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
+
+    if saved_model:
+        model = saved_model.to(device)
+    else:
+        model = create_model(args, num_classes)
+        model = model.to(device)
 
     wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
-    evaluator = Evaluator(
-        train_type=args.data_type,
-        model_type=args.model,
-        model=model,
-        device=device,
-        valid_dataloader_dict=valid_dataloader_dict,
-        test_dataloader_dict=test_dataloader_dict,
-        hieve_threshold1=args.hieve_threshold1,
-        hieve_threshold2=args.hieve_threshold2,
-        matres_threshold1=args.matres_threshold1,
-        matres_threshold2=args.matres_threshold2,
-    )
-    early_stopping = EarlyStopping("Accuracy", patience=args.patience)
 
+    if args.model != "box" and args.model != "vector":
+        print("Using VectorBiLSTMEvaluator..!")
+        evaluator = VectorBiLSTMEvaluator(
+            train_type=args.data_type,
+            model_type=args.model,
+            model=model,
+            device=device,
+            valid_dataloader_dict=valid_dataloader_dict,
+            test_dataloader_dict=test_dataloader_dict,
+            valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+            test_cv_dataloader_dict=test_cv_dataloader_dict,
+        )
+    else:
+        print("Using OneThresholdEvaluator..!")
+        evaluator = OneThresholdEvaluator(
+            train_type=args.data_type,
+            model_type=args.model,
+            model=model,
+            device=device,
+            valid_dataloader_dict=valid_dataloader_dict,
+            test_dataloader_dict=test_dataloader_dict,
+            valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+            test_cv_dataloader_dict=test_cv_dataloader_dict,
+            hieve_threshold=args.hieve_threshold,
+            matres_threshold=args.matres_threshold,
+            save_plot=args.save_plot,
+            wandb_id=wandb.run.id,
+        )
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)
-    loss_transitivity = TransitivityLoss()
+    loss_transitivity_h = TransitivityLoss()
+    loss_transitivity_t = TransitivityLoss()
     loss_cross_category = CrossCategoryLoss()
 
     trainer = Trainer(
@@ -141,29 +198,67 @@ def setup(args):
         opt=optimizer,
         loss_type=args.loss_type,
         loss_anno_dict=loss_anno_dict,
-        loss_transitivity=loss_transitivity,
+        loss_transitivity_h=loss_transitivity_h,
+        loss_transitivity_t=loss_transitivity_t,
         loss_cross_category=loss_cross_category,
+        loss_pairwise_box=args.lambda_pair,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
         wandb_id=wandb.run.id,
-        early_stopping=early_stopping,
         eval_step=args.eval_step,
         debug=args.debug,
+        patience=args.patience,
+        cv_valid=args.cv_valid,
+        model_save=args.model_save,
     )
 
-    return trainer
+    return trainer, evaluator
 
 
 def main():
     args = build_parser()
-    set_seed(args.seed)
-    wandb.init()
-    wandb.config.update(args)
-    args = wandb.config
-    set_logger(args.data_type, wandb.run.id)
-    logging.info(args)
-    trainer = setup(args)
-    trainer.train()
+    set_seed()
+
+    if args.load_model:
+        assert args.saved_model != ""
+        assert args.wandb_id != ""
+        model_state_dict_path = Path(args.saved_model).expanduser()
+        print("Loading model state dict...", end="", flush=True)
+        model_state_dict = torch.load(model_state_dict_path, map_location="cpu")
+        print("done!")
+
+        wandb.init(reinit=True)
+
+        api = wandb.Api()
+        run = api.run(args.wandb_id)
+        wandb.config.update(run.config, allow_val_change=True)
+        wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
+        wandb.config.update({"save_plot": 1}, allow_val_change=True)
+        wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
+        wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
+        wandb.config.update({"fix_seed": args.fix_seed}, allow_val_change=True)
+
+        args = wandb.config
+        set_seed(args.seed, args.fix_seed)
+        set_logger(args.data_type, args.wandb_id.replace("/", "_"))
+        logger.info(args)
+        num_classes = 4
+        if args.model == "joint":
+            num_classes = 8
+
+        model = create_model(args, num_classes)
+        model.load_state_dict(model_state_dict)
+        trainer, evaluator = setup(args, model)
+        trainer.evaluation(-1)
+
+    else:
+        wandb.init()
+        wandb.config.update(args, allow_val_change=True)
+        args = wandb.config
+        set_logger(args.data_type, wandb.run.id)
+        logging.info(args)
+        trainer, evaluator = setup(args)
+        trainer.train()
 
 
 if __name__ == '__main__':

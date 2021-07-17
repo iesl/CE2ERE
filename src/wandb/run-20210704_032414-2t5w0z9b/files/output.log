@@ -1,0 +1,17 @@
+wandb: ERROR Attempted to change value of key "downsample" from 0.4 to 0.01
+wandb: ERROR If you really want to do this, pass allow_val_change=True to config.update()
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 260, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 251, in main
+    wandb.config.update({"downsample": 0.01})
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/wandb/sdk/wandb_config.py", line 170, in update
+    sanitized = self._update(d, allow_val_change)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/wandb/sdk/wandb_config.py", line 164, in _update
+    parsed_dict, allow_val_change, ignore_keys=locked_keys
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/wandb/sdk/wandb_config.py", line 219, in _sanitize_dict
+    k, v = self._sanitize(k, v, allow_val_change)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/wandb/sdk/wandb_config.py", line 238, in _sanitize
+    ).format(key, self._items[key], val)
+wandb.sdk.lib.config_util.ConfigError: Attempted to change value of key "downsample" from 0.4 to 0.01
+If you really want to do this, pass allow_val_change=True to config.update()

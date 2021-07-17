@@ -1,0 +1,130 @@
+2021-07-05 13:33:29,369 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'matres', 'finetune': False, 'model': 'box', 'downsample': 0.001, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_eval': 1}
+2021-07-05 13:33:29,369 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/274 [00:00<?, ?it/s]fname: ABC19980120.1830.0957
+  0%|          | 1/274 [00:00<00:52,  5.16it/s]fname: wsj_0791
+fname: VOA19980305.1800.2603
+  1%|          | 2/274 [00:00<00:45,  5.99it/s]  1%|          | 3/274 [00:00<00:49,  5.50it/s]fname: VOA19980303.1600.0917
+fname: wsj_0806
+  2%|▏         | 5/274 [00:00<00:40,  6.70it/s]fname: wsj_0709
+fname: wsj_0938
+  3%|▎         | 7/274 [00:00<00:39,  6.81it/s]fname: wsj_0340
+fname: wsj_0158
+  3%|▎         | 9/274 [00:01<00:35,  7.53it/s]fname: wsj_1039
+fname: AP900815-0044
+  4%|▍         | 11/274 [00:01<00:58,  4.52it/s]fname: wsj_0927
+  4%|▍         | 12/274 [00:02<00:58,  4.45it/s]fname: wsj_0332
+fname: NYT19980206.0466
+  5%|▌         | 14/274 [00:02<00:46,  5.62it/s]fname: wsj_0542
+  5%|▌         | 15/274 [00:02<00:44,  5.86it/s]fname: wsj_0136
+fname: wsj_0695
+  6%|▌         | 17/274 [00:02<00:36,  6.99it/s]fname: VOA19980501.1800.0355
+fname: wsj_0551
+fname: ABC19980114.1830.0611
+  7%|▋         | 20/274 [00:02<00:30,  8.42it/s]fname: wsj_0650
+fname: PRI19980121.2000.2591
+  8%|▊         | 22/274 [00:02<00:24, 10.12it/s]fname: wsj_0660
+fname: APW19980501.0480
+  9%|▉         | 24/274 [00:03<00:26,  9.51it/s]fname: wsj_0667
+fname: wsj_0073
+  9%|▉         | 26/274 [00:03<00:22, 11.00it/s]fname: VOA19980303.1600.2745
+fname: wsj_0811
+ 10%|█         | 28/274 [00:03<00:29,  8.24it/s]fname: wsj_0798
+fname: APW19980322.0749
+ 11%|█         | 30/274 [00:04<00:33,  7.31it/s]fname: wsj_0189
+ 11%|█▏        | 31/274 [00:04<00:31,  7.77it/s]fname: wsj_0583
+ 12%|█▏        | 32/274 [00:04<00:42,  5.68it/s]fname: wsj_0187
+fname: CNN19980126.1600.1104
+ 12%|█▏        | 34/274 [00:04<00:35,  6.77it/s]fname: wsj_0923
+fname: wsj_0346
+fname: wsj_0906
+ 14%|█▎        | 37/274 [00:04<00:27,  8.71it/s]fname: wsj_0165
+fname: APW19980308.0201
+ 14%|█▍        | 39/274 [00:04<00:23, 10.00it/s]fname: wsj_0745
+fname: wsj_0534
+ 15%|█▍        | 41/274 [00:05<00:25,  9.11it/s]fname: wsj_0169
+fname: wsj_0122
+fname: wsj_0167
+fname: wsj_0144
+ 16%|█▌        | 44/274 [00:05<00:20, 11.19it/s]fname: wsj_0760
+ 17%|█▋        | 46/274 [00:05<00:19, 11.61it/s]fname: NYT19980402.0453
+fname: wsj_0471
+ 18%|█▊        | 48/274 [00:05<00:20, 11.18it/s]fname: PRI19980205.2000.1890
+fname: ea980120.1830.0456
+ 18%|█▊        | 50/274 [00:05<00:17, 12.68it/s]fname: wsj_0175
+fname: wsj_0751
+fname: AP900816-0139
+ 19%|█▉        | 53/274 [00:06<00:26,  8.26it/s]fname: wsj_0768
+fname: wsj_0151
+ 20%|██        | 55/274 [00:06<00:30,  7.08it/s]fname: NYT19980206.0460
+ 20%|██        | 56/274 [00:07<00:45,  4.84it/s]fname: wsj_0124
+fname: wsj_0713
+ 21%|██        | 58/274 [00:07<00:34,  6.26it/s]fname: wsj_1003
+fname: wsj_0786
+ 22%|██▏       | 60/274 [00:07<00:37,  5.66it/s]fname: wsj_0778
+ 22%|██▏       | 61/274 [00:08<00:52,  4.03it/s]fname: wsj_0736
+fname: wsj_0325
+ 23%|██▎       | 63/274 [00:08<00:41,  5.12it/s]fname: wsj_0348
+fname: wsj_0176
+ 24%|██▎       | 65/274 [00:08<00:32,  6.50it/s]fname: APW19980213.1380
+fname: wsj_1011
+fname: wsj_0329
+ 24%|██▍       | 67/274 [00:08<00:28,  7.22it/s]fname: wsj_0610
+ 25%|██▌       | 69/274 [00:08<00:31,  6.48it/s]fname: wsj_1042
+fname: wsj_0263
+fname: wsj_0752
+ 26%|██▋       | 72/274 [00:09<00:24,  8.26it/s]fname: wsj_0292
+fname: CNN19980223.1130.0960
+ 27%|██▋       | 74/274 [00:09<00:21,  9.43it/s]fname: wsj_0575
+fname: APW19980227.0468
+ 28%|██▊       | 76/274 [00:09<00:25,  7.83it/s]fname: wsj_0679
+fname: APW19980626.0364
+ 28%|██▊       | 78/274 [00:09<00:21,  9.11it/s]fname: wsj_0068
+fname: wsj_0674
+ 29%|██▉       | 80/274 [00:09<00:18, 10.47it/s]fname: wsj_0157
+fname: NYT19980212.0019
+ 30%|██▉       | 82/274 [00:09<00:17, 10.83it/s]fname: PRI19980115.2000.0186
+fname: wsj_0184
+ 31%|███       | 84/274 [00:10<00:18, 10.54it/s]fname: wsj_0585
+fname: wsj_0555
+ 31%|███▏      | 86/274 [00:10<00:28,  6.53it/s]fname: ABC19980108.1830.0711
+ 32%|███▏      | 87/274 [00:10<00:32,  5.83it/s]fname: wsj_0981
+fname: 32%|███▏      | 88/274 [00:11<00:30,  6.00it/s] wsj_0127
+fname: wsj_0816
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
+    trainer, evaluator = setup(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 141, in setup
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 42, in create_dataloader
+    matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 354, in matres_data_loader
+    data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 395, in matres_file_reader
+    data_dict = document_to_sentences(data_dict) # sentence information update
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 161, in document_to_sentences
+    spacy_tokens = nlp(sntc_dict["content"])
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/spacy/language.py", line 449, in __call__
+    doc = proc(doc, **component_cfg.get(name, {}))
+  File "nn_parser.pyx", line 233, in spacy.syntax.nn_parser.Parser.__call__
+  File "nn_parser.pyx", line 274, in spacy.syntax.nn_parser.Parser.predict
+  File "nn_parser.pyx", line 287, in spacy.syntax.nn_parser.Parser.greedy_parse
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/model.py", line 167, in __call__
+    return self.predict(x)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/model.py", line 131, in predict
+    y, _ = self.begin_update(X, drop=None)
+  File "_parser_model.pyx", line 243, in spacy.syntax._parser_model.ParserModel.begin_update
+  File "_parser_model.pyx", line 300, in spacy.syntax._parser_model.ParserStepModel.__init__
+  File "_parser_model.pyx", line 425, in spacy.syntax._parser_model.precompute_hiddens.__init__
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/spacy/_ml.py", line 183, in begin_update
+    Yf = self._add_padding(Yf)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/spacy/_ml.py", line 214, in _add_padding
+    Yf_padded = self.ops.xp.vstack((self.pad, Yf))
+  File "<__array_function__ internals>", line 4, in vstack
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/numpy/core/shape_base.py", line 221, in _vhstack_dispatcher
+    return _arrays_for_stack_dispatcher(tup)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/numpy/core/shape_base.py", line 209, in _arrays_for_stack_dispatcher
+    def _arrays_for_stack_dispatcher(arrays, stacklevel=4):
+KeyboardInterrupt
+ 32%|███▏      | 88/274 [00:11<00:23,  7.84it/s]

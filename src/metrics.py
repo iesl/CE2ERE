@@ -1,5 +1,8 @@
+import logging
+import numpy as np
 from sklearn.metrics import confusion_matrix, classification_report
 
+logger = logging.getLogger()
 
 def metric(data_type, eval_type, model_type, y_true, y_pred):
     """
@@ -13,72 +16,76 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     => (i, j) indicates the number of samples with true label being i-th class and predicted label being j-th class.
     """
     metrics = {}
-    if data_type == "matres":
-        if len(y_true) == 0 or len(y_pred) == 0:
-            metrics[f"[{eval_type}-MATRES] Precision"] = 0
-            metrics[f"[{eval_type}-MATRES] Recall"] = 0
-            metrics[f"[{eval_type}-MATRES] F1 Score"] = 0
-            return metrics, None
+    CM = confusion_matrix(y_true, y_pred)
+    logger.info("confusion_matrix: \n{0}".format(CM))
+    if model_type == "box" or model_type == "vector":
+        Acc, P, R, F1, _ = CM_metric_box(CM)
+    else:
+        Acc, P, R, F1, _ = CM_metric(CM)
+    metrics[f"[{eval_type}-{data_type}] Precision"] = P
+    metrics[f"[{eval_type}-{data_type}] Recall"] = R
+    metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-        CM = confusion_matrix(y_true, y_pred)
-        if model_type == "box":
-            Acc, P, R, F1, _ = CM_metric_box(CM)
-        else:
-            Acc, P, R, F1, _ = CM_metric(CM)
-        metrics[f"[{eval_type}-MATRES] Precision"] = P
-        metrics[f"[{eval_type}-MATRES] Recall"] = R
-        metrics[f"[{eval_type}-MATRES] F1 Score"] = F1
-        return metrics, CM
-
+    result_dict = classification_report(y_true, y_pred, output_dict=True)
+    logger.info("classifiction_report: \n{0}".format(classification_report(y_true, y_pred)))
     if data_type == "hieve":
-        if len(y_true) == 0 or len(y_pred) == 0:
-            metrics[f"[{eval_type}-HiEve] Precision"] = 0
-            metrics[f"[{eval_type}-HiEve] Recall"] = 0
-            metrics[f"[{eval_type}-HiEve] F1 Score"] = 0
-            return metrics, None
-
-        result_dict = classification_report(y_true, y_pred, output_dict=True)
-        result_table = classification_report(y_true, y_pred)
-
-        if model_type == "box":
-            if "10" not in result_dict.keys():
-                metrics[f"[{eval_type}-HiEve] Precision"] = 0
-                metrics[f"[{eval_type}-HiEve] Recall"] = 0
-                metrics[f"[{eval_type}-HiEve] F1 Score"] = 0
-            else:
-                P_PC = result_dict['10']['precision']   # Parent-Child - precision
-                P_CP = result_dict['01']['precision']   # Child-Parent - precision
-                P_CR = result_dict['11']['precision']   # CoRef - precision
-                R_PC = result_dict['10']['recall']      # Parent-Child - recall
-                R_CP = result_dict['01']['recall']      # Parent-Child - recall
-                R_CR = result_dict['11']['recall']      # CoRef - recall
-                F1_PC = result_dict['10']['f1-score']   # Parent-Child - f1 score
-                F1_CP = result_dict['01']['f1-score']   # Child-Parent - f1 score
-                F1_CR = result_dict['11']['f1-score']   # CoRef - f1 score
-                metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC+P_CP)/2
-                metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC+R_CP)/2
-                metrics[f"[{eval_type}-HiEve] F1 Score"] = (F1_PC+F1_CP)/2
+        if model_type == "box" or model_type == "vector":
+            pc_results = result_dict["10"]  # Parent-Child: precision, recall, f1, support
+            cp_results = result_dict["01"]  # Child-Parent: ~
         else:
-            P_PC = result_dict['0']['precision'] # Parent-Child - precision
-            P_CP = result_dict['1']['precision']  # Child-Parent - precision
+            pc_results = result_dict["0"]   # Parent-Child: precision,recall, f1, support
+            cp_results = result_dict["1"]   # Child-Parent: ~
 
-            R_PC = result_dict['0']['recall'] # Parent-Child - recall
-            R_CP = result_dict['1']['recall'] # Child-Parent - recall
+        pc_precision, pc_recall, pc_f1, pc_support = pc_results.values()
+        cp_precision, cp_recall, cp_f1, cp_support = cp_results.values()
+        f1_scores = [pc_f1, cp_f1]
+        macro_f1_score = get_macro_metric(f1_scores)
+        logger.info("macro f1 score: {:.4f}".format(macro_f1_score))
 
-            F1_PC = result_dict['0']['f1-score'] # Parent-Child
-            F1_CP = result_dict['1']['f1-score'] # Child-Parent
-            F1_CR = result_dict['2']['f1-score'] # CoRef
-            F1_NR = result_dict['3']['f1-score'] # NoRel
-            F1_PC_CP_avg = (F1_PC + F1_CP) / 2.0
+    return metrics
 
-            metrics[f"[{eval_type}-HiEve] Precision"] = (P_PC + P_CP) / 2
-            metrics[f"[{eval_type}-HiEve] Recall"] = (R_PC + R_CP) / 2
-            metrics[f"[{eval_type}-HiEve] F1-PC"] = F1_PC
-            metrics[f"[{eval_type}-HiEve] F1-CP"] = F1_CP
-            metrics[f"[{eval_type}-HiEve] F1 Score"] = F1_PC_CP_avg
-        return metrics, result_table
 
-    return None, None
+def get_micro_metric(metrics: list, supports: list) -> float:
+    total_true_positive = np.sum(np.array(metrics) * np.array(supports))
+    total_support = np.sum(supports)
+
+    return total_true_positive / total_support
+
+
+def get_macro_metric(metrics: list) -> float:
+    return np.mean(metrics)
+
+
+def get_f1_score(total_precision: float, total_recall: float) -> float:
+    return 2 * (total_precision * total_recall) / (total_precision + total_recall)
+
+
+def generate_result_table(precisions: list, recalls: list, supports: list, f1s: list,
+                          micro_precision: float, macro_precision: float,
+                          micro_recall: float,    macro_recall: float,
+                          micro_f1: float,        macro_f1: float) -> str:
+    total_support = np.sum(supports[:3])
+    line1 = "                 precision    recall  f1-score   support\n\n"
+    line2 = "   Parent-Child       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
+        p=precisions[0], r=recalls[0], f1=f1s[0], s=supports[0]
+    )
+    line3 = "   Child-Parent       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
+        p=precisions[1], r=recalls[1], f1=f1s[1], s=supports[1]
+    )
+    line4 = "          CoRef       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
+        p=precisions[2], r=recalls[2], f1=f1s[2], s=supports[2]
+    )
+    line5 = "NoRel [ignored]       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n\n".format(
+        p=precisions[3], r=recalls[3], f1=f1s[3], s=supports[3]
+    )
+    line6 = "      micro avg       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
+        p=micro_precision, r=micro_recall, f1=micro_f1, s=total_support
+    )
+    line7 = "      macro avg       {p:.2f}      {r:.2f}      {f1:.2f}   {s}".format(
+        p=macro_precision, r=macro_recall, f1=macro_f1, s=total_support
+    )
+
+    return line1+line2+line3+line4+line5+line6+line7
 
 
 def CM_metric(CM):
@@ -149,26 +156,28 @@ class ConstraintViolation:
     """
     def __init__(self, model_type):
         super().__init__()
-        if model_type == "box":
+        if model_type == "box" or model_type == "vector":
             self.violation_dict = {
-                ("10", "10", "01"): [0, 0], ("10", "10", "11"): [0, 0], ("10", "10", "00"): [0, 0],
-                ("10", "01"): [0, 0],
-                ("10", "11", "01"): [0, 0], ("10", "11", "11"): [0, 0], ("10", "11", "00"): [0, 0],
-                ("10", "00", "01"): [0, 0], ("10", "00", "11"): [0, 0],
-                ("01", "10"): [0, 0],
-                ("01", "01", "10"): [0, 0], ("01", "01", "11"): [0, 0], ("01", "01", "00"): [0, 0],
-                ("01", "11", "10"): [0, 0], ("01", "11", "11"): [0, 0], ("01", "11", "00"): [0, 0],
-                ("01", "00", "10"): [0, 0], ("01", "00", "11"): [0, 0],
-                ("11", "10", "01"): [0, 0], ("11", "10", "11"): [0, 0], ("11", "10", "00"): [0, 0],
-                ("11", "01", "10"): [0, 0], ("11", "01", "11"): [0, 0], ("11", "01", "00"): [0, 0],
-                ("11", "11", "10"): [0, 0], ("11", "11", "01"): [0, 0], ("11", "11", "00"): [0, 0],
-                ("11", "00", "10"): [0, 0], ("11", "00", "01"): [0, 0], ("11", "00", "11"): [0, 0],
-                ("00", "10", "01"): [0, 0], ("00", "10", "11"): [0, 0],
-                ("00", "01", "10"): [0, 0], ("00", "01", "11"): [0, 0],
-                ("00", "11", "10"): [0, 0], ("00", "11", "01"): [0, 0], ("00", "11", "11"): [0, 0],
-                ("00", "00"): [0, 0],
+                ("10", "10", "01"): 0, ("10", "10", "11"): 0, ("10", "10", "00"): 0,
+                ("10", "11", "01"): 0, ("10", "11", "11"): 0, ("10", "11", "00"): 0,
+                ("10", "00", "01"): 0, ("10", "00", "11"): 0,
+                ("01", "01", "10"): 0, ("01", "01", "11"): 0, ("01", "01", "00"): 0,
+                ("01", "11", "10"): 0, ("01", "11", "11"): 0, ("01", "11", "00"): 0,
+                ("01", "00", "10"): 0, ("01", "00", "11"): 0,
+                ("11", "10", "01"): 0, ("11", "10", "11"): 0, ("11", "10", "00"): 0,
+                ("11", "01", "10"): 0, ("11", "01", "11"): 0, ("11", "01", "00"): 0,
+                ("11", "11", "10"): 0, ("11", "11", "01"): 0, ("11", "11", "00"): 0,
+                ("11", "00", "10"): 0, ("11", "00", "01"): 0, ("11", "00", "11"): 0,
+                ("00", "10", "01"): 0, ("00", "10", "11"): 0,
+                ("00", "01", "10"): 0, ("00", "01", "11"): 0,
+                ("00", "11", "10"): 0, ("00", "11", "01"): 0, ("00", "11", "11"): 0,
             }
-            self.all_case_count = None
+            self.all_case_count = {
+                ("10", "10"): 0, ("10", "01"): 0, ("10", "11"): 0, ("10", "00"): 0,
+                ("01", "10"): 0, ("01", "01"): 0, ("01", "11"): 0, ("01", "00"): 0,
+                ("11", "10"): 0, ("11", "01"): 0, ("11", "11"): 0, ("11", "00"): 0,
+                ("00", "10"): 0, ("00", "01"): 0, ("00", "11"): 0, ("00", "00"): 0,
+            }
         else:
             self.violation_dict = {
                 (0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0,
@@ -195,30 +204,28 @@ class ConstraintViolation:
     def update_violation_count_box(self, xy_constraint_dict, yz_constraint_dict, xz_constraint_dict):
         # update each violation dict key using xy, yz, xz constraint dict
         for key, value in self.violation_dict.items():
-            if len(key) == 2: # (10, 01), (01, 10), (00, 00) cases
-                xy, yz = key
-                xy_indices = xy_constraint_dict[xy]
-                yz_indices = yz_constraint_dict[yz]
-                all_cases = len(xy_indices & yz_indices)
-                value[0] += all_cases
-            else:
-                xy, yz, xz = key
-                xy_indices = xy_constraint_dict[xy]
-                yz_indices = yz_constraint_dict[yz]
-                xz_indices = xz_constraint_dict[xz]
-                all_cases = len(xy_indices & yz_indices)
-                value[0] += all_cases
-                value[1] += len(xy_indices & yz_indices & xz_indices)
+            xy, yz, xz = key
+            xy_indices = xy_constraint_dict[xy]
+            yz_indices = yz_constraint_dict[yz]
+            xz_indices = xz_constraint_dict[xz]
+            self.violation_dict[key] += len(xy_indices & yz_indices & xz_indices)
+
+        for key, value in self.all_case_count.items():
+            xy, yz = key
+            xy_indices = xy_constraint_dict[xy]
+            yz_indices = yz_constraint_dict[yz]
+            self.all_case_count[key] += len(xy_indices & yz_indices)
 
     def update_violation_count_vector(self, alpha_indices, beta_indices, gamma_indices):
         # update each violation dict key using xy, yz, xz constraint dict
         assert len(alpha_indices) == len(beta_indices) == len(gamma_indices)
         for i in range(len(alpha_indices)):
             xy = alpha_indices[i]
-            yz = alpha_indices[i]
+            yz = beta_indices[i]
             xz = gamma_indices[i]
+            violation_key = (xy, yz, xz)
+            if violation_key in self.violation_dict.keys():
+                self.violation_dict[violation_key] += 1
 
-            key = (xy, yz, xz)
-            if key in self.violation_dict.keys():
-                self.violation_dict[(xy, yz, xz)] += 1
-            self.all_case_count[(xy, yz)] += 1
+            total_key = (xy, yz)
+            self.all_case_count[total_key] += 1

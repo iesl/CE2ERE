@@ -1,0 +1,135 @@
+2021-06-27 04:38:05,733 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.5902, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 10, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0}
+2021-06-27 04:38:05,734 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/100 [00:00<?, ?it/s]  2%|▏         | 2/100 [00:00<00:24,  4.03it/s]  3%|▎         | 3/100 [00:01<00:34,  2.83it/s]  4%|▍         | 4/100 [00:01<00:31,  3.01it/s]  5%|▌         | 5/100 [00:01<00:26,  3.53it/s]  6%|▌         | 6/100 [00:01<00:23,  4.06it/s]  7%|▋         | 7/100 [00:02<00:39,  2.37it/s]  9%|▉         | 9/100 [00:02<00:28,  3.18it/s] 10%|█         | 10/100 [00:02<00:23,  3.82it/s] 11%|█         | 11/100 [00:02<00:19,  4.63it/s] 12%|█▏        | 12/100 [00:03<00:17,  5.08it/s] 14%|█▍        | 14/100 [00:03<00:13,  6.21it/s] 15%|█▌        | 15/100 [00:03<00:12,  6.83it/s] 16%|█▌        | 16/100 [00:03<00:11,  7.10it/s] 17%|█▋        | 17/100 [00:03<00:16,  5.12it/s] 20%|██        | 20/100 [00:04<00:13,  5.94it/s] 22%|██▏       | 22/100 [00:04<00:12,  6.43it/s] 23%|██▎       | 23/100 [00:04<00:12,  6.17it/s] 24%|██▍       | 24/100 [00:05<00:20,  3.75it/s] 26%|██▌       | 26/100 [00:05<00:15,  4.83it/s] 27%|██▋       | 27/100 [00:05<00:23,  3.15it/s] 28%|██▊       | 28/100 [00:05<00:18,  3.88it/s] 29%|██▉       | 29/100 [00:06<00:26,  2.69it/s] 30%|███       | 30/100 [00:06<00:21,  3.25it/s] 33%|███▎      | 33/100 [00:06<00:15,  4.27it/s] 35%|███▌      | 35/100 [00:09<00:39,  1.63it/s] 36%|███▌      | 36/100 [00:09<00:29,  2.16it/s] 37%|███▋      | 37/100 [00:10<00:24,  2.56it/s] 38%|███▊      | 38/100 [00:10<00:20,  3.02it/s] 39%|███▉      | 39/100 [00:13<01:15,  1.23s/it] 41%|████      | 41/100 [00:13<00:51,  1.14it/s] 42%|████▏     | 42/100 [00:14<00:39,  1.45it/s] 43%|████▎     | 43/100 [00:14<00:42,  1.34it/s] 44%|████▍     | 44/100 [00:15<00:33,  1.65it/s] 45%|████▌     | 45/100 [00:15<00:26,  2.10it/s] 47%|████▋     | 47/100 [00:15<00:19,  2.69it/s] 48%|████▊     | 48/100 [00:16<00:24,  2.10it/s] 50%|█████     | 50/100 [00:16<00:17,  2.84it/s] 51%|█████     | 51/100 [00:16<00:13,  3.56it/s] 52%|█████▏    | 52/100 [00:16<00:12,  3.94it/s] 54%|█████▍    | 54/100 [00:17<00:13,  3.44it/s] 56%|█████▌    | 56/100 [00:17<00:10,  4.30it/s] 58%|█████▊    | 58/100 [00:17<00:07,  5.50it/s] 59%|█████▉    | 59/100 [00:18<00:08,  4.70it/s] 60%|██████    | 60/100 [00:18<00:08,  4.50it/s] 62%|██████▏   | 62/100 [00:18<00:07,  5.37it/s] 63%|██████▎   | 63/100 [00:18<00:06,  6.11it/s] 65%|██████▌   | 65/100 [00:18<00:04,  7.30it/s] 66%|██████▌   | 66/100 [00:18<00:04,  7.81it/s] 69%|██████▉   | 69/100 [00:19<00:03,  8.09it/s] 71%|███████   | 71/100 [00:19<00:03,  9.63it/s] 73%|███████▎  | 73/100 [00:19<00:02,  9.07it/s] 75%|███████▌  | 75/100 [00:19<00:02,  8.88it/s] 76%|███████▌  | 76/100 [00:20<00:02,  9.18it/s] 77%|███████▋  | 77/100 [00:20<00:02,  8.95it/s] 78%|███████▊  | 78/100 [00:20<00:03,  5.92it/s] 79%|███████▉  | 79/100 [00:20<00:04,  5.14it/s] 80%|████████  | 80/100 [00:20<00:03,  5.79it/s] 81%|████████  | 81/100 [00:21<00:03,  5.41it/s] 83%|████████▎ | 83/100 [00:21<00:02,  6.80it/s] 85%|████████▌ | 85/100 [00:21<00:01,  7.62it/s] 86%|████████▌ | 86/100 [00:21<00:01,  7.79it/s] 87%|████████▋ | 87/100 [00:21<00:01,  8.28it/s] 88%|████████▊ | 88/100 [00:21<00:01,  8.66it/s] 89%|████████▉ | 89/100 [00:21<00:01,  7.95it/s] 91%|█████████ | 91/100 [00:21<00:01,  8.79it/s] 92%|█████████▏| 92/100 [00:22<00:00,  8.62it/s] 93%|█████████▎| 93/100 [00:22<00:01,  6.14it/s] 94%|█████████▍| 94/100 [00:22<00:00,  6.68it/s] 95%|█████████▌| 95/100 [00:22<00:00,  5.78it/s] 97%|█████████▋| 97/100 [00:22<00:00,  7.27it/s] 99%|█████████▉| 99/100 [00:23<00:00,  7.45it/s]100%|██████████| 100/100 [00:23<00:00,  4.32it/s]
+2021-06-27 04:38:34,530 [INFO] HiEve Preprocessing took 0:00:29
+2021-06-27 04:38:34,531 [INFO] HiEve training instance num: 31090, valid instance num: 7107, test instance num: 6314
+2021-06-27 04:38:34,531 [INFO] debug mode on
+2021-06-27 04:38:35,093 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-06-27 04:38:36,299 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-config.json HTTP/1.1" 200 0
+2021-06-27 04:38:36,305 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+2021-06-27 04:38:36,305 [INFO] Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "do_sample": false,
+  "eos_token_id": 2,
+  "eos_token_ids": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+2021-06-27 04:38:36,309 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-06-27 04:38:37,164 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-pytorch_model.bin HTTP/1.1" 200 0
+2021-06-27 04:38:37,169 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
+Using OneThresholdEvaluator..!
+2021-06-27 04:38:40,668 [INFO] ======== Epoch 1 / 10 ========
+2021-06-27 04:38:40,668 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:51<00:00, 51.47s/it]100%|██████████| 1/1 [00:51<00:00, 51.47s/it]
+2021-06-27 04:39:32,144 [INFO] epoch: 1, loss: 266.798584
+2021-06-27 04:39:32,145 [INFO] [valid-hieve] start... 
+2021-06-27 04:40:13,967 [INFO] confusion_matrix: 
+[[22  0  0  0]
+ [12  0  0  7]
+ [35  0  7  0]
+ [17  0  0  0]]
+/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+2021-06-27 04:40:13,979 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.26      1.00      0.41        22
+          01       0.00      0.00      0.00        19
+          10       1.00      0.17      0.29        42
+          11       0.00      0.00      0.00        17
+
+    accuracy                           0.29       100
+   macro avg       0.31      0.29      0.17       100
+weighted avg       0.48      0.29      0.21       100
+
+vol_ab:2021-06-27 04:40:13,979 [INFO] macro f1 score: 0.1429
+2021-06-27 04:40:13,979 [INFO] done!
+ [0.008228458426481674, 0.00793394354874762, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.003908653491845842, 0.003908653491845842, 0.003908653491845842, 9.507955964144601e-05, 9.507955964144601e-05, 0.00015283846206789903, 0.00015844319169386497, 0.18063445615336807, 0.1723900554417534, 0.1723900554417534, 0.026021756365330207, 0.004293671769201809, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542950857386467, 0.5542946892760482, 0.5542946892760482, 0.008974727864012693, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.025588043121871813, 0.17863567826548674, 0.014826785196066172, 0.014826785196066172, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.02299002013148668, 0.02299002013148668, 0.1624273534057962, 0.002309290172355253, 0.005712327570081982, 0.005712324846232587, 0.00015001171415562575, 0.00015001171415562575, 0.00023281446543819577, 0.00023281446543819577, 0.0019049818921553611, 0.0019049818921553611, 0.0008617147439463438, 0.5610144300738922, 0.5610144300738922, 0.5610144300738922, 0.5231809637906575, 0.5231809637906575, 0.021750649745016084, 0.021750649745016084, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.03337751598294763, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691968587147225, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338887518163127]
+rel_ids: ['10', '10', '10', '10', '10', '10', '10', '01', '01', '01', '01', '01', '01', '01', '00', '00', '11', '11', '11', '11', '11', '11', '11', '11', '11', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '10', '10', '10', '10', '10', '11', '11', '11', '11', '01', '11', '00', '00', '01', '01', '01', '01', '01', '01', '01', '00', '11', '11', '00', '00', '00', '00', '00', '00', '00', '01', '01', '01', '01', '11', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10']
+2021-06-27 04:40:14,012 [INFO] Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2021-06-27 04:40:14,019 [INFO] Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2021-06-27 04:40:14,020 [INFO] Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 252, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 248, in main
+    trainer.train()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 156, in train
+    self.evaluation(epoch)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 171, in evaluation
+    valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 317, in evaluate
+    self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, "11")
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 233, in create_disttribution_plot
+    plt.show()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/pyplot.py", line 269, in show
+    return _show(*args, **kw)
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 29, in __call__
+    manager.show(**kwargs)
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 113, in show
+    self.canvas.show()
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 68, in show
+    self.figure.tight_layout()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/figure.py", line 2476, in tight_layout
+    pad=pad, h_pad=h_pad, w_pad=w_pad, rect=rect)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 362, in get_tight_layout_figure
+    pad=pad, h_pad=h_pad, w_pad=w_pad)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 111, in auto_adjust_subplotpars
+    tight_bbox_raw = union([ax.get_tightbbox(renderer) for ax in subplots
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 112, in <listcomp>
+    if ax.get_visible()])
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axes/_base.py", line 4357, in get_tightbbox
+    bb_xaxis = self.xaxis.get_tightbbox(renderer)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axis.py", line 1162, in get_tightbbox
+    ticks_to_draw = self._update_ticks()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axis.py", line 1080, in _update_ticks
+    major_labels = self.major.formatter.format_ticks(major_locs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/ticker.py", line 260, in format_ticks
+    return [self(value, i) for i, value in enumerate(values)]
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/ticker.py", line 260, in <listcomp>
+    return [self(value, i) for i, value in enumerate(values)]
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/category.py", line 155, in __call__
+    return r_mapping.get(int(np.round(x)), '')
+TypeError: only size-1 arrays can be converted to Python scalars

@@ -1,0 +1,137 @@
+2021-06-27 04:19:41,543 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.5902, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 10, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0}
+2021-06-27 04:19:41,543 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/100 [00:00<?, ?it/s]  2%|▏         | 2/100 [00:00<00:26,  3.75it/s]  3%|▎         | 3/100 [00:01<00:33,  2.91it/s]  4%|▍         | 4/100 [00:01<00:31,  3.06it/s]  5%|▌         | 5/100 [00:01<00:26,  3.59it/s]  6%|▌         | 6/100 [00:01<00:22,  4.12it/s]  7%|▋         | 7/100 [00:02<00:39,  2.37it/s]  9%|▉         | 9/100 [00:02<00:28,  3.18it/s] 10%|█         | 10/100 [00:02<00:23,  3.81it/s] 11%|█         | 11/100 [00:02<00:19,  4.61it/s] 12%|█▏        | 12/100 [00:03<00:17,  5.07it/s] 14%|█▍        | 14/100 [00:03<00:13,  6.23it/s] 15%|█▌        | 15/100 [00:03<00:12,  6.76it/s] 16%|█▌        | 16/100 [00:03<00:11,  7.06it/s] 17%|█▋        | 17/100 [00:03<00:16,  5.16it/s] 20%|██        | 20/100 [00:04<00:13,  5.99it/s] 22%|██▏       | 22/100 [00:04<00:11,  6.51it/s] 23%|██▎       | 23/100 [00:04<00:12,  6.22it/s] 24%|██▍       | 24/100 [00:05<00:20,  3.74it/s] 26%|██▌       | 26/100 [00:05<00:15,  4.82it/s] 27%|██▋       | 27/100 [00:05<00:23,  3.15it/s] 28%|██▊       | 28/100 [00:05<00:18,  3.88it/s] 29%|██▉       | 29/100 [00:06<00:26,  2.72it/s] 30%|███       | 30/100 [00:06<00:21,  3.28it/s] 33%|███▎      | 33/100 [00:06<00:15,  4.31it/s] 35%|███▌      | 35/100 [00:09<00:38,  1.67it/s] 36%|███▌      | 36/100 [00:09<00:28,  2.21it/s] 37%|███▋      | 37/100 [00:10<00:24,  2.62it/s] 38%|███▊      | 38/100 [00:10<00:20,  3.10it/s] 39%|███▉      | 39/100 [00:13<01:12,  1.19s/it] 41%|████      | 41/100 [00:13<00:50,  1.17it/s] 42%|████▏     | 42/100 [00:13<00:38,  1.50it/s] 43%|████▎     | 43/100 [00:14<00:41,  1.38it/s] 44%|████▍     | 44/100 [00:14<00:32,  1.75it/s] 45%|████▌     | 45/100 [00:15<00:24,  2.22it/s] 47%|████▋     | 47/100 [00:15<00:18,  2.82it/s] 48%|████▊     | 48/100 [00:15<00:23,  2.22it/s] 50%|█████     | 50/100 [00:16<00:16,  3.02it/s] 52%|█████▏    | 52/100 [00:16<00:13,  3.63it/s] 54%|█████▍    | 54/100 [00:17<00:13,  3.29it/s] 56%|█████▌    | 56/100 [00:17<00:10,  4.15it/s] 58%|█████▊    | 58/100 [00:17<00:07,  5.32it/s] 60%|██████    | 60/100 [00:17<00:08,  4.70it/s] 62%|██████▏   | 62/100 [00:18<00:06,  5.61it/s] 63%|██████▎   | 63/100 [00:18<00:05,  6.34it/s] 65%|██████▌   | 65/100 [00:18<00:04,  7.53it/s] 67%|██████▋   | 67/100 [00:18<00:03,  8.39it/s] 69%|██████▉   | 69/100 [00:18<00:03,  7.96it/s] 71%|███████   | 71/100 [00:18<00:03,  9.49it/s] 73%|███████▎  | 73/100 [00:19<00:03,  8.99it/s] 75%|███████▌  | 75/100 [00:19<00:02,  8.86it/s] 77%|███████▋  | 77/100 [00:19<00:02,  8.93it/s] 78%|███████▊  | 78/100 [00:19<00:03,  5.92it/s] 79%|███████▉  | 79/100 [00:20<00:04,  5.13it/s] 80%|████████  | 80/100 [00:20<00:03,  5.75it/s] 81%|████████  | 81/100 [00:20<00:03,  5.37it/s] 83%|████████▎ | 83/100 [00:20<00:02,  6.76it/s] 85%|████████▌ | 85/100 [00:20<00:01,  7.60it/s] 86%|████████▌ | 86/100 [00:21<00:01,  7.81it/s] 88%|████████▊ | 88/100 [00:21<00:01,  8.59it/s] 89%|████████▉ | 89/100 [00:21<00:01,  8.36it/s] 91%|█████████ | 91/100 [00:21<00:00,  9.17it/s] 93%|█████████▎| 93/100 [00:21<00:00,  7.57it/s] 94%|█████████▍| 94/100 [00:21<00:00,  7.80it/s] 95%|█████████▌| 95/100 [00:22<00:00,  6.42it/s] 97%|█████████▋| 97/100 [00:22<00:00,  7.98it/s] 99%|█████████▉| 99/100 [00:22<00:00,  8.02it/s]100%|██████████| 100/100 [00:22<00:00,  4.42it/s]
+2021-06-27 04:20:08,492 [INFO] HiEve Preprocessing took 0:00:27
+2021-06-27 04:20:08,493 [INFO] HiEve training instance num: 31090, valid instance num: 7107, test instance num: 6314
+2021-06-27 04:20:08,493 [INFO] debug mode on
+2021-06-27 04:20:09,044 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-06-27 04:20:09,982 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-config.json HTTP/1.1" 200 0
+2021-06-27 04:20:09,987 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+2021-06-27 04:20:09,988 [INFO] Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "do_sample": false,
+  "eos_token_id": 2,
+  "eos_token_ids": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+2021-06-27 04:20:09,992 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-06-27 04:20:10,938 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-pytorch_model.bin HTTP/1.1" 200 0
+2021-06-27 04:20:10,943 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
+Using OneThresholdEvaluator..!
+2021-06-27 04:20:13,640 [INFO] ======== Epoch 1 / 10 ========
+2021-06-27 04:20:13,640 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:39<00:00, 39.22s/it]100%|██████████| 1/1 [00:39<00:00, 39.22s/it]
+2021-06-27 04:20:52,858 [INFO] epoch: 1, loss: 266.798584
+2021-06-27 04:20:52,859 [INFO] [valid-hieve] start... 
+2021-06-27 04:21:26,646 [INFO] confusion_matrix: 
+[[22  0  0  0]
+ [12  0  0  7]
+ [35  0  7  0]
+ [17  0  0  0]]
+/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+2021-06-27 04:21:26,655 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.26      1.00      0.41        22
+          01       0.00      0.00      0.00        19
+          10       1.00      0.17      0.29        42
+          11       0.00      0.00      0.00        17
+
+    accuracy                           0.29       100
+   macro avg       0.31      0.29      0.17       100
+weighted avg       0.48      0.29      0.21       100
+
+vol_ab:2021-06-27 04:21:26,655 [INFO] macro f1 score: 0.1429
+2021-06-27 04:21:26,655 [INFO] done!
+ [0.008228458426481674, 0.00793394354874762, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.003908653491845842, 0.003908653491845842, 0.003908653491845842, 9.507955964144601e-05, 9.507955964144601e-05, 0.00015283846206789903, 0.00015844319169386497, 0.18063445615336807, 0.1723900554417534, 0.1723900554417534, 0.026021756365330207, 0.004293671769201809, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542950857386467, 0.5542946892760482, 0.5542946892760482, 0.008974727864012693, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.025588043121871813, 0.17863567826548674, 0.014826785196066172, 0.014826785196066172, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.02299002013148668, 0.02299002013148668, 0.1624273534057962, 0.002309290172355253, 0.005712327570081982, 0.005712324846232587, 0.00015001171415562575, 0.00015001171415562575, 0.00023281446543819577, 0.00023281446543819577, 0.0019049818921553611, 0.0019049818921553611, 0.0008617147439463438, 0.5610144300738922, 0.5610144300738922, 0.5610144300738922, 0.5231809637906575, 0.5231809637906575, 0.021750649745016084, 0.021750649745016084, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.03337751598294763, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691968587147225, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338887518163127]
+rel_ids: ['10', '10', '10', '10', '10', '10', '10', '01', '01', '01', '01', '01', '01', '01', '00', '00', '11', '11', '11', '11', '11', '11', '11', '11', '11', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '10', '10', '10', '10', '10', '11', '11', '11', '11', '01', '11', '00', '00', '01', '01', '01', '01', '01', '01', '01', '00', '11', '11', '00', '00', '00', '00', '00', '00', '00', '01', '01', '01', '01', '11', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10']
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 252, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 248, in main
+    trainer.train()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 156, in train
+    self.evaluation(epoch)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 171, in evaluation
+    valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 315, in evaluate
+    self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, "11")
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 231, in create_disttribution_plot
+    plt.show()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/pyplot.py", line 269, in show
+    return _show(*args, **kw)
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 29, in __call__
+    manager.show(**kwargs)
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 113, in show
+    self.canvas.show()
+  File "/Applications/PyCharm.app/Contents/plugins/python/helpers/pycharm_matplotlib_backend/backend_interagg.py", line 68, in show
+    self.figure.tight_layout()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/figure.py", line 2476, in tight_layout
+    pad=pad, h_pad=h_pad, w_pad=w_pad, rect=rect)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 362, in get_tight_layout_figure
+    pad=pad, h_pad=h_pad, w_pad=w_pad)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 111, in auto_adjust_subplotpars
+    tight_bbox_raw = union([ax.get_tightbbox(renderer) for ax in subplots
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/tight_layout.py", line 112, in <listcomp>
+    if ax.get_visible()])
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axes/_base.py", line 4357, in get_tightbbox
+    bb_xaxis = self.xaxis.get_tightbbox(renderer)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axis.py", line 1162, in get_tightbbox
+    ticks_to_draw = self._update_ticks()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/axis.py", line 1080, in _update_ticks
+    major_labels = self.major.formatter.format_ticks(major_locs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/ticker.py", line 259, in format_ticks
+    self.set_locs(values)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/ticker.py", line 689, in set_locs
+    self._set_format()
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/ticker.py", line 775, in _set_format
+    loc_range = np.ptp(locs)
+  File "<__array_function__ internals>", line 6, in ptp
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/numpy/core/fromnumeric.py", line 2543, in ptp
+    return _methods._ptp(a, axis=axis, out=out, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/numpy/core/_methods.py", line 230, in _ptp
+    umr_maximum(a, axis, None, out, keepdims),
+ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()

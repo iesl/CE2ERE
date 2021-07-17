@@ -1,0 +1,181 @@
+2021-07-04 10:45:22,957 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.01, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 0}
+2021-07-04 10:45:22,957 [INFO] Requested CUDA but it is not available, running on CPU
+2021-07-04 10:45:55,770 [INFO] HiEve Preprocessing took 0:00:33
+2021-07-04 10:45:55,770 [INFO] HiEve training instance num: 6446, valid instance num: 7670, test instance num: 5560
+2021-07-04 10:45:55,770 [INFO] debug mode on
+2021-07-04 10:45:56,008 [INFO] hieve length debugging mode: %d
+2021-07-04 10:45:56,044 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-07-04 10:45:56,896 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-config.json HTTP/1.1" 200 0
+2021-07-04 10:45:56,903 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+2021-07-04 10:45:56,903 [INFO] Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "do_sample": false,
+  "eos_token_id": 2,
+  "eos_token_ids": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+2021-07-04 10:45:56,907 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-07-04 10:45:57,827 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-pytorch_model.bin HTTP/1.1" 200 0
+2021-07-04 10:45:57,832 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
+2021-07-04 10:46:00,595 [INFO] ======== Epoch 1 / 10 ========
+2021-07-04 10:46:00,595 [INFO] Training start...
+2021-07-04 10:46:40,962 [INFO] epoch: 1, loss: 192.034742
+2021-07-04 10:46:40,962 [INFO] [valid-hieve] start... 
+2021-07-04 10:47:23,412 [INFO] confusion_matrix: 
+[[ 5  0  0  0]
+ [15  2  0  1]
+ [44  0  1  1]
+ [22  0  4  5]]
+2021-07-04 10:47:23,419 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.06      1.00      0.11         5
+          01       1.00      0.11      0.20        18
+          10       0.20      0.02      0.04        46
+          11       0.71      0.16      0.26        31
+
+    accuracy                           0.13       100
+   macro avg       0.49      0.32      0.15       100
+weighted avg       0.50      0.13      0.14       100
+
+2021-07-04 10:47:23,419 [INFO] macro f1 score: 0.1196
+2021-07-04 10:47:23,419 [INFO] done!
+2021-07-04 10:47:23,423 [INFO] [cv-valid-hieve] start... 
+2021-07-04 10:48:06,710 [INFO] [cv-valid-hieve] constraint-violation: {('10', '10', '01'): 0, ('10', '10', '11'): 0, ('10', '10', '00'): 0, ('10', '11', '01'): 0, ('10', '11', '11'): 1, ('10', '11', '00'): 2, ('10', '00', '01'): 0, ('10', '00', '11'): 0, ('01', '01', '10'): 0, ('01', '01', '11'): 0, ('01', '01', '00'): 0, ('01', '11', '10'): 0, ('01', '11', '11'): 0, ('01', '11', '00'): 0, ('01', '00', '10'): 1, ('01', '00', '11'): 0, ('11', '10', '01'): 0, ('11', '10', '11'): 0, ('11', '10', '00'): 1, ('11', '01', '10'): 0, ('11', '01', '11'): 0, ('11', '01', '00'): 0, ('11', '11', '10'): 0, ('11', '11', '01'): 0, ('11', '11', '00'): 1, ('11', '00', '10'): 0, ('11', '00', '01'): 0, ('11', '00', '11'): 2, ('00', '10', '01'): 0, ('00', '10', '11'): 0, ('00', '01', '10'): 0, ('00', '01', '11'): 0, ('00', '11', '10'): 0, ('00', '11', '01'): 0, ('00', '11', '11'): 2}
+2021-07-04 10:48:06,710 [INFO] [cv-valid-hieve] all_cases: {('10', '10'): 0, ('10', '01'): 0, ('10', '11'): 3, ('10', '00'): 2, ('01', '10'): 0, ('01', '01'): 0, ('01', '11'): 0, ('01', '00'): 2, ('11', '10'): 1, ('11', '01'): 0, ('11', '11'): 3, ('11', '00'): 3, ('00', '10'): 3, ('00', '01'): 2, ('00', '11'): 19, ('00', '00'): 62}
+2021-07-04 10:48:06,712 [INFO] confusion_matrix: 
+[[ 5  0  0  0]
+ [15  2  0  1]
+ [44  0  1  1]
+ [22  0  4  5]]
+2021-07-04 10:48:06,718 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.06      1.00      0.11         5
+          01       1.00      0.11      0.20        18
+          10       0.20      0.02      0.04        46
+          11       0.71      0.16      0.26        31
+
+    accuracy                           0.13       100
+   macro avg       0.49      0.32      0.15       100
+weighted avg       0.50      0.13      0.14       100
+
+2021-07-04 10:48:06,719 [INFO] macro f1 score: 0.1196
+2021-07-04 10:48:06,719 [INFO] done!
+2021-07-04 10:48:06,722 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.5714285714285714, '[valid-hieve] Recall': 0.08421052631578947, '[valid-hieve] F1 Score': 0.14678899082568805, '[valid] Elapsed Time': 42.456660985946655}
+2021-07-04 10:48:06,722 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.5714285714285714, '[cv-valid-hieve] Recall': 0.08421052631578947, '[cv-valid-hieve] F1 Score': 0.14678899082568805, '[cv-valid] Elapsed Time': 43.29603314399719}
+2021-07-04 10:48:06,897 [INFO] model is saved here: ./model/hieve_20210704104600_gtlwxaq5.pt, best epoch: 1, best f1 score: 0.146789
+2021-07-04 10:48:06,897 [INFO] ======== Epoch 2 / 10 ========
+2021-07-04 10:48:06,897 [INFO] Training start...
+2021-07-04 10:48:56,896 [INFO] epoch: 2, loss: 204.117624
+2021-07-04 10:48:56,897 [INFO] [valid-hieve] start... 
+2021-07-04 10:49:37,423 [INFO] confusion_matrix: 
+[[ 1  0  0  4]
+ [ 5  1  0 12]
+ [ 2  2  7 35]
+ [ 3  1  0 27]]
+2021-07-04 10:49:37,429 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.09      0.20      0.13         5
+          01       0.25      0.06      0.09        18
+          10       1.00      0.15      0.26        46
+          11       0.35      0.87      0.50        31
+
+    accuracy                           0.36       100
+   macro avg       0.42      0.32      0.24       100
+weighted avg       0.62      0.36      0.30       100
+
+2021-07-04 10:49:37,429 [INFO] macro f1 score: 0.1775
+2021-07-04 10:49:37,430 [INFO] done!
+2021-07-04 10:49:37,433 [INFO] [cv-valid-hieve] start... 
+2021-07-04 10:50:19,469 [INFO] [cv-valid-hieve] constraint-violation: {('10', '10', '01'): 0, ('10', '10', '11'): 0, ('10', '10', '00'): 0, ('10', '11', '01'): 0, ('10', '11', '11'): 1, ('10', '11', '00'): 0, ('10', '00', '01'): 0, ('10', '00', '11'): 4, ('01', '01', '10'): 0, ('01', '01', '11'): 0, ('01', '01', '00'): 0, ('01', '11', '10'): 0, ('01', '11', '11'): 3, ('01', '11', '00'): 1, ('01', '00', '10'): 0, ('01', '00', '11'): 0, ('11', '10', '01'): 0, ('11', '10', '11'): 1, ('11', '10', '00'): 0, ('11', '01', '10'): 0, ('11', '01', '11'): 3, ('11', '01', '00'): 0, ('11', '11', '10'): 1, ('11', '11', '01'): 4, ('11', '11', '00'): 3, ('11', '00', '10'): 0, ('11', '00', '01'): 1, ('11', '00', '11'): 2, ('00', '10', '01'): 0, ('00', '10', '11'): 0, ('00', '01', '10'): 0, ('00', '01', '11'): 0, ('00', '11', '10'): 0, ('00', '11', '01'): 2, ('00', '11', '11'): 2}
+2021-07-04 10:50:19,469 [INFO] [cv-valid-hieve] all_cases: {('10', '10'): 0, ('10', '01'): 2, ('10', '11'): 1, ('10', '00'): 4, ('01', '10'): 0, ('01', '01'): 0, ('01', '11'): 4, ('01', '00'): 0, ('11', '10'): 2, ('11', '01'): 3, ('11', '11'): 66, ('11', '00'): 7, ('00', '10'): 0, ('00', '01'): 0, ('00', '11'): 7, ('00', '00'): 4}
+2021-07-04 10:50:19,471 [INFO] confusion_matrix: 
+[[ 1  0  0  4]
+ [ 5  1  0 12]
+ [ 2  2  7 35]
+ [ 3  1  0 27]]
+2021-07-04 10:50:19,477 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.09      0.20      0.13         5
+          01       0.25      0.06      0.09        18
+          10       1.00      0.15      0.26        46
+          11       0.35      0.87      0.50        31
+
+    accuracy                           0.36       100
+   macro avg       0.42      0.32      0.24       100
+weighted avg       0.62      0.36      0.30       100
+
+2021-07-04 10:50:19,477 [INFO] macro f1 score: 0.1775
+2021-07-04 10:50:19,477 [INFO] done!
+2021-07-04 10:50:19,480 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.39325842696629215, '[valid-hieve] Recall': 0.3684210526315789, '[valid-hieve] F1 Score': 0.3804347826086957, '[valid] Elapsed Time': 40.532657861709595}
+2021-07-04 10:50:19,481 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.39325842696629215, '[cv-valid-hieve] Recall': 0.3684210526315789, '[cv-valid-hieve] F1 Score': 0.3804347826086957, '[cv-valid] Elapsed Time': 42.04446816444397}
+2021-07-04 10:50:19,683 [INFO] model is saved here: ./model/hieve_20210704104600_gtlwxaq5.pt, best epoch: 2, best f1 score: 0.380435
+2021-07-04 10:50:19,683 [INFO] ======== Epoch 3 / 10 ========
+2021-07-04 10:50:19,684 [INFO] Training start...
+2021-07-04 10:51:10,209 [INFO] epoch: 3, loss: 134.474535
+2021-07-04 10:51:10,210 [INFO] [valid-hieve] start... 
+2021-07-04 10:51:55,640 [INFO] confusion_matrix: 
+[[ 2  0  1  2]
+ [ 9  0  0  9]
+ [12  0  5 29]
+ [ 5  0  0 26]]
+2021-07-04 10:51:55,649 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+          00       0.07      0.40      0.12         5
+          01       0.00      0.00      0.00        18
+          10       0.83      0.11      0.19        46
+          11       0.39      0.84      0.54        31
+
+    accuracy                           0.33       100
+   macro avg       0.32      0.34      0.21       100
+weighted avg       0.51      0.33      0.26       100
+
+2021-07-04 10:51:55,649 [INFO] macro f1 score: 0.0962
+2021-07-04 10:51:55,649 [INFO] done!
+2021-07-04 10:51:55,653 [INFO] [cv-valid-hieve] start... 

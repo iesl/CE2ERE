@@ -1,0 +1,55 @@
+2021-07-12 09:26:16,848 INFO    MainThread:9508 [internal.py:wandb_internal():91] W&B internal server running at pid: 9508, started at: 2021-07-12 09:26:16.847767
+2021-07-12 09:26:16,849 INFO    WriterThread:9508 [datastore.py:open_for_write():77] open: /Users/ehwang/PycharmProjects/CE2ERE/src/wandb/run-20210712_092615-zeh1kbcn/run-zeh1kbcn.wandb
+2021-07-12 09:26:16,849 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: check_version
+2021-07-12 09:26:16,850 DEBUG   SenderThread:9508 [sender.py:send():122] send: header
+2021-07-12 09:26:16,850 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:26:16,850 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: check_version
+2021-07-12 09:26:17,258 DEBUG   SenderThread:9508 [sender.py:send():122] send: run
+2021-07-12 09:26:17,536 INFO    SenderThread:9508 [sender.py:_start_run_threads():599] run started: zeh1kbcn with start time 1626096375
+2021-07-12 09:26:17,536 DEBUG   SenderThread:9508 [sender.py:send():122] send: summary
+2021-07-12 09:26:17,536 INFO    SenderThread:9508 [sender.py:_save_file():730] saving file wandb-summary.json with policy end
+2021-07-12 09:26:17,537 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: run_start
+2021-07-12 09:26:17,539 DEBUG   HandlerThread:9508 [meta.py:__init__():34] meta init
+2021-07-12 09:26:17,540 DEBUG   HandlerThread:9508 [meta.py:__init__():48] meta init done
+2021-07-12 09:26:17,540 DEBUG   HandlerThread:9508 [meta.py:probe():190] probe
+2021-07-12 09:26:17,541 DEBUG   HandlerThread:9508 [meta.py:_setup_git():180] setup git
+2021-07-12 09:26:17,577 DEBUG   HandlerThread:9508 [meta.py:_setup_git():187] setup git done
+2021-07-12 09:26:17,577 DEBUG   HandlerThread:9508 [meta.py:_save_pip():52] save pip
+2021-07-12 09:26:17,578 DEBUG   HandlerThread:9508 [meta.py:_save_pip():66] save pip done
+2021-07-12 09:26:17,578 DEBUG   HandlerThread:9508 [meta.py:probe():231] probe done
+2021-07-12 09:26:17,720 DEBUG   SenderThread:9508 [sender.py:send():122] send: files
+2021-07-12 09:26:17,720 INFO    SenderThread:9508 [sender.py:_save_file():730] saving file wandb-metadata.json with policy now
+2021-07-12 09:26:17,724 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: status
+2021-07-12 09:26:17,725 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:26:17,725 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: status
+2021-07-12 09:26:17,935 DEBUG   SenderThread:9508 [sender.py:send():122] send: config
+2021-07-12 09:26:18,173 DEBUG   SenderThread:9508 [sender.py:send():122] send: config
+2021-07-12 09:26:20,924 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:25,467 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:29,986 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:32,956 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: status
+2021-07-12 09:26:32,956 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:26:32,956 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: status
+2021-07-12 09:26:34,503 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:39,022 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:43,547 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:48,072 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:48,300 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: status
+2021-07-12 09:26:48,301 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:26:48,301 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: status
+2021-07-12 09:26:52,598 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:26:57,111 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:01,637 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:03,523 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: status
+2021-07-12 09:27:03,523 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:27:03,523 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: status
+2021-07-12 09:27:06,154 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:10,682 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:15,219 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:18,729 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: status
+2021-07-12 09:27:18,729 DEBUG   SenderThread:9508 [sender.py:send():122] send: request
+2021-07-12 09:27:18,729 DEBUG   SenderThread:9508 [sender.py:send_request():131] send_request: status
+2021-07-12 09:27:19,715 DEBUG   SenderThread:9508 [sender.py:send():122] send: stats
+2021-07-12 09:27:21,657 WARNING MainThread:9508 [internal.py:wandb_internal():146] Internal process interrupt: 1
+2021-07-12 09:27:21,687 DEBUG   SenderThread:9508 [sender.py:send():122] send: telemetry
+2021-07-12 09:27:21,690 DEBUG   HandlerThread:9508 [handler.py:handle_request():101] handle_request: poll_exit

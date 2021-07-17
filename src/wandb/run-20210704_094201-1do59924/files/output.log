@@ -1,0 +1,420 @@
+2021-07-04 09:42:03,605 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'bilstm', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.02, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 0}
+2021-07-04 09:42:03,605 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:22,  4.44it/s]  2%|▏         | 2/100 [00:00<00:22,  4.37it/s]  3%|▎         | 3/100 [00:00<00:21,  4.52it/s]  4%|▍         | 4/100 [00:00<00:17,  5.34it/s]  5%|▌         | 5/100 [00:01<00:22,  4.19it/s]  6%|▌         | 6/100 [00:01<00:25,  3.72it/s]  7%|▋         | 7/100 [00:01<00:21,  4.38it/s]  8%|▊         | 8/100 [00:03<01:04,  1.44it/s] 10%|█         | 10/100 [00:03<00:51,  1.76it/s] 11%|█         | 11/100 [00:04<00:55,  1.61it/s] 13%|█▎        | 13/100 [00:04<00:39,  2.20it/s] 14%|█▍        | 14/100 [00:05<00:38,  2.24it/s] 15%|█▌        | 15/100 [00:05<00:30,  2.75it/s] 16%|█▌        | 16/100 [00:05<00:24,  3.49it/s] 18%|█▊        | 18/100 [00:06<00:33,  2.45it/s] 19%|█▉        | 19/100 [00:07<00:27,  3.00it/s] 20%|██        | 20/100 [00:07<00:41,  1.95it/s] 21%|██        | 21/100 [00:08<00:47,  1.68it/s] 22%|██▏       | 22/100 [00:08<00:35,  2.20it/s] 23%|██▎       | 23/100 [00:09<00:28,  2.71it/s] 24%|██▍       | 24/100 [00:09<00:22,  3.37it/s] 25%|██▌       | 25/100 [00:09<00:25,  2.99it/s] 27%|██▋       | 27/100 [00:09<00:19,  3.65it/s] 29%|██▉       | 29/100 [00:10<00:17,  4.04it/s] 30%|███       | 30/100 [00:10<00:15,  4.65it/s] 31%|███       | 31/100 [00:11<00:25,  2.67it/s] 32%|███▏      | 32/100 [00:11<00:20,  3.31it/s] 33%|███▎      | 33/100 [00:11<00:25,  2.59it/s] 34%|███▍      | 34/100 [00:12<00:21,  3.13it/s] 35%|███▌      | 35/100 [00:12<00:27,  2.34it/s] 36%|███▌      | 36/100 [00:12<00:21,  3.02it/s] 37%|███▋      | 37/100 [00:13<00:20,  3.00it/s] 38%|███▊      | 38/100 [00:13<00:20,  3.06it/s] 39%|███▉      | 39/100 [00:13<00:16,  3.81it/s] 40%|████      | 40/100 [00:13<00:13,  4.58it/s] 41%|████      | 41/100 [00:13<00:11,  5.20it/s] 43%|████▎     | 43/100 [00:14<00:09,  5.85it/s] 45%|████▌     | 45/100 [00:14<00:08,  6.11it/s] 46%|████▌     | 46/100 [00:14<00:11,  4.63it/s] 48%|████▊     | 48/100 [00:14<00:08,  5.87it/s] 50%|█████     | 50/100 [00:15<00:07,  6.36it/s] 51%|█████     | 51/100 [00:18<00:50,  1.04s/it] 52%|█████▏    | 52/100 [00:18<00:38,  1.26it/s] 53%|█████▎    | 53/100 [00:18<00:28,  1.63it/s] 54%|█████▍    | 54/100 [00:18<00:21,  2.17it/s] 55%|█████▌    | 55/100 [00:18<00:16,  2.79it/s] 56%|█████▌    | 56/100 [00:18<00:12,  3.54it/s] 58%|█████▊    | 58/100 [00:19<00:08,  4.68it/s] 60%|██████    | 60/100 [00:19<00:07,  5.14it/s] 61%|██████    | 61/100 [00:19<00:08,  4.59it/s] 62%|██████▏   | 62/100 [00:19<00:08,  4.44it/s] 63%|██████▎   | 63/100 [00:20<00:09,  3.86it/s] 65%|██████▌   | 65/100 [00:20<00:08,  4.34it/s] 66%|██████▌   | 66/100 [00:20<00:08,  4.17it/s] 67%|██████▋   | 67/100 [00:21<00:10,  3.02it/s] 68%|██████▊   | 68/100 [00:21<00:12,  2.61it/s] 69%|██████▉   | 69/100 [00:21<00:09,  3.32it/s] 71%|███████   | 71/100 [00:22<00:06,  4.25it/s] 73%|███████▎  | 73/100 [00:22<00:05,  4.99it/s] 74%|███████▍  | 74/100 [00:22<00:04,  5.27it/s] 76%|███████▌  | 76/100 [00:22<00:03,  6.72it/s] 78%|███████▊  | 78/100 [00:23<00:05,  4.12it/s] 80%|████████  | 80/100 [00:23<00:03,  5.14it/s] 83%|████████▎ | 83/100 [00:23<00:02,  6.06it/s] 84%|████████▍ | 84/100 [00:24<00:02,  6.73it/s] 85%|████████▌ | 85/100 [00:24<00:02,  6.66it/s] 87%|████████▋ | 87/100 [00:24<00:01,  8.10it/s] 89%|████████▉ | 89/100 [00:24<00:01,  8.26it/s] 91%|█████████ | 91/100 [00:28<00:05,  1.60it/s] 92%|█████████▏| 92/100 [00:29<00:06,  1.32it/s] 94%|█████████▍| 94/100 [00:30<00:04,  1.47it/s] 95%|█████████▌| 95/100 [00:30<00:02,  1.91it/s] 96%|█████████▌| 96/100 [00:30<00:01,  2.51it/s] 97%|█████████▋| 97/100 [00:30<00:00,  3.24it/s] 99%|█████████▉| 99/100 [00:31<00:00,  2.63it/s]100%|██████████| 100/100 [00:33<00:00,  1.14it/s]100%|██████████| 100/100 [00:33<00:00,  2.96it/s]
+2021-07-04 09:42:37,350 [INFO] HiEve Preprocessing took 0:00:34
+2021-07-04 09:42:37,350 [INFO] HiEve training instance num: 32876, valid instance num: 7670, test instance num: 5560
+2021-07-04 09:42:37,350 [INFO] debug mode on
+2021-07-04 09:42:37,720 [INFO] hieve length debugging mode: %d
+2021-07-04 09:42:37,832 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-07-04 09:42:38,681 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-config.json HTTP/1.1" 200 0
+2021-07-04 09:42:38,687 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
+2021-07-04 09:42:38,687 [INFO] Model config RobertaConfig {
+  "architectures": [
+    "RobertaForMaskedLM"
+  ],
+  "attention_probs_dropout_prob": 0.1,
+  "bos_token_id": 0,
+  "do_sample": false,
+  "eos_token_id": 2,
+  "eos_token_ids": null,
+  "finetuning_task": null,
+  "hidden_act": "gelu",
+  "hidden_dropout_prob": 0.1,
+  "hidden_size": 768,
+  "id2label": {
+    "0": "LABEL_0",
+    "1": "LABEL_1"
+  },
+  "initializer_range": 0.02,
+  "intermediate_size": 3072,
+  "is_decoder": false,
+  "label2id": {
+    "LABEL_0": 0,
+    "LABEL_1": 1
+  },
+  "layer_norm_eps": 1e-05,
+  "length_penalty": 1.0,
+  "max_length": 20,
+  "max_position_embeddings": 514,
+  "model_type": "roberta",
+  "num_attention_heads": 12,
+  "num_beams": 1,
+  "num_hidden_layers": 12,
+  "num_labels": 2,
+  "num_return_sequences": 1,
+  "output_attentions": false,
+  "output_hidden_states": false,
+  "output_past": true,
+  "pad_token_id": 1,
+  "pruned_heads": {},
+  "repetition_penalty": 1.0,
+  "temperature": 1.0,
+  "top_k": 50,
+  "top_p": 1.0,
+  "torchscript": false,
+  "type_vocab_size": 1,
+  "use_bfloat16": false,
+  "vocab_size": 50265
+}
+
+2021-07-04 09:42:38,691 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
+2021-07-04 09:42:39,623 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-pytorch_model.bin HTTP/1.1" 200 0
+2021-07-04 09:42:39,628 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
+2021-07-04 09:42:42,326 [INFO] ======== Epoch 1 / 10 ========
+Using VectorBiLSTMEvaluator..!
+2021-07-04 09:42:42,326 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:42<00:00, 42.29s/it]100%|██████████| 1/1 [00:42<00:00, 42.29s/it]
+2021-07-04 09:43:24,616 [INFO] epoch: 1, loss: 4.209571
+2021-07-04 09:43:24,618 [INFO] [valid-hieve] start... 
+2021-07-04 09:43:59,757 [INFO] confusion_matrix: 
+[[ 1  4 26  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 0 27  5  0]]
+/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, msg_start, len(result))
+2021-07-04 09:43:59,766 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       1.00      0.03      0.06        31
+           1       0.43      1.00      0.60        23
+           2       0.31      1.00      0.47        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.38       100
+   macro avg       0.43      0.51      0.28       100
+weighted avg       0.45      0.38      0.22       100
+
+2021-07-04 09:43:59,766 [INFO] macro f1 score: 0.3300
+2021-07-04 09:43:59,766 [INFO] done!
+2021-07-04 09:43:59,770 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:44:34,580 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 1, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 1, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 2, (2, 0, 3): 0, (2, 1, 0): 16, (2, 1, 2): 10, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:44:34,580 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 0, (0, 1): 1, (0, 2): 0, (0, 3): 0, (1, 0): 18, (1, 1): 27, (1, 2): 9, (1, 3): 0, (2, 0): 6, (2, 1): 38, (2, 2): 1, (2, 3): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0}
+2021-07-04 09:44:34,581 [INFO] confusion_matrix: 
+[[ 1  4 26  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 0 27  5  0]]
+2021-07-04 09:44:34,588 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       1.00      0.03      0.06        31
+           1       0.43      1.00      0.60        23
+           2       0.31      1.00      0.47        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.38       100
+   macro avg       0.43      0.51      0.28       100
+weighted avg       0.45      0.38      0.22       100
+
+2021-07-04 09:44:34,588 [INFO] macro f1 score: 0.3300
+2021-07-04 09:44:34,588 [INFO] done!
+2021-07-04 09:44:34,590 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.38, '[valid-hieve] Recall': 0.5588235294117647, '[valid-hieve] F1 Score': 0.4523809523809524, '[valid] Elapsed Time': 35.148786783218384}
+2021-07-04 09:44:34,590 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.38, '[cv-valid-hieve] Recall': 0.5588235294117647, '[cv-valid-hieve] F1 Score': 0.4523809523809524, '[cv-valid] Elapsed Time': 34.81843400001526}
+2021-07-04 09:44:34,771 [INFO] model is saved here: ./model/hieve_20210704094242_1do59924.pt, best epoch: 1, best f1 score: 0.452381
+2021-07-04 09:44:34,772 [INFO] ======== Epoch 2 / 10 ========
+2021-07-04 09:44:34,772 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:43<00:00, 43.23s/it]100%|██████████| 1/1 [00:43<00:00, 43.23s/it]
+2021-07-04 09:45:18,006 [INFO] epoch: 2, loss: 3.867029
+2021-07-04 09:45:18,007 [INFO] [valid-hieve] start... 
+2021-07-04 09:45:54,849 [INFO] confusion_matrix: 
+[[ 0  0 31  0]
+ [ 0  0 23  0]
+ [ 0  0 14  0]
+ [ 0  0 32  0]]
+2021-07-04 09:45:54,856 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        31
+           1       0.00      0.00      0.00        23
+           2       0.14      1.00      0.25        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.14       100
+   macro avg       0.04      0.25      0.06       100
+weighted avg       0.02      0.14      0.03       100
+
+2021-07-04 09:45:54,856 [INFO] macro f1 score: 0.0000
+2021-07-04 09:45:54,857 [INFO] done!
+2021-07-04 09:45:54,860 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:46:29,625 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 0, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 3, (2, 0, 3): 0, (2, 1, 0): 0, (2, 1, 2): 8, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 2, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:46:29,625 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 0, (0, 1): 0, (0, 2): 0, (0, 3): 0, (1, 0): 0, (1, 1): 0, (1, 2): 0, (1, 3): 0, (2, 0): 3, (2, 1): 8, (2, 2): 89, (2, 3): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0}
+2021-07-04 09:46:29,626 [INFO] confusion_matrix: 
+[[ 0  0 31  0]
+ [ 0  0 23  0]
+ [ 0  0 14  0]
+ [ 0  0 32  0]]
+2021-07-04 09:46:29,634 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.00      0.00      0.00        31
+           1       0.00      0.00      0.00        23
+           2       0.14      1.00      0.25        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.14       100
+   macro avg       0.04      0.25      0.06       100
+weighted avg       0.02      0.14      0.03       100
+
+2021-07-04 09:46:29,634 [INFO] macro f1 score: 0.0000
+2021-07-04 09:46:29,634 [INFO] done!
+2021-07-04 09:46:29,636 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.14, '[valid-hieve] Recall': 0.20588235294117646, '[valid-hieve] F1 Score': 0.16666666666666666, '[valid] Elapsed Time': 36.84987807273865}
+2021-07-04 09:46:29,637 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.14, '[cv-valid-hieve] Recall': 0.20588235294117646, '[cv-valid-hieve] F1 Score': 0.16666666666666666, '[cv-valid] Elapsed Time': 34.773744106292725}
+2021-07-04 09:46:29,637 [INFO] ======== Epoch 3 / 10 ========
+2021-07-04 09:46:29,637 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:39<00:00, 39.67s/it]100%|██████████| 1/1 [00:39<00:00, 39.67s/it]
+2021-07-04 09:47:09,309 [INFO] epoch: 3, loss: 6.222425
+2021-07-04 09:47:09,310 [INFO] [valid-hieve] start... 
+2021-07-04 09:47:46,227 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 19  0  4]
+ [14  0  0  0]
+ [ 7 17  0  8]]
+2021-07-04 09:47:46,234 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.60      1.00      0.75        31
+           1       0.53      0.83      0.64        23
+           2       0.00      0.00      0.00        14
+           3       0.67      0.25      0.36        32
+
+    accuracy                           0.58       100
+   macro avg       0.45      0.52      0.44       100
+weighted avg       0.52      0.58      0.50       100
+
+2021-07-04 09:47:46,234 [INFO] macro f1 score: 0.6955
+2021-07-04 09:47:46,235 [INFO] done!
+2021-07-04 09:47:46,238 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:48:26,719 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 0, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 0, (2, 0, 3): 0, (2, 1, 0): 0, (2, 1, 2): 0, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:48:26,719 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 9, (0, 1): 22, (0, 2): 0, (0, 3): 21, (1, 0): 26, (1, 1): 1, (1, 2): 0, (1, 3): 9, (2, 0): 0, (2, 1): 0, (2, 2): 0, (2, 3): 0, (3, 0): 4, (3, 1): 2, (3, 2): 0, (3, 3): 6}
+2021-07-04 09:48:26,720 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 19  0  4]
+ [14  0  0  0]
+ [ 7 17  0  8]]
+2021-07-04 09:48:26,728 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.60      1.00      0.75        31
+           1       0.53      0.83      0.64        23
+           2       0.00      0.00      0.00        14
+           3       0.67      0.25      0.36        32
+
+    accuracy                           0.58       100
+   macro avg       0.45      0.52      0.44       100
+weighted avg       0.52      0.58      0.50       100
+
+2021-07-04 09:48:26,728 [INFO] macro f1 score: 0.6955
+2021-07-04 09:48:26,728 [INFO] done!
+2021-07-04 09:48:26,731 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.5681818181818182, '[valid-hieve] Recall': 0.7352941176470589, '[valid-hieve] F1 Score': 0.641025641025641, '[valid] Elapsed Time': 36.9250328540802}
+2021-07-04 09:48:26,731 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.5681818181818182, '[cv-valid-hieve] Recall': 0.7352941176470589, '[cv-valid-hieve] F1 Score': 0.641025641025641, '[cv-valid] Elapsed Time': 40.49020290374756}
+2021-07-04 09:48:27,078 [INFO] model is saved here: ./model/hieve_20210704094242_1do59924.pt, best epoch: 3, best f1 score: 0.641026
+2021-07-04 09:48:27,078 [INFO] ======== Epoch 4 / 10 ========
+2021-07-04 09:48:27,079 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:43<00:00, 43.65s/it]100%|██████████| 1/1 [00:43<00:00, 43.65s/it]
+2021-07-04 09:49:10,730 [INFO] epoch: 4, loss: 7.794763
+2021-07-04 09:49:10,732 [INFO] [valid-hieve] start... 
+2021-07-04 09:49:48,847 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 23  0  0]
+ [14  0  0  0]
+ [ 8 24  0  0]]
+2021-07-04 09:49:48,853 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.58      1.00      0.74        31
+           1       0.49      1.00      0.66        23
+           2       0.00      0.00      0.00        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.54       100
+   macro avg       0.27      0.50      0.35       100
+weighted avg       0.29      0.54      0.38       100
+
+2021-07-04 09:49:48,853 [INFO] macro f1 score: 0.6976
+2021-07-04 09:49:48,853 [INFO] done!
+2021-07-04 09:49:48,856 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:50:24,543 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 0, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 0, (2, 0, 3): 0, (2, 1, 0): 0, (2, 1, 2): 0, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:50:24,543 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 8, (0, 1): 45, (0, 2): 0, (0, 3): 0, (1, 0): 33, (1, 1): 14, (1, 2): 0, (1, 3): 0, (2, 0): 0, (2, 1): 0, (2, 2): 0, (2, 3): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0}
+2021-07-04 09:50:24,544 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 23  0  0]
+ [14  0  0  0]
+ [ 8 24  0  0]]
+2021-07-04 09:50:24,551 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.58      1.00      0.74        31
+           1       0.49      1.00      0.66        23
+           2       0.00      0.00      0.00        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.54       100
+   macro avg       0.27      0.50      0.35       100
+weighted avg       0.29      0.54      0.38       100
+
+2021-07-04 09:50:24,551 [INFO] macro f1 score: 0.6976
+2021-07-04 09:50:24,551 [INFO] done!
+2021-07-04 09:50:24,554 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.54, '[valid-hieve] Recall': 0.7941176470588235, '[valid-hieve] F1 Score': 0.6428571428571429, '[valid] Elapsed Time': 38.121779918670654}
+2021-07-04 09:50:24,554 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.54, '[cv-valid-hieve] Recall': 0.7941176470588235, '[cv-valid-hieve] F1 Score': 0.6428571428571429, '[cv-valid] Elapsed Time': 35.69463396072388}
+2021-07-04 09:50:24,748 [INFO] model is saved here: ./model/hieve_20210704094242_1do59924.pt, best epoch: 4, best f1 score: 0.642857
+2021-07-04 09:50:24,749 [INFO] ======== Epoch 5 / 10 ========
+2021-07-04 09:50:24,749 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:44<00:00, 44.55s/it]100%|██████████| 1/1 [00:44<00:00, 44.55s/it]
+2021-07-04 09:51:09,299 [INFO] epoch: 5, loss: 4.069906
+2021-07-04 09:51:09,300 [INFO] [valid-hieve] start... 
+2021-07-04 09:51:46,123 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 3 26  3  0]]
+2021-07-04 09:51:46,130 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.91      1.00      0.95        31
+           1       0.47      1.00      0.64        23
+           2       0.82      1.00      0.90        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.68       100
+   macro avg       0.55      0.75      0.62       100
+weighted avg       0.51      0.68      0.57       100
+
+2021-07-04 09:51:46,130 [INFO] macro f1 score: 0.7964
+2021-07-04 09:51:46,130 [INFO] done!
+2021-07-04 09:51:46,133 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:52:24,142 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 0, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 0, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 0, (2, 0, 3): 0, (2, 1, 0): 0, (2, 1, 2): 1, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:52:24,142 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 0, (0, 1): 33, (0, 2): 1, (0, 3): 0, (1, 0): 29, (1, 1): 18, (1, 2): 2, (1, 3): 0, (2, 0): 6, (2, 1): 11, (2, 2): 0, (2, 3): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0}
+2021-07-04 09:52:24,143 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 3 26  3  0]]
+2021-07-04 09:52:24,150 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.91      1.00      0.95        31
+           1       0.47      1.00      0.64        23
+           2       0.82      1.00      0.90        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.68       100
+   macro avg       0.55      0.75      0.62       100
+weighted avg       0.51      0.68      0.57       100
+
+2021-07-04 09:52:24,150 [INFO] macro f1 score: 0.7964
+2021-07-04 09:52:24,151 [INFO] done!
+2021-07-04 09:52:24,153 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.68, '[valid-hieve] Recall': 1.0, '[valid-hieve] F1 Score': 0.8095238095238095, '[valid] Elapsed Time': 36.83010911941528}
+2021-07-04 09:52:24,154 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.68, '[cv-valid-hieve] Recall': 1.0, '[cv-valid-hieve] F1 Score': 0.8095238095238095, '[cv-valid] Elapsed Time': 38.01749086380005}
+2021-07-04 09:52:24,360 [INFO] model is saved here: ./model/hieve_20210704094242_1do59924.pt, best epoch: 5, best f1 score: 0.809524
+2021-07-04 09:52:24,360 [INFO] ======== Epoch 6 / 10 ========
+2021-07-04 09:52:24,360 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:45<00:00, 45.44s/it]100%|██████████| 1/1 [00:45<00:00, 45.44s/it]
+2021-07-04 09:53:09,798 [INFO] epoch: 6, loss: 2.410748
+2021-07-04 09:53:09,800 [INFO] [valid-hieve] start... 
+2021-07-04 09:53:46,342 [INFO] confusion_matrix: 
+[[25  0  6  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 0 22 10  0]]
+2021-07-04 09:53:46,350 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       1.00      0.81      0.89        31
+           1       0.51      1.00      0.68        23
+           2       0.47      1.00      0.64        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.62       100
+   macro avg       0.49      0.70      0.55       100
+weighted avg       0.49      0.62      0.52       100
+
+2021-07-04 09:53:46,350 [INFO] macro f1 score: 0.7847
+2021-07-04 09:53:46,350 [INFO] done!
+2021-07-04 09:53:46,354 [INFO] [cv-valid-hieve] start... 
+2021-07-04 09:54:20,712 [INFO] [cv-valid-hieve] constraint-violation: {(0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0, (0, 2, 1): 0, (0, 2, 2): 4, (0, 2, 3): 0, (0, 3, 1): 0, (0, 3, 2): 0, (1, 1, 0): 0, (1, 1, 2): 0, (1, 1, 3): 0, (1, 2, 0): 0, (1, 2, 2): 1, (1, 2, 3): 0, (1, 3, 0): 0, (1, 3, 2): 0, (2, 0, 1): 0, (2, 0, 2): 4, (2, 0, 3): 0, (2, 1, 0): 1, (2, 1, 2): 8, (2, 1, 3): 0, (2, 2, 0): 0, (2, 2, 1): 0, (2, 2, 3): 0, (2, 3, 0): 0, (2, 3, 1): 0, (2, 3, 2): 0, (3, 0, 1): 0, (3, 0, 2): 0, (3, 1, 0): 0, (3, 1, 2): 0, (3, 2, 0): 0, (3, 2, 1): 0, (3, 2, 2): 0}
+2021-07-04 09:54:20,713 [INFO] [cv-valid-hieve] all_cases: {(0, 0): 0, (0, 1): 18, (0, 2): 7, (0, 3): 0, (1, 0): 26, (1, 1): 12, (1, 2): 7, (1, 3): 0, (2, 0): 7, (2, 1): 23, (2, 2): 0, (2, 3): 0, (3, 0): 0, (3, 1): 0, (3, 2): 0, (3, 3): 0}
+2021-07-04 09:54:20,714 [INFO] confusion_matrix: 
+[[25  0  6  0]
+ [ 0 23  0  0]
+ [ 0  0 14  0]
+ [ 0 22 10  0]]
+2021-07-04 09:54:20,720 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       1.00      0.81      0.89        31
+           1       0.51      1.00      0.68        23
+           2       0.47      1.00      0.64        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.62       100
+   macro avg       0.49      0.70      0.55       100
+weighted avg       0.49      0.62      0.52       100
+
+2021-07-04 09:54:20,721 [INFO] macro f1 score: 0.7847
+2021-07-04 09:54:20,721 [INFO] done!
+2021-07-04 09:54:20,724 [INFO] valid_metrics: {'[valid-hieve] Precision': 0.62, '[valid-hieve] Recall': 0.9117647058823529, '[valid-hieve] F1 Score': 0.7380952380952381, '[valid] Elapsed Time': 36.55043578147888}
+2021-07-04 09:54:20,724 [INFO] cv_valid_metrics: {'[cv-valid-hieve] Precision': 0.62, '[cv-valid-hieve] Recall': 0.9117647058823529, '[cv-valid-hieve] F1 Score': 0.7380952380952381, '[cv-valid] Elapsed Time': 34.36715507507324}
+2021-07-04 09:54:20,725 [INFO] ======== Epoch 7 / 10 ========
+2021-07-04 09:54:20,725 [INFO] Training start...
+  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:44<00:00, 44.89s/it]100%|██████████| 1/1 [00:44<00:00, 44.89s/it]
+2021-07-04 09:55:05,617 [INFO] epoch: 7, loss: 1.873024
+2021-07-04 09:55:05,618 [INFO] [valid-hieve] start... 
+2021-07-04 09:55:41,651 [INFO] confusion_matrix: 
+[[31  0  0  0]
+ [ 0 20  3  0]
+ [ 0  0 14  0]
+ [ 2 15 15  0]]
+2021-07-04 09:55:41,658 [INFO] classifiction_report: 
+              precision    recall  f1-score   support
+
+           0       0.94      1.00      0.97        31
+           1       0.57      0.87      0.69        23
+           2       0.44      1.00      0.61        14
+           3       0.00      0.00      0.00        32
+
+    accuracy                           0.65       100
+   macro avg       0.49      0.72      0.57       100
+weighted avg       0.48      0.65      0.54       100
+
+2021-07-04 09:55:41,658 [INFO] macro f1 score: 0.8292
+2021-07-04 09:55:41,658 [INFO] done!
+2021-07-04 09:55:41,663 [INFO] [cv-valid-hieve] start... 
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 258, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 254, in main
+    trainer.train()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 158, in train
+    self.evaluation(epoch)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 174, in evaluation
+    cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 370, in evaluate
+    alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 187, in forward
+    roberta_y_sntc = self._get_roberta_embedding(y_sntc)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 171, in _get_roberta_embedding
+    roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 790, in forward
+    encoder_attention_mask=encoder_extended_attention_mask,
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 407, in forward
+    hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 368, in forward
+    self_attention_outputs = self.attention(hidden_states, attention_mask, head_mask)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 314, in forward
+    hidden_states, attention_mask, head_mask, encoder_hidden_states, encoder_attention_mask
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 238, in forward
+    attention_scores = attention_scores + attention_mask
+KeyboardInterrupt

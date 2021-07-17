@@ -1,0 +1,180 @@
+2021-07-12 10:22:11,601 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'bilstm', 'downsample': 0.01, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 1, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 0, 'symm_eval': 0}
+2021-07-12 10:22:11,601 [INFO] Requested CUDA but it is not available, running on CPU
+  0%|          | 0/100 [00:00<?, ?it/s]0 article-2482.tsvx
+  1%|          | 1/100 [00:00<00:23,  4.25it/s]14
+1 article-17007.tsvx
+  2%|▏         | 2/100 [00:00<00:23,  4.20it/s]44
+2 article-2754.tsvx
+33
+  3%|▎         | 3/100 [00:00<00:25,  3.82it/s]179
+  4%|▍         | 4/100 [00:00<00:21,  4.54it/s]461
+  5%|▌         | 5/100 [00:01<00:29,  3.19it/s]149
+  6%|▌         | 6/100 [00:01<00:31,  2.99it/s]172
+  7%|▋         | 7/100 [00:01<00:25,  3.60it/s]  8%|▊         | 8/100 [00:04<01:28,  1.04it/s]3085
+8 article-12944.tsvx
+4
+1055
+ 10%|█         | 10/100 [00:05<01:09,  1.29it/s]1095
+ 11%|█         | 11/100 [00:06<01:18,  1.14it/s]11 article-24830.tsvx
+22
+12 article-15885.tsvx
+1
+13 article-16049.tsvx
+ 13%|█▎        | 13/100 [00:06<00:55,  1.58it/s]552
+ 14%|█▍        | 14/100 [00:07<00:54,  1.58it/s]500
+ 15%|█▌        | 15/100 [00:07<00:43,  1.95it/s]43
+16 article-14155.tsvx 16%|█▌        | 16/100 [00:07<00:33,  2.51it/s]
+7
+1314
+ 18%|█▊        | 18/100 [00:09<00:49,  1.65it/s]18 article-20480.tsvx
+6
+ 19%|█▉        | 19/100 [00:09<00:39,  2.07it/s]19 article-1857.tsvx
+298
+ 20%|██        | 20/100 [00:10<00:52,  1.53it/s]20 article-3595.tsvx
+357 21%|██        | 21/100 [00:12<01:04,  1.22it/s]
+18
+ 22%|██▏       | 22/100 [00:12<00:48,  1.61it/s]71
+ 23%|██▎       | 23/100 [00:12<00:37,  2.03it/s]138
+ 24%|██▍       | 24/100 [00:12<00:29,  2.54it/s]24 article-17177.tsvx
+ 25%|██▌       | 25/100 [00:13<00:35,  2.14it/s]435
+25 article-18043.tsvx
+25
+26 article-17978.tsvx
+18
+ 27%|██▋       | 27/100 [00:13<00:27,  2.66it/s]106
+28 article-10901.tsvx
+51
+ 29%|██▉       | 29/100 [00:14<00:24,  2.94it/s]29 article-12070.tsvx
+ 30%|███       | 30/100 [00:14<00:20,  3.47it/s]26
+30 article-12556.tsvx
+295
+ 31%|███       | 31/100 [00:15<00:37,  1.86it/s]31 article-15391.tsvx
+37
+ 32%|███▏      | 32/100 [00:15<00:28,  2.37it/s]32 article-17016.tsvx
+168 33%|███▎      | 33/100 [00:16<00:37,  1.77it/s]
+123
+ 34%|███▍      | 34/100 [00:16<00:30,  2.15it/s]34 article-1896.tsvx
+ 35%|███▌      | 35/100 [00:17<00:36,  1.79it/s]208
+35 article-25922.tsvx
+199
+ 36%|███▌      | 36/100 [00:17<00:27,  2.34it/s]36 article-13494.tsvx
+ 37%|███▋      | 37/100 [00:17<00:27,  2.31it/s]298
+37 article-11554.tsvx
+45
+ 38%|███▊      | 38/100 [00:18<00:26,  2.32it/s]91
+39 article-17961.tsvx
+ 39%|███▉      | 39/100 [00:18<00:21,  2.90it/s]21
+40 article-12989.tsvx
+ 40%|████      | 40/100 [00:18<00:17,  3.49it/s]8
+ 41%|████      | 41/100 [00:18<00:14,  4.05it/s]38
+42 article-11638.tsvx
+53
+ 43%|████▎     | 43/100 [00:19<00:12,  4.62it/s]43 article-17403.tsvx
+39
+44 article-24804.tsvx
+325
+ 45%|████▌     | 45/100 [00:19<00:11,  4.84it/s]45 article-2209.tsvx
+ 46%|████▌     | 46/100 [00:19<00:15,  3.51it/s]349
+188
+ 47%|████▋     | 47/100 [00:20<00:12,  4.30it/s]69
+48 article-20013.tsvx
+2 49%|████▉     | 49/100 [00:20<00:09,  5.57it/s]
+49 article-2001.tsvx
+138
+ 50%|█████     | 50/100 [00:20<00:10,  4.78it/s] 51%|█████     | 51/100 [00:25<01:23,  1.70s/it]6181
+317
+ 52%|█████▏    | 52/100 [00:25<01:01,  1.28s/it]52 article-16032.tsvx
+ 53%|█████▎    | 53/100 [00:26<00:45,  1.02it/s]139
+53 article-16735.tsvx
+125
+ 54%|█████▍    | 54/100 [00:26<00:33,  1.38it/s]54 article-3160.tsvx
+11
+ 55%|█████▌    | 55/100 [00:26<00:25,  1.80it/s]55 article-15844.tsvx
+71
+ 56%|█████▌    | 56/100 [00:26<00:18,  2.35it/s]16
+57 article-19628.tsvx
+20
+ 58%|█████▊    | 58/100 [00:26<00:13,  3.17it/s]85
+59 article-13886.tsvx
+30
+ 60%|██████    | 60/100 [00:27<00:11,  3.51it/s]249 61%|██████    | 61/100 [00:27<00:11,  3.26it/s]
+61 article-2491.tsvx
+ 62%|██████▏   | 62/100 [00:27<00:11,  3.20it/s]190
+493 63%|██████▎   | 63/100 [00:28<00:13,  2.79it/s]
+63 article-3903.tsvx
+1
+64 article-19454.tsvx
+33 65%|██████▌   | 65/100 [00:28<00:11,  3.11it/s]
+65 article-17803.tsvx
+22
+ 66%|██████▌   | 66/100 [00:29<00:11,  2.88it/s]66 article-3291.tsvx
+54
+ 67%|██████▋   | 67/100 [00:30<00:15,  2.10it/s] 68%|██████▊   | 68/100 [00:30<00:17,  1.81it/s]455
+259
+ 69%|██████▉   | 69/100 [00:30<00:12,  2.39it/s]69 article-13218.tsvx
+0
+70 article-20009.tsvx
+68
+ 71%|███████   | 71/100 [00:31<00:09,  3.09it/s]71 article-1526.tsvx
+17
+72 article-16056.tsvx
+19
+ 73%|███████▎  | 73/100 [00:31<00:07,  3.63it/s]73 article-15792.tsvx
+55
+74 article-15679.tsvx
+ 74%|███████▍  | 74/100 [00:31<00:06,  3.79it/s]2
+75 article-17093.tsvx
+0
+76 article-12028.tsvx
+ 76%|███████▌  | 76/100 [00:31<00:04,  4.96it/s]59
+ 77%|███████▋  | 77/100 [00:33<00:13,  1.67it/s]77 article-20401.tsvx
+14
+ 78%|███████▊  | 78/100 [00:33<00:10,  2.19it/s]78 article-16788.tsvx
+36
+ 79%|███████▉  | 79/100 [00:33<00:07,  2.85it/s] 80%|████████  | 80/100 [00:33<00:05,  3.57it/s]148
+3
+145
+82 article-15808.tsvx
+ 82%|████████▏ | 82/100 [00:33<00:03,  4.65it/s]13
+111
+ 84%|████████▍ | 84/100 [00:34<00:03,  4.63it/s]84 article-13092.tsvx
+56 85%|████████▌ | 85/100 [00:34<00:03,  4.57it/s]
+12
+ 87%|████████▋ | 87/100 [00:34<00:02,  5.68it/s]129
+310
+88 article-16765.tsvx
+ 88%|████████▊ | 88/100 [00:34<00:02,  5.20it/s]26
+4382 90%|█████████ | 90/100 [00:41<00:10,  1.08s/it]
+29
+1136 92%|█████████▏| 92/100 [00:43<00:08,  1.07s/it]
+92 article-20575.tsvx
+17
+93 article-14501.tsvx
+138
+ 94%|█████████▍| 94/100 [00:44<00:06,  1.01s/it]414
+ 95%|█████████▌| 95/100 [00:45<00:03,  1.28it/s]184
+ 96%|█████████▌| 96/100 [00:45<00:02,  1.69it/s]111
+ 97%|█████████▋| 97/100 [00:45<00:01,  2.21it/s]97 article-15897.tsvx
+0
+98 article-21224.tsvx
+87 99%|█████████▉| 99/100 [00:47<00:00,  1.50it/s]
+99 article-19597.tsvx
+Traceback (most recent call last):
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in <module>
+    main()
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
+    trainer, evaluator = setup(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 141, in setup
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 29, in create_dataloader
+    hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 297, in hieve_data_loader
+    train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 39, in get_hieve_train_set
+    append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 62, in append_hieve_train_dataset
+    y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
+  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 23, in padding
+    return torch.tensor(one_list, dtype=torch.long)
+KeyboardInterrupt
+ 99%|█████████▉| 99/100 [00:50<00:00,  1.97it/s]
