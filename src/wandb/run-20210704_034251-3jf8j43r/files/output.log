@@ -1,6 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 260, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 250, in main
-    if args.debug:
-KeyboardInterrupt

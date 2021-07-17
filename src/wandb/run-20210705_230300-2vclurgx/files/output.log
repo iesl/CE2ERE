@@ -1,133 +1,0 @@
-2021-07-05 23:03:03,190 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.0, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 1269465660, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 1, 'symm_eval': 1}
-2021-07-05 23:03:03,191 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:37,  2.65it/s]  2%|▏         | 2/100 [00:00<00:33,  2.94it/s]  3%|▎         | 3/100 [00:00<00:33,  2.90it/s]  4%|▍         | 4/100 [00:01<00:27,  3.51it/s]  5%|▌         | 5/100 [00:01<00:35,  2.69it/s]  6%|▌         | 6/100 [00:02<00:38,  2.47it/s]  7%|▋         | 7/100 [00:02<00:31,  3.00it/s]  8%|▊         | 8/100 [00:05<01:35,  1.03s/it] 10%|█         | 10/100 [00:05<01:15,  1.20it/s] 11%|█         | 11/100 [00:06<01:24,  1.05it/s] 13%|█▎        | 13/100 [00:07<01:00,  1.45it/s] 14%|█▍        | 14/100 [00:08<01:03,  1.34it/s] 15%|█▌        | 15/100 [00:08<00:51,  1.66it/s] 16%|█▌        | 16/100 [00:08<00:38,  2.16it/s] 18%|█▊        | 18/100 [00:10<00:56,  1.45it/s] 19%|█▉        | 19/100 [00:11<00:44,  1.82it/s] 20%|██        | 20/100 [00:12<01:08,  1.16it/s] 21%|██        | 21/100 [00:13<01:16,  1.03it/s] 22%|██▏       | 22/100 [00:14<00:56,  1.38it/s] 23%|██▎       | 23/100 [00:14<00:43,  1.75it/s] 24%|██▍       | 24/100 [00:14<00:34,  2.23it/s] 25%|██▌       | 25/100 [00:15<00:43,  1.72it/s] 26%|██▌       | 26/100 [00:15<00:32,  2.28it/s] 27%|██▋       | 27/100 [00:15<00:28,  2.57it/s] 28%|██▊       | 28/100 [00:15<00:21,  3.30it/s] 29%|██▉       | 29/100 [00:16<00:25,  2.82it/s] 30%|███       | 30/100 [00:16<00:21,  3.26it/s] 31%|███       | 31/100 [00:17<00:43,  1.59it/s] 32%|███▏      | 32/100 [00:18<00:33,  2.03it/s] 33%|███▎      | 33/100 [00:19<00:46,  1.44it/s] 34%|███▍      | 34/100 [00:19<00:37,  1.77it/s] 35%|███▌      | 35/100 [00:20<00:45,  1.44it/s] 36%|███▌      | 36/100 [00:20<00:34,  1.84it/s] 37%|███▋      | 37/100 [00:21<00:35,  1.76it/s] 38%|███▊      | 38/100 [00:21<00:34,  1.81it/s] 39%|███▉      | 39/100 [00:21<00:26,  2.31it/s] 40%|████      | 40/100 [00:22<00:21,  2.81it/s] 41%|████      | 41/100 [00:22<00:18,  3.25it/s] 43%|████▎     | 43/100 [00:22<00:15,  3.76it/s] 45%|████▌     | 45/100 [00:23<00:14,  3.87it/s] 46%|████▌     | 46/100 [00:24<00:25,  2.12it/s] 47%|████▋     | 47/100 [00:24<00:19,  2.71it/s] 49%|████▉     | 49/100 [00:24<00:14,  3.59it/s] 50%|█████     | 50/100 [00:24<00:14,  3.34it/s] 51%|█████     | 51/100 [00:30<01:31,  1.88s/it] 52%|█████▏    | 52/100 [00:30<01:08,  1.42s/it] 53%|█████▎    | 53/100 [00:30<00:51,  1.10s/it] 54%|█████▍    | 54/100 [00:31<00:37,  1.23it/s] 55%|█████▌    | 55/100 [00:31<00:28,  1.60it/s] 56%|█████▌    | 56/100 [00:31<00:21,  2.08it/s] 58%|█████▊    | 58/100 [00:31<00:15,  2.79it/s] 60%|██████    | 60/100 [00:32<00:12,  3.11it/s] 61%|██████    | 61/100 [00:32<00:13,  2.94it/s] 62%|██████▏   | 62/100 [00:32<00:13,  2.74it/s] 63%|██████▎   | 63/100 [00:33<00:15,  2.43it/s] 65%|██████▌   | 65/100 [00:34<00:14,  2.40it/s] 66%|██████▌   | 66/100 [00:34<00:14,  2.41it/s] 67%|██████▋   | 67/100 [00:35<00:18,  1.78it/s] 68%|██████▊   | 68/100 [00:36<00:19,  1.61it/s] 69%|██████▉   | 69/100 [00:36<00:14,  2.13it/s] 71%|███████   | 71/100 [00:36<00:10,  2.74it/s] 73%|███████▎  | 73/100 [00:36<00:08,  3.29it/s] 74%|███████▍  | 74/100 [00:37<00:07,  3.54it/s] 76%|███████▌  | 76/100 [00:37<00:05,  4.66it/s] 77%|███████▋  | 77/100 [00:38<00:14,  1.62it/s] 78%|███████▊  | 78/100 [00:39<00:10,  2.11it/s] 79%|███████▉  | 79/100 [00:39<00:07,  2.75it/s] 80%|████████  | 80/100 [00:39<00:05,  3.44it/s] 82%|████████▏ | 82/100 [00:39<00:04,  4.50it/s] 84%|████████▍ | 84/100 [00:39<00:03,  4.58it/s] 85%|████████▌ | 85/100 [00:40<00:03,  4.43it/s] 87%|████████▋ | 87/100 [00:40<00:02,  5.56it/s] 88%|████████▊ | 88/100 [00:40<00:02,  4.95it/s] 90%|█████████ | 90/100 [00:47<00:11,  1.13s/it] 92%|█████████▏| 92/100 [00:49<00:08,  1.10s/it] 94%|█████████▍| 94/100 [00:51<00:06,  1.07s/it] 95%|█████████▌| 95/100 [00:51<00:04,  1.21it/s] 96%|█████████▌| 96/100 [00:51<00:02,  1.57it/s] 97%|█████████▋| 97/100 [00:51<00:01,  2.06it/s] 99%|█████████▉| 99/100 [00:54<00:00,  1.37it/s]100%|██████████| 100/100 [00:58<00:00,  1.85s/it]100%|██████████| 100/100 [00:58<00:00,  1.70it/s]
-2021-07-05 23:04:01,948 [INFO] HiEve Preprocessing took 0:00:59
-2021-07-05 23:04:01,949 [INFO] HiEve training instance num: 17114, valid instance num: 8344, test instance num: 6165
-2021-07-05 23:04:01,949 [INFO] debug mode on
-2021-07-05 23:04:02,510 [INFO] hieve length debugging mode: %d
-2021-07-05 23:04:03,787 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-07-05 23:04:03,788 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-07-05 23:04:04,608 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Using OneThresholdEvaluator..!
-2021-07-05 23:04:07,905 [INFO] ======== Epoch 1 / 10 ========
-2021-07-05 23:04:07,906 [INFO] Training start...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [04:38<00:00, 278.51s/it]100%|██████████| 1/1 [04:38<00:00, 278.51s/it]
-2021-07-05 23:08:46,422 [INFO] epoch: 1, loss: 200.009311
-2021-07-05 23:08:46,424 [INFO] [valid-hieve] start... 
-vol_ab: [0.1839920901373488, 0.10541048301486447, 0.1839920901373488, 0.10541048301486447, 0.14179749761178423, 0.1839920901373488, 0.10541048301486447, 0.05142693620769931, 0.20491700369382362, 0.25964417304460996, 0.22050992633617356, 0.14179749761178423, 0.25964417304460996, 0.22050992633617356, 0.05142693620769931, 0.01954544414437208, 0.3140147933097593, 0.2636368181640061, 0.14179749761178423, 0.14179749761178423, 0.05142693620769931, 0.08637111943100644, 0.3750818663083075, 0.08637111943100644, 0.19954446649375868, 0.3750818663083075, 0.4755097981687634, 0.19954446649375868, 0.2982178865403443, 0.07538248822559335, 0.06446722217445953, 0.028214486390690383, 0.2982178865403443, 0.01400159853845786, 0.020710207152819834, 0.11471823483353111, 0.11918057630950477, 0.41032682177519303, 0.28157209137871003, 0.03971086363455537, 0.41032682177519303, 0.28157209137871003, 0.41032682177519303, 0.28157209137871003, 0.033197400991953195, 0.41032682177519303, 0.28157209137871003, 0.41032682177519303, 0.2815720242467001, 0.00486705212612699, 0.03971086363455537, 0.04814920732525172, 0.03971086363455537, 0.03971086363455537, 0.46947880465648517, 0.03971086363455537, 0.04814920732525172, 0.04122813383488995, 0.033197400991953195, 0.04814920732525172, 0.04122813383488995, 0.04814920732525172, 0.04122813383488995, 0.004867054446918848, 0.033197400991953195, 0.46947880465648517, 0.033197400991953195, 0.46947880465648517, 0.3325298723193239, 0.004867054446918848, 0.016690675904488927, 0.02973553955230231, 0.024469656813983397, 0.016690675904488927, 0.029735511194295475, 0.016690675904488927, 0.02973553955230231, 0.3562313338873715, 0.016690675904488927, 0.02973553955230231, 0.024469656813983397, 0.014456965466758832, 0.024469656813983397, 0.024469656813983397, 0.002086821010502605, 0.014456965466758832, 0.02582377219575059, 0.3562313338873715, 0.014456965466758832, 0.02582377219575059, 0.3562313338873715, 0.002086821010502605, 0.5162445074064314, 0.36157490157269634, 0.7843130015825865, 0.5162445074064314, 0.36157490157269634, 0.5162445074064314, 0.3615747291603889, 0.10488553424448131]
-vol_ba: [0.10541048301486447, 0.1839920901373488, 0.10541048301486447, 0.1839920901373488, 0.10298799873920624, 0.10541048301486447, 0.1839920901373488, 0.030256146202187088, 0.19954446649375868, 0.22050992633617356, 0.25964417304460996, 0.10298799873920624, 0.22050992633617356, 0.25964417304460996, 0.030256146202187088, 0.028214486390690383, 0.2636368181640061, 0.3140147933097593, 0.10298799873920624, 0.10298799873920624, 0.030256146202187088, 0.1280364020739393, 0.4755097981687634, 0.1280364020739393, 0.20491685712581348, 0.4755097981687634, 0.3750818663083075, 0.20491700369382362, 0.36815337152259664, 0.06446722217445953, 0.07538248822559335, 0.01954544414437208, 0.36815337152259664, 0.020710207152819834, 0.01400159853845786, 0.13645148861017373, 0.148206290115534, 0.28157209137871003, 0.41032682177519303, 0.04854796553868899, 0.28157209137871003, 0.41032682177519303, 0.28157209137871003, 0.41032682177519303, 0.04069173610258985, 0.28157209137871003, 0.41032682177519303, 0.28157209137871003, 0.41032652828668453, 0.008062578733501026, 0.04854796553868899, 0.04122813383488995, 0.04854796553868899, 0.04854796553868899, 0.3325298723193239, 0.04854796553868899, 0.04122813383488995, 0.04814920732525172, 0.04069173610258985, 0.04122813383488995, 0.04814920732525172, 0.04122813383488995, 0.04814920732525172, 0.008062578733501026, 0.04069173610258985, 0.3325298723193239, 0.04069173610258985, 0.3325298723193239, 0.46947880465648517, 0.008062578733501026, 0.02973553955230231, 0.016690675904488927, 0.030533227500546423, 0.02973553955230231, 0.016690659987027585, 0.02973553955230231, 0.016690675904488927, 0.36769446493674085, 0.02973553955230231, 0.016690675904488927, 0.030533227500546423, 0.02582377219575059, 0.030533227500546423, 0.030533227500546423, 0.005037711172621425, 0.02582377219575059, 0.014456965466758832, 0.36769446493674085, 0.02582377219575059, 0.014456965466758832, 0.36769446493674085, 0.005037711172621425, 0.36157490157269634, 0.5162445074064314, 0.7863752687273066, 0.36157490157269634, 0.5162445074064314, 0.36157490157269634, 0.5162448766534091, 0.14212213000867135]
-rids: ['10', '01', '10', '01', '11', '10', '01', '10', '10', '10', '01', '11', '10', '01', '10', '10', '10', '01', '11', '11', '10', '11', '01', '11', '01', '01', '10', '01', '01', '01', '10', '01', '01', '01', '10', '01', '01', '10', '01', '11', '10', '01', '10', '01', '11', '10', '01', '10', '01', '11', '11', '10', '11', '11', '10', '11', '10', '01', '11', '10', '01', '10', '01', '11', '11', '10', '11', '10', '01', '11', '01', '10', '11', '01', '10', '01', '10', '11', '01', '10', '11', '01', '11', '11', '01', '01', '10', '11', '01', '10', '11', '01', '10', '01', '11', '10', '01', '10', '01', '11']
-2021-07-05 23:12:19,496 [INFO] confusion_matrix: 
-[[ 0  0  0  0]
- [38  0  0  0]
- [35  0  0  0]
- [26  0  0  1]]
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Recall and F-score are ill-defined and being set to 0.0 in labels with no true samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-2021-07-05 23:12:19,535 [INFO] classifiction_report: 
-              precision    recall  f1-score   support
-
-          00       0.00      0.00      0.00         0
-          01       0.00      0.00      0.00        38
-          10       0.00      0.00      0.00        35
-          11       1.00      0.04      0.07        27
-
-    accuracy                           0.01       100
-   macro avg       0.25      0.01      0.02       100
-weighted avg       0.27      0.01      0.02       100
-
-2021-07-05 23:12:19,535 [INFO] macro f1 score: 0.0000
-2021-07-05 23:12:19,536 [INFO] done!
-2021-07-05 23:12:19,906 [INFO] # of 10 labels: 35
-2021-07-05 23:12:20,153 [INFO] # of 01 labels: 38
-2021-07-05 23:12:20,392 [INFO] # of 11 labels: 27
-2021-07-05 23:12:20,667 [INFO] # of 00 labels: 0
-2021-07-05 23:12:20,672 [INFO] [cv-valid-hieve] start... 
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 260, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
-    trainer.train()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 158, in train
-    self.evaluation(epoch)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 174, in evaluation
-    cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 297, in evaluate
-    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A = self.model(batch, device, self.train_type) # [batch_size, 2]
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 386, in forward
-    roberta_y_sntc = self._get_roberta_embedding(y_sntc)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 375, in _get_roberta_embedding
-    roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 790, in forward
-    encoder_attention_mask=encoder_extended_attention_mask,
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 407, in forward
-    hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 368, in forward
-    self_attention_outputs = self.attention(hidden_states, attention_mask, head_mask)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 314, in forward
-    hidden_states, attention_mask, head_mask, encoder_hidden_states, encoder_attention_mask
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 532, in __call__
-    result = self.forward(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 234, in forward
-    attention_scores = torch.matmul(query_layer, key_layer.transpose(-1, -2))
-KeyboardInterrupt

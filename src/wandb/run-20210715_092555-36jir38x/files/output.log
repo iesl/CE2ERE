@@ -1,259 +1,0 @@
-2021-07-15 09:25:56,833 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'bilstm', 'downsample': 0.01, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 1, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 0, 'symm_eval': 0}
-2021-07-15 09:25:56,834 [INFO] Requested CUDA but it is not available, running on CPU
-HiEve train files processing...  0%|          | 0/60 [00:00<?, ?it/s]  3%|▎         | 2/60 [00:00<00:15,  3.87it/s]  5%|▌         | 3/60 [00:01<00:20,  2.81it/s]  7%|▋         | 4/60 [00:01<00:18,  2.97it/s]  8%|▊         | 5/60 [00:01<00:15,  3.49it/s] 10%|█         | 6/60 [00:01<00:13,  4.02it/s] 12%|█▏        | 7/60 [00:02<00:23,  2.23it/s] 15%|█▌        | 9/60 [00:02<00:17,  2.99it/s] 17%|█▋        | 10/60 [00:02<00:14,  3.51it/s] 18%|█▊        | 11/60 [00:03<00:11,  4.25it/s] 20%|██        | 12/60 [00:03<00:10,  4.57it/s] 23%|██▎       | 14/60 [00:03<00:08,  5.59it/s] 25%|██▌       | 15/60 [00:03<00:07,  6.23it/s] 27%|██▋       | 16/60 [00:03<00:06,  6.67it/s] 28%|██▊       | 17/60 [00:03<00:08,  5.09it/s] 33%|███▎      | 20/60 [00:04<00:06,  6.39it/s] 37%|███▋      | 22/60 [00:04<00:05,  6.88it/s] 38%|███▊      | 23/60 [00:04<00:05,  6.51it/s] 40%|████      | 24/60 [00:05<00:09,  3.94it/s] 43%|████▎     | 26/60 [00:05<00:06,  5.08it/s] 45%|████▌     | 27/60 [00:05<00:10,  3.29it/s] 47%|████▋     | 28/60 [00:05<00:07,  4.03it/s] 48%|████▊     | 29/60 [00:06<00:10,  2.83it/s] 50%|█████     | 30/60 [00:06<00:08,  3.37it/s] 55%|█████▌    | 33/60 [00:06<00:06,  4.43it/s] 58%|█████▊    | 35/60 [00:09<00:14,  1.77it/s] 60%|██████    | 36/60 [00:09<00:10,  2.34it/s] 62%|██████▏   | 37/60 [00:09<00:08,  2.78it/s] 63%|██████▎   | 38/60 [00:09<00:06,  3.27it/s] 65%|██████▌   | 39/60 [00:13<00:26,  1.28s/it] 68%|██████▊   | 41/60 [00:13<00:17,  1.09it/s] 70%|███████   | 42/60 [00:13<00:12,  1.40it/s] 72%|███████▏  | 43/60 [00:14<00:12,  1.37it/s] 73%|███████▎  | 44/60 [00:14<00:09,  1.74it/s] 75%|███████▌  | 45/60 [00:15<00:06,  2.21it/s] 78%|███████▊  | 47/60 [00:15<00:04,  2.80it/s] 80%|████████  | 48/60 [00:16<00:05,  2.16it/s] 83%|████████▎ | 50/60 [00:16<00:03,  2.95it/s] 87%|████████▋ | 52/60 [00:16<00:02,  3.52it/s] 90%|█████████ | 54/60 [00:17<00:01,  3.24it/s] 93%|█████████▎| 56/60 [00:17<00:00,  4.09it/s] 97%|█████████▋| 58/60 [00:17<00:00,  5.26it/s]100%|██████████| 60/60 [00:18<00:00,  4.70it/s]done!100%|██████████| 60/60 [00:18<00:00,  3.33it/s]
-
-  0%|          | 0/20 [00:00<?, ?it/s]HiEve valid files processing...  5%|▌         | 1/20 [00:00<00:02,  8.24it/s] 10%|█         | 2/20 [00:00<00:02,  6.29it/s] 15%|█▌        | 3/20 [00:00<00:02,  6.23it/s] 25%|██▌       | 5/20 [00:00<00:02,  7.18it/s] 30%|███       | 6/20 [00:00<00:02,  6.95it/s] 40%|████      | 8/20 [00:00<00:01,  8.41it/s] 45%|████▌     | 9/20 [00:02<00:05,  1.92it/s] 55%|█████▌    | 11/20 [00:02<00:03,  2.59it/s] 60%|██████    | 12/20 [00:03<00:05,  1.58it/s] 70%|███████   | 14/20 [00:04<00:03,  1.94it/s] 75%|███████▌  | 15/20 [00:04<00:01,  2.50it/s] 80%|████████  | 16/20 [00:04<00:01,  3.05it/s] 85%|████████▌ | 17/20 [00:04<00:01,  2.83it/s] 90%|█████████ | 18/20 [00:05<00:00,  3.25it/s] 95%|█████████▌| 19/20 [00:07<00:00,  1.17it/s]done!
-HiEve test files processing...100%|██████████| 20/20 [00:07<00:00,  1.52it/s]100%|██████████| 20/20 [00:07<00:00,  2.66it/s]
-  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [00:00<00:18,  1.05it/s] 10%|█         | 2/20 [00:01<00:12,  1.43it/s] 20%|██        | 4/20 [00:01<00:08,  1.94it/s] 25%|██▌       | 5/20 [00:01<00:06,  2.31it/s] 30%|███       | 6/20 [00:01<00:04,  2.81it/s] 35%|███▌      | 7/20 [00:01<00:04,  2.84it/s] 40%|████      | 8/20 [00:02<00:03,  3.37it/s] 45%|████▌     | 9/20 [00:02<00:03,  3.26it/s] 55%|█████▌    | 11/20 [00:02<00:02,  4.07it/s] 60%|██████    | 12/20 [00:03<00:02,  3.31it/s] 65%|██████▌   | 13/20 [00:04<00:03,  1.77it/s] 70%|███████   | 14/20 [00:04<00:02,  2.03it/s] 75%|███████▌  | 15/20 [00:05<00:03,  1.49it/s] 85%|████████▌ | 17/20 [00:05<00:01,  2.04it/s] 90%|█████████ | 18/20 [00:06<00:00,  2.13it/s] 95%|█████████▌| 19/20 [00:06<00:00,  2.56it/s]100%|██████████| 20/20 [00:06<00:00,  3.27it/s]done!
-100%|██████████| 20/20 [00:06<00:00,  3.03it/s]
-2021-07-15 09:26:28,958 [INFO] HiEve Preprocessing took 0:00:32
-2021-07-15 09:26:28,958 [INFO] HiEve training instance num: 5271, valid instance num: 7044, test instance num: 6232
-[('1', '2', '1', tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), 3, 5, 3, ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VER2021-07-15 09:26:28,964 [INFO] debug mode on
-B', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], 0, 0, 0, 0), ('1', '4', '1', tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0, 42636, 11048,  1682, 13845,   409,    31,     5,  2058,  1082,
-            6,   503,    26,     6, 20053,   801,  5274,     7,    99,  1726,
-            5,  2058,     4,     2,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-         2021-07-15 09:26:29,211 [INFO] hieve length debugging mode: %d
-   1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), 3, 12, 3, ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'NOUN', 'ADV', 'ADP', 'DET', 'NOUN', 'NOUN', 'PUNCT', 'NOUN', 'VERB', 'PUNCT', 'VERB', 'ADJ', 'NOUN', 'ADP', 'PRON', 'VERB', 'DET', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], 3, 3, 3, 0), ('1', '6', '1', tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0, 42636, 11048,  1682, 13845,   409,    31,     5,  2058,  1082,
-            6,   503,    26,     6, 20053,   801,  5274,     7,    99,  1726,
-            5,  2058,     4,     2,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), 3, 19, 3, ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'NOUN', 'ADV', 'ADP', 'DET', 'NOUN', 'NOUN', 'PUNCT', 'NOUN', 'VERB', 'PUNCT', 'VERB', 'ADJ', 'NOUN', 'ADP', 'PRON', 'VERB', 'DET', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], 3, 3, 3, 0), ('1', '10', '1', tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([   0, 1083,    8, 1515, 3725, 2035,    7, 1962,    5, 4513,   25,    5,
-        9282,    9, 3970, 3738,   50,    5, 3286,   18,  909, 2233, 1059,  699,
-           4,    2,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-           1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), 3, 9, 3, ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'VERB', 'PART', 'VERB', 'DET', 'NOUN', 'SCONJ', 'DET', 'NOUN', 'ADP', 'VERB', 'NOUN', 'CCONJ', 'DET', 'NOUN', 'PART', 'ADJ', 'NOUN', 'VERB', 'ADJ', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], 3, 3, 3, 0), ('1', '15', '1', tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,    20,  4900,  9597,    88,     5, 17321,    15,   307,    23,
-          823, 26754, 17055,     6, 31832,  8824,   159,     5, 24553,     4,
-            2,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), tensor([    0,  4004,  2384,   969,    99,  1382,     7,    28,     5,  3286,
-           18,  7886,    19,     5, 28035,  5410,   118,  1582,  6622,    12,
-         1866,    18,  2440,     8,  1104,  6655,     6,   233,     9,    10,
-         5897,     8, 15239,     9, 22027,  4204, 12827,   552,  5455,  2575,
-          677,    18, 25098,     4,     2,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-            1,     1,     1,     1,     1,     1,     1,     1,     1,     1]), 3, 3, 3, ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'DET', 'NOUN', 'VERB', 'ADP', 'DET', 'NOUN', 'ADP', 'PROPN', 'ADP', 'ADV', 'NUM', 'NOUN', 'PUNCT', 'VERB', 'NOUN', 'ADP', 'DET', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], ['None', 'ADJ', 'NOUN', 'VERB', 'PRON', 'VERB', 'PART', 'AUX', 'DET', 'NOUN', 'PART', 'NOUN', 'ADP', 'DET', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PROPN', 'PART', 'ADJ', 'CCONJ', 'ADJ', 'NOUN', 'PUNCT', 'NOUN', 'ADP', 'DET', 'NOUN', 'CCONJ', 'NOUN', 'ADP', 'ADJ', 'NOUN', 'VERB', 'ADP', 'PROPN', 'PROPN', 'PROPN', 'PART', 'NOUN', 'PUNCT', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None', 'None'], 3, 3, 3, 0)]
-2021-07-15 09:26:30,147 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-07-15 09:26:30,148 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-07-15 09:26:31,000 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 260, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 255, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 145, in setup
-    model = create_model(args, num_classes)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 88, in create_model
-    roberta_size_type="roberta-base",
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 154, in __init__
-    self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_utils.py", line 466, in from_pretrained
-    model = cls(config, *model_args, **model_kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_roberta.py", line 149, in __init__
-    super().__init__(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 616, in __init__
-    self.encoder = BertEncoder(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 390, in __init__
-    self.layer = nn.ModuleList([BertLayer(config) for _ in range(config.num_hidden_layers)])
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 390, in <listcomp>
-    self.layer = nn.ModuleList([BertLayer(config) for _ in range(config.num_hidden_layers)])
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 357, in __init__
-    self.intermediate = BertIntermediate(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 324, in __init__
-    self.dense = nn.Linear(config.hidden_size, config.intermediate_size)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 86, in __init__
-    self.reset_parameters()
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 89, in reset_parameters
-    init.kaiming_uniform_(self.weight, a=math.sqrt(5))
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/init.py", line 395, in kaiming_uniform_
-    return tensor.uniform_(-bound, bound)
-KeyboardInterrupt

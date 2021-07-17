@@ -1,115 +1,0 @@
-2021-07-15 12:08:10,832 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.01, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'lambda_pair': 0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 1, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'save_plot': 1, 'symm_train': 0, 'symm_eval': 0}
-2021-07-15 12:08:10,833 [INFO] Requested CUDA but it is not available, running on CPU
-HiEve train files processing...  0%|          | 0/60 [00:00<?, ?it/s]  2%|▏         | 1/60 [00:00<00:17,  3.33it/s]  3%|▎         | 2/60 [00:00<00:16,  3.56it/s]  5%|▌         | 3/60 [00:00<00:16,  3.56it/s]  7%|▋         | 4/60 [00:00<00:13,  4.14it/s] 10%|█         | 6/60 [00:01<00:11,  4.89it/s] 12%|█▏        | 7/60 [00:02<00:21,  2.52it/s] 15%|█▌        | 9/60 [00:02<00:16,  3.05it/s] 17%|█▋        | 10/60 [00:03<00:27,  1.80it/s] 18%|█▊        | 11/60 [00:04<00:33,  1.45it/s] 20%|██        | 12/60 [00:05<00:32,  1.46it/s] 22%|██▏       | 13/60 [00:05<00:24,  1.93it/s] 23%|██▎       | 14/60 [00:05<00:21,  2.18it/s] 25%|██▌       | 15/60 [00:05<00:19,  2.31it/s] 27%|██▋       | 16/60 [00:06<00:15,  2.76it/s] 28%|██▊       | 17/60 [00:07<00:22,  1.94it/s] 30%|███       | 18/60 [00:07<00:16,  2.49it/s] 32%|███▏      | 19/60 [00:07<00:21,  1.92it/s] 33%|███▎      | 20/60 [00:08<00:22,  1.75it/s] 35%|███▌      | 21/60 [00:08<00:18,  2.11it/s] 37%|███▋      | 22/60 [00:09<00:17,  2.19it/s] 38%|███▊      | 23/60 [00:09<00:16,  2.31it/s] 40%|████      | 24/60 [00:09<00:12,  2.92it/s] 42%|████▏     | 25/60 [00:09<00:09,  3.60it/s] 43%|████▎     | 26/60 [00:10<00:08,  3.89it/s] 45%|████▌     | 27/60 [00:10<00:07,  4.43it/s] 47%|████▋     | 28/60 [00:10<00:07,  4.57it/s] 48%|████▊     | 29/60 [00:10<00:08,  3.57it/s] 52%|█████▏    | 31/60 [00:11<00:06,  4.29it/s] 53%|█████▎    | 32/60 [00:11<00:07,  3.97it/s] 55%|█████▌    | 33/60 [00:11<00:05,  4.63it/s] 57%|█████▋    | 34/60 [00:11<00:04,  5.26it/s] 58%|█████▊    | 35/60 [00:11<00:04,  5.86it/s] 62%|██████▏   | 37/60 [00:12<00:04,  5.42it/s] 63%|██████▎   | 38/60 [00:12<00:04,  5.08it/s] 65%|██████▌   | 39/60 [00:12<00:03,  5.81it/s] 67%|██████▋   | 40/60 [00:12<00:03,  5.09it/s] 68%|██████▊   | 41/60 [00:13<00:04,  4.50it/s] 70%|███████   | 42/60 [00:13<00:06,  2.93it/s] 73%|███████▎  | 44/60 [00:14<00:04,  3.68it/s] 77%|███████▋  | 46/60 [00:14<00:03,  4.01it/s] 78%|███████▊  | 47/60 [00:14<00:02,  4.36it/s] 80%|████████  | 48/60 [00:14<00:02,  5.15it/s] 83%|████████▎ | 50/60 [00:16<00:03,  2.91it/s] 85%|████████▌ | 51/60 [00:16<00:02,  3.38it/s] 87%|████████▋ | 52/60 [00:16<00:01,  4.01it/s] 88%|████████▊ | 53/60 [00:16<00:01,  3.60it/s] 90%|█████████ | 54/60 [00:17<00:01,  3.61it/s] 93%|█████████▎| 56/60 [00:17<00:00,  4.61it/s] 95%|█████████▌| 57/60 [00:18<00:01,  1.72it/s] 98%|█████████▊| 59/60 [00:20<00:00,  1.51it/s]100%|██████████| 60/60 [00:22<00:00,  1.24s/it]done!100%|██████████| 60/60 [00:22<00:00,  2.62it/s]
-
-HiEve valid files processing...  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [00:00<00:08,  2.23it/s] 10%|█         | 2/20 [00:00<00:06,  2.91it/s] 15%|█▌        | 3/20 [00:00<00:05,  3.20it/s] 20%|██        | 4/20 [00:01<00:04,  3.40it/s] 25%|██▌       | 5/20 [00:01<00:03,  3.95it/s] 30%|███       | 6/20 [00:01<00:03,  4.32it/s] 35%|███▌      | 7/20 [00:01<00:02,  5.13it/s] 40%|████      | 8/20 [00:01<00:02,  5.76it/s] 45%|████▌     | 9/20 [00:04<00:12,  1.14s/it] 50%|█████     | 10/20 [00:05<00:09,  1.11it/s] 60%|██████    | 12/20 [00:05<00:05,  1.42it/s] 65%|██████▌   | 13/20 [00:05<00:03,  1.90it/s] 70%|███████   | 14/20 [00:06<00:02,  2.46it/s] 75%|███████▌  | 15/20 [00:06<00:01,  3.12it/s] 80%|████████  | 16/20 [00:11<00:07,  1.85s/it] 90%|█████████ | 18/20 [00:12<00:03,  1.51s/it] 95%|█████████▌| 19/20 [00:13<00:01,  1.12s/it]100%|██████████| 20/20 [00:13<00:00,  1.18it/s]100%|██████████| 20/20 [00:13<00:00,  1.49it/s]
-done!
-HiEve test files processing...  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [00:00<00:02,  9.38it/s] 10%|█         | 2/20 [00:00<00:02,  6.35it/s] 15%|█▌        | 3/20 [00:02<00:11,  1.46it/s] 20%|██        | 4/20 [00:02<00:09,  1.63it/s] 25%|██▌       | 5/20 [00:03<00:10,  1.44it/s] 30%|███       | 6/20 [00:03<00:07,  1.92it/s] 35%|███▌      | 7/20 [00:05<00:10,  1.22it/s] 40%|████      | 8/20 [00:05<00:07,  1.55it/s] 50%|█████     | 10/20 [00:05<00:04,  2.05it/s] 55%|█████▌    | 11/20 [00:05<00:03,  2.68it/s] 65%|██████▌   | 13/20 [00:06<00:02,  3.13it/s] 70%|███████   | 14/20 [00:06<00:02,  2.41it/s] 80%|████████  | 16/20 [00:07<00:01,  3.19it/s] 85%|████████▌ | 17/20 [00:07<00:00,  3.59it/s] 95%|█████████▌| 19/20 [00:07<00:00,  3.98it/s]100%|██████████| 20/20 [00:07<00:00,  4.43it/s]100%|██████████| 20/20 [00:07<00:00,  2.57it/s]
-done!2021-07-15 12:08:54,972 [INFO] HiEve Preprocessing took 0:00:44
-
-2021-07-15 12:08:54,973 [INFO] HiEve training instance num: 6445, valid instance num: 7683, test instance num: 5573
-2021-07-15 12:08:54,973 [INFO] debug mode on
-2021-07-15 12:08:55,341 [INFO] hieve length debugging mode: %d
-2021-07-15 12:08:56,404 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-07-15 12:08:56,405 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-07-15 12:08:57,291 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Using OneThresholdEvaluator..!
-2021-07-15 12:09:00,779 [INFO] ======== Epoch 1 / 10 ========
-2021-07-15 12:09:00,779 [INFO] Training start...
-  0%|          | 0/1 [00:00<?, ?it/s]/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:939: UserWarning: Using non-full backward hooks on a Module that does not return a single Tensor or a tuple of Tensors is deprecated and will be removed in future versions. This hook will be missing some of the grad_output. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using non-full backward hooks on a Module that does not return a "
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:974: UserWarning: Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using a non-full backward hook when the forward contains multiple autograd Nodes "
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:964: UserWarning: Using a non-full backward hook when outputs are generated by different autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_output. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using a non-full backward hook when outputs are generated by different autograd Nodes "
-100%|██████████| 1/1 [01:55<00:00, 115.33s/it]100%|██████████| 1/1 [01:55<00:00, 115.33s/it]
-2021-07-15 12:10:56,112 [INFO] epoch: 1, loss: 452.520447
-2021-07-15 12:10:56,113 [INFO] [valid-hieve] start... 
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 262, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 258, in main
-    trainer.train()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 163, in train
-    self.evaluation(epoch)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 178, in evaluation
-    valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 302, in evaluate
-    vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 392, in forward
-    roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 378, in _get_roberta_embedding
-    roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 790, in forward
-    encoder_attention_mask=encoder_extended_attention_mask,
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 407, in forward
-    hidden_states, attention_mask, head_mask[i], encoder_hidden_states, encoder_attention_mask
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 380, in forward
-    layer_output = self.output(intermediate_output, attention_output)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 344, in forward
-    hidden_states = self.dense(hidden_states)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 96, in forward
-    return F.linear(input, self.weight, self.bias)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/functional.py", line 1847, in linear
-    return torch._C._nn.linear(input, weight, bias)
-KeyboardInterrupt

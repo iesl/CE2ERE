@@ -1,19 +1,0 @@
-2021-07-04 11:00:51,601 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'matres', 'finetune': False, 'model': 'box', 'downsample': 0.01, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 0}
-2021-07-04 11:00:51,601 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/274 [00:00<?, ?it/s]eiid_to_event_trigger_dict: {415: 'predicted', 417: 'tried', 418: 'hasten', 419: 'endures', 420: 'outlasted', 421: 'outsmarted', 422: 'invited', 423: 'come', 425: 'see', 426: 'give', 429: 'tried', 431: 'said', 435: 'kept', 437: 'invite', 441: 'make', 442: 'advanced', 444: 'led'}
-eiid_pair_to_rel_id_dict: {(415, 417): (1, 0), (417, 415): (0, 1), (415, 418): (1, 0), (418, 415): (0, 1), (417, 418): (0, 0), (415, 419): (1, 0), (419, 415): (0, 1), (417, 419): (1, 0), (419, 417): (0, 1), (418, 419): (1, 0), (419, 418): (0, 1), (419, 420): (0, 1), (420, 419): (1, 0), (419, 421): (0, 1), (421, 419): (1, 0), (420, 421): (0, 0), (420, 422): (1, 0), (422, 420): (0, 1), (420, 423): (1, 0), (423, 420): (0, 1), (421, 422): (1, 0), (422, 421): (0, 1), (421, 423): (1, 0), (423, 421): (0, 1), (422, 423): (1, 0), (423, 422): (0, 1), (425, 426): (1, 0), (426, 425): (0, 1), (425, 429): (0, 1), (429, 425): (1, 0), (426, 429): (0, 1), (429, 426): (1, 0), (426, 431): (0, 1), (431, 426): (1, 0), (429, 431): (0, 0), (431, 435): (0, 0), (435, 437): (1, 0), (437, 435): (0, 1), (435, 441): (1, 0), (441, 435): (0, 1), (437, 441): (1, 0), (441, 437): (0, 1), (437, 442): (0, 1), (442, 437): (1, 0), (437, 444): (0, 1), (444, 437): (1, 0), (441, 442): (0, 1), (442, 441): (1, 0), (441, 444): (0, 1), (444, 441): (1, 0), (442, 444): (0, 0)}
-  0%|          | 0/274 [00:00<?, ?it/s]
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 258, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 253, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 141, in setup
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 42, in create_dataloader
-    matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 341, in matres_data_loader
-    train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 148, in get_matres_train_set
-    assert False
-AssertionError
