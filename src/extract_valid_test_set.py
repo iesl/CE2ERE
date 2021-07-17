@@ -6,6 +6,8 @@ import random
 from tqdm import tqdm
 from pathlib import Path
 
+from utils import get_hieve_files
+
 
 def set_seed():
     torch.manual_seed(10)
@@ -17,12 +19,7 @@ def set_seed():
 def main():
     set_seed()
     data_dir = Path("../data").expanduser()
-    with open(data_dir / "hievents_v2/hieve_file_list.txt") as f:
-        hieve_files = ast.literal_eval(f.read())
-
-    train_range, valid_range, test_range = [], [], []
-    with open(data_dir / "hievents_v2/sorted_dict.json") as f:
-        sorted_dict = json.load(f)
+    hieve_dir, hieve_files = get_hieve_files(data_dir)
 
     train_range = range(0, 60)
     valid_range = range(60, 80)
