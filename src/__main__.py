@@ -201,7 +201,6 @@ def setup(args, saved_model=None):
         loss_transitivity_h=loss_transitivity_h,
         loss_transitivity_t=loss_transitivity_t,
         loss_cross_category=loss_cross_category,
-        loss_pairwise_box=args.lambda_pair,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
         wandb_id=wandb.run.id,
