@@ -118,7 +118,7 @@ class Trainer:
                         vol_A_B, vol_B_A, _, _, _, _, pvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
-                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
