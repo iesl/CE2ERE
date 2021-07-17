@@ -8,10 +8,10 @@ from pathlib import Path
 
 
 def set_seed():
-    torch.manual_seed(42)
+    torch.manual_seed(10)
     random.seed(10)
     if torch.cuda.is_available():
-        torch.cuda.manual_seed(42)
+        torch.cuda.manual_seed(10)
 
 
 def main():
@@ -24,16 +24,9 @@ def main():
     with open(data_dir / "hievents_v2/sorted_dict.json") as f:
         sorted_dict = json.load(f)
 
-    i = 0
-    for (key, value) in sorted_dict.items():
-        i += 1
-        key = int(key)
-        if i <= 20:
-            test_range.append(key)
-        elif i <= 40:
-            valid_range.append(key)
-        else:
-            train_range.append(key)
+    train_range = range(0, 60)
+    valid_range = range(60, 80)
+    test_range = range(80, 100)
 
     train_files = []
     valid_files = []
