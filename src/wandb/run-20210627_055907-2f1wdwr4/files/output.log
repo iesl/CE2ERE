@@ -1,19 +1,0 @@
-2021-06-27 05:59:08,820 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.5902, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 10, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0}
-2021-06-27 05:59:08,820 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  2%|▏         | 2/100 [00:00<00:24,  4.07it/s]  3%|▎         | 3/100 [00:01<00:33,  2.88it/s]  4%|▍         | 4/100 [00:01<00:31,  3.06it/s]  5%|▌         | 5/100 [00:01<00:26,  3.58it/s]  6%|▌         | 6/100 [00:01<00:22,  4.10it/s]  7%|▋         | 7/100 [00:02<00:50,  1.85it/s]  8%|▊         | 8/100 [00:03<00:37,  2.43it/s] 10%|█         | 10/100 [00:03<00:28,  3.16it/s] 11%|█         | 11/100 [00:03<00:22,  3.89it/s] 12%|█▏        | 12/100 [00:03<00:23,  3.82it/s] 14%|█▍        | 14/100 [00:03<00:17,  4.84it/s] 15%|█▌        | 15/100 [00:03<00:15,  5.54it/s] 16%|█▌        | 16/100 [00:04<00:23,  3.51it/s] 17%|█▋        | 17/100 [00:05<00:31,  2.61it/s] 19%|█▉        | 19/100 [00:05<00:23,  3.52it/s] 20%|██        | 20/100 [00:05<00:18,  4.32it/s] 22%|██▏       | 22/100 [00:05<00:15,  4.95it/s] 23%|██▎       | 23/100 [00:05<00:15,  5.00it/s] 24%|██▍       | 24/100 [00:06<00:22,  3.41it/s] 26%|██▌       | 26/100 [00:06<00:16,  4.43it/s] 27%|██▋       | 27/100 [00:06<00:24,  3.01it/s] 28%|██▊       | 28/100 [00:07<00:19,  3.68it/s] 29%|██▉       | 29/100 [00:07<00:28,  2.50it/s] 30%|███       | 30/100 [00:07<00:23,  3.02it/s] 32%|███▏      | 32/100 [00:08<00:16,  4.04it/s] 34%|███▍      | 34/100 [00:08<00:12,  5.16it/s] 34%|███▍      | 34/100 [00:08<00:16,  3.97it/s]
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 252, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 247, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 139, in setup
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 28, in create_dataloader
-    hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 238, in hieve_data_loader
-    train_set = get_hieve_train_set(data_dict, args.downsample, args.model)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 43, in get_hieve_train_set
-    x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 21, in padding
-    return torch.tensor(one_list, dtype=torch.long)
-KeyboardInterrupt

@@ -1,44 +1,0 @@
-2021-07-06 13:08:31,762 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.0, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 1943398742, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 1, 'symm_eval': 1}
-2021-07-06 13:08:31,762 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:23,  4.14it/s]  2%|▏         | 2/100 [00:00<00:23,  4.10it/s]  3%|▎         | 3/100 [00:00<00:25,  3.78it/s]  4%|▍         | 4/100 [00:00<00:21,  4.47it/s]  5%|▌         | 5/100 [00:01<00:30,  3.12it/s]  6%|▌         | 6/100 [00:01<00:33,  2.77it/s]  7%|▋         | 7/100 [00:02<00:27,  3.40it/s]  8%|▊         | 8/100 [00:04<01:26,  1.06it/s] 10%|█         | 10/100 [00:05<01:09,  1.29it/s] 11%|█         | 11/100 [00:06<01:28,  1.00it/s] 12%|█▏        | 12/100 [00:07<01:08,  1.28it/s] 13%|█▎        | 13/100 [00:07<00:50,  1.71it/s] 14%|█▍        | 14/100 [00:08<00:56,  1.53it/s] 15%|█▌        | 15/100 [00:08<00:44,  1.89it/s] 16%|█▌        | 16/100 [00:08<00:34,  2.44it/s] 18%|█▊        | 18/100 [00:10<00:52,  1.58it/s] 19%|█▉        | 19/100 [00:10<00:40,  1.98it/s] 20%|██        | 20/100 [00:12<01:04,  1.25it/s] 21%|██        | 21/100 [00:13<01:11,  1.11it/s] 22%|██▏       | 22/100 [00:13<00:52,  1.49it/s] 23%|██▎       | 23/100 [00:13<00:40,  1.89it/s] 24%|██▍       | 24/100 [00:14<00:31,  2.41it/s] 25%|██▌       | 25/100 [00:14<00:39,  1.88it/s] 27%|██▋       | 27/100 [00:15<00:30,  2.36it/s] 28%|██▊       | 28/100 [00:15<00:23,  3.05it/s] 29%|██▉       | 29/100 [00:15<00:25,  2.76it/s] 30%|███       | 30/100 [00:15<00:21,  3.23it/s] 31%|███       | 31/100 [00:17<00:40,  1.69it/s] 32%|███▏      | 32/100 [00:17<00:31,  2.15it/s] 33%|███▎      | 33/100 [00:18<00:43,  1.55it/s] 34%|███▍      | 34/100 [00:18<00:35,  1.88it/s] 35%|███▌      | 35/100 [00:19<00:48,  1.33it/s] 36%|███▌      | 36/100 [00:20<00:38,  1.67it/s] 37%|███▋      | 37/100 [00:20<00:37,  1.67it/s] 38%|███▊      | 38/100 [00:21<00:35,  1.76it/s] 39%|███▉      | 39/100 [00:21<00:27,  2.25it/s] 40%|████      | 40/100 [00:21<00:21,  2.78it/s]Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 142, in setup
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 31, in create_dataloader
-    hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 294, in hieve_data_loader
-    data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval or args.symm_train) # data_reader.py
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 388, in hieve_file_reader
-    data_dict = document_to_sentences(data_dict) # sentence information update
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_reader.py", line 161, in document_to_sentences
-    spacy_tokens = nlp(sntc_dict["content"])
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/spacy/language.py", line 449, in __call__
-    doc = proc(doc, **component_cfg.get(name, {}))
-  File "nn_parser.pyx", line 233, in spacy.syntax.nn_parser.Parser.__call__
-  File "nn_parser.pyx", line 274, in spacy.syntax.nn_parser.Parser.predict
-  File "nn_parser.pyx", line 287, in spacy.syntax.nn_parser.Parser.greedy_parse
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/model.py", line 167, in __call__
-    return self.predict(x)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/model.py", line 131, in predict
-    y, _ = self.begin_update(X, drop=None)
-  File "_parser_model.pyx", line 243, in spacy.syntax._parser_model.ParserModel.begin_update
-  File "_parser_model.pyx", line 293, in spacy.syntax._parser_model.ParserStepModel.__init__
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/feed_forward.py", line 46, in begin_update
-    X, inc_layer_grad = layer.begin_update(X, drop=drop)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/api.py", line 295, in begin_update
-    X, bp_layer = layer.begin_update(layer.ops.flatten(seqs_in, pad=pad), drop=drop)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/feed_forward.py", line 46, in begin_update
-    X, inc_layer_grad = layer.begin_update(X, drop=drop)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/resnet.py", line 29, in begin_update
-    y, bp_y = self._layers[0].begin_update(X, drop=drop)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/feed_forward.py", line 46, in begin_update
-    X, inc_layer_grad = layer.begin_update(X, drop=drop)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/layernorm.py", line 62, in begin_update
-    X, backprop_child = self.child.begin_update(X, drop=0.0)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/thinc/neural/_classes/maxout.py", line 76, in begin_update
-    output__boc = self.ops.gemm(X__bi, W, trans2=True)
-KeyboardInterrupt
- 40%|████      | 40/100 [00:21<00:32,  1.85it/s]
