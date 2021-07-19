@@ -322,9 +322,9 @@ class OneThresholdEvaluator:
                         yz_rel_id = yz_rel_id[flag == 1]
                         xz_rel_id = xz_rel_id[flag == 1]
                 else:
-                    vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
-                    vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
-                    vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
+                    vol_A_B, vol_B_A = vol_A_B.squeeze(1), vol_B_A.squeeze(1)  # [batch_size]
+                    vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
+                    vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
 
                 if data_type == "hieve":
                     threshold = self.hieve_threshold
