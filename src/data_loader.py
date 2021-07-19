@@ -13,7 +13,7 @@ from typing import List, Tuple, Dict, Any, Optional, Union
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 1500):
     if isPosTag == False:
         one_list = [1] * max_sent_len
         one_list[0:len(subword_ids)] = subword_ids
@@ -71,12 +71,19 @@ def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event
     yz_rel_id = relation_dict[(y, z)]["relation"]
     xz_rel_id = relation_dict[(x, z)]["relation"]
 
+    # get event token indices for global attention mask in Longformer
+    event_indices_list = [d['roberta_subword_id']+1 for d in event_dict.values()]
+    event_indices = torch.zeros(512, dtype=torch.int32)
+    event_indices[0] = len(event_indices_list)
+    event_indices[1:len(event_indices_list)+1] = torch.tensor(event_indices_list)
+
     to_append = \
         str(x), str(y), str(z), \
         x_sntc, y_sntc, z_sntc, \
         x_position, y_position, z_position, \
         x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag, \
         xy_rel_id, yz_rel_id, xz_rel_id, \
+        event_indices,\
         0  # 0: HiEve, 1: MATRES
 
     if model_type == "box" or model_type == "vector":
@@ -129,12 +136,19 @@ def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dic
 
     xy_rel_id = relation_dict[(x, y)]["relation"]
 
+    # get event token indices for global attention mask in Longformer
+    event_indices_list = [d['roberta_subword_id']+1 for d in event_dict.values()]
+    event_indices = torch.zeros(512)
+    event_indices[0] = len(event_indices_list)
+    event_indices[1:len(event_indices_list)+1] = torch.tensor(event_indices_list)
+
     to_append = \
         str(x), str(y), str(x), \
         x_sntc, y_sntc, x_sntc, \
         x_position, y_position, x_position, \
         x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
         xy_rel_id, xy_rel_id, xy_rel_id, \
+        event_indices, \
         0  # 0: HiEve, 1: MATRES
 
     if model_type == "box" or model_type == "vector":
@@ -209,12 +223,19 @@ def append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc
         y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
         z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
+        # get event token indices for global attention mask in Longformer
+        event_indices_list = [d['roberta_subword_id']+1 for d in event_dict.values()]
+        event_indices = torch.zeros(512)
+        event_indices[0] = len(event_indices_list)
+        event_indices[1:len(event_indices_list)+1] = torch.tensor(event_indices_list)
+
         to_append = \
             x_evnt_id, y_evnt_id, z_evnt_id, \
             x_sntc, y_sntc, z_sntc, \
             x_position, y_position, z_position, \
             x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag, \
             xy_rel_id, yz_rel_id, xz_rel_id, \
+            event_indices, \
             1  # 0: HiEve, 1: MATRES
 
         train_set.append(to_append)
@@ -251,18 +272,25 @@ def append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, e
     x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
     y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
 
+    # get event token indices for global attention mask in Longformer
+    event_indices_list = [d['roberta_subword_id']+1 for d in event_dict.values()]
+    event_indices = torch.zeros(512)
+    event_indices[0] = len(event_indices_list)
+    event_indices[1:len(event_indices_list)+1] = torch.tensor(event_indices_list)
+
     to_append = \
         x_evnt_id, y_evnt_id, x_evnt_id, \
         x_sntc, y_sntc, x_sntc, \
         x_position, y_position, x_position, \
         x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
         xy_rel_id, xy_rel_id, xy_rel_id, \
+        event_indices, \
         1  # 0: HiEve, 1: MATRES
 
     final_set.append(to_append)
 
 
-def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
+def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], embedding_type: str) -> Tuple[List[Any]]:
     hieve_dir = data_dir / "hievents_v2/processed/"
     with open(data_dir / "hievents_v2/hieve_train.txt") as f:
         hieve_train = ast.literal_eval(f.read())
@@ -277,14 +305,14 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     start_time = time.time()
     print("HiEve train files processing...", end="")
     for i, file in enumerate(tqdm(hieve_train)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train, embedding_type)  # data_reader.py
         train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
         all_train_set.extend(train_set)
     print("done!")
 
     print("HiEve valid files processing...", end="")
     for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval, embedding_type)
         valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
         all_valid_set.extend(valid_set)
         cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
@@ -293,7 +321,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     print("HiEve test files processing...", end="")
     for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval, embedding_type)
         test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
         all_test_set.extend(test_set)
         cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
@@ -302,9 +330,11 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
-    logger.info(f'HiEve training instance num: {len(all_train_set)}, '
-          f'valid instance num: {len(all_valid_set)}, '
-          f'test instance num: {len(all_test_set)}')
+    logger.info(
+        f'HiEve training instance num: {len(all_train_set)}, '
+        f'valid instance num: {len(all_valid_set)}, '
+        f'test instance num: {len(all_test_set)}'
+    )
 
     if args.debug:
         logger.info("debug mode on")
@@ -318,7 +348,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 
 
-def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
+def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], embedding_type: str) -> Tuple[List[Any]]:
     all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path = get_matres_files(data_dir)
     eiid_to_event_trigger, eiid_pair_to_rel_id = read_matres_files(all_txt_file_path, args.model, args.symm_eval or args.symm_train)
 
@@ -327,8 +357,8 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
     start_time = time.time()
     for i, fname in enumerate(tqdm(eiid_pair_to_rel_id.keys())):
         file_name = fname + ".tml"
-        dir_path = get_tml_dir_path(file_name, all_tml_dir_path_dict, all_tml_file_dict) # get directory corresponding to filename
-        data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger)
+        dir_path = get_tml_dir_path(file_name, all_tml_dir_path_dict, all_tml_file_dict)  # get directory corresponding to filename
+        data_dict = matres_file_reader(dir_path, file_name, eiid_to_event_trigger, embedding_type)
 
         eiid_to_event_trigger_dict = eiid_to_event_trigger[fname]
         eiid_pair_to_rel_id_dict = eiid_pair_to_rel_id[fname]
@@ -367,6 +397,8 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
 def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[str, List], test_set_dict: Dict[str, List],
                     valid_cv_set_dict: Dict[str, List], test_cv_set_dict: Dict[str, List]) -> Tuple[DataLoader]:
 
+    train_lens = [batch[3].shape for batch in train_set]
+    print(f"max sentence embedding length: {max(train_lens)}")
     train_dataloader = DataLoader(EventDataset(train_set), batch_size=2 ** log_batch_size, shuffle=True)
     valid_dataloader_dict, test_dataloader_dict = {}, {}
 

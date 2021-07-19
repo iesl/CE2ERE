@@ -13,6 +13,15 @@ def build_parser():
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
 
+    parser.add_argument('--embedding_type', type=str, default='roberta-base', choices=["roberta-base", "roberta-large", "longformer-base", "longformer-large"],
+                        help="""
+                        [roberta-base | roberta-large | longformer-base | longformer-large]; 
+                        roberta-base: use Roberta of hidden dimension of 768 to generate word embeddings, 
+                        roberta-large: use Roberta of hidden dimension of 1024 to generate word embeddings, 
+                        longformer-base: use LongformerModel of hidden dimension of 768 to generate word embeddings.
+                        longformer-large: use LongformerModel of hidden dimension of 1024 to generate word embeddings.
+                        """)
+
     parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector"],
                         help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning, bilstm: roberta-base emb w/o finetuning + BiLSTM, box: roberta-base emb w/o finetuning + BiLSTM + Box")
 

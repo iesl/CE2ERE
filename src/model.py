@@ -1,9 +1,10 @@
 import torch
 from torch import Tensor
-from transformers import RobertaModel
+from transformers import RobertaModel, LongformerModel
 from typing import Dict, Tuple, List
 import torch.nn.functional as F
 from torch.nn import Module, Linear, LeakyReLU, LSTM
+from utils import cuda_if_available
 
 from embeddings import BoxEmbedding
 
@@ -83,30 +84,42 @@ class BoxToBoxVolume(Module):
         assert box1.shape[-2] == 2
         assert box2.shape[-2] == 2
         intersection_box = self.gumbel_box(box1, box2)
-        intersection_volume = self.volume(intersection_box) # logP(A, B); [batch_size, # of datasets]
-        box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
-        conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
-        assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
+        intersection_volume = self.volume(intersection_box)   # logP(A, B); [batch_size, # of datasets]
+        box2_volume = self.volume(box2)                       # logP(B); [batch_size, # of datasets]
+        conditional_prob = intersection_volume - box2_volume  # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
+        assert (torch.le(conditional_prob, 0)).all()           # all probability values should be less than or equal to 0
         return intersection_box, conditional_prob
 
 
 class RoBERTa_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, mlp_size: int, hidden_size: int):
         super().__init__()
+        self.device = cuda_if_available(False)
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
-        if hidden_size == 1024:
-            self.roberta_model = RobertaModel.from_pretrained('roberta-large')
-        elif hidden_size == 768:
-            self.roberta_model = RobertaModel.from_pretrained('roberta-base')
+
+        if self.embedding_type.startswith('roberta'):
+            if hidden_size == 1024:
+                self.lang_model = RobertaModel.from_pretrained('roberta-large').to(self.device)
+            elif hidden_size == 768:
+                self.lang_model = RobertaModel.from_pretrained('roberta-base').to(self.device)
+            else:
+                raise ValueError(f"roberta_hidden_size={hidden_size} is not supported at this time!")
+        elif self.embedding_type.startswith('longformer'):
+            if hidden_size == 1024:
+                self.lang_model = LongformerModel.from_pretrained('allenai/longformer-large-4096').to(self.device)
+            elif hidden_size == 768:
+                self.lang_model = LongformerModel.from_pretrained('allenai/longformer-base-4096').to(self.device)
+            else:
+                raise ValueError(f"longformer_hidden_size={hidden_size} is not supported at this time!")
         else:
-            raise ValueError(f"roberta_hidden_size={hidden_size} is not supported at this time!")
+            raise ValueError(f"Language model '{self.embedding_type}' is unsupported!")
         self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
 
-    def _get_embeddings_from_position(self, roberta_embd: Tensor, position: Tensor):
+    def _get_embeddings_from_position(self, embedding: Tensor, position: Tensor):
         batch_size = position.shape[0]
-        return torch.cat([roberta_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
+        return torch.cat([embedding[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
 
     def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
         sub = torch.sub(tensor1, tensor2)
@@ -119,9 +132,9 @@ class RoBERTa_MLP(Module):
 
         # Produce contextualized embeddings using RobertaModel for all tokens of the entire document
         # get embeddings corresponding to x_position number
-        output_x = self._get_embeddings_from_position(self.roberta_model(x_sntc)[0], x_position) # shape: [16, 120, 1024]
-        output_y = self._get_embeddings_from_position(self.roberta_model(y_sntc)[0], y_position)
-        output_z = self._get_embeddings_from_position(self.roberta_model(z_sntc)[0], z_position)
+        output_x = self._get_embeddings_from_position(self.lang_model(x_sntc)[0], x_position) # shape: [16, 120, 1024]
+        output_y = self._get_embeddings_from_position(self.lang_model(y_sntc)[0], y_position)
+        output_z = self._get_embeddings_from_position(self.lang_model(z_sntc)[0], z_position)
 
         # For each event pair (e1; e2), the contextualized features are obtained as the concatenation of h_e1 and h_e2,
         # along with their element-wise Hadamard product and subtraction.
@@ -139,84 +152,140 @@ class RoBERTa_MLP(Module):
 
 class BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, roberta_size_type="roberta-base"):
+                 lstm_input_size: int, embedding_type: str, custom_roberta_model: str = None) -> None:
         super().__init__()
+        self.device = cuda_if_available(False)
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
+        self.embedding_type = embedding_type
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
         self.MLP = MLP(8 * hidden_size, 2 * mlp_size, num_classes)
 
-        self.roberta_size_type = roberta_size_type
-        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
-        if roberta_size_type == "roberta-base":
-            self.roberta_dim = 768
-        elif roberta_size_type == "roberta-large":
-            self.roberta_dim = 1024
+        if custom_roberta_model is not None:
+            self.lang_model_type = custom_roberta_model
+            self.lang_model = RobertaModel.from_pretrained(self.lang_model_type)
+            self.lm_dim = None
         else:
-            raise ValueError(f"{roberta_size_type} doesn't exist!")
+            if self.embedding_type == 'roberta-large':
+                self.lang_model_type = 'roberta-large'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'roberta-base':
+                self.lang_model_type = 'roberta-base'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            elif self.embedding_type == 'longformer-large':
+                self.lang_model_type = 'allenai/longformer-large-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'longformer-base':
+                self.lang_model_type = 'allenai/longformer-base-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            else:
+                raise ValueError(f"Language model '{self.embedding_type}' is unsupported!")
+        
+        print(f"embedding_type: {self.embedding_type}")
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
         return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
 
-    def _get_roberta_embedding(self, sntc):
+    def _get_article_embedding(self, sntc: List[int],
+                               local_attention_list: List[int] = None,
+                               global_attention_list: List[int] = None) -> torch.Tensor:
         with torch.no_grad():
-            roberta_list = []
-            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
-                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
-                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
-            return torch.stack(roberta_list)
+            embedding_list = []
+            if self.embedding_type.startswith('roberta'):
+                for s in sntc:                                            # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                    embedding = self.lang_model(s.unsqueeze(0))[0]        # [1, 120, 768]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))  # [120, 768]
+            elif self.embedding_type.startswith('longformer'):
+                for article, global_attention in zip(sntc, global_attention_list):
+                    input_ids = torch.tensor(article).unsqueeze(0).to(self.device)
+
+                    local_attention_mask = torch.ones(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if local_attention_list is not None:
+                        local_attention_mask = torch.zeros(
+                            input_ids.shape, dtype=torch.long, device=input_ids.device
+                        )
+                        local_attention_mask[:, local_attention_list] = 1
+                    
+                    global_attention_mask = torch.zeros(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if global_attention is not None:
+                        mask_len = global_attention[0].int()
+                        mask_indices = global_attention[1:mask_len+1]
+                        global_attention_mask[:, mask_indices.long()] = 1
+                    
+                    embedding = self.lang_model(
+                        input_ids,
+                        attention_mask=local_attention_mask,
+                        global_attention_mask=global_attention_mask
+                    )[0]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))
+            else:
+                raise ValueError(f"embedding_type {self.embedding_type} is not supported!")
+   
+            return torch.stack(embedding_list)
 
     def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
-        sub = torch.sub(tensor1, tensor2) # [64, 512]
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
+        sub = torch.sub(tensor1, tensor2)                               # [64, 512]
+        mul = torch.mul(tensor1, tensor2)                               # [64, 512]
         return torch.cat((tensor1, tensor2, sub, mul), 1)
 
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
-        # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
+        # x_sntc: [64, 120/512]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        event_indices = batch[15]
 
         # get RoBERTa embedding
-        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
-        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
-        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+        embd_x_sntc = self._get_article_embedding(x_sntc, global_attention_list=event_indices)  # [64, 120, 768];[batch_size, padded_len, roberta_dim]
+        embd_y_sntc = self._get_article_embedding(y_sntc, global_attention_list=event_indices)
+        embd_z_sntc = self._get_article_embedding(z_sntc, global_attention_list=event_indices)
 
         # BiLSTM layer
-        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
-        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
-        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+        bilstm_output_A, _ = self.bilstm(embd_x_sntc)  # [batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(embd_y_sntc)
+        bilstm_output_C, _ = self.bilstm(embd_z_sntc)
 
-        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position)  # [batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         # Subtraction + Hadamard
-        alpha_repr = self._get_relation_representation(output_A, output_B) # [batch_size, lstm_hidden_dim * 2 * 4][64, 2048]
+        alpha_repr = self._get_relation_representation(output_A, output_B)  # [batch_size, lstm_hidden_dim * 2 * 4][64, 2048]
         beta_repr = self._get_relation_representation(output_B, output_C)
         gamma_repr = self._get_relation_representation(output_A, output_C)
 
         # MLP layer
-        alpha_logits = self.MLP(alpha_repr) # [batch_size, num_classes]; [64, 8]
+        alpha_logits = self.MLP(alpha_repr)  # [batch_size, num_classes]; [64, 8]
         beta_logits = self.MLP(beta_repr)
         gamma_logits = self.MLP(gamma_repr)
 
         return alpha_logits, beta_logits, gamma_logits
 
+
 class Vector_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, mlp_output_dim: int, proj_output_dim: int, hieve_mlp_size: int, matres_mlp_size: int,
-                 roberta_size_type="roberta-base"):
+                 lstm_input_size: int, mlp_output_dim: int, proj_output_dim: int, hieve_mlp_size: int,
+                 matres_mlp_size: int, embedding_type: str, custom_roberta_model: str = None) -> None:
         super().__init__()
+        self.device = cuda_if_available(False)
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
+        self.embedding_type = embedding_type
 
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
 
@@ -229,26 +298,76 @@ class Vector_BiLSTM_MLP(Module):
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
-        self.roberta_size_type = roberta_size_type
-        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
-        if roberta_size_type == "roberta-base":
-            self.roberta_dim = 768
-        elif roberta_size_type == "roberta-large":
-            self.roberta_dim = 1024
+        if custom_roberta_model is not None:
+            self.lang_model_type = custom_roberta_model
+            self.lang_model = RobertaModel.from_pretrained(self.lang_model_type)
+            self.lm_dim = None
         else:
-            raise ValueError(f"{roberta_size_type} doesn't exist!")
+            if self.embedding_type == 'roberta-large':
+                self.lang_model_type = 'roberta-large'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'roberta-base':
+                self.lang_model_type = 'roberta-base'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            elif self.embedding_type == 'longformer-large':
+                self.lang_model_type = 'allenai/longformer-large-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'longformer-base':
+                self.lang_model_type = 'allenai/longformer-base-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            else:
+                raise ValueError(f"Language model '{self.embedding_type}' is unsupported!")
+        
+        print(f"embedding_type: {self.embedding_type}")
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
         return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
 
-    def _get_roberta_embedding(self, sntc):
+    def _get_article_embedding(self, sntc: List[int],
+                               local_attention_list: List[int] = None,
+                               global_attention_list: List[int] = None) -> torch.Tensor:
         with torch.no_grad():
-            roberta_list = []
-            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
-                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
-                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
-            return torch.stack(roberta_list)
+            embedding_list = []
+            if self.embedding_type.startswith('roberta'):
+                for s in sntc:                                            # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                    embedding = self.lang_model(s.unsqueeze(0))[0]        # [1, 120, 768]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))  # [120, 768]
+            elif self.embedding_type.startswith('longformer'):
+                for article, global_attention in zip(sntc, global_attention_list):
+                    input_ids = torch.tensor(article).unsqueeze(0).to(self.device)
+
+                    local_attention_mask = torch.ones(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if local_attention_list is not None:
+                        local_attention_mask = torch.zeros(
+                            input_ids.shape, dtype=torch.long, device=input_ids.device
+                        )
+                        local_attention_mask[:, local_attention_list] = 1
+                    
+                    global_attention_mask = torch.zeros(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if global_attention is not None:
+                        mask_len = global_attention[0].int()
+                        mask_indices = global_attention[1:mask_len+1]
+                        global_attention_mask[:, mask_indices.long()] = 1
+                    
+                    embedding = self.lang_model(
+                        input_ids,
+                        attention_mask=local_attention_mask,
+                        global_attention_mask=global_attention_mask
+                    )[0]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))
+            else:
+                raise ValueError(f"embedding_type {self.embedding_type} is not supported!")
+   
+            return torch.stack(embedding_list)
 
     def _get_dot_product(self, output_A1, output_B1, output_C1, output_A2, output_B2, output_C2):
         dot_A_B = torch.sum(torch.mul(output_A1, output_B1), dim=-1, keepdim=True)  # [batch_size, 1]
@@ -260,23 +379,23 @@ class Vector_BiLSTM_MLP(Module):
         dot_C_A = torch.sum(torch.mul(output_C2, output_A2), dim=-1, keepdim=True)
         return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
 
-
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        event_indices = batch[15]
 
         # get RoBERTa embedding
-        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
-        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
-        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+        embd_x_sntc = self._get_article_embedding(x_sntc, global_attention_list=event_indices)  # [64, 120, 768];[batch_size, padded_len, roberta_dim]
+        embd_y_sntc = self._get_article_embedding(y_sntc, global_attention_list=event_indices)
+        embd_z_sntc = self._get_article_embedding(z_sntc, global_attention_list=event_indices)
 
         # BiLSTM layer
-        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
-        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
-        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+        bilstm_output_A, _ = self.bilstm(embd_x_sntc)      # [batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(embd_y_sntc)
+        bilstm_output_C, _ = self.bilstm(embd_z_sntc)
 
-        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position)  # [batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
@@ -285,37 +404,37 @@ class Vector_BiLSTM_MLP(Module):
         output_C = self.MLP(output_C)
 
         if data_type == "hieve":
-            output_A1 = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A1 = self.FF1_MLP_hieve(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B1 = self.FF1_MLP_hieve(output_B)
             output_C1 = self.FF1_MLP_hieve(output_C)
 
-            output_A2 = self.FF2_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A2 = self.FF2_MLP_hieve(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B2 = self.FF2_MLP_hieve(output_B)
             output_C2 = self.FF2_MLP_hieve(output_C)
             dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A = self._get_dot_product(output_A1, output_B1, output_C1, output_A2, output_B2, output_C2)
         elif data_type == "matres":
-            output_A1 = self.FF1_MLP_matres(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A1 = self.FF1_MLP_matres(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B1 = self.FF1_MLP_matres(output_B)
             output_C1 = self.FF1_MLP_matres(output_C)
 
-            output_A2 = self.FF2_MLP_matres(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A2 = self.FF2_MLP_matres(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B2 = self.FF2_MLP_matres(output_B)
             output_C2 = self.FF2_MLP_matres(output_C)
             dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A = self._get_dot_product(output_A1, output_B1, output_C1, output_A2, output_B2, output_C2)
         elif data_type == "joint":
-            output_A1_hieve = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A1_hieve = self.FF1_MLP_hieve(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B1_hieve = self.FF1_MLP_hieve(output_B)
             output_C1_hieve = self.FF1_MLP_hieve(output_C)
 
-            output_A2_hieve = self.FF2_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A2_hieve = self.FF2_MLP_hieve(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B2_hieve = self.FF2_MLP_hieve(output_B)
             output_C2_hieve = self.FF2_MLP_hieve(output_C)
 
-            output_A1_matres = self.FF1_MLP_matres(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A1_matres = self.FF1_MLP_matres(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B1_matres = self.FF1_MLP_matres(output_B)
             output_C1_matres = self.FF1_MLP_matres(output_C)
 
-            output_A2_matres = self.FF2_MLP_matres(output_A) #[batch_size, mlp_output_dim]; [64, 32]
+            output_A2_matres = self.FF2_MLP_matres(output_A)  # [batch_size, mlp_output_dim]; [64, 32]
             output_B2_matres = self.FF2_MLP_matres(output_B)
             output_C2_matres = self.FF2_MLP_matres(output_C)
 
@@ -337,13 +456,16 @@ class Vector_BiLSTM_MLP(Module):
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
                  lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int, hieve_mlp_size: int,
-                 proj_output_dim: int, matres_mlp_size: int, loss_type: int, roberta_size_type="roberta-base"):
+                 proj_output_dim: int, matres_mlp_size: int, loss_type: int,
+                 embedding_type: str, custom_roberta_model: str = None):
         super().__init__()
+        self.device = cuda_if_available(False)
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         self.mlp_size = mlp_size
+        self.embedding_type = embedding_type
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
@@ -356,28 +478,77 @@ class Box_BiLSTM_MLP(Module):
         if self.loss_type:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, mlp_output_dim)
 
-        self.roberta_size_type = roberta_size_type
-        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
-        if roberta_size_type == "roberta-base":
-            self.roberta_dim = 768
-        elif roberta_size_type == "roberta-large":
-            self.roberta_dim = 1024
+        if custom_roberta_model is not None:
+            self.lang_model_type = custom_roberta_model
+            self.lang_model = RobertaModel.from_pretrained(self.lang_model_type)
+            self.lm_dim = None
         else:
-            raise ValueError(f"{roberta_size_type} doesn't exist!")
+            if self.embedding_type == 'roberta-large':
+                self.lang_model_type = 'roberta-large'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'roberta-base':
+                self.lang_model_type = 'roberta-base'
+                self.lang_model = RobertaModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            elif self.embedding_type == 'longformer-large':
+                self.lang_model_type = 'allenai/longformer-large-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 1024
+            elif self.embedding_type == 'longformer-base':
+                self.lang_model_type = 'allenai/longformer-base-4096'
+                self.lang_model = LongformerModel.from_pretrained(self.lang_model_type).to(self.device)
+                self.lm_dim = 768
+            else:
+                raise ValueError(f"Language model '{self.embedding_type}' is unsupported!")
 
+        print(f"embedding_type: {self.embedding_type}")
         self.box_embedding = BoxEmbedding(volume_temp=volume_temp, threshold=20)
 
     def _get_embeddings_from_position(self, lstm_embd: Tensor, position: Tensor):
         batch_size = position.shape[0]
         return torch.cat([lstm_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
 
-    def _get_roberta_embedding(self, sntc):
+    def _get_article_embedding(self, sntc: List[int],
+                               local_attention_list: List[int] = None,
+                               global_attention_list: List[int] = None) -> torch.Tensor:
         with torch.no_grad():
-            roberta_list = []
-            for s in sntc: # s: [120]; [padded_length], sntc: [batch_size, padded_length]
-                roberta_embd = self.RoBERTa_layer(s.unsqueeze(0))[0] # [1, 120, 768]
-                roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
-            return torch.stack(roberta_list)
+            embedding_list = []
+            if self.embedding_type.startswith('roberta'):
+                for s in sntc:                                            # s: [120]; [padded_length], sntc: [batch_size, padded_length]
+                    embedding = self.lang_model(s.unsqueeze(0))[0]        # [1, 120, 768]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))  # [120, 768]
+            elif self.embedding_type.startswith('longformer'):
+                for article, global_attention in zip(sntc, global_attention_list):
+                    input_ids = torch.tensor(article).unsqueeze(0).to(self.device)
+
+                    local_attention_mask = torch.ones(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if local_attention_list is not None:
+                        local_attention_mask = torch.zeros(
+                            input_ids.shape, dtype=torch.long, device=input_ids.device
+                        )
+                        local_attention_mask[:, local_attention_list] = 1
+                    
+                    global_attention_mask = torch.zeros(
+                        input_ids.shape, dtype=torch.long, device=input_ids.device
+                    )
+                    if global_attention is not None:
+                        mask_len = global_attention[0].int()
+                        mask_indices = global_attention[1:mask_len+1]
+                        global_attention_mask[:, mask_indices.long()] = 1
+                    
+                    embedding = self.lang_model(
+                        input_ids,
+                        attention_mask=local_attention_mask,
+                        global_attention_mask=global_attention_mask
+                    )[0]
+                    embedding_list.append(embedding.view(-1, self.lm_dim))
+            else:
+                raise ValueError(f"embedding_type {self.embedding_type} is not supported!")
+   
+            return torch.stack(embedding_list)
 
     def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
         mul = torch.mul(tensor1, tensor2) # [64, 512]
@@ -387,18 +558,19 @@ class Box_BiLSTM_MLP(Module):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        event_indices = batch[15]
 
         # get RoBERTa embedding
-        roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
-        roberta_y_sntc = self._get_roberta_embedding(y_sntc)
-        roberta_z_sntc = self._get_roberta_embedding(z_sntc)
+        embd_x_sntc = self._get_article_embedding(x_sntc, global_attention_list=event_indices)  # [64, 120, 768];[batch_size, padded_len, roberta_dim]
+        embd_y_sntc = self._get_article_embedding(y_sntc, global_attention_list=event_indices)
+        embd_z_sntc = self._get_article_embedding(z_sntc, global_attention_list=event_indices)
 
         # BiLSTM layer
-        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
-        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
-        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+        bilstm_output_A, _ = self.bilstm(embd_x_sntc)  # [batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+        bilstm_output_B, _ = self.bilstm(embd_y_sntc)
+        bilstm_output_C, _ = self.bilstm(embd_z_sntc)
 
-        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
+        output_A = self._get_embeddings_from_position(bilstm_output_A, x_position)  # [batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
@@ -408,7 +580,7 @@ class Box_BiLSTM_MLP(Module):
             pairBC = self.MLP_pair(self._get_relation_representation(output_B, output_C))
             pairAC = self.MLP_pair(self._get_relation_representation(output_A, output_C))
 
-        output_A = self.MLP(output_A) #[batch_size, mlp_output_dim]; [64, 44]
+        output_A = self.MLP(output_A) # [batch_size, mlp_output_dim]; [64, 44]
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 

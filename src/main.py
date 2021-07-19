@@ -1,13 +1,17 @@
 import wandb
 
+import torch
+import random
 from torch.nn import CrossEntropyLoss
+from data_reader import setup_tokenizer
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
-from parser import *
+from parser import build_parser
 from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
+
 logger = logging.getLogger()
 
 
@@ -21,12 +25,16 @@ def set_seed():
 
 def create_dataloader(args):
     data_type = args.data_type
+    embedding_type = args.embedding_type
+    setup_tokenizer(embedding_type)
     log_batch_size = int(args.log_batch_size)
     data_dir = Path(args.data_dir).expanduser()
 
     if data_type == "hieve":
         num_classes = 4
-        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(
+            args, data_dir, embedding_type
+        )
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
@@ -38,7 +46,9 @@ def create_dataloader(args):
             = get_dataloaders(log_batch_size, hieve_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "matres":
         num_classes = 4
-        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(
+            args, data_dir, embedding_type
+        )
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
@@ -50,8 +60,12 @@ def create_dataloader(args):
             = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "joint":
         num_classes = 8
-        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
-        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+        hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(
+            args, data_dir, embedding_type
+        )
+        matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(
+            args, data_dir, embedding_type
+        )
         joint_train_set = hieve_train_set + matres_train_set
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
@@ -86,7 +100,7 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
-            roberta_size_type="roberta-base",
+            embedding_type=args.embedding_type,
         )
     elif args.model == "vector":
         model = Vector_BiLSTM_MLP(
@@ -100,7 +114,7 @@ def create_model(args, num_classes):
             proj_output_dim=args.proj_output_dim,
             hieve_mlp_size=args.hieve_mlp_size,
             matres_mlp_size=args.matres_mlp_size,
-            roberta_size_type="roberta-base",
+            embedding_type=args.embedding_type,
         )
     elif args.model == "box":
         model = Box_BiLSTM_MLP(
@@ -117,7 +131,7 @@ def create_model(args, num_classes):
             matres_mlp_size=args.matres_mlp_size,
             proj_output_dim=args.proj_output_dim,
             loss_type=args.loss_type,
-            roberta_size_type="roberta-base",
+            embedding_type=args.embedding_type,
         )
     else:
         raise ValueError(f"{args.model} is unsupported!")
@@ -216,8 +230,8 @@ def setup(args, saved_model=None):
 
 
 def main():
-    args = build_parser()
     set_seed()
+    args = build_parser()
 
     if args.load_model:
         assert args.saved_model != ""
