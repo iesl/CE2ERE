@@ -12,7 +12,7 @@ logger = logging.getLogger()
 
 
 def set_seed():
-    seed = 0
+    seed = 10
     torch.manual_seed(seed)
     random.seed(seed)
     if torch.cuda.is_available():

@@ -383,7 +383,7 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm: int) -> Dict[str, Any]:
+def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm: Optional[int] = 0) -> Dict[str, Any]:
     data_dict = read_tsvx_file(data_dir, file, model_type, symm)
     data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)

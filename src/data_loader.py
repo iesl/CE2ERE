@@ -275,29 +275,29 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     all_valid_cv_set, all_test_cv_set = [], []
 
     start_time = time.time()
-    print("HiEve train files processing...", end="")
-    for i, file in enumerate(tqdm(hieve_train)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
-        train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
-        all_train_set.extend(train_set)
-    print("done!")
-
     print("HiEve valid files processing...", end="")
     for i, file in enumerate(tqdm(hieve_valid)):
         data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_valid_set.extend(valid_set)
         cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
         all_valid_cv_set.extend(cv_valid_set)
+        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+        all_valid_set.extend(valid_set)
     print("done!")
 
     print("HiEve test files processing...", end="")
     for i, file in enumerate(tqdm(hieve_test)):
         data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_test_set.extend(test_set)
         cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
         all_test_cv_set.extend(cv_test_set)
+        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+        all_test_set.extend(test_set)
+    print("done!")
+
+    print("HiEve train files processing...", end="")
+    for i, file in enumerate(tqdm(hieve_train)):
+        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
+        train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
+        all_train_set.extend(train_set)
     print("done!")
 
     elapsed_time = format_time(time.time() - start_time)
