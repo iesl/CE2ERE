@@ -322,9 +322,9 @@ class OneThresholdEvaluator:
                         yz_rel_id = yz_rel_id[flag == 1]
                         xz_rel_id = xz_rel_id[flag == 1]
                 else:
-                    vol_A_B, vol_B_A = vol_A_B.squeeze(1), vol_B_A.squeeze(1)  # [batch_size]
-                    vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
-                    vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
+                    vol_A_B, vol_B_A = vol_A_B.squeeze(), vol_B_A.squeeze()  # [batch_size]
+                    vol_B_C, vol_C_B = vol_B_C.squeeze(), vol_C_B.squeeze()
+                    vol_A_C, vol_C_A = vol_A_C.squeeze(), vol_C_A.squeeze()
 
                 if data_type == "hieve":
                     threshold = self.hieve_threshold
@@ -334,6 +334,7 @@ class OneThresholdEvaluator:
                 xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
                 yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
                 xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
                 targets.extend(xy_targets)
                 vol_ab.extend(torch.exp(vol_A_B).tolist())

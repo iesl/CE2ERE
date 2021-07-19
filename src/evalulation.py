@@ -46,7 +46,7 @@ targets: [01, 10, 00, 01, 10]
 
 def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, key):
     mask_indices = mask.nonzero()
-    if mask_indices.shape[1] > 0:
+    if mask_indices.nelement() != 0:
         preds.extend(mask_indices.shape[0] * [key])
         if mask_indices.shape[0] == 1:
             relation_label_list = [[x.item() for x in relation_label[mask_indices.squeeze()]]]
