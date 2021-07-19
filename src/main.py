@@ -163,6 +163,7 @@ def setup(args, saved_model=None):
     wandb.watch(model)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
+
     if args.model != "box" and args.model != "vector":
         print("Using VectorBiLSTMEvaluator..!")
         evaluator = VectorBiLSTMEvaluator(
@@ -191,7 +192,6 @@ def setup(args, saved_model=None):
             save_plot=args.save_plot,
             wandb_id=wandb.run.id,
         )
-
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
@@ -215,7 +215,6 @@ def setup(args, saved_model=None):
         loss_transitivity_h=loss_transitivity_h,
         loss_transitivity_t=loss_transitivity_t,
         loss_cross_category=loss_cross_category,
-        loss_pairwise_box=args.lambda_pair,
         lambda_dict=lambdas_to_dict(args),
         no_valid=args.no_valid,
         wandb_id=wandb.run.id,
@@ -253,7 +252,7 @@ def main():
         wandb.config.update({"fix_seed": args.fix_seed}, allow_val_change=True)
 
         args = wandb.config
-        set_seed(args.seed, args.fix_seed)
+        set_seed()
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
         num_classes = 4
