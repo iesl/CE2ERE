@@ -56,3 +56,5 @@ def update_evaluation_list(mask, preds, targets, relation_label, constraint_dict
             mask_constraint_indices = mask_indices.squeeze().tolist()
         targets.extend([''.join(map(str, item)) for item in relation_label_list])
         constraint_dict[key] = set(mask_constraint_indices)
+    else:
+        constraint_dict[key] = set()
