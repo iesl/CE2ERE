@@ -1,217 +1,0 @@
-2021-07-09 11:39:17,990 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.0, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 1722573481, 'fix_seed': 0, 'no_valid': False, 'loss_type': 1, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 0, 'symm_eval': 1}
-2021-07-09 11:39:17,990 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:22,  4.36it/s]  2%|▏         | 2/100 [00:00<00:22,  4.40it/s]  3%|▎         | 3/100 [00:00<00:23,  4.11it/s]  4%|▍         | 4/100 [00:00<00:19,  4.82it/s]  5%|▌         | 5/100 [00:01<00:27,  3.41it/s]  6%|▌         | 6/100 [00:01<00:30,  3.05it/s]  7%|▋         | 7/100 [00:01<00:25,  3.64it/s]  8%|▊         | 8/100 [00:04<01:20,  1.14it/s] 10%|█         | 10/100 [00:04<01:03,  1.41it/s] 11%|█         | 11/100 [00:05<01:12,  1.23it/s] 13%|█▎        | 13/100 [00:06<00:51,  1.70it/s] 14%|█▍        | 14/100 [00:06<00:50,  1.71it/s] 15%|█▌        | 15/100 [00:06<00:40,  2.08it/s] 16%|█▌        | 16/100 [00:06<00:31,  2.68it/s] 18%|█▊        | 18/100 [00:09<00:46,  1.75it/s] 19%|█▉        | 19/100 [00:09<00:36,  2.21it/s] 20%|██        | 20/100 [00:10<00:49,  1.62it/s] 21%|██        | 21/100 [00:11<01:01,  1.29it/s] 22%|██▏       | 22/100 [00:11<00:45,  1.71it/s] 23%|██▎       | 23/100 [00:11<00:36,  2.13it/s] 24%|██▍       | 24/100 [00:11<00:28,  2.64it/s] 25%|██▌       | 25/100 [00:12<00:36,  2.04it/s] 26%|██▌       | 26/100 [00:12<00:27,  2.65it/s] 27%|██▋       | 27/100 [00:12<00:24,  2.96it/s] 28%|██▊       | 28/100 [00:13<00:19,  3.73it/s] 29%|██▉       | 29/100 [00:13<00:21,  3.29it/s] 30%|███       | 30/100 [00:13<00:20,  3.49it/s] 31%|███       | 31/100 [00:14<00:40,  1.71it/s] 32%|███▏      | 32/100 [00:15<00:31,  2.18it/s] 33%|███▎      | 33/100 [00:16<00:39,  1.68it/s] 34%|███▍      | 34/100 [00:16<00:32,  2.05it/s] 35%|███▌      | 35/100 [00:17<00:38,  1.68it/s] 36%|███▌      | 36/100 [00:17<00:29,  2.17it/s] 37%|███▋      | 37/100 [00:17<00:31,  1.98it/s] 38%|███▊      | 38/100 [00:18<00:31,  1.97it/s] 39%|███▉      | 39/100 [00:18<00:24,  2.47it/s] 40%|████      | 40/100 [00:18<00:19,  3.01it/s] 41%|████      | 41/100 [00:18<00:17,  3.46it/s] 43%|████▎     | 43/100 [00:19<00:14,  4.02it/s] 45%|████▌     | 45/100 [00:19<00:12,  4.35it/s] 46%|████▌     | 46/100 [00:20<00:15,  3.38it/s] 47%|████▋     | 47/100 [00:20<00:12,  4.16it/s] 49%|████▉     | 49/100 [00:20<00:09,  5.36it/s] 50%|█████     | 50/100 [00:20<00:12,  3.93it/s] 51%|█████     | 51/100 [00:26<01:27,  1.78s/it] 52%|█████▏    | 52/100 [00:26<01:04,  1.34s/it] 53%|█████▎    | 53/100 [00:26<00:47,  1.02s/it] 54%|█████▍    | 54/100 [00:26<00:34,  1.33it/s] 55%|█████▌    | 55/100 [00:26<00:25,  1.75it/s] 56%|█████▌    | 56/100 [00:27<00:19,  2.28it/s] 58%|█████▊    | 58/100 [00:27<00:13,  3.07it/s] 60%|██████    | 60/100 [00:27<00:11,  3.44it/s] 61%|██████    | 61/100 [00:27<00:12,  3.18it/s] 62%|██████▏   | 62/100 [00:28<00:12,  2.98it/s] 63%|██████▎   | 63/100 [00:28<00:14,  2.56it/s] 65%|██████▌   | 65/100 [00:29<00:11,  2.96it/s] 66%|██████▌   | 66/100 [00:29<00:11,  2.89it/s] 67%|██████▋   | 67/100 [00:30<00:15,  2.10it/s] 68%|██████▊   | 68/100 [00:31<00:16,  1.89it/s] 69%|██████▉   | 69/100 [00:31<00:12,  2.47it/s] 71%|███████   | 71/100 [00:31<00:09,  3.20it/s] 73%|███████▎  | 73/100 [00:31<00:07,  3.85it/s] 74%|███████▍  | 74/100 [00:31<00:06,  4.14it/s] 76%|███████▌  | 76/100 [00:31<00:04,  5.39it/s] 77%|███████▋  | 77/100 [00:33<00:11,  1.93it/s] 78%|███████▊  | 78/100 [00:33<00:08,  2.52it/s] 80%|████████  | 80/100 [00:33<00:06,  3.27it/s] 82%|████████▏ | 82/100 [00:33<00:04,  4.34it/s] 84%|████████▍ | 84/100 [00:34<00:03,  4.67it/s] 85%|████████▌ | 85/100 [00:34<00:03,  4.84it/s] 87%|████████▋ | 87/100 [00:34<00:02,  6.11it/s] 89%|████████▉ | 89/100 [00:34<00:01,  6.46it/s] 90%|█████████ | 90/100 [00:40<00:18,  1.89s/it] 92%|█████████▏| 92/100 [00:42<00:12,  1.59s/it] 94%|█████████▍| 94/100 [00:44<00:08,  1.36s/it] 95%|█████████▌| 95/100 [00:44<00:05,  1.03s/it] 96%|█████████▌| 96/100 [00:44<00:03,  1.31it/s] 97%|█████████▋| 97/100 [00:44<00:01,  1.74it/s] 99%|█████████▉| 99/100 [00:46<00:00,  1.47it/s]100%|██████████| 100/100 [00:49<00:00,  1.45s/it]100%|██████████| 100/100 [00:49<00:00,  2.01it/s]
-2021-07-09 11:40:07,638 [INFO] HiEve Preprocessing took 0:00:50
-2021-07-09 11:40:07,639 [INFO] HiEve training instance num: 5762, valid instance num: 8441, test instance num: 6196
-2021-07-09 11:40:07,639 [INFO] debug mode on
-2021-07-09 11:40:08,069 [INFO] hieve length debugging mode: %d
-2021-07-09 11:40:08,974 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-07-09 11:40:08,975 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-07-09 11:40:09,960 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Using OneThresholdEvaluator..!
-2021-07-09 11:40:12,487 [INFO] ======== Epoch 1 / 10 ========
-2021-07-09 11:40:12,487 [INFO] Training start...
-  0%|          | 0/1 [00:00<?, ?it/s]/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:939: UserWarning: Using non-full backward hooks on a Module that does not return a single Tensor or a tuple of Tensors is deprecated and will be removed in future versions. This hook will be missing some of the grad_output. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using non-full backward hooks on a Module that does not return a "
-self._get_relation_representation(output_A, output_B): torch.Size([100, 1536])
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:974: UserWarning: Using a non-full backward hook when the forward contains multiple autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_input. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using a non-full backward hook when the forward contains multiple autograd Nodes "
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py:964: UserWarning: Using a non-full backward hook when outputs are generated by different autograd Nodes is deprecated and will be removed in future versions. This hook will be missing some grad_output. Please use register_full_backward_hook to get the documented behavior.
-  warnings.warn("Using a non-full backward hook when outputs are generated by different autograd Nodes "
-pvol: (tensor([[[[ 1.4406e-03, -7.0104e-02,  1.1367e-01,  ...,  6.7473e-02,
-           -1.4568e-01,  1.9840e-02],
-          [ 6.2694e-01,  5.8382e-01,  7.6527e-01,  ...,  6.7854e-01,
-            5.6529e-01,  6.1708e-01]]],
-
-
-        [[[-9.3729e-05, -6.4484e-02,  1.1386e-01,  ...,  7.1795e-02,
-           -1.4216e-01,  1.8441e-02],
-          [ 6.3016e-01,  5.8281e-01,  7.6838e-01,  ...,  6.7598e-01,
-            5.7053e-01,  6.2849e-01]]],
-
-
-        [[[ 3.3481e-03, -6.7906e-02,  1.0990e-01,  ...,  6.3465e-02,
-           -1.4211e-01,  2.3894e-02],
-          [ 6.3062e-01,  5.8772e-01,  7.7028e-01,  ...,  6.7766e-01,
-            5.6180e-01,  6.2787e-01]]],
-
-
-        ...,
-
-
-        [[[-1.7872e-03, -7.1087e-02,  1.1562e-01,  ...,  5.9555e-02,
-           -1.4300e-01,  2.4877e-02],
-          [ 6.2597e-01,  5.7625e-01,  7.6927e-01,  ...,  6.7212e-01,
-            5.5648e-01,  6.2466e-01]]],
-
-
-        [[[ 2.5479e-03, -7.5114e-02,  1.1185e-01,  ...,  6.3598e-02,
-           -1.4697e-01,  2.0987e-02],
-          [ 6.2141e-01,  5.8988e-01,  7.6693e-01,  ...,  6.7185e-01,
-            5.6215e-01,  6.2214e-01]]],
-
-
-        [[[-1.5694e-04, -7.7501e-02,  1.1481e-01,  ...,  5.2235e-02,
-           -1.5268e-01,  2.1580e-02],
-          [ 6.2145e-01,  5.8180e-01,  7.7543e-01,  ...,  6.7104e-01,
-            5.5653e-01,  6.2167e-01]]]], grad_fn=<StackBackward>), tensor([[-0.4857],
-        [-0.4535],
-        [-0.4565],
-        [-0.5475],
-        [-0.4658],
-        [-0.4402],
-        [-0.4605],
-        [-0.4568],
-        [-0.4533],
-        [-0.4535],
-        [-0.4353],
-        [-0.5049],
-        [-0.5438],
-        [-0.4300],
-        [-0.4212],
-        [-0.4867],
-        [-0.6099],
-        [-0.4442],
-        [-0.4542],
-        [-0.4766],
-        [-0.4532],
-        [-0.4927],
-        [-0.5563],
-        [-0.4682],
-        [-0.4390],
-        [-0.4478],
-        [-0.5057],
-        [-0.4425],
-        [-0.4268],
-        [-0.4722],
-        [-0.4362],
-        [-0.5209],
-        [-0.4573],
-        [-0.4407],
-        [-0.3979],
-        [-0.6291],
-        [-0.4208],
-        [-0.4660],
-        [-0.4595],
-        [-0.4997],
-        [-0.4564],
-        [-0.4441],
-        [-0.5090],
-        [-0.5200],
-        [-0.4344],
-        [-0.4518],
-        [-0.4298],
-        [-0.4322],
-        [-0.5211],
-        [-0.4634],
-        [-0.4198],
-        [-0.4663],
-        [-0.4404],
-        [-0.4840],
-        [-0.4465],
-        [-0.4801],
-        [-0.4480],
-        [-0.4203],
-        [-0.4298],
-        [-0.4569],
-        [-0.4450],
-        [-0.4533],
-        [-0.4087],
-        [-0.4324],
-        [-0.4468],
-        [-0.4441],
-        [-0.4326],
-        [-0.5985],
-        [-0.4585],
-        [-0.4554],
-        [-0.4411],
-        [-0.5030],
-        [-0.4231],
-        [-0.4972],
-        [-0.4318],
-        [-0.4799],
-        [-0.4344],
-        [-0.4927],
-        [-0.4304],
-        [-0.4967],
-        [-0.4155],
-        [-0.4391],
-        [-0.4765],
-        [-0.4746],
-        [-0.4430],
-        [-0.5006],
-        [-0.4616],
-        [-0.4521],
-        [-0.4880],
-        [-0.4321],
-        [-0.4738],
-        [-0.4435],
-        [-0.4225],
-        [-0.4886],
-        [-0.4589],
-        [-0.4817],
-        [-0.4843],
-        [-0.5191],
-        [-0.4321],
-        [-0.4518]], grad_fn=<SubBackward0>))
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 265, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in main
-    trainer.train()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 114, in train
-    loss += self.pbce_loss(pvol_AB, xy_rel_id, flag)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/module.py", line 1051, in _call_impl
-    return forward_call(*input, **kwargs)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/loss.py", line 175, in forward
-    assert len(not_nr_indices) + len(nr_indices) == pvol.shape[0]
-AttributeError: 'tuple' object has no attribute 'shape'
-  0%|          | 0/1 [05:38<?, ?it/s]

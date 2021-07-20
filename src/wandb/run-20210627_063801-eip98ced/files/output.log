@@ -1,508 +1,0 @@
-2021-06-27 06:38:03,193 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.4, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.5902, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'seed': 10, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0}
-2021-06-27 06:38:03,193 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  2%|▏         | 2/100 [00:00<00:25,  3.81it/s]  3%|▎         | 3/100 [00:01<00:35,  2.76it/s]  4%|▍         | 4/100 [00:01<00:32,  2.91it/s]  5%|▌         | 5/100 [00:01<00:28,  3.35it/s]  6%|▌         | 6/100 [00:01<00:24,  3.86it/s]  7%|▋         | 7/100 [00:02<00:40,  2.30it/s]  9%|▉         | 9/100 [00:02<00:29,  3.09it/s] 10%|█         | 10/100 [00:02<00:24,  3.74it/s] 11%|█         | 11/100 [00:02<00:19,  4.54it/s] 12%|█▏        | 12/100 [00:03<00:17,  4.99it/s] 14%|█▍        | 14/100 [00:03<00:14,  6.14it/s] 15%|█▌        | 15/100 [00:03<00:12,  6.81it/s] 16%|█▌        | 16/100 [00:03<00:11,  7.08it/s] 17%|█▋        | 17/100 [00:03<00:18,  4.47it/s] 20%|██        | 20/100 [00:04<00:14,  5.63it/s] 22%|██▏       | 22/100 [00:04<00:12,  6.23it/s] 23%|██▎       | 23/100 [00:04<00:12,  6.01it/s] 24%|██▍       | 24/100 [00:05<00:20,  3.73it/s] 26%|██▌       | 26/100 [00:05<00:15,  4.81it/s] 27%|██▋       | 27/100 [00:05<00:23,  3.14it/s] 28%|██▊       | 28/100 [00:05<00:18,  3.90it/s] 29%|██▉       | 29/100 [00:06<00:25,  2.73it/s] 30%|███       | 30/100 [00:06<00:21,  3.29it/s] 33%|███▎      | 33/100 [00:06<00:15,  4.32it/s] 35%|███▌      | 35/100 [00:09<00:38,  1.69it/s] 36%|███▌      | 36/100 [00:09<00:28,  2.23it/s] 37%|███▋      | 37/100 [00:10<00:23,  2.65it/s] 38%|███▊      | 38/100 [00:10<00:19,  3.12it/s] 39%|███▉      | 39/100 [00:13<01:14,  1.23s/it] 41%|████      | 41/100 [00:13<00:51,  1.14it/s] 42%|████▏     | 42/100 [00:13<00:39,  1.46it/s] 43%|████▎     | 43/100 [00:14<00:39,  1.45it/s] 44%|████▍     | 44/100 [00:14<00:30,  1.82it/s] 45%|████▌     | 45/100 [00:15<00:23,  2.30it/s] 47%|████▋     | 47/100 [00:15<00:18,  2.92it/s] 48%|████▊     | 48/100 [00:15<00:23,  2.25it/s] 51%|█████     | 51/100 [00:16<00:16,  3.02it/s] 52%|█████▏    | 52/100 [00:16<00:13,  3.47it/s] 54%|█████▍    | 54/100 [00:17<00:14,  3.17it/s] 56%|█████▌    | 56/100 [00:17<00:10,  4.02it/s] 58%|█████▊    | 58/100 [00:17<00:08,  5.14it/s] 59%|█████▉    | 59/100 [00:17<00:09,  4.50it/s] 60%|██████    | 60/100 [00:17<00:09,  4.40it/s] 62%|██████▏   | 62/100 [00:18<00:07,  5.31it/s] 63%|██████▎   | 63/100 [00:18<00:06,  6.08it/s] 65%|██████▌   | 65/100 [00:18<00:04,  7.27it/s] 66%|██████▌   | 66/100 [00:18<00:04,  7.72it/s] 69%|██████▉   | 69/100 [00:18<00:03,  8.05it/s] 71%|███████   | 71/100 [00:18<00:03,  9.62it/s] 73%|███████▎  | 73/100 [00:19<00:03,  7.22it/s] 74%|███████▍  | 74/100 [00:19<00:03,  7.11it/s] 76%|███████▌  | 76/100 [00:19<00:03,  7.91it/s] 77%|███████▋  | 77/100 [00:19<00:02,  8.04it/s] 78%|███████▊  | 78/100 [00:19<00:02,  8.22it/s] 79%|███████▉  | 79/100 [00:20<00:03,  6.14it/s] 80%|████████  | 80/100 [00:20<00:03,  6.65it/s] 81%|████████  | 81/100 [00:20<00:03,  5.92it/s] 83%|████████▎ | 83/100 [00:20<00:02,  7.31it/s] 85%|████████▌ | 85/100 [00:20<00:01,  8.08it/s] 86%|████████▌ | 86/100 [00:21<00:01,  8.28it/s] 88%|████████▊ | 88/100 [00:21<00:01,  9.00it/s] 90%|█████████ | 90/100 [00:21<00:01,  9.26it/s] 92%|█████████▏| 92/100 [00:21<00:00,  9.43it/s] 93%|█████████▎| 93/100 [00:21<00:01,  6.81it/s] 94%|█████████▍| 94/100 [00:21<00:00,  7.25it/s] 95%|█████████▌| 95/100 [00:22<00:00,  6.13it/s] 97%|█████████▋| 97/100 [00:22<00:00,  7.61it/s] 99%|█████████▉| 99/100 [00:22<00:00,  7.78it/s]100%|██████████| 100/100 [00:22<00:00,  4.42it/s]
-2021-06-27 06:38:30,108 [INFO] HiEve Preprocessing took 0:00:27
-2021-06-27 06:38:30,108 [INFO] HiEve training instance num: 31090, valid instance num: 7107, test instance num: 6314
-2021-06-27 06:38:30,108 [INFO] debug mode on
-2021-06-27 06:38:30,658 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
-2021-06-27 06:38:31,675 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-config.json HTTP/1.1" 200 0
-2021-06-27 06:38:31,681 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-06-27 06:38:31,681 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-06-27 06:38:31,685 [DEBUG] Starting new HTTPS connection (1): s3.amazonaws.com:443
-2021-06-27 06:38:32,543 [DEBUG] https://s3.amazonaws.com:443 "HEAD /models.huggingface.co/bert/roberta-base-pytorch_model.bin HTTP/1.1" 200 0
-2021-06-27 06:38:32,547 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Using OneThresholdEvaluator..!
-2021-06-27 06:38:35,198 [INFO] ======== Epoch 1 / 10 ========
-2021-06-27 06:38:35,198 [INFO] Training start...
-  0%|          | 0/1 [00:00<?, ?it/s]100%|██████████| 1/1 [00:38<00:00, 38.82s/it]100%|██████████| 1/1 [00:38<00:00, 38.82s/it]
-2021-06-27 06:39:14,016 [INFO] epoch: 1, loss: 266.798584
-2021-06-27 06:39:14,017 [INFO] [valid-hieve] start... 
-2021-06-27 06:39:47,835 [INFO] confusion_matrix: 
-[[22  0  0  0]
- [12  0  0  7]
- [35  0  7  0]
- [17  0  0  0]]
-/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/sklearn/metrics/_classification.py:1272: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
-  _warn_prf(average, modifier, msg_start, len(result))
-2021-06-27 06:39:47,845 [INFO] classifiction_report: 
-              precision    recall  f1-score   support
-
-          00       0.26      1.00      0.41        22
-          01       0.00      0.00      0.00        19
-          10       1.00      0.17      0.29        42
-          11       0.00      0.00      0.00        17
-
-    accuracy                           0.29       100
-   macro avg       0.31      0.29      0.17       100
-weighted avg       0.48      0.29      0.21       100
-
-2021-06-27 06:39:47,845 [INFO] macro f1 score: 0.1429
-2021-06-27 06:39:47,845 [INFO] done!
-vol_ab: [0.008228458426481674, 0.00793394354874762, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.11254498986133933, 0.003908653491845842, 0.003908653491845842, 0.003908653491845842, 9.507955964144601e-05, 9.507955964144601e-05, 0.00015283846206789903, 0.00015844319169386497, 0.18063445615336807, 0.1723900554417534, 0.1723900554417534, 0.026021756365330207, 0.004293671769201809, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542946892760482, 0.5542950857386467, 0.5542946892760482, 0.5542946892760482, 0.008974727864012693, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.015345759112508127, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.023541172630435273, 0.025588043121871813, 0.17863567826548674, 0.014826785196066172, 0.014826785196066172, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.021595580534333796, 0.02299002013148668, 0.02299002013148668, 0.1624273534057962, 0.002309290172355253, 0.005712327570081982, 0.005712324846232587, 0.00015001171415562575, 0.00015001171415562575, 0.00023281446543819577, 0.00023281446543819577, 0.0019049818921553611, 0.0019049818921553611, 0.0008617147439463438, 0.5610144300738922, 0.5610144300738922, 0.5610144300738922, 0.5231809637906575, 0.5231809637906575, 0.021750649745016084, 0.021750649745016084, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.5746670919069534, 0.03337751598294763, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691968587147225, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.20691948853757636, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338884326010336, 0.01338887518163127]
-vol_ba: [0.009213006583465681, 0.008205552798418442, 0.10377342438040983, 0.10377342438040983, 0.10377342438040983, 0.10377342438040983, 0.10377342438040983, 0.10377342438040983, 0.004197266014112912, 0.004197266014112912, 0.004197266014112912, 0.00011527273276353043, 0.00011527273276353043, 0.00018665200506351966, 0.00019702971745047619, 0.19392434680968718, 0.17095412309318525, 0.17095412309318525, 0.023006222926111625, 0.005119598894282614, 0.5120075280770944, 0.5120075280770944, 0.5120075280770944, 0.5120075280770944, 0.5120081384379949, 0.5120075280770944, 0.5120075280770944, 0.007390919491218797, 0.016616696771456475, 0.016616696771456475, 0.016616696771456475, 0.016616696771456475, 0.016616696771456475, 0.025677047642254036, 0.025677047642254036, 0.025677047642254036, 0.025677047642254036, 0.02841923789495229, 0.17496266701686825, 0.017380716868106064, 0.017380716868106064, 0.02550036241818479, 0.02550036241818479, 0.02550036241818479, 0.02550036241818479, 0.027642605303909194, 0.027642605303909194, 0.1722267974529486, 0.002851891894821814, 0.006652617427959305, 0.006652611083531952, 0.00019724441863518008, 0.00019724441863518008, 0.0003083543526916169, 0.0003083543526916169, 0.0021245873882161817, 0.0021245873882161817, 0.000981182490765698, 0.5651120985370544, 0.5651120985370544, 0.5651120985370544, 0.536624955511109, 0.536624955511109, 0.01967401978091947, 0.01967401978091947, 0.5851600749385206, 0.5851600749385206, 0.5851600749385206, 0.5851600749385206, 0.02997189514640407, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727280515552364, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.1727279280105507, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171178127607855, 0.013171203249660408]
-rel_ids: ['10', '10', '10', '10', '10', '10', '10', '01', '01', '01', '01', '01', '01', '01', '00', '00', '11', '11', '11', '11', '11', '11', '11', '11', '11', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '10', '10', '10', '10', '10', '11', '11', '11', '11', '01', '11', '00', '00', '01', '01', '01', '01', '01', '01', '01', '00', '11', '11', '00', '00', '00', '00', '00', '00', '00', '01', '01', '01', '01', '11', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10', '10']
-2021-06-27 06:39:47,879 [DEBUG] findfont: Matching :family=sans-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0.
-2021-06-27 06:39:47,879 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUni.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,879 [DEBUG] findfont: score(<Font 'DejaVu Serif' (DejaVuSerif-Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,879 [DEBUG] findfont: score(<Font 'DejaVu Sans' (DejaVuSans-BoldOblique.ttf) oblique normal 700 normal>) = 1.335
-2021-06-27 06:39:47,879 [DEBUG] findfont: score(<Font 'cmmi10' (cmmi10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,880 [DEBUG] findfont: score(<Font 'cmr10' (cmr10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,880 [DEBUG] findfont: score(<Font 'DejaVu Serif' (DejaVuSerif.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,880 [DEBUG] findfont: score(<Font 'STIXSizeOneSym' (STIXSizOneSymReg.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,880 [DEBUG] findfont: score(<Font 'DejaVu Sans Mono' (DejaVuSansMono-Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,880 [DEBUG] findfont: score(<Font 'DejaVu Sans Mono' (DejaVuSansMono-BoldOblique.ttf) oblique normal 700 normal>) = 11.335
-2021-06-27 06:39:47,881 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralItalic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,881 [DEBUG] findfont: score(<Font 'STIXSizeThreeSym' (STIXSizThreeSymBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,881 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniIta.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,881 [DEBUG] findfont: score(<Font 'STIXSizeFourSym' (STIXSizFourSymBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,881 [DEBUG] findfont: score(<Font 'DejaVu Sans' (DejaVuSans-Bold.ttf) normal normal 700 normal>) = 0.33499999999999996
-2021-06-27 06:39:47,882 [DEBUG] findfont: score(<Font 'STIXSizeOneSym' (STIXSizOneSymBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,882 [DEBUG] findfont: score(<Font 'DejaVu Sans' (DejaVuSans-Oblique.ttf) oblique normal 400 normal>) = 1.05
-2021-06-27 06:39:47,882 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,882 [DEBUG] findfont: score(<Font 'STIXSizeFiveSym' (STIXSizFiveSymReg.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,883 [DEBUG] findfont: score(<Font 'cmtt10' (cmtt10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,883 [DEBUG] findfont: score(<Font 'cmb10' (cmb10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,883 [DEBUG] findfont: score(<Font 'cmss10' (cmss10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,883 [DEBUG] findfont: score(<Font 'DejaVu Sans Display' (DejaVuSansDisplay.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,884 [DEBUG] findfont: score(<Font 'DejaVu Serif Display' (DejaVuSerifDisplay.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,884 [DEBUG] findfont: score(<Font 'STIXSizeFourSym' (STIXSizFourSymReg.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,884 [DEBUG] findfont: score(<Font 'DejaVu Serif' (DejaVuSerif-Italic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,884 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneral.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,885 [DEBUG] findfont: score(<Font 'STIXSizeThreeSym' (STIXSizThreeSymReg.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,885 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniBolIta.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,885 [DEBUG] findfont: score(<Font 'cmsy10' (cmsy10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,885 [DEBUG] findfont: score(<Font 'DejaVu Sans Mono' (DejaVuSansMono-Oblique.ttf) oblique normal 400 normal>) = 11.05
-2021-06-27 06:39:47,885 [DEBUG] findfont: score(<Font 'DejaVu Serif' (DejaVuSerif-BoldItalic.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,886 [DEBUG] findfont: score(<Font 'DejaVu Sans Mono' (DejaVuSansMono.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,886 [DEBUG] findfont: score(<Font 'cmex10' (cmex10.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,886 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralBolIta.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,886 [DEBUG] findfont: score(<Font 'STIXSizeTwoSym' (STIXSizTwoSymReg.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'STIXSizeTwoSym' (STIXSizTwoSymBol.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'DejaVu Sans' (DejaVuSans.ttf) normal normal 400 normal>) = 0.05
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'Noto Sans Linear A' (NotoSansLinearA-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'Noto Sans Avestan' (NotoSansAvestan-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,887 [DEBUG] findfont: score(<Font 'STIXSizeFourSym' (STIXSizFourSymBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,888 [DEBUG] findfont: score(<Font 'Noto Sans Lisu' (NotoSansLisu-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,888 [DEBUG] findfont: score(<Font 'Geeza Pro' (GeezaPro.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,888 [DEBUG] findfont: score(<Font 'Arial Narrow' (Arial Narrow Italic.ttf) italic normal 400 condensed>) = 11.25
-2021-06-27 06:39:47,888 [DEBUG] findfont: score(<Font 'Rockwell' (Rockwell.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,889 [DEBUG] findfont: score(<Font 'Arial Rounded MT Bold' (Arial Rounded Bold.ttf) normal normal bold normal>) = 10.335
-2021-06-27 06:39:47,889 [DEBUG] findfont: score(<Font 'Noto Sans Wancho' (NotoSansWancho-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,889 [DEBUG] findfont: score(<Font 'KufiStandardGK' (KufiStandardGK.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,889 [DEBUG] findfont: score(<Font 'STIXSizeTwoSym' (STIXSizTwoSymReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,889 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W8.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,890 [DEBUG] findfont: score(<Font 'Lucida Grande' (LucidaGrande.ttc) normal normal 400 normal>) = 2.777272727272727
-2021-06-27 06:39:47,890 [DEBUG] findfont: score(<Font 'Noto Sans Palmyrene' (NotoSansPalmyrene-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,890 [DEBUG] findfont: score(<Font 'Noto Sans Old Persian' (NotoSansOldPersian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,890 [DEBUG] findfont: score(<Font 'Helvetica' (Helvetica.ttc) normal normal 400 normal>) = 7.322727272727273
-2021-06-27 06:39:47,890 [DEBUG] findfont: score(<Font 'DecoType Naskh' (DecoTypeNaskh.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,891 [DEBUG] findfont: score(<Font 'Noto Sans New Tai Lue' (NotoSansNewTaiLue-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,891 [DEBUG] findfont: score(<Font 'Arial Narrow' (Arial Narrow Bold Italic.ttf) italic normal 700 condensed>) = 11.535
-2021-06-27 06:39:47,891 [DEBUG] findfont: score(<Font 'Palatino' (Palatino.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,891 [DEBUG] findfont: score(<Font 'Noto Sans Mahajani' (NotoSansMahajani-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,891 [DEBUG] findfont: score(<Font 'Hiragino Mincho ProN' (ヒラギノ明朝 ProN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,892 [DEBUG] findfont: score(<Font 'STIXVariants' (STIXVar.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,892 [DEBUG] findfont: score(<Font 'Muna' (Muna.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,892 [DEBUG] findfont: score(<Font 'Waseem' (Waseem.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,892 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W6.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,893 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,893 [DEBUG] findfont: score(<Font 'Chalkboard' (Chalkboard.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,893 [DEBUG] findfont: score(<Font 'Verdana' (Verdana Bold Italic.ttf) italic normal 700 normal>) = 4.971363636363637
-2021-06-27 06:39:47,893 [DEBUG] findfont: score(<Font 'Noto Sans Chakma' (NotoSansChakma-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,894 [DEBUG] findfont: score(<Font 'Noto Sans Meetei Mayek' (NotoSansMeeteiMayek-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,894 [DEBUG] findfont: score(<Font 'Heiti TC' (STHeiti Medium.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,894 [DEBUG] findfont: score(<Font 'Noto Sans Tifinagh' (NotoSansTifinagh-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,894 [DEBUG] findfont: score(<Font 'Noto Sans Old Italic' (NotoSansOldItalic-Regular.ttf) italic normal regular normal>) = 11.05
-2021-06-27 06:39:47,895 [DEBUG] findfont: score(<Font 'Herculanum' (Herculanum.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,895 [DEBUG] findfont: score(<Font 'Noto Sans Siddham' (NotoSansSiddham-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,895 [DEBUG] findfont: score(<Font 'Charter' (Charter.ttc) normal normal roman normal>) = 10.145
-2021-06-27 06:39:47,895 [DEBUG] findfont: score(<Font 'Copperplate' (Copperplate.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,895 [DEBUG] findfont: score(<Font 'Devanagari Sangam MN' (Devanagari Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,896 [DEBUG] findfont: score(<Font 'Noto Sans Vai' (NotoSansVai-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,896 [DEBUG] findfont: score(<Font 'Noto Sans Yi' (NotoSansYi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,896 [DEBUG] findfont: score(<Font 'Georgia' (Georgia Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,896 [DEBUG] findfont: score(<Font '.Aqua Kana' (AquaKana.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,896 [DEBUG] findfont: score(<Font 'Academy Engraved LET' (Academy Engraved LET Fonts.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,897 [DEBUG] findfont: score(<Font 'Brush Script MT' (Brush Script.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,897 [DEBUG] findfont: score(<Font 'Noto Sans Gothic' (NotoSansGothic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,897 [DEBUG] findfont: score(<Font 'Noto Sans Oriya' (NotoSansOriya.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,897 [DEBUG] findfont: score(<Font 'Noto Sans Kayah Li' (NotoSansKayahLi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,898 [DEBUG] findfont: score(<Font 'Noto Sans Kannada' (NotoSansKannada.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,898 [DEBUG] findfont: score(<Font 'Kohinoor Telugu' (KohinoorTelugu.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,898 [DEBUG] findfont: score(<Font 'Comic Sans MS' (Comic Sans MS Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,898 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniBolIta.otf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,898 [DEBUG] findfont: score(<Font 'STIXSizeFiveSym' (STIXSizFiveSymReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,899 [DEBUG] findfont: score(<Font 'Arial Narrow' (Arial Narrow Bold.ttf) normal normal 700 condensed>) = 10.535
-2021-06-27 06:39:47,899 [DEBUG] findfont: score(<Font 'Euphemia UCAS' (EuphemiaCAS.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,899 [DEBUG] findfont: score(<Font 'DIN Condensed' (DIN Condensed Bold.ttf) normal normal 700 condensed>) = 10.535
-2021-06-27 06:39:47,899 [DEBUG] findfont: score(<Font 'System Font' (SFNS.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,900 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneral.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,900 [DEBUG] findfont: score(<Font 'STIXIntegralsUp' (STIXIntUpReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,900 [DEBUG] findfont: score(<Font 'STIXSizeFourSym' (STIXSizFourSymReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,900 [DEBUG] findfont: score(<Font 'Noto Sans Syriac' (NotoSansSyriac-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,900 [DEBUG] findfont: score(<Font 'Noto Sans Manichaean' (NotoSansManichaean-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,901 [DEBUG] findfont: score(<Font 'Seravek' (Seravek.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,901 [DEBUG] findfont: score(<Font 'Apple SD Gothic Neo' (AppleSDGothicNeo.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,901 [DEBUG] findfont: score(<Font 'STIXIntegralsUpSm' (STIXIntUpSmReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,901 [DEBUG] findfont: score(<Font 'Noto Sans Hanunoo' (NotoSansHanunoo-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,902 [DEBUG] findfont: score(<Font 'Athelas' (Athelas.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,902 [DEBUG] findfont: score(<Font 'Noto Sans Elbasan' (NotoSansElbasan-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,902 [DEBUG] findfont: score(<Font 'Bodoni 72 Oldstyle' (Bodoni 72 OS.ttc) normal normal book normal>) = 10.05
-2021-06-27 06:39:47,902 [DEBUG] findfont: score(<Font 'Oriya MN' (Oriya MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,903 [DEBUG] findfont: score(<Font 'Tamil Sangam MN' (Tamil Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,903 [DEBUG] findfont: score(<Font 'Kannada Sangam MN' (Kannada Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,903 [DEBUG] findfont: score(<Font 'Apple Braille' (Apple Braille Pinpoint 8 Dot.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,903 [DEBUG] findfont: score(<Font 'Noto Sans Myanmar' (NotoSansMyanmar.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,904 [DEBUG] findfont: score(<Font 'Verdana' (Verdana Italic.ttf) italic normal 400 normal>) = 4.6863636363636365
-2021-06-27 06:39:47,904 [DEBUG] findfont: score(<Font 'Lao MN' (Lao MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,904 [DEBUG] findfont: score(<Font 'Noto Sans Buginese' (NotoSansBuginese-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,904 [DEBUG] findfont: score(<Font 'Sathu' (Sathu.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,904 [DEBUG] findfont: score(<Font 'Noto Sans Linear B' (NotoSansLinearB-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,905 [DEBUG] findfont: score(<Font 'Symbol' (Symbol.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,905 [DEBUG] findfont: score(<Font 'Trebuchet MS' (Trebuchet MS.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,905 [DEBUG] findfont: score(<Font 'Noto Sans Lycian' (NotoSansLycian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,905 [DEBUG] findfont: score(<Font 'American Typewriter' (AmericanTypewriter.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,905 [DEBUG] findfont: score(<Font 'Avenir Next' (Avenir Next.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,906 [DEBUG] findfont: score(<Font 'STIXSizeOneSym' (STIXSizOneSymBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,906 [DEBUG] findfont: score(<Font 'Noto Sans Inscriptional Pahlavi' (NotoSansInscriptionalPahlavi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,906 [DEBUG] findfont: score(<Font 'Noto Sans Runic' (NotoSansRunic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,906 [DEBUG] findfont: score(<Font 'Noto Sans Imperial Aramaic' (NotoSansImperialAramaic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,906 [DEBUG] findfont: score(<Font 'Noto Sans Pau Cin Hau' (NotoSansPauCinHau-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,907 [DEBUG] findfont: score(<Font 'Kohinoor Devanagari' (Kohinoor.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,907 [DEBUG] findfont: score(<Font 'Tahoma' (Tahoma.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,907 [DEBUG] findfont: score(<Font 'Arial Black' (Arial Black.ttf) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,907 [DEBUG] findfont: score(<Font 'Apple Symbols' (Apple Symbols.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'Noto Sans Bamum' (NotoSansBamum-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUniIta.otf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'Noto Sans Newa' (NotoSansNewa-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'AppleGothic' (AppleGothic.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W0.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,908 [DEBUG] findfont: score(<Font 'PT Mono' (PTMono.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,909 [DEBUG] findfont: score(<Font 'Noto Sans Coptic' (NotoSansCoptic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,909 [DEBUG] findfont: score(<Font 'Zapf Dingbats' (ZapfDingbats.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,909 [DEBUG] findfont: score(<Font 'Baghdad' (Baghdad.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,909 [DEBUG] findfont: score(<Font '.SF Compact Rounded' (SFCompactRounded.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,909 [DEBUG] findfont: score(<Font 'Arial Unicode MS' (Arial Unicode.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,910 [DEBUG] findfont: score(<Font 'Cochin' (Cochin.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,910 [DEBUG] findfont: score(<Font 'Noto Sans Old Hungarian' (NotoSansOldHungarian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,910 [DEBUG] findfont: score(<Font '.SF NS Mono' (SFNSMono.ttf) normal normal light normal>) = 10.24
-2021-06-27 06:39:47,910 [DEBUG] findfont: score(<Font 'Sinhala MN' (Sinhala MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,911 [DEBUG] findfont: score(<Font 'Nadeem' (Nadeem.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,911 [DEBUG] findfont: score(<Font 'Trebuchet MS' (Trebuchet MS Italic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,911 [DEBUG] findfont: score(<Font 'Hoefler Text' (Hoefler Text Ornaments.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,911 [DEBUG] findfont: score(<Font 'Gill Sans' (GillSans.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,911 [DEBUG] findfont: score(<Font 'STIXIntegralsUpD' (STIXIntUpDReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,912 [DEBUG] findfont: score(<Font 'Noto Sans Phoenician' (NotoSansPhoenician-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,912 [DEBUG] findfont: score(<Font 'Noto Sans Ogham' (NotoSansOgham-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,912 [DEBUG] findfont: score(<Font 'Noto Sans Mende Kikakui' (NotoSansMendeKikakui-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,912 [DEBUG] findfont: score(<Font 'Diwan Kufi' (Diwan Kufi.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,913 [DEBUG] findfont: score(<Font 'Noto Sans Tagbanwa' (NotoSansTagbanwa-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,913 [DEBUG] findfont: score(<Font 'Helvetica Neue' (HelveticaNeue.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,913 [DEBUG] findfont: score(<Font 'Bradley Hand' (Bradley Hand Bold.ttf) normal normal bold normal>) = 10.335
-2021-06-27 06:39:47,913 [DEBUG] findfont: score(<Font 'Noto Sans Rejang' (NotoSansRejang-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,914 [DEBUG] findfont: score(<Font 'Verdana' (Verdana.ttf) normal normal 400 normal>) = 3.6863636363636365
-2021-06-27 06:39:47,914 [DEBUG] findfont: score(<Font 'Devanagari MT' (DevanagariMT.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,914 [DEBUG] findfont: score(<Font 'Arial Hebrew' (ArialHB.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,914 [DEBUG] findfont: score(<Font '.Arabic UI Text' (ArabicUIText.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,915 [DEBUG] findfont: score(<Font 'Noto Sans Pahawh Hmong' (NotoSansPahawhHmong-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,915 [DEBUG] findfont: score(<Font 'Wingdings 2' (Wingdings 2.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,915 [DEBUG] findfont: score(<Font 'STIXIntegralsD' (STIXIntDReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,915 [DEBUG] findfont: score(<Font 'STIXIntegralsD' (STIXIntDBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,915 [DEBUG] findfont: score(<Font 'Noto Sans Duployan' (NotoSansDuployan-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,916 [DEBUG] findfont: score(<Font 'Trattatello' (Trattatello.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,916 [DEBUG] findfont: score(<Font 'Noto Sans Old Turkic' (NotoSansOldTurkic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,916 [DEBUG] findfont: score(<Font 'Arial' (Arial Bold Italic.ttf) italic normal 700 normal>) = 7.698636363636363
-2021-06-27 06:39:47,916 [DEBUG] findfont: score(<Font 'Gurmukhi Sangam MN' (Gurmukhi Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,916 [DEBUG] findfont: score(<Font 'Noto Sans Takri' (NotoSansTakri-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,917 [DEBUG] findfont: score(<Font 'Kohinoor Gujarati' (KohinoorGujarati.ttc) normal normal bold normal>) = 10.335
-2021-06-27 06:39:47,917 [DEBUG] findfont: score(<Font 'Noto Sans Samaritan' (NotoSansSamaritan-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,917 [DEBUG] findfont: score(<Font 'Wingdings' (Wingdings.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,917 [DEBUG] findfont: score(<Font 'Noto Sans Batak' (NotoSansBatak-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,917 [DEBUG] findfont: score(<Font 'Khmer MN' (Khmer MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,918 [DEBUG] findfont: score(<Font 'Noto Sans Buhid' (NotoSansBuhid-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,918 [DEBUG] findfont: score(<Font 'Hoefler Text' (Hoefler Text.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,918 [DEBUG] findfont: score(<Font 'Myanmar MN' (Myanmar MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,918 [DEBUG] findfont: score(<Font 'PT Serif Caption' (PTSerifCaption.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,919 [DEBUG] findfont: score(<Font 'Sinhala Sangam MN' (Sinhala Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,919 [DEBUG] findfont: score(<Font 'Bangla MN' (Bangla MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,919 [DEBUG] findfont: score(<Font 'Silom' (Silom.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,919 [DEBUG] findfont: score(<Font 'Kokonor' (Kokonor.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,920 [DEBUG] findfont: score(<Font 'STIXSizeThreeSym' (STIXSizThreeSymReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,920 [DEBUG] findfont: score(<Font 'InaiMathi' (InaiMathi-MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,920 [DEBUG] findfont: score(<Font 'Mishafi Gold' (Mishafi Gold.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,920 [DEBUG] findfont: score(<Font 'Krungthep' (Krungthep.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,920 [DEBUG] findfont: score(<Font 'Times New Roman' (Times New Roman Bold Italic.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,921 [DEBUG] findfont: score(<Font 'Impact' (Impact.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,921 [DEBUG] findfont: score(<Font 'Noto Sans Limbu' (NotoSansLimbu-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,921 [DEBUG] findfont: score(<Font 'Courier New' (Courier New Italic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,921 [DEBUG] findfont: score(<Font 'Kailasa' (Kailasa.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,921 [DEBUG] findfont: score(<Font 'Baskerville' (Baskerville.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,922 [DEBUG] findfont: score(<Font 'Apple Braille' (Apple Braille Outline 8 Dot.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,922 [DEBUG] findfont: score(<Font 'Damascus' (Damascus.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,922 [DEBUG] findfont: score(<Font 'Party LET' (PartyLET-plain.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,922 [DEBUG] findfont: score(<Font 'Tamil MN' (Tamil MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,922 [DEBUG] findfont: score(<Font 'Noto Sans Cypriot' (NotoSansCypriot-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,923 [DEBUG] findfont: score(<Font 'Georgia' (Georgia Bold Italic.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,923 [DEBUG] findfont: score(<Font 'STIXSizeOneSym' (STIXSizOneSymReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,923 [DEBUG] findfont: score(<Font 'Gurmukhi MN' (Gurmukhi MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,923 [DEBUG] findfont: score(<Font 'Ayuthaya' (Ayuthaya.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,924 [DEBUG] findfont: score(<Font 'Noto Sans Multani' (NotoSansMultani-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,924 [DEBUG] findfont: score(<Font 'Times' (Times.ttc) normal normal roman normal>) = 10.145
-2021-06-27 06:39:47,924 [DEBUG] findfont: score(<Font 'Andale Mono' (Andale Mono.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,924 [DEBUG] findfont: score(<Font 'System Font' (SFNSItalic.ttf) italic normal regular normal>) = 11.05
-2021-06-27 06:39:47,924 [DEBUG] findfont: score(<Font 'Telugu Sangam MN' (Telugu Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,925 [DEBUG] findfont: score(<Font 'PT Sans' (PTSans.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,925 [DEBUG] findfont: score(<Font 'Wingdings 3' (Wingdings 3.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,925 [DEBUG] findfont: score(<Font 'Noto Sans Old South Arabian' (NotoSansOldSouthArabian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,925 [DEBUG] findfont: score(<Font 'Noto Sans Bassa Vah' (NotoSansBassaVah-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,925 [DEBUG] findfont: score(<Font 'Noto Sans Kaithi' (NotoSansKaithi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,926 [DEBUG] findfont: score(<Font 'Chalkboard SE' (ChalkboardSE.ttc) normal normal light normal>) = 10.24
-2021-06-27 06:39:47,926 [DEBUG] findfont: score(<Font 'Big Caslon' (BigCaslon.ttf) normal normal medium normal>) = 10.145
-2021-06-27 06:39:47,926 [DEBUG] findfont: score(<Font 'Times New Roman' (Times New Roman.ttf) normal normal roman normal>) = 10.145
-2021-06-27 06:39:47,926 [DEBUG] findfont: score(<Font 'Shree Devanagari 714' (Shree714.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,927 [DEBUG] findfont: score(<Font 'Bodoni 72 Smallcaps' (Bodoni 72 Smallcaps Book.ttf) normal normal book normal>) = 10.05
-2021-06-27 06:39:47,927 [DEBUG] findfont: score(<Font 'Sukhumvit Set' (SukhumvitSet.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,927 [DEBUG] findfont: score(<Font 'Noto Sans Thaana' (NotoSansThaana-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,927 [DEBUG] findfont: score(<Font 'Snell Roundhand' (SnellRoundhand.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,927 [DEBUG] findfont: score(<Font 'Noto Sans NKo' (NotoSansNKo-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,928 [DEBUG] findfont: score(<Font 'Oriya Sangam MN' (Oriya Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,928 [DEBUG] findfont: score(<Font 'Microsoft Sans Serif' (Microsoft Sans Serif.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,928 [DEBUG] findfont: score(<Font 'Arial' (Arial Italic.ttf) italic normal 400 normal>) = 7.413636363636363
-2021-06-27 06:39:47,928 [DEBUG] findfont: score(<Font 'Malayalam Sangam MN' (Malayalam Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,928 [DEBUG] findfont: score(<Font '.New York' (NewYorkItalic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,929 [DEBUG] findfont: score(<Font 'Noto Sans Javanese' (NotoSansJavanese-Regular.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,929 [DEBUG] findfont: score(<Font 'STIXIntegralsUpD' (STIXIntUpDBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,929 [DEBUG] findfont: score(<Font 'Noto Sans Khojki' (NotoSansKhojki-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,929 [DEBUG] findfont: score(<Font 'Hiragino Sans GB' (Hiragino Sans GB.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,930 [DEBUG] findfont: score(<Font 'Diwan Thuluth' (Diwan Thuluth.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,930 [DEBUG] findfont: score(<Font 'Sana' (Sana.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,930 [DEBUG] findfont: score(<Font 'Noto Sans Osmanya' (NotoSansOsmanya-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,930 [DEBUG] findfont: score(<Font 'Bodoni Ornaments' (Bodoni Ornaments.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,931 [DEBUG] findfont: score(<Font 'Apple Chancery' (Apple Chancery.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,931 [DEBUG] findfont: score(<Font 'Arial Unicode MS' (Arial Unicode.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,931 [DEBUG] findfont: score(<Font '.SF Compact' (SFCompact.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,931 [DEBUG] findfont: score(<Font 'Arial Narrow' (Arial Narrow.ttf) normal normal 400 condensed>) = 10.25
-2021-06-27 06:39:47,932 [DEBUG] findfont: score(<Font 'Kannada MN' (Kannada MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,932 [DEBUG] findfont: score(<Font 'Bodoni 72' (Bodoni 72.ttc) normal normal book normal>) = 10.05
-2021-06-27 06:39:47,932 [DEBUG] findfont: score(<Font 'Noto Sans Marchen' (NotoSansMarchen-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,932 [DEBUG] findfont: score(<Font 'Noto Nastaliq Urdu' (NotoNastaliq.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,933 [DEBUG] findfont: score(<Font 'PingFang HK' (PingFang.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,933 [DEBUG] findfont: score(<Font 'Raanana' (Raanana.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,933 [DEBUG] findfont: score(<Font 'Farisi' (Farisi.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,933 [DEBUG] findfont: score(<Font 'Mshtakan' (Mshtakan.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,933 [DEBUG] findfont: score(<Font 'Hiragino Maru Gothic Pro' (ヒラギノ丸ゴ ProN W4.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,934 [DEBUG] findfont: score(<Font 'Al Nile' (Al Nile.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,934 [DEBUG] findfont: score(<Font 'Skia' (Skia.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,934 [DEBUG] findfont: score(<Font 'Noto Sans Adlam' (NotoSansAdlam-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,934 [DEBUG] findfont: score(<Font 'Noto Serif Myanmar' (NotoSerifMyanmar.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,935 [DEBUG] findfont: score(<Font 'Mukta Mahee' (MuktaMahee.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,935 [DEBUG] findfont: score(<Font 'Noto Sans Armenian' (NotoSansArmenian.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,935 [DEBUG] findfont: score(<Font 'Bangla Sangam MN' (Bangla Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,935 [DEBUG] findfont: score(<Font 'STIXIntegralsSm' (STIXIntSmReg.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,936 [DEBUG] findfont: score(<Font 'Noto Sans Nabataean' (NotoSansNabataean-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,936 [DEBUG] findfont: score(<Font 'Noto Sans Egyptian Hieroglyphs' (NotoSansEgyptianHieroglyphs-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,936 [DEBUG] findfont: score(<Font 'Phosphate' (Phosphate.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,936 [DEBUG] findfont: score(<Font 'Papyrus' (Papyrus.ttc) normal normal 400 condensed>) = 10.25
-2021-06-27 06:39:47,936 [DEBUG] findfont: score(<Font 'SignPainter' (SignPainter.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,937 [DEBUG] findfont: score(<Font 'Noto Sans Glagolitic' (NotoSansGlagolitic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,937 [DEBUG] findfont: score(<Font 'Galvji' (Galvji.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,937 [DEBUG] findfont: score(<Font 'Noto Sans Tirhuta' (NotoSansTirhuta-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,937 [DEBUG] findfont: score(<Font 'Webdings' (Webdings.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,937 [DEBUG] findfont: score(<Font 'Gurmukhi MT' (Gurmukhi.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,938 [DEBUG] findfont: score(<Font 'Noto Sans Lepcha' (NotoSansLepcha-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,938 [DEBUG] findfont: score(<Font 'Trebuchet MS' (Trebuchet MS Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,938 [DEBUG] findfont: score(<Font 'Noto Sans Tai Tham' (NotoSansTaiTham-Regular.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,938 [DEBUG] findfont: score(<Font 'STIXIntegralsSm' (STIXIntSmBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'STIXNonUnicode' (STIXNonUni.otf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'Noto Sans Old Permic' (NotoSansOldPermic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W7.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'Apple Braille' (Apple Braille Outline 6 Dot.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'Noto Sans Osage' (NotoSansOsage-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,939 [DEBUG] findfont: score(<Font 'Gujarati MT' (GujaratiMT.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,940 [DEBUG] findfont: score(<Font 'Futura' (Futura.ttc) normal normal medium normal>) = 10.145
-2021-06-27 06:39:47,940 [DEBUG] findfont: score(<Font 'Farah' (Farah.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,940 [DEBUG] findfont: score(<Font 'Noto Sans Saurashtra' (NotoSansSaurashtra-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,941 [DEBUG] findfont: score(<Font 'Noto Sans Caucasian Albanian' (NotoSansCaucasianAlbanian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,941 [DEBUG] findfont: score(<Font 'Georgia' (Georgia.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,941 [DEBUG] findfont: score(<Font 'Trebuchet MS' (Trebuchet MS Bold Italic.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,941 [DEBUG] findfont: score(<Font 'Plantagenet Cherokee' (PlantagenetCherokee.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,941 [DEBUG] findfont: score(<Font 'Superclarendon' (SuperClarendon.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,942 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W9.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,942 [DEBUG] findfont: score(<Font 'Verdana' (Verdana Bold.ttf) normal normal 700 normal>) = 3.9713636363636367
-2021-06-27 06:39:47,942 [DEBUG] findfont: score(<Font 'Menlo' (Menlo.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,942 [DEBUG] findfont: score(<Font 'Avenir Next Condensed' (Avenir Next Condensed.ttc) normal normal 700 condensed>) = 10.535
-2021-06-27 06:39:47,943 [DEBUG] findfont: score(<Font 'DIN Alternate' (DIN Alternate Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,943 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W2.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,943 [DEBUG] findfont: score(<Font '.New York' (NewYork.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,943 [DEBUG] findfont: score(<Font 'Courier New' (Courier New.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,943 [DEBUG] findfont: score(<Font 'Apple Braille' (Apple Braille.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,944 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W4.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,944 [DEBUG] findfont: score(<Font 'Arial' (Arial Bold.ttf) normal normal 700 normal>) = 6.698636363636363
-2021-06-27 06:39:47,944 [DEBUG] findfont: score(<Font 'Noto Sans Ol Chiki' (NotoSansOlChiki-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,944 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralItalic.otf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,945 [DEBUG] findfont: score(<Font 'Songti SC' (Songti.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,945 [DEBUG] findfont: score(<Font '.SF NS Mono' (SFNSMonoItalic.ttf) italic normal light normal>) = 11.24
-2021-06-27 06:39:47,945 [DEBUG] findfont: score(<Font 'Noto Sans Mongolian' (NotoSansMongolian-Regular.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,945 [DEBUG] findfont: score(<Font 'Apple Braille' (Apple Braille Pinpoint 6 Dot.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,946 [DEBUG] findfont: score(<Font 'STIXIntegralsUpSm' (STIXIntUpSmBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,946 [DEBUG] findfont: score(<Font 'Kefa' (Kefa.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,946 [DEBUG] findfont: score(<Font 'Noto Sans Lydian' (NotoSansLydian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,946 [DEBUG] findfont: score(<Font 'Courier New' (Courier New Bold Italic.ttf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,947 [DEBUG] findfont: score(<Font 'STIXIntegralsUp' (STIXIntUpBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,947 [DEBUG] findfont: score(<Font 'Times New Roman' (Times New Roman Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,947 [DEBUG] findfont: score(<Font 'Noto Sans Ugaritic' (NotoSansUgaritic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,947 [DEBUG] findfont: score(<Font 'Noto Sans Modi' (NotoSansModi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,948 [DEBUG] findfont: score(<Font 'Noto Sans Cham' (NotoSansCham-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,948 [DEBUG] findfont: score(<Font 'Noto Sans Warang Citi' (NotoSansWarangCiti-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,948 [DEBUG] findfont: score(<Font '.Arabic UI Display' (ArabicUIDisplay.ttc) normal normal black normal>) = 10.525
-2021-06-27 06:39:47,948 [DEBUG] findfont: score(<Font 'Al Bayan' (AlBayan.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Noto Sans Sharada' (NotoSansSharada-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Noto Sans Shavian' (NotoSansShavian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Noto Sans Brahmi' (NotoSansBrahmi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Khmer Sangam MN' (Khmer Sangam MN.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Noto Sans Khudawadi' (NotoSansKhudawadi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,949 [DEBUG] findfont: score(<Font 'Noto Sans Bhaiksuki' (NotoSansBhaiksuki-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,950 [DEBUG] findfont: score(<Font '.SF Compact' (SFCompactItalic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,950 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,950 [DEBUG] findfont: score(<Font 'Telugu MN' (Telugu MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,950 [DEBUG] findfont: score(<Font 'Noto Serif Balinese' (NotoSerifBalinese-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,950 [DEBUG] findfont: score(<Font 'Noto Sans Syloti Nagri' (NotoSansSylotiNagri-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,951 [DEBUG] findfont: score(<Font 'Tahoma' (Tahoma Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,951 [DEBUG] findfont: score(<Font 'Noto Sans Tai Viet' (NotoSansTaiViet-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,951 [DEBUG] findfont: score(<Font 'Optima' (Optima.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,951 [DEBUG] findfont: score(<Font 'Comic Sans MS' (Comic Sans MS.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,952 [DEBUG] findfont: score(<Font 'Noto Sans Old North Arabian' (NotoSansOldNorthArabian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,952 [DEBUG] findfont: score(<Font 'Noto Sans Inscriptional Parthian' (NotoSansInscriptionalParthian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,952 [DEBUG] findfont: score(<Font 'Malayalam MN' (Malayalam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,952 [DEBUG] findfont: score(<Font '.LastResort' (LastResort.otf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,953 [DEBUG] findfont: score(<Font 'Noto Sans PhagsPa' (NotoSansPhagsPa-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,953 [DEBUG] findfont: score(<Font 'Savoye LET' (Savoye LET.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,953 [DEBUG] findfont: score(<Font 'Corsiva Hebrew' (Corsiva.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,953 [DEBUG] findfont: score(<Font 'Noto Sans Tai Le' (NotoSansTaiLe-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,953 [DEBUG] findfont: score(<Font 'Avenir' (Avenir.ttc) normal normal book normal>) = 10.05
-2021-06-27 06:39:47,954 [DEBUG] findfont: score(<Font 'Kohinoor Bangla' (KohinoorBangla.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,954 [DEBUG] findfont: score(<Font 'Noto Sans Hatran' (NotoSansHatran-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,954 [DEBUG] findfont: score(<Font 'Marion' (Marion.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,954 [DEBUG] findfont: score(<Font 'Noto Sans Sora Sompeng' (NotoSansSoraSompeng-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,954 [DEBUG] findfont: score(<Font 'STIXVariants' (STIXVarBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,955 [DEBUG] findfont: score(<Font 'Luminari' (Luminari.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,955 [DEBUG] findfont: score(<Font '.SF NS Rounded' (SFNSRounded.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,955 [DEBUG] findfont: score(<Font 'New Peninim MT' (NewPeninimMT.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,955 [DEBUG] findfont: score(<Font 'Beirut' (Beirut.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,956 [DEBUG] findfont: score(<Font 'Didot' (Didot.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,956 [DEBUG] findfont: score(<Font 'Noto Serif Ahom' (NotoSerifAhom-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,956 [DEBUG] findfont: score(<Font 'Noto Sans Tagalog' (NotoSansTagalog-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,956 [DEBUG] findfont: score(<Font 'Gujarati Sangam MN' (Gujarati Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,957 [DEBUG] findfont: score(<Font 'Chalkduster' (Chalkduster.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,957 [DEBUG] findfont: score(<Font 'Courier New' (Courier New Bold.ttf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,957 [DEBUG] findfont: score(<Font 'Al Tarikh' (Al Tarikh.ttc) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,957 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W5.ttc) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,957 [DEBUG] findfont: score(<Font 'Noto Sans Sundanese' (NotoSansSundanese-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,958 [DEBUG] findfont: score(<Font 'STIXSizeTwoSym' (STIXSizTwoSymBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,958 [DEBUG] findfont: score(<Font 'AppleMyungjo' (AppleMyungjo.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,958 [DEBUG] findfont: score(<Font 'STIXSizeThreeSym' (STIXSizThreeSymBol.otf) normal normal 700 normal>) = 10.335
-2021-06-27 06:39:47,958 [DEBUG] findfont: score(<Font 'Mishafi' (Mishafi.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,959 [DEBUG] findfont: score(<Font 'Noto Sans Carian' (NotoSansCarian-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,959 [DEBUG] findfont: score(<Font 'ITF Devanagari' (ITFDevanagari.ttc) normal normal book normal>) = 10.05
-2021-06-27 06:39:47,959 [DEBUG] findfont: score(<Font 'Myanmar Sangam MN' (Myanmar Sangam MN.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,959 [DEBUG] findfont: score(<Font 'Marker Felt' (MarkerFelt.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,959 [DEBUG] findfont: score(<Font 'Noto Sans Mro' (NotoSansMro-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,960 [DEBUG] findfont: score(<Font 'STIXGeneral' (STIXGeneralBolIta.otf) italic normal 700 normal>) = 11.335
-2021-06-27 06:39:47,960 [DEBUG] findfont: score(<Font 'Thonburi' (Thonburi.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,960 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W1.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,960 [DEBUG] findfont: score(<Font 'Hiragino Sans' (ヒラギノ角ゴシック W3.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,961 [DEBUG] findfont: score(<Font 'PT Serif' (PTSerif.ttc) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,961 [DEBUG] findfont: score(<Font 'Iowan Old Style' (Iowan Old Style.ttc) normal normal roman normal>) = 10.145
-2021-06-27 06:39:47,961 [DEBUG] findfont: score(<Font 'Arial' (Arial.ttf) normal normal 400 normal>) = 6.413636363636363
-2021-06-27 06:39:47,961 [DEBUG] findfont: score(<Font 'Noto Sans Miao' (NotoSansMiao-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font 'Georgia' (Georgia Italic.ttf) italic normal 400 normal>) = 11.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font '.Keyboard' (Keyboard.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font 'Noto Sans Mandaic' (NotoSansMandaic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font 'Noto Sans Kharoshthi' (NotoSansKharoshthi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font 'Noto Sans Cuneiform' (NotoSansCuneiform-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,962 [DEBUG] findfont: score(<Font 'Lao Sangam MN' (Lao Sangam MN.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,963 [DEBUG] findfont: score(<Font 'Times New Roman' (Times New Roman Italic.ttf) italic normal roman normal>) = 11.145
-2021-06-27 06:39:47,963 [DEBUG] findfont: score(<Font 'Noto Sans Hanifi Rohingya' (NotoSansHanifiRohingya-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,963 [DEBUG] findfont: score(<Font 'Noto Sans Meroitic' (NotoSansMeroitic-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,963 [DEBUG] findfont: score(<Font 'Heiti TC' (STHeiti Light.ttc) normal normal light normal>) = 10.24
-2021-06-27 06:39:47,964 [DEBUG] findfont: score(<Font 'Noteworthy' (Noteworthy.ttc) normal normal light normal>) = 10.24
-2021-06-27 06:39:47,964 [DEBUG] findfont: score(<Font 'Noto Sans Psalter Pahlavi' (NotoSansPsalterPahlavi-Regular.ttf) normal normal regular normal>) = 10.05
-2021-06-27 06:39:47,964 [DEBUG] findfont: score(<Font 'Zapfino' (Zapfino.ttf) normal normal 400 normal>) = 10.05
-2021-06-27 06:39:47,964 [DEBUG] findfont: Matching :family=sans-serif:style=normal:variant=normal:weight=normal:stretch=normal:size=10.0 to DejaVu Sans ('/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/mpl-data/fonts/ttf/DejaVuSans.ttf') with score of 0.050000.
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 252, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 248, in main
-    trainer.train()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 158, in train
-    self.evaluation(epoch)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 173, in evaluation
-    valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 336, in evaluate
-    self.create_disttribution_plot(vol_ab, vol_ba, "vol_ab", "vol_ba", rel_ids, "11")
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/train.py", line 244, in create_disttribution_plot
-    plt.savefig(self.fig_save_dir + f"{self.train_type}_{self.timestamp}/distribution.png")
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/pyplot.py", line 729, in savefig
-    res = fig.savefig(*args, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/figure.py", line 2180, in savefig
-    self.canvas.print_figure(fname, **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/backend_bases.py", line 2091, in print_figure
-    **kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/backends/backend_agg.py", line 530, in print_png
-    cbook.open_file_cm(filename_or_obj, "wb") as fh:
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/contextlib.py", line 112, in __enter__
-    return next(self.gen)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/cbook/__init__.py", line 447, in open_file_cm
-    fh, opened = to_filehandle(path_or_file, mode, True, encoding)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/matplotlib/cbook/__init__.py", line 432, in to_filehandle
-    fh = open(fname, flag, encoding=encoding)
-FileNotFoundError: [Errno 2] No such file or directory: './figures/hieve_20210627063835/distribution.png'

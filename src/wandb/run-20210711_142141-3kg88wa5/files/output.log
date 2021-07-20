@@ -1,90 +1,0 @@
-2021-07-11 14:21:42,990 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.0, 'learning_rate': 0.01, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 1, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'load_valid': 0, 'save_plot': 1, 'symm_train': 1, 'symm_eval': 0}
-2021-07-11 14:21:42,991 [INFO] Requested CUDA but it is not available, running on CPU
-  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [00:00<00:23,  4.25it/s]  2%|▏         | 2/100 [00:00<00:23,  4.22it/s]  3%|▎         | 3/100 [00:00<00:26,  3.64it/s]  4%|▍         | 4/100 [00:00<00:22,  4.26it/s]  5%|▌         | 5/100 [00:01<00:30,  3.15it/s]  6%|▌         | 6/100 [00:01<00:30,  3.06it/s]  7%|▋         | 7/100 [00:01<00:25,  3.71it/s]  8%|▊         | 8/100 [00:04<01:22,  1.11it/s] 10%|█         | 10/100 [00:04<01:05,  1.38it/s] 11%|█         | 11/100 [00:06<01:14,  1.20it/s] 13%|█▎        | 13/100 [00:06<00:52,  1.66it/s] 14%|█▍        | 14/100 [00:06<00:56,  1.53it/s] 15%|█▌        | 15/100 [00:07<00:44,  1.90it/s] 16%|█▌        | 16/100 [00:07<00:33,  2.47it/s] 18%|█▊        | 18/100 [00:09<00:49,  1.67it/s] 19%|█▉        | 19/100 [00:09<00:38,  2.11it/s] 20%|██        | 20/100 [00:10<00:58,  1.36it/s] 21%|██        | 21/100 [00:12<01:08,  1.16it/s] 22%|██▏       | 22/100 [00:12<00:50,  1.55it/s] 23%|██▎       | 23/100 [00:12<00:39,  1.95it/s] 24%|██▍       | 24/100 [00:12<00:30,  2.47it/s] 25%|██▌       | 25/100 [00:13<00:39,  1.91it/s] 27%|██▋       | 27/100 [00:13<00:30,  2.39it/s] 29%|██▉       | 29/100 [00:14<00:26,  2.66it/s] 30%|███       | 30/100 [00:14<00:22,  3.11it/s] 31%|███       | 31/100 [00:15<00:41,  1.65it/s] 32%|███▏      | 32/100 [00:15<00:32,  2.11it/s] 33%|███▎      | 33/100 [00:16<00:41,  1.62it/s] 34%|███▍      | 34/100 [00:17<00:32,  2.01it/s] 35%|███▌      | 35/100 [00:17<00:39,  1.63it/s] 36%|███▌      | 36/100 [00:18<00:30,  2.08it/s] 37%|███▋      | 37/100 [00:18<00:31,  2.01it/s] 38%|███▊      | 38/100 [00:19<00:29,  2.08it/s] 39%|███▉      | 39/100 [00:19<00:23,  2.64it/s] 40%|████      | 40/100 [00:19<00:18,  3.23it/s] 41%|████      | 41/100 [00:19<00:15,  3.74it/s] 43%|████▎     | 43/100 [00:19<00:13,  4.30it/s] 45%|████▌     | 45/100 [00:20<00:14,  3.74it/s] 46%|████▌     | 46/100 [00:21<00:19,  2.83it/s] 47%|████▋     | 47/100 [00:21<00:14,  3.60it/s] 49%|████▉     | 49/100 [00:21<00:10,  4.74it/s] 50%|█████     | 50/100 [00:21<00:11,  4.20it/s] 51%|█████     | 51/100 [00:26<01:16,  1.57s/it] 52%|█████▏    | 52/100 [00:26<00:56,  1.19s/it] 53%|█████▎    | 53/100 [00:26<00:43,  1.09it/s] 54%|█████▍    | 54/100 [00:27<00:31,  1.46it/s] 55%|█████▌    | 55/100 [00:27<00:23,  1.89it/s] 56%|█████▌    | 56/100 [00:27<00:18,  2.42it/s] 58%|█████▊    | 58/100 [00:27<00:12,  3.26it/s] 60%|██████    | 60/100 [00:27<00:11,  3.62it/s] 61%|██████    | 61/100 [00:28<00:11,  3.41it/s] 62%|██████▏   | 62/100 [00:28<00:11,  3.17it/s] 63%|██████▎   | 63/100 [00:29<00:12,  2.85it/s] 64%|██████▍   | 64/100 [00:29<00:13,  2.59it/s] 65%|██████▌   | 65/100 [00:29<00:12,  2.76it/s] 66%|██████▌   | 66/100 [00:30<00:12,  2.76it/s] 67%|██████▋   | 67/100 [00:31<00:17,  1.94it/s] 68%|██████▊   | 68/100 [00:31<00:18,  1.72it/s] 69%|██████▉   | 69/100 [00:31<00:13,  2.28it/s] 71%|███████   | 71/100 [00:32<00:09,  2.96it/s] 73%|███████▎  | 73/100 [00:32<00:07,  3.58it/s] 74%|███████▍  | 74/100 [00:32<00:06,  3.82it/s] 76%|███████▌  | 76/100 [00:32<00:04,  5.04it/s] 77%|███████▋  | 77/100 [00:34<00:12,  1.81it/s] 78%|███████▊  | 78/100 [00:34<00:09,  2.37it/s] 80%|████████  | 80/100 [00:34<00:06,  3.06it/s] 82%|████████▏ | 82/100 [00:34<00:04,  4.07it/s] 84%|████████▍ | 84/100 [00:34<00:03,  4.38it/s] 85%|████████▌ | 85/100 [00:35<00:03,  4.47it/s] 87%|████████▋ | 87/100 [00:35<00:02,  5.67it/s] 89%|████████▉ | 89/100 [00:35<00:01,  6.10it/s] 90%|█████████ | 90/100 [00:41<00:19,  2.00s/it] 92%|█████████▏| 92/100 [00:43<00:13,  1.67s/it] 94%|█████████▍| 94/100 [00:45<00:08,  1.44s/it] 95%|█████████▌| 95/100 [00:45<00:05,  1.08s/it] 96%|█████████▌| 96/100 [00:45<00:03,  1.25it/s] 97%|█████████▋| 97/100 [00:45<00:01,  1.66it/s] 99%|█████████▉| 99/100 [00:47<00:00,  1.42it/s]100%|██████████| 100/100 [00:52<00:00,  1.94s/it]100%|██████████| 100/100 [00:52<00:00,  1.90it/s]
-2021-07-11 14:22:35,650 [INFO] HiEve Preprocessing took 0:00:53
-2021-07-11 14:22:35,651 [INFO] HiEve training instance num: 17114, valid instance num: 7681, test instance num: 5567
-2021-07-11 14:22:35,651 [INFO] debug mode on
-2021-07-11 14:22:36,123 [INFO] hieve length debugging mode: %d
-2021-07-11 14:22:37,228 [INFO] loading configuration file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-config.json from cache at /Users/ehwang/.cache/torch/transformers/e1a2a406b5a05063c31f4dfdee7608986ba7c6393f7f79db5e69dcd197208534.117c81977c5979de8c088352e74ec6e70f5c66096c28b61d3c50101609b39690
-2021-07-11 14:22:37,229 [INFO] Model config RobertaConfig {
-  "architectures": [
-    "RobertaForMaskedLM"
-  ],
-  "attention_probs_dropout_prob": 0.1,
-  "bos_token_id": 0,
-  "do_sample": false,
-  "eos_token_id": 2,
-  "eos_token_ids": null,
-  "finetuning_task": null,
-  "hidden_act": "gelu",
-  "hidden_dropout_prob": 0.1,
-  "hidden_size": 768,
-  "id2label": {
-    "0": "LABEL_0",
-    "1": "LABEL_1"
-  },
-  "initializer_range": 0.02,
-  "intermediate_size": 3072,
-  "is_decoder": false,
-  "label2id": {
-    "LABEL_0": 0,
-    "LABEL_1": 1
-  },
-  "layer_norm_eps": 1e-05,
-  "length_penalty": 1.0,
-  "max_length": 20,
-  "max_position_embeddings": 514,
-  "model_type": "roberta",
-  "num_attention_heads": 12,
-  "num_beams": 1,
-  "num_hidden_layers": 12,
-  "num_labels": 2,
-  "num_return_sequences": 1,
-  "output_attentions": false,
-  "output_hidden_states": false,
-  "output_past": true,
-  "pad_token_id": 1,
-  "pruned_heads": {},
-  "repetition_penalty": 1.0,
-  "temperature": 1.0,
-  "top_k": 50,
-  "top_p": 1.0,
-  "torchscript": false,
-  "type_vocab_size": 1,
-  "use_bfloat16": false,
-  "vocab_size": 50265
-}
-
-2021-07-11 14:22:38,304 [INFO] loading weights file https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-pytorch_model.bin from cache at /Users/ehwang/.cache/torch/transformers/228756ed15b6d200d7cb45aaef08c087e2706f54cb912863d2efe07c89584eb7.49b88ba7ec2c26a7558dda98ca3884c3b80fa31cf43a1b1f23aef3ff81ba344e
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 261, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 256, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 146, in setup
-    model = create_model(args, num_classes)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 120, in create_model
-    roberta_size_type="roberta-base",
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/model.py", line 360, in __init__
-    self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_utils.py", line 466, in from_pretrained
-    model = cls(config, *model_args, **model_kwargs)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_roberta.py", line 149, in __init__
-    super().__init__(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 616, in __init__
-    self.encoder = BertEncoder(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 390, in __init__
-    self.layer = nn.ModuleList([BertLayer(config) for _ in range(config.num_hidden_layers)])
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 390, in <listcomp>
-    self.layer = nn.ModuleList([BertLayer(config) for _ in range(config.num_hidden_layers)])
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 357, in __init__
-    self.intermediate = BertIntermediate(config)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/transformers/modeling_bert.py", line 324, in __init__
-    self.dense = nn.Linear(config.hidden_size, config.intermediate_size)
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 86, in __init__
-    self.reset_parameters()
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 89, in reset_parameters
-    init.kaiming_uniform_(self.weight, a=math.sqrt(5))
-  File "/Users/ehwang/opt/anaconda3/envs/conda-env/lib/python3.7/site-packages/torch/nn/init.py", line 395, in kaiming_uniform_
-    return tensor.uniform_(-bound, bound)
-KeyboardInterrupt
