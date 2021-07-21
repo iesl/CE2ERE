@@ -140,7 +140,7 @@ def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional
 
         event_dict[event_id]["sent_id"] = sntc_id
         event_dict[event_id]["token_id"] = id_lookup(token_span_DOC, start_char)
-        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char)
+        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char) + 1
     return data_dict
 
 
