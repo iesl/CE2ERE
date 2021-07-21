@@ -25,7 +25,7 @@ class Trainer:
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
-                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8):
+                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -55,6 +55,7 @@ class Trainer:
         self.eval_step = eval_step
         self.debug = debug
         self.patience = patience
+        self.max_grad_norm = max_grad_norm
 
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
@@ -150,6 +151,7 @@ class Trainer:
 
                     loss_vals.append(loss.item())
                     loss.backward()
+                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
 
                 loss = sum(loss_vals) / len(loss_vals)

@@ -59,4 +59,6 @@ def build_parser():
     parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--model_save', type=int, default=0, help="0: false, 1: true")
+
+    parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
     return parser.parse_args()

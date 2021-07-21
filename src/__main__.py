@@ -209,6 +209,7 @@ def setup(args, saved_model=None):
         patience=args.patience,
         cv_valid=args.cv_valid,
         model_save=args.model_save,
+        max_grad_norm=args.max_grad_norm,
     )
 
     return trainer, evaluator
