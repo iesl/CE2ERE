@@ -231,11 +231,9 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
-        wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
         wandb.config.update({"save_plot": 1}, allow_val_change=True)
         wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
-        wandb.config.update({"fix_seed": args.fix_seed}, allow_val_change=True)
 
         args = wandb.config
         set_seed()
