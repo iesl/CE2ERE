@@ -53,13 +53,10 @@ def build_parser():
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
-    parser.add_argument('--load_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
 
     parser.add_argument('--symm_train', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--model_save', type=int, default=0, help="0: false, 1: true")
-
-    parser.add_argument('--fix_seed', type=int, default=0, help="0: false, 1: true")
     return parser.parse_args()
