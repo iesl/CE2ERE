@@ -1,19 +1,16 @@
 import ast
-import random
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from EventDataset import EventDataset
 from data_reader import *
 from utils import *
-
-import torch
 from typing import List, Tuple, Dict, Any, Optional, Union
 
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 128):
     if isPosTag == False:
         one_list = [1] * max_sent_len
         one_list[0:len(subword_ids)] = subword_ids
@@ -283,33 +280,25 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         all_train_set.extend(train_set)
     print("done!")
 
-    print("HiEve valid files processing...")
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_valid_set.extend(valid_set)
+    with temp_seed(10):
+        print("HiEve valid files processing...")
+        for i, file in enumerate(tqdm(hieve_valid)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_valid_cv_set.extend(cv_valid_set)
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
+        print("done!")
 
+        print("HiEve test files processing...")
+        for i, file in enumerate(tqdm(hieve_test)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_test_cv_set.extend(cv_test_set)
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
+        print("done!")
     random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_valid_cv_set.extend(cv_valid_set)
-    print("done!")
-
-    print("HiEve test files processing...")
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_test_set.extend(test_set)
-
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_test_cv_set.extend(cv_test_set)
-    print("done!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))

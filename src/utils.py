@@ -1,3 +1,4 @@
+import contextlib
 import datetime
 import logging
 import time
@@ -6,6 +7,7 @@ from os import listdir
 from os.path import isfile, join
 
 import torch
+import random
 from pathlib import Path
 from typing import *
 
@@ -101,6 +103,16 @@ def set_logger(data_type: str, wandb_id: str):
             logging.StreamHandler()
         ]
     )
+
+
+@contextlib.contextmanager
+def temp_seed(seed):
+    state = random.getstate()
+    random.seed(seed)
+    try:
+        yield
+    finally:
+        random.setstate(state)
 
 
 _LOG1MEXP_SPLIT_POINT = torch.tensor(0.5).log()
