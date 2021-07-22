@@ -151,7 +151,8 @@ class Trainer:
 
                     loss_vals.append(loss.item())
                     loss.backward()
-                    torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
+                    if self.model_type == "box" or self.model_type == "vector":
+                        torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
 
                 loss = sum(loss_vals) / len(loss_vals)
