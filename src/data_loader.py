@@ -10,7 +10,7 @@ from typing import List, Tuple, Dict, Any, Optional, Union
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 128):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
     if isPosTag == False:
         one_list = [1] * max_sent_len
         one_list[0:len(subword_ids)] = subword_ids
