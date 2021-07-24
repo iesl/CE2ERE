@@ -11,8 +11,7 @@ from pathlib import Path
 logger = logging.getLogger()
 
 
-def set_seed():
-    seed = 0
+def set_seed(seed: int):
     torch.manual_seed(seed)
     random.seed(seed)
     if torch.cuda.is_available():
@@ -209,6 +208,7 @@ def setup(args, saved_model=None):
         patience=args.patience,
         cv_valid=args.cv_valid,
         model_save=args.model_save,
+        max_grad_norm=args.max_grad_norm,
     )
 
     return trainer, evaluator
@@ -216,7 +216,6 @@ def setup(args, saved_model=None):
 
 def main():
     args = build_parser()
-    set_seed()
 
     if args.load_model:
         assert args.saved_model != ""
@@ -252,6 +251,7 @@ def main():
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
         args = wandb.config
+        set_seed(args.seed)
         set_logger(args.data_type, wandb.run.id)
         logging.info(args)
         trainer, evaluator = setup(args)

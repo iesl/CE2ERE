@@ -22,6 +22,7 @@ def build_parser():
     parser.add_argument('--lambda_trans', type=float, default=0)
     parser.add_argument('--lambda_cross', type=float, default=0)
     parser.add_argument('--lambda_pair', type=float, default=0)
+    parser.add_argument('--lambda_condi', type=float, default=1)
 
     parser.add_argument('--volume_temp', type=float, default=1)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
@@ -49,11 +50,11 @@ def build_parser():
     parser.add_argument('--patience', type=int, default=10, help="patience for early stopping")
     parser.add_argument('--eval_step', type=int, default=1, help="evaluation every n epochs")
     parser.add_argument('--eval_type', type=str, default="one", choices=["one", "two"], help="evaluate wheter using one threshold or two threshold")
+    parser.add_argument('--seed', type=int, default=random.randint(0, 2 ** 32), help="seed for random number generator")
 
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
-    parser.add_argument('--load_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
 
     parser.add_argument('--symm_train', type=int, default=0, help="0: false, 1: true")
@@ -61,5 +62,5 @@ def build_parser():
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--model_save', type=int, default=0, help="0: false, 1: true")
 
-    parser.add_argument('--fix_seed', type=int, default=0, help="0: false, 1: true")
+    parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
     return parser.parse_args()

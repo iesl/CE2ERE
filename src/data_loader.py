@@ -7,8 +7,6 @@ from tqdm import tqdm
 from EventDataset import EventDataset
 from data_reader import *
 from utils import *
-
-import torch
 from typing import List, Tuple, Dict, Any, Optional, Union
 
 logger = logging.getLogger()

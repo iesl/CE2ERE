@@ -25,7 +25,7 @@ class Trainer:
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
-                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8):
+                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -55,6 +55,7 @@ class Trainer:
         self.eval_step = eval_step
         self.debug = debug
         self.patience = patience
+        self.max_grad_norm = max_grad_norm
 
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
@@ -116,7 +117,7 @@ class Trainer:
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
                         vol_A_B, vol_B_A, _, _, _, _, pvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                        loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
+                        loss = self.lambda_dict["lambda_condi"] * self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
                         if self.loss_type:
                             loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
                         assert not torch.isnan(loss)
@@ -150,6 +151,8 @@ class Trainer:
 
                     loss_vals.append(loss.item())
                     loss.backward()
+                    if self.model_type == "box" or self.model_type == "vector":
+                        torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
 
                 loss = sum(loss_vals) / len(loss_vals)
@@ -334,6 +337,7 @@ class OneThresholdEvaluator:
                 xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
                 yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
                 xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
                 targets.extend(xy_targets)
                 vol_ab.extend(torch.exp(vol_A_B).tolist())
