@@ -1,25 +1,0 @@
-2021-07-23 11:27:41,193 [INFO] {'data_dir': '../data', 'no_cuda': False, 'debug': True, 'log_batch_size': 7, 'epochs': 10, 'data_type': 'hieve', 'finetune': False, 'model': 'box', 'downsample': 0.05, 'learning_rate': 0.095, 'lambda_anno': 1.0, 'lambda_trans': 0.0, 'lambda_cross': 0.0, 'lambda_pair': 1.0, 'volume_temp': 1.0, 'intersection_temp': 0.0001, 'hieve_threshold': -0.6, 'matres_threshold': -0.5, 'mlp_size': 32, 'mlp_output_dim': 32, 'hieve_mlp_size': 64, 'matres_mlp_size': 32, 'proj_output_dim': 32, 'num_layers': 1, 'roberta_hidden_size': 1024, 'lstm_hidden_size': 256, 'lstm_input_size': 768, 'no_valid': False, 'loss_type': 0, 'patience': 8, 'eval_step': 1, 'eval_type': 'one', 'seed': 10, 'load_model': 0, 'saved_model': '/Users/ehwang/PycharmProjects/CE2ERE/src/model/matres_20210505163300_2ya6wb7v.pt', 'wandb_id': 'hwang7520/CE2ERE-src/2ya6wb7v', 'save_plot': 1, 'symm_train': 0, 'symm_eval': 0, 'cv_valid': 0, 'model_save': 0, 'max_grad_norm': 5.0}
-2021-07-23 11:27:41,193 [INFO] Requested CUDA but it is not available, running on CPU
-HiEve train files processing...
-  0%|          | 0/60 [00:00<?, ?it/s]  3%|▎         | 2/60 [00:00<00:13,  4.27it/s]  5%|▌         | 3/60 [00:00<00:18,  3.14it/s]  7%|▋         | 4/60 [00:01<00:17,  3.28it/s]  8%|▊         | 5/60 [00:01<00:14,  3.82it/s] 10%|█         | 6/60 [00:01<00:12,  4.34it/s] 12%|█▏        | 7/60 [00:02<00:21,  2.49it/s] 15%|█▌        | 9/60 [00:02<00:15,  3.34it/s] 17%|█▋        | 10/60 [00:02<00:12,  3.95it/s] 18%|█▊        | 11/60 [00:02<00:10,  4.77it/s] 20%|██        | 12/60 [00:02<00:09,  5.22it/s] 23%|██▎       | 14/60 [00:03<00:07,  6.39it/s] 25%|██▌       | 15/60 [00:03<00:06,  7.06it/s] 27%|██▋       | 16/60 [00:03<00:05,  7.35it/s] 28%|██▊       | 17/60 [00:03<00:07,  5.39it/s] 33%|███▎      | 20/60 [00:03<00:05,  6.70it/s] 37%|███▋      | 22/60 [00:04<00:05,  7.09it/s] 38%|███▊      | 23/60 [00:04<00:05,  6.62it/s] 40%|████      | 24/60 [00:04<00:09,  3.93it/s] 43%|████▎     | 26/60 [00:04<00:06,  5.07it/s] 45%|████▌     | 27/60 [00:05<00:10,  3.24it/s] 47%|████▋     | 28/60 [00:05<00:08,  3.98it/s] 48%|████▊     | 29/60 [00:06<00:11,  2.79it/s] 50%|█████     | 30/60 [00:06<00:09,  3.31it/s] 55%|█████▌    | 33/60 [00:06<00:06,  4.34it/s] 58%|█████▊    | 35/60 [00:09<00:15,  1.65it/s] 60%|██████    | 36/60 [00:09<00:11,  2.15it/s] 62%|██████▏   | 37/60 [00:09<00:08,  2.56it/s] 63%|██████▎   | 38/60 [00:09<00:07,  3.05it/s] 65%|██████▌   | 39/60 [00:13<00:26,  1.27s/it] 68%|██████▊   | 41/60 [00:13<00:17,  1.10it/s] 70%|███████   | 42/60 [00:13<00:13,  1.38it/s] 72%|███████▏  | 43/60 [00:15<00:14,  1.17it/s] 73%|███████▎  | 44/60 [00:15<00:10,  1.50it/s] 75%|███████▌  | 45/60 [00:15<00:07,  1.93it/s] 78%|███████▊  | 47/60 [00:15<00:05,  2.49it/s] 80%|████████  | 48/60 [00:16<00:06,  1.91it/s] 83%|████████▎ | 50/60 [00:16<00:03,  2.62it/s] 85%|████████▌ | 51/60 [00:16<00:02,  3.35it/s] 87%|████████▋ | 52/60 [00:16<00:02,  3.70it/s] 90%|█████████ | 54/60 [00:17<00:01,  3.21it/s] 92%|█████████▏| 55/60 [00:17<00:01,  4.03it/s] 95%|█████████▌| 57/60 [00:18<00:00,  4.96it/s] 98%|█████████▊| 59/60 [00:18<00:00,  5.15it/s]100%|██████████| 60/60 [00:18<00:00,  4.44it/s]done!100%|██████████| 60/60 [00:18<00:00,  3.21it/s]
-HiEve valid files processing...
-
-  0%|          | 0/20 [00:00<?, ?it/s]  5%|▌         | 1/20 [00:00<00:02,  7.06it/s] 10%|█         | 2/20 [00:00<00:04,  4.48it/s] 15%|█▌        | 3/20 [00:00<00:03,  4.65it/s] 20%|██        | 4/20 [00:00<00:02,  5.52it/s] 25%|██▌       | 5/20 [00:00<00:02,  6.15it/s] 30%|███       | 6/20 [00:01<00:02,  5.85it/s] 35%|███▌      | 7/20 [00:01<00:02,  6.42it/s] 35%|███▌      | 7/20 [00:02<00:04,  2.88it/s]
-Traceback (most recent call last):
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 262, in <module>
-    main()
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 257, in main
-    trainer, evaluator = setup(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 140, in setup
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/__main__.py", line 28, in create_dataloader
-    hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 287, in hieve_data_loader
-    cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 33, in get_hieve_train_set
-    append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 55, in append_hieve_train_dataset
-    y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
-  File "/Users/ehwang/PycharmProjects/CE2ERE/src/data_loader.py", line 16, in padding
-    one_list[0:len(subword_ids)] = subword_ids
-KeyboardInterrupt
