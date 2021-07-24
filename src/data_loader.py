@@ -288,14 +288,9 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         else:
             train_range.append(key)
 
-    hieve_train, hieve_valid, hieve_test = [], [], []
-    for i, file in enumerate(tqdm(hieve_files)):
-        if i in train_range:
-            hieve_train.append(file)
-        elif i in valid_range:
-            hieve_valid.append(file)
-        elif i in test_range:
-            hieve_test.append(file)
+    logger.info("train files: "+str(hieve_train))
+    logger.info("valid files: "+str(hieve_valid))
+    logger.info("test files: "+str(hieve_test))
 
     start_time = time.time()
     print("HiEve train files processing...")
