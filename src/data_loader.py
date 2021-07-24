@@ -1,4 +1,5 @@
 import ast
+import json
 import random
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -274,6 +275,30 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     all_train_set, all_valid_set, all_test_set = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
 
+    hieve_files = [f for f in listdir(hieve_dir) if isfile(join(hieve_dir, f)) and f[-4:] == "tsvx"]
+    train_range, valid_range, test_range = [], [], []
+    with open(data_dir / "hievents_v2/sorted_dict.json") as f:
+        sorted_dict = json.load(f)
+    i = 0
+    for (key, value) in sorted_dict.items():
+        i += 1
+        key = int(key)
+        if i <= 20:
+            test_range.append(key)
+        elif i <= 40:
+            valid_range.append(key)
+        else:
+            train_range.append(key)
+
+    hieve_train, hieve_valid, hieve_test = [], [], []
+    for i, file in enumerate(tqdm(hieve_files)):
+        if i in train_range:
+            hieve_train.append(file)
+        elif i in valid_range:
+            hieve_valid.append(file)
+        elif i in test_range:
+            hieve_test.append(file)
+
     start_time = time.time()
     state = random.getstate()
     print("HiEve train files processing...")
@@ -283,33 +308,35 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         all_train_set.extend(train_set)
     print("done!")
 
-    print("HiEve valid files processing...")
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_valid_set.extend(valid_set)
+    with temp_seed(10):
+        print("HiEve valid files processing...")
+        for i, file in enumerate(tqdm(hieve_valid)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
 
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_valid_cv_set.extend(cv_valid_set)
-    print("done!")
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(hieve_valid)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_valid_cv_set.extend(cv_valid_set)
+        print("done!")
 
-    print("HiEve test files processing...")
-    random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_test_set.extend(test_set)
+    with temp_seed(10):
+        print("HiEve test files processing...")
+        random.setstate(state)
+        for i, file in enumerate(tqdm(hieve_test)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
 
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(hieve_test)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_test_cv_set.extend(cv_test_set)
+        print("done!")
     random.setstate(state)
-    for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-        cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_test_cv_set.extend(cv_test_set)
-    print("done!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
