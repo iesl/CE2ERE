@@ -8,6 +8,7 @@ from EventDataset import EventDataset
 from data_reader import *
 from utils import *
 from typing import List, Tuple, Dict, Any, Optional, Union
+from natsort import natsorted
 
 logger = logging.getLogger()
 
@@ -273,7 +274,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     all_train_set, all_valid_set, all_test_set = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
 
-    hieve_files = [f for f in listdir(hieve_dir) if isfile(join(hieve_dir, f)) and f[-4:] == "tsvx"]
+    hieve_files = natsorted([f for f in listdir(hieve_dir) if isfile(join(hieve_dir, f)) and f[-4:] == "tsvx"])
     train_range, valid_range, test_range = [], [], []
     with open(data_dir / "hievents_v2/sorted_dict.json") as f:
         sorted_dict = json.load(f)
@@ -287,6 +288,15 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             valid_range.append(key)
         else:
             train_range.append(key)
+
+    hieve_train, hieve_valid, hieve_test = [], [], []
+    for i, file in enumerate(hieve_files):
+        if i in train_range:
+            hieve_train.append(file)
+        elif i in valid_range:
+            hieve_valid.append(file)
+        elif i in test_range:
+            hieve_test.append(file)
 
     logger.info("train files: "+str(hieve_train))
     logger.info("valid files: "+str(hieve_valid))
