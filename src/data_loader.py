@@ -298,7 +298,6 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             hieve_test.append(file)
 
     start_time = time.time()
-    state = random.getstate()
     print("HiEve train files processing...")
     for i, file in enumerate(tqdm(hieve_train)):
         data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train)  # data_reader.py
@@ -322,7 +321,6 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     with temp_seed(10):
         print("HiEve test files processing...")
-        random.setstate(state)
         for i, file in enumerate(tqdm(hieve_test)):
             data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
             test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
@@ -334,7 +332,6 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
             cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
             all_test_cv_set.extend(cv_test_set)
         print("done!")
-    random.setstate(state)
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
