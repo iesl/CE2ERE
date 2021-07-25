@@ -264,13 +264,6 @@ def append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, e
 
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     hieve_dir = data_dir / "hievents_v2/processed/"
-    with open(data_dir / "hievents_v2/hieve_train.txt") as f:
-        hieve_train = ast.literal_eval(f.read())
-    with open(data_dir / "hievents_v2/hieve_valid.txt") as f:
-        hieve_valid = ast.literal_eval(f.read())
-    with open(data_dir / "hievents_v2/hieve_test.txt") as f:
-        hieve_test = ast.literal_eval(f.read())
-
     all_train_set, all_valid_set, all_test_set = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
 
