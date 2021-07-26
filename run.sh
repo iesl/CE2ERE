@@ -1,8 +1,8 @@
 #!/bin/sh
-#SBATCH --job-name=longformer_2
-#SBATCH -o longformer_2.txt
+#SBATCH --job-name=longformer_4
+#SBATCH -o longformer_4.txt
 #SBATCH --time=167:00:00
-#SBATCH --partition=2080ti-long
+#SBATCH --partition=1080ti-long
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=5
 #SBATCH --mem=20GB
@@ -21,6 +21,8 @@ conda activate event-relation-extraction
 
 export PYTHONPATH="/home/tianyiyang/git/CE2ERE/"
 
-python src/main.py --data_dir=data --model box --embedding_type longformer-base --data_dir data --data_type hieve --downsample 0.02 --epochs 50 --lambda_anno 1 --lambda_trans 0 --learning_rate 1e-05 --log_batch_size 5 --lstm_hidden_size 256 --lstm_input_size 768 --mlp_size 512 --roberta_hidden_size 768 --num_layers 1
+# python src/main.py --data_dir=data --model box --embedding_type longformer-base --data_dir data --data_type hieve --downsample 0.02 --epochs 50 --lambda_anno 1 --lambda_trans 0 --learning_rate 1e-05 --log_batch_size 6 --lstm_hidden_size 256 --lstm_input_size 768 --mlp_size 512 --roberta_hidden_size 768 --num_layers 1
+
+python src/main.py --data_dir=data --model box --embedding_type roberta-base --data_dir data --data_type hieve --downsample 0.02 --epochs 50 --lambda_anno 1 --lambda_trans 0 --learning_rate 1e-05 --log_batch_size 6 --lstm_hidden_size 256 --lstm_input_size 768 --mlp_size 512 --roberta_hidden_size 768 --num_layers 1
 
 echo "DONE"
