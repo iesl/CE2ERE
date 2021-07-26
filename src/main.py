@@ -15,8 +15,7 @@ from pathlib import Path
 logger = logging.getLogger()
 
 
-def set_seed():
-    seed = 0
+def set_seed(seed: int):
     torch.manual_seed(seed)
     random.seed(seed)
     if torch.cuda.is_available():
@@ -223,13 +222,13 @@ def setup(args, saved_model=None):
         patience=args.patience,
         cv_valid=args.cv_valid,
         model_save=args.model_save,
+        max_grad_norm=args.max_grad_norm,
     )
 
     return trainer, evaluator
 
 
 def main():
-    set_seed()
     args = build_parser()
 
     if args.load_model:
@@ -245,11 +244,9 @@ def main():
         api = wandb.Api()
         run = api.run(args.wandb_id)
         wandb.config.update(run.config, allow_val_change=True)
-        wandb.config.update({"load_valid": args.load_valid}, allow_val_change=True)
         wandb.config.update({"save_plot": 1}, allow_val_change=True)
         wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
-        wandb.config.update({"fix_seed": args.fix_seed}, allow_val_change=True)
 
         args = wandb.config
         set_seed()
@@ -268,6 +265,7 @@ def main():
         wandb.init()
         wandb.config.update(args, allow_val_change=True)
         args = wandb.config
+        set_seed(args.seed)
         set_logger(args.data_type, wandb.run.id)
         logging.info(args)
         trainer, evaluator = setup(args)

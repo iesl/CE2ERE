@@ -1,11 +1,14 @@
+import contextlib
 import datetime
 import logging
+import random
 import time
 
 from os import listdir
 from os.path import isfile, join
 
 import torch
+import random
 from pathlib import Path
 from typing import *
 
@@ -76,6 +79,7 @@ def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
     lambda_dict["lambda_trans"] = args.lambda_trans
     lambda_dict["lambda_cross"] = args.lambda_cross
     lambda_dict["lambda_pair"] = args.lambda_pair
+    lambda_dict["lambda_condi"] = args.lambda_condi
     return lambda_dict
 
 
@@ -101,6 +105,16 @@ def set_logger(data_type: str, wandb_id: str):
             logging.StreamHandler()
         ]
     )
+
+
+@contextlib.contextmanager
+def temp_seed(seed):
+    state = random.getstate()
+    random.seed(seed)
+    try:
+        yield
+    finally:
+        random.setstate(state)
 
 
 _LOG1MEXP_SPLIT_POINT = torch.tensor(0.5).log()

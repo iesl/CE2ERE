@@ -1,4 +1,5 @@
 import ast
+import json
 import random
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -6,9 +7,8 @@ from tqdm import tqdm
 from EventDataset import EventDataset
 from data_reader import *
 from utils import *
-
-import torch
 from typing import List, Tuple, Dict, Any, Optional, Union
+from natsort import natsorted
 
 logger = logging.getLogger()
 
@@ -292,53 +292,84 @@ def append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, e
 
 def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], embedding_type: str) -> Tuple[List[Any]]:
     hieve_dir = data_dir / "hievents_v2/processed/"
-    with open(data_dir / "hievents_v2/hieve_train.txt") as f:
-        hieve_train = ast.literal_eval(f.read())
-    with open(data_dir / "hievents_v2/hieve_valid.txt") as f:
-        hieve_valid = ast.literal_eval(f.read())
-    with open(data_dir / "hievents_v2/hieve_test.txt") as f:
-        hieve_test = ast.literal_eval(f.read())
-
     all_train_set, all_valid_set, all_test_set = [], [], []
     all_valid_cv_set, all_test_cv_set = [], []
 
+    hieve_files = natsorted([f for f in listdir(hieve_dir) if isfile(join(hieve_dir, f)) and f[-4:] == "tsvx"])
+    train_range, valid_range, test_range = [], [], []
+    with open(data_dir / "hievents_v2/sorted_dict.json") as f:
+        sorted_dict = json.load(f)
+    i = 0
+    for (key, value) in sorted_dict.items():
+        i += 1
+        key = int(key)
+        if i <= 20:
+            test_range.append(key)
+        elif i <= 40:
+            valid_range.append(key)
+        else:
+            train_range.append(key)
+
+    hieve_train, hieve_valid, hieve_test = [], [], []
+    for i, file in enumerate(hieve_files):
+        if i in train_range:
+            hieve_train.append(file)
+        elif i in valid_range:
+            hieve_valid.append(file)
+        elif i in test_range:
+            hieve_test.append(file)
+
+    logger.info("train files: "+str(hieve_train))
+    logger.info("valid files: "+str(hieve_valid))
+    logger.info("test files: "+str(hieve_test))
+
     start_time = time.time()
-    print("HiEve train files processing...", end="")
+    print("HiEve train files processing...")
     for i, file in enumerate(tqdm(hieve_train)):
         data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_train, embedding_type)  # data_reader.py
         train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
         all_train_set.extend(train_set)
     print("done!")
 
-    print("HiEve valid files processing...", end="")
-    for i, file in enumerate(tqdm(hieve_valid)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval, embedding_type)
-        valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_valid_set.extend(valid_set)
-        cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_valid_cv_set.extend(cv_valid_set)
-    print("done!")
+    with temp_seed(10):
+        print("HiEve valid files processing...")
+        for i, file in enumerate(tqdm(hieve_valid)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
 
-    print("HiEve test files processing...", end="")
-    for i, file in enumerate(tqdm(hieve_test)):
-        data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval, embedding_type)
-        test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
-        all_test_set.extend(test_set)
-        cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
-        all_test_cv_set.extend(cv_test_set)
-    print("done!")
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(hieve_valid)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_valid_cv_set.extend(cv_valid_set)
+        print("done!")
+
+    with temp_seed(10):
+        print("HiEve test files processing...")
+        for i, file in enumerate(tqdm(hieve_test)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
+
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(hieve_test)):
+            data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            all_test_cv_set.extend(cv_test_set)
+        print("done!")
 
     elapsed_time = format_time(time.time() - start_time)
     logger.info("HiEve Preprocessing took {:}".format(elapsed_time))
-    logger.info(
-        f'HiEve training instance num: {len(all_train_set)}, '
-        f'valid instance num: {len(all_valid_set)}, '
-        f'test instance num: {len(all_test_set)}'
-    )
+    logger.info(f'HiEve training instance num: {len(all_train_set)}, '
+          f'valid instance num: {len(all_valid_set)}, '
+          f'test instance num: {len(all_test_set)}, '
+          f'cv-valid instance num: {len(all_valid_cv_set)}, '
+          f'cv-test instance num: {len(all_test_cv_set)}, ')
 
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_valid_set[0:100]
+        all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
@@ -382,10 +413,12 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str], embeddi
     logger.info("MATRES Preprocessing took {:}".format(elapsed_time))
     logger.info(f'MATRES training instance num: {len(all_train_set)}, '
           f'valid instance num: {len(all_valid_set)}, '
-          f'test instance num: {len(all_test_set)}')
+          f'test instance num: {len(all_test_set)}, '
+          f'cv-valid instance num: {len(all_valid_cv_set)}, '
+          f'cv-test instance num: {len(all_test_cv_set)}')
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_valid_set[0:100]
+        all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set

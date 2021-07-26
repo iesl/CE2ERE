@@ -60,34 +60,6 @@ def get_f1_score(total_precision: float, total_recall: float) -> float:
     return 2 * (total_precision * total_recall) / (total_precision + total_recall)
 
 
-def generate_result_table(precisions: list, recalls: list, supports: list, f1s: list,
-                          micro_precision: float, macro_precision: float,
-                          micro_recall: float,    macro_recall: float,
-                          micro_f1: float,        macro_f1: float) -> str:
-    total_support = np.sum(supports[:3])
-    line1 = "                 precision    recall  f1-score   support\n\n"
-    line2 = "   Parent-Child       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
-        p=precisions[0], r=recalls[0], f1=f1s[0], s=supports[0]
-    )
-    line3 = "   Child-Parent       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
-        p=precisions[1], r=recalls[1], f1=f1s[1], s=supports[1]
-    )
-    line4 = "          CoRef       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
-        p=precisions[2], r=recalls[2], f1=f1s[2], s=supports[2]
-    )
-    line5 = "NoRel [ignored]       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n\n".format(
-        p=precisions[3], r=recalls[3], f1=f1s[3], s=supports[3]
-    )
-    line6 = "      micro avg       {p:.2f}      {r:.2f}      {f1:.2f}   {s}\n".format(
-        p=micro_precision, r=micro_recall, f1=micro_f1, s=total_support
-    )
-    line7 = "      macro avg       {p:.2f}      {r:.2f}      {f1:.2f}   {s}".format(
-        p=macro_precision, r=macro_recall, f1=macro_f1, s=total_support
-    )
-
-    return line1+line2+line3+line4+line5+line6+line7
-
-
 def CM_metric(CM):
     all_ = CM.sum()
     Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
