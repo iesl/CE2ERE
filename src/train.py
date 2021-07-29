@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 import datetime
 from pathlib import Path
@@ -73,7 +74,7 @@ class Trainer:
             if self.model_save:
                 torch.save(self.model.state_dict(), self.model_save_path)
                 logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f"
-                            % (Path.absolute(self.model_save_path), self.best_epoch, self.best_f1_score))
+                            % (os.path.abspath(self.model_save_path), self.best_epoch, self.best_f1_score))
             else:
                 logger.info("best epoch: %s, best f1 score: %f" % (self.best_epoch, self.best_f1_score))
 
