@@ -492,12 +492,16 @@ class Box_BiLSTM_MLP(Module):
         inter_AC, vol_A_C = self.volume(box_A, box_C)
         _, vol_C_A = self.volume(box_C, box_A)
 
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.loss_type == 1:
             _, pvol_AB = self.volume(inter_AB, pbox_AB)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
-        elif (self.loss_type == 2 or self.loss_type == 3) and len(boxes_A) == 2:
+        elif self.loss_type == 2 and len(boxes_A) == 2:
             # boxes_A[0]: hieve, boxes_A[1]: matres
             _, vol_mh = self.volume(boxes_A[1], boxes_A[0]) # P(A_matres | A_hieve)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, vol_mh
+        elif self.loss_type == 3 and len(boxes_A) == 2:
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
         else:
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None
