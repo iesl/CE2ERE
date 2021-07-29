@@ -179,8 +179,10 @@ class BCELossWithLogP(Module):
         else:
             not_nr_pvol = pvol[not_nr_indices]
             nr_pvol = pvol[nr_indices]
-            hieve_loss = -(not_nr_pvol[:,0][flag == 0].sum() + log1mexp(nr_pvol[:,0][flag == 0]).sum())
-            matres_loss = -(not_nr_pvol[:,1][flag == 1].sum() + log1mexp(nr_pvol[:,1][flag == 1]).sum())
+            not_nr_flag = flag[not_nr_indices]
+            nr_flag = flag[nr_indices]
+            hieve_loss = -(not_nr_pvol[:,0][not_nr_flag == 0].sum() + log1mexp(nr_pvol[:,0][nr_flag == 0]).sum())
+            matres_loss = -(not_nr_pvol[:,1][not_nr_flag == 1].sum() + log1mexp(nr_pvol[:,1][nr_flag == 1]).sum())
             loss = hieve_loss + matres_loss
         return loss
 

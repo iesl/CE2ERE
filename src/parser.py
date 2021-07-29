@@ -55,12 +55,12 @@ def build_parser():
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
-    parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
+    parser.add_argument('--save_plot', type=int, default=1, help="0: false, 1: true")
 
     parser.add_argument('--symm_train', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
-    parser.add_argument('--model_save', type=int, default=0, help="0: false, 1: true")
+    parser.add_argument('--model_save', type=int, default=1, help="0: false, 1: true")
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
     return parser.parse_args()

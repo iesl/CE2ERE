@@ -235,7 +235,7 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
 
         args = wandb.config
-        set_seed()
+        set_seed(args.seed)
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
         num_classes = 4
