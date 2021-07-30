@@ -120,7 +120,7 @@ class Trainer:
                         flag = batch[15]  # 0: HiEve, 1: MATRES
                         vol_A_B, vol_B_A, _, _, _, _, pvol_AB, vol_mh = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.lambda_dict["lambda_condi"] * self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
-                        if self.loss_type == 1:
+                        if self.loss_type == 1 or self.loss_type == 4:
                             loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
                         if self.loss_type == 2:
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
@@ -420,6 +420,7 @@ class VectorBiLSTMEvaluator:
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
+        cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -454,6 +455,7 @@ class VectorBiLSTMEvaluator:
                 rel_ids.extend(xy_rel_ids)
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
+
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
@@ -461,4 +463,4 @@ class VectorBiLSTMEvaluator:
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
-        return metrics
+        return metrics, cv_xy_list, cv_yz_list, cv_xz_list

@@ -379,9 +379,25 @@ class Box_BiLSTM_MLP(Module):
                 roberta_list.append(roberta_embd.view(-1, self.roberta_dim)) # [120, 768]
             return torch.stack(roberta_list)
 
-    def _get_relation_representation(self, tensor1: Tensor, tensor2: Tensor):
+    def _get_pairwise_representation(self, tensor1: Tensor, tensor2: Tensor):
         mul = torch.mul(tensor1, tensor2) # [64, 512]
         return torch.cat((tensor1, tensor2, mul), 1)
+
+    def _get_pairwise_representation_with_boxes(self, box1: Tensor, box2: Tensor):
+        # shape: [batch_size, box_min/box_max, hidden_dim]
+        # box_min: bottom-left corner (=center-offset), box_max: top-right corner (= center+offset)
+        # center: (box_max+box_min)/2, offset: (box_max-box_min)/2
+        box1_center = (box1[..., 0, :] + box1[..., 1, :]) / 2
+        box1_offset = F.leaky_relu((box1[..., 1, :] - box1[..., 0, :]) / 2)
+        box2_center = (box2[..., 0, :] + box2[..., 1, :]) / 2
+        box2_offset = F.leaky_relu((box2[..., 1, :] - box2[..., 0, :]) / 2)
+
+        box_center = (box1_center + box2_center) / 2
+        box_offset = box1_offset + box2_offset
+
+        box_min = box_center - box_offset
+        box_max = box_center + box_offset
+        return torch.cat((box_min, box_max), dim=1).unsqueeze(dim=1)
 
     def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
@@ -404,9 +420,9 @@ class Box_BiLSTM_MLP(Module):
 
         if self.loss_type == 1 or self.loss_type == 3:
             # pair-wise representation using Hadamard
-            pairAB = self.MLP_pair(self._get_relation_representation(output_A, output_B))  # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
-            pairBC = self.MLP_pair(self._get_relation_representation(output_B, output_C))
-            pairAC = self.MLP_pair(self._get_relation_representation(output_A, output_C))
+            pairAB = self.MLP_pair(self._get_pairwise_representation(output_A, output_B))  # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
+            pairBC = self.MLP_pair(self._get_pairwise_representation(output_B, output_C))
+            pairAC = self.MLP_pair(self._get_pairwise_representation(output_A, output_C))
 
         output_A = self.MLP(output_A) #[batch_size, mlp_output_dim]; [64, 44]
         output_B = self.MLP(output_B)
@@ -418,7 +434,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
-            if self.loss_type:
+            if self.loss_type == 1:
                 pairAB = self.MLP_hieve(pairAB).unsqueeze(1)
                 pairBC = self.MLP_hieve(pairBC).unsqueeze(1)
                 pairAC = self.MLP_hieve(pairAC).unsqueeze(1)
@@ -427,7 +443,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
-            if self.loss_type:
+            if self.loss_type == 1:
                 pairAB = self.MLP_matres(pairAB).unsqueeze(1)
                 pairBC = self.MLP_matres(pairBC).unsqueeze(1)
                 pairAC = self.MLP_matres(pairAC).unsqueeze(1)
@@ -455,7 +471,7 @@ class Box_BiLSTM_MLP(Module):
 
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
             pboxes_AB, pboxes_BC, pboxes_AC = [], [], []
         for i in range(dataset_num):
             # box embedding layer
@@ -463,6 +479,16 @@ class Box_BiLSTM_MLP(Module):
             box_A_tmp = self.box_embedding.get_box_embeddings(output_A[..., i, :]).unsqueeze(dim=1)
             box_B_tmp = self.box_embedding.get_box_embeddings(output_B[..., i, :]).unsqueeze(dim=1)
             box_C_tmp = self.box_embedding.get_box_embeddings(output_C[..., i, :]).unsqueeze(dim=1)
+
+            if self.loss_type == 4:
+                # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
+                pairAB = self._get_pairwise_representation_with_boxes(box_A_tmp, box_B_tmp)
+                pairBC = self._get_pairwise_representation_with_boxes(box_B_tmp, box_C_tmp)
+                pairAC = self._get_pairwise_representation_with_boxes(box_A_tmp, box_C_tmp)
+                pboxes_AB.append(pairAB)
+                pboxes_BC.append(pairBC)
+                pboxes_AC.append(pairAC)
+
             boxes_A.append(box_A_tmp)
             boxes_B.append(box_B_tmp)
             boxes_C.append(box_C_tmp)
@@ -479,7 +505,7 @@ class Box_BiLSTM_MLP(Module):
         box_B = torch.cat(boxes_B, dim=1)
         box_C = torch.cat(boxes_C, dim=1)
 
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
             pbox_AB = torch.cat(pboxes_AB, dim=1)
             # rbox_BC = torch.cat(rboxes_BC, dim=1)
             # rbox_AC = torch.cat(rboxes_AC, dim=1)
@@ -492,7 +518,7 @@ class Box_BiLSTM_MLP(Module):
         inter_AC, vol_A_C = self.volume(box_A, box_C)
         _, vol_C_A = self.volume(box_C, box_A)
 
-        if self.loss_type == 1:
+        if self.loss_type == 1 or self.loss_type == 4:
             _, pvol_AB = self.volume(inter_AB, pbox_AB)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         elif self.loss_type == 2 and len(boxes_A) == 2:
