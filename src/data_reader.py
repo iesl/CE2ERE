@@ -148,7 +148,7 @@ def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional
 
         event_dict[event_id]["sent_id"] = sntc_id
         event_dict[event_id]["token_id"] = id_lookup(token_span_DOC, start_char)
-        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char)
+        event_dict[event_id]["roberta_subword_id"] = id_lookup(roberta_subword_span_DOC, start_char) + 1
     return data_dict
 
 
@@ -385,14 +385,19 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
         end = MY_TEXT.find(">")
         if MY_TEXT[start + 1] == "E":
             event_description = MY_TEXT[start:end].split(" ")
-            eID = (event_description[2].split("="))[1].replace("\"", "")
+            if event_description[2].startswith("e"):
+                eID = (event_description[2].split("="))[1].replace("\"", "")
+            elif event_description[1].startswith("e"):
+                eID = (event_description[1].split("="))[1].replace("\"", "")
+            else:
+                raise ValueError(f"eID not in event_description: {event_description}")
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
             if eID in event_dict.keys():
-                event_dict[eID]["start_char"] = start # loading position of events
+                event_dict[eID]["start_char"] = start  # loading position of events
         else:
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
 
-    data_dict["doc_content"] = MY_TEXT.strip()
+    data_dict["doc_content"] = MY_TEXT
     return data_dict
 
 
