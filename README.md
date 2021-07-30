@@ -16,7 +16,7 @@ Understanding natural language involves recognizing how multiple event mentions 
 git clone https://github.com/why2011btv/JointConstrainedLearning.git
 conda env create -n conda-env -f environment.yml
 pip install -r requirements.txt
-python spacy -m en-core-web-sm
+python -m spacy en-core-web-sm
 
 mkdir rst_file
 mkdir model_params
