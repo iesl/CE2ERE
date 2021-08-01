@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 import datetime
 from pathlib import Path
@@ -9,7 +10,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from torch import Tensor
+from torch import Tensor, optim
+from torch.optim.lr_scheduler import StepLR
 from tqdm import tqdm
 from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss, KLDivLoss
@@ -60,6 +62,8 @@ class Trainer:
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
 
+        self.scheduler = optim.lr_scheduler.StepLR(optimizer=self.opt, step_size= self.epochs/2, gamma=0.1)
+
         if self.model_save:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
             self.model_save_dir = "./model/"
@@ -72,7 +76,8 @@ class Trainer:
             self.best_epoch = epoch
             if self.model_save:
                 torch.save(self.model.state_dict(), self.model_save_path)
-                logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f" % (self.model_save_path, self.best_epoch, self.best_f1_score))
+                logger.info("model is saved here: %s, best epoch: %s, best f1 score: %f"
+                            % (os.path.abspath(self.model_save_path), self.best_epoch, self.best_f1_score))
             else:
                 logger.info("best epoch: %s, best f1 score: %f" % (self.best_epoch, self.best_f1_score))
 
@@ -107,19 +112,25 @@ class Trainer:
         else:
             for epoch in range(1, self.epochs+1):
                 epoch_start_time = time.time()
-                logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
-                logger.info("Training start...")
+                self.scheduler.step()
                 self.model.train()
+                logger.info("Training start...")
+                logger.info("======== Epoch {:} / {:}, LR: {:} ========".format(epoch, self.epochs, self.scheduler.get_lr()))
                 loss_vals = []
                 for step, batch in enumerate(tqdm(self.train_dataloader)):
                     device = self.device
                     if self.model_type == "box":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
-                        vol_A_B, vol_B_A, _, _, _, _, pvol_AB = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
+                        vol_A_B, vol_B_A, _, _, _, _, pvol_AB, vol_mh = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
                         loss = self.lambda_dict["lambda_condi"] * self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
-                        if self.loss_type:
+                        if self.loss_type == 1 or self.loss_type == 4:
                             loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                        if self.loss_type == 2:
+                            loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
+                        if self.loss_type == 3:
+                            loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
@@ -183,20 +194,28 @@ class Trainer:
         valid_metrics, test_metrics = {}, {}
         cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
         if self.data_type == "hieve" or self.data_type == "joint":
-            valid_metrics.update(self.evaluator.evaluate("hieve", "valid"))
-            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid"))
+            valid_metric, _, _, _ = self.evaluator.evaluate("hieve", "valid")
+            valid_metrics.update(valid_metric)
+            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid")[0])
 
             if not self.debug:
-                test_metrics.update(self.evaluator.evaluate("hieve", "test"))
-                cv_test_metrics.update(self.evaluator.evaluate("hieve", "cv-test"))
+                test_metric, _, _, _ = self.evaluator.evaluate("hieve", "test")
+                test_metrics.update(test_metric)
+                cv_test_metric, cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list = self.evaluator.evaluate("hieve", "cv-test")
+                cv_test_metrics.update(cv_test_metric)
+                assert len(cv_hieve_xy_list) == len(cv_hieve_yz_list) == len(cv_hieve_xz_list)
 
         if self.data_type == "matres" or self.data_type == "joint":
-            valid_metrics.update(self.evaluator.evaluate("matres", "valid"))
-            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid"))
+            valid_metric, _, _, _ = self.evaluator.evaluate("matres", "valid")
+            valid_metrics.update(valid_metric)
+            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid")[0])
 
             if not self.debug:
-                test_metrics.update(self.evaluator.evaluate("matres", "test"))
-                cv_test_metrics.update(self.evaluator.evaluate("matres", "cv-test"))
+                test_metric, _, _, _ = self.evaluator.evaluate("matres", "test")
+                test_metrics.update(test_metric)
+                cv_test_metric, cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list = self.evaluator.evaluate("matres", "cv-test")
+                cv_test_metrics.update(cv_test_metric)
+                assert len(cv_matres_xy_list) == len(cv_matres_yz_list) == len(cv_matres_xz_list)
 
         logger.info("valid_metrics: {0}".format(valid_metrics))
         logger.info("cv_valid_metrics: {0}".format(cv_valid_metrics))
@@ -211,6 +230,14 @@ class Trainer:
             f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
         else:                           # joint task
             f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
+            # cross category constraint violation evaluation
+            # print("cv_hieve_xy_list:", cv_hieve_xy_list)
+            # print("cv_hieve_yz_list:", cv_hieve_yz_list)
+            # print("cv_hieve_xz_list:", cv_hieve_xz_list)
+            #
+            # print("cv_matres_xy_list:", cv_matres_xy_list)
+            # print("cv_matres_yz_list:", cv_matres_yz_list)
+            # print("cv_matres_xz_list:", cv_matres_xz_list)
 
         self._update_save_best_score(f1_score, epoch)
         wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
@@ -307,7 +334,7 @@ class OneThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
@@ -346,6 +373,9 @@ class OneThresholdEvaluator:
 
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+                    cv_xy_list.append(xy_constraint_dict)
+                    cv_yz_list.append(yz_constraint_dict)
+                    cv_xz_list.append(xz_constraint_dict)
 
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
@@ -360,7 +390,7 @@ class OneThresholdEvaluator:
             for label in ["10", "01", "11", "00"]:
                 self.create_disttribution_plot(eval_type, vol_ab, vol_ba, "vol_ab", "vol_ba", rids, label)
                 logger.info("# of {0} labels: {1}".format(label, len((np.array(rids)==label).nonzero()[0])))
-        return metrics
+        return metrics, cv_xy_list, cv_yz_list, cv_xz_list
 
 
 class VectorBiLSTMEvaluator:
@@ -393,6 +423,7 @@ class VectorBiLSTMEvaluator:
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
+        cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -427,6 +458,7 @@ class VectorBiLSTMEvaluator:
                 rel_ids.extend(xy_rel_ids)
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
+
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
@@ -434,4 +466,4 @@ class VectorBiLSTMEvaluator:
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
-        return metrics
+        return metrics, cv_xy_list, cv_yz_list, cv_xz_list
