@@ -353,7 +353,7 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.loss_type:
+        if self.loss_type == 1:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, mlp_output_dim)
         elif self.loss_type == 4:
             self.pair_softvol = SoftVolume(volume_temp, intersection_temp)
