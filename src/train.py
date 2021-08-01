@@ -325,6 +325,7 @@ class OneThresholdEvaluator:
         vol_ab, vol_bc, vol_ac = [], [], []
         vol_ba, vol_cb, vol_ca = [], [], []
         rids = []
+        cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
