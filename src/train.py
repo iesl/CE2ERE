@@ -112,7 +112,6 @@ class Trainer:
         else:
             for epoch in range(1, self.epochs+1):
                 epoch_start_time = time.time()
-                self.scheduler.step()
                 self.model.train()
                 logger.info("Training start...")
                 logger.info("======== Epoch {:} / {:}, LR: {:} ========".format(epoch, self.epochs, self.scheduler.get_lr()))
@@ -165,6 +164,7 @@ class Trainer:
                     if self.model_type == "box" or self.model_type == "vector":
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
+                self.scheduler.step()
 
                 loss = sum(loss_vals) / len(loss_vals)
                 logger.info("epoch: %d, loss: %f" % (epoch, loss))
