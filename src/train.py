@@ -10,7 +10,8 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from torch import Tensor
+from torch import Tensor, optim
+from torch.optim.lr_scheduler import StepLR
 from tqdm import tqdm
 from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss, KLDivLoss
@@ -61,6 +62,8 @@ class Trainer:
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
 
+        self.scheduler = optim.lr_scheduler.StepLR(optimizer=self.opt, step_size= self.epochs/2, gamma=0.1)
+
         if self.model_save:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
             self.model_save_dir = "./model/"
@@ -109,9 +112,9 @@ class Trainer:
         else:
             for epoch in range(1, self.epochs+1):
                 epoch_start_time = time.time()
-                logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
-                logger.info("Training start...")
                 self.model.train()
+                logger.info("Training start...")
+                logger.info("======== Epoch {:} / {:}, LR: {:} ========".format(epoch, self.epochs, self.scheduler.get_lr()))
                 loss_vals = []
                 for step, batch in enumerate(tqdm(self.train_dataloader)):
                     device = self.device
@@ -161,6 +164,7 @@ class Trainer:
                     if self.model_type == "box" or self.model_type == "vector":
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
+                self.scheduler.step()
 
                 loss = sum(loss_vals) / len(loss_vals)
                 logger.info("epoch: %d, loss: %f" % (epoch, loss))

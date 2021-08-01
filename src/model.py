@@ -87,7 +87,7 @@ class BoxToBoxVolume(Module):
         box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
         conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
         assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
-        return intersection_box, conditional_prob
+        return intersection_box, intersection_volume, conditional_prob
 
 
 class RoBERTa_MLP(Module):
@@ -353,8 +353,10 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.loss_type:
+        if self.loss_type == 1:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, mlp_output_dim)
+        elif self.loss_type == 4:
+            self.pair_softvol = SoftVolume(volume_temp, intersection_temp)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -385,21 +387,6 @@ class Box_BiLSTM_MLP(Module):
 
     def _get_pairwise_representation_with_boxes(self, box1: Tensor, box2: Tensor):
         # shape: [batch_size, 1, box_min/box_max, hidden_dim]
-        # box_min: bottom-left corner (=center-offset), box_max: top-right corner (= center+offset)
-        # center: (box_max+box_min)/2, offset: (box_max-box_min)/2
-        # box1 = box1.squeeze(dim=1)
-        # box2 = box2.squeeze(dim=1)
-        # box1_center = (box1[..., 0, :] + box1[..., 1, :]) / 2
-        # box1_offset = (box1[..., 1, :] - box1[..., 0, :]) / 2
-        # box2_center = (box2[..., 0, :] + box2[..., 1, :]) / 2
-        # box2_offset = (box2[..., 1, :] - box2[..., 0, :]) / 2
-        #
-        # box_center = (box1_center + box2_center) / 2
-        # box_offset = box1_offset + box2_offset
-        #
-        # box_min = box_center - box_offset
-        # box_max = box_center + box_offset
-        # return torch.stack((box_min, box_max), dim=-2).unsqueeze(1)
         box_min = torch.min(torch.cat([box1[..., 0, :], box2[..., 0, :]], dim=-2), dim=-2).values
         box_max = torch.max(torch.cat([box1[..., 1, :], box2[..., 1, :]], dim=-2), dim=-2).values
         return torch.stack((box_min, box_max), dim=-2).unsqueeze(1)
@@ -476,7 +463,6 @@ class Box_BiLSTM_MLP(Module):
             box_C_tmp = self.box_embedding.get_box_embeddings(output_C[..., i, :]).unsqueeze(dim=1)
 
             if self.loss_type == 4:
-                # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
                 pairAB = self._get_pairwise_representation_with_boxes(box_A_tmp, box_B_tmp)
                 pboxes_AB.append(pairAB)
 
@@ -495,23 +481,28 @@ class Box_BiLSTM_MLP(Module):
             pbox_AB = torch.cat(pboxes_AB, dim=1)
 
         # conditional probabilities
-        inter_AB, vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
-        inter_BA, vol_B_A = self.volume(box_B, box_A)
-        inter_BC, vol_B_C = self.volume(box_B, box_C)
-        _, vol_C_B = self.volume(box_C, box_B)
-        inter_AC, vol_A_C = self.volume(box_A, box_C)
-        _, vol_C_A = self.volume(box_C, box_A)
+        inter_AB, intervol_AB, vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
+        _, _, vol_B_A = self.volume(box_B, box_A)
+        _, _, vol_B_C = self.volume(box_B, box_C)
+        _, _, vol_C_B = self.volume(box_C, box_B)
+        _, _, vol_A_C = self.volume(box_A, box_C)
+        _, _, vol_C_A = self.volume(box_C, box_A)
 
-        if self.loss_type == 1 or self.loss_type == 4:
-            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+        if self.loss_type == 1:
+            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         elif self.loss_type == 2 and len(boxes_A) == 2:
             # boxes_A[0]: hieve, boxes_A[1]: matres
-            _, vol_mh = self.volume(boxes_A[1], boxes_A[0]) # P(A_matres | A_hieve)
+            _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0]) # P(A_matres | A_hieve)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, vol_mh
         elif self.loss_type == 3 and len(boxes_A) == 2:
-            _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
+            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+        elif self.loss_type == 4:
+            pairvol_AB = self.pair_softvol(pbox_AB)
+            pvol_AB = intervol_AB - pairvol_AB #P( A n B | AB)
+            assert (torch.le(pvol_AB, 0)).all()
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         else:
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None
