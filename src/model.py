@@ -353,7 +353,7 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.loss_type == 1:
+        if self.loss_type == 1 or self.loss_type == 3:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, mlp_output_dim)
         elif self.loss_type == 4:
             self.pair_softvol = SoftVolume(volume_temp, intersection_temp)
@@ -424,7 +424,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
-            if self.loss_type == 1:
+            if self.loss_type == 1 or self.loss_type == 3:
                 pairAB = self.MLP_hieve(pairAB).unsqueeze(1)
 
         elif data_type == "matres":
@@ -432,7 +432,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
-            if self.loss_type == 1:
+            if self.loss_type == 1 or self.loss_type == 3:
                 pairAB = self.MLP_matres(pairAB).unsqueeze(1)
 
         elif data_type == "joint":
