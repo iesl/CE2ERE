@@ -145,12 +145,8 @@ class Trainer:
 
                         if self.data_type == "hieve":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
-                            if self.loss_type:
-                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                         elif self.data_type == "matres":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
-                            if self.loss_type:
-                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                         elif self.data_type == "joint":
                             loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                             if self.loss_type:
@@ -425,6 +421,7 @@ class VectorBiLSTMEvaluator:
         self.model.eval()
         pred_vals, rel_ids = [], []
         cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
+        rids = []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -457,6 +454,7 @@ class VectorBiLSTMEvaluator:
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
+                rids.extend(xy_rel_ids.tolist())
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
@@ -467,4 +465,8 @@ class VectorBiLSTMEvaluator:
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
+        ####### plot for conditional probabilities #######
+        if (eval_type == "valid" or eval_type == "test"):
+            for label in [0, 1, 2, 3]:
+                logger.info("# of {0} labels: {1}".format(label, len((np.array(rids) == label).nonzero()[0])))
         return metrics, cv_xy_list, cv_yz_list, cv_xz_list

@@ -44,6 +44,16 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
                     if relation_dict[(x, z)]["relation"] == (1, 0) or relation_dict[(x, z)]["relation"] == (0, 1):
                         if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
                             append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
+                elif symm_train and model_type == "bilstm":
+                    if relation_dict[(x, y)]["relation"] == 0 or relation_dict[(x, y)]["relation"] == 1:
+                        if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
+                            append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
+                    if relation_dict[(y, z)]["relation"] == 0 or relation_dict[(y, z)]["relation"] == 1:
+                        if (x, z) in relation_dict.keys() and (z, y) in relation_dict.keys() and (x, y) in relation_dict.keys():
+                            append_hieve_train_dataset(train_set, downsample, model_type, x, z, y, event_dict, sntc_dict, relation_dict)
+                    if relation_dict[(x, z)]["relation"] == 0 or relation_dict[(x, z)]["relation"] == 1:
+                        if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
+                            append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
     return train_set
 
 
@@ -110,7 +120,9 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
             if symm_eval and (model_type == "box" or model_type == "vector"):
                 if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
                     append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
-
+            elif symm_eval and (model_type == "bilstm"):
+                if relation_dict[(x, y)]["relation"] == 0 or relation_dict[(x, y)]["relation"] == 1:
+                    append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
     return final_set
 
 
@@ -152,7 +164,7 @@ def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dic
 
 
 def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: Dict[int, str],
-                         eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], symm_train: Optional[int]=0) -> List[Tuple]:
+                         eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], model_type: str, symm_train: Optional[int]=0) -> List[Tuple]:
     """
     eiid_to_event_trigger_dict: eiid = trigger_word
     eiid_pair_to_rel_id_dict: (eiid1, eiid2) = relation_type_id
@@ -170,12 +182,20 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
                     append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
                     if not symm_train: continue
                     eiid_pair_keys = eiid_pair_to_rel_id_dict.keys()
-                    if (eiid1, eiid2) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
-                        append_matres_train_dataset(train_set, eiid2, eiid1, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
-                    if (eiid2, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (0, 1)):
-                        append_matres_train_dataset(train_set, eiid1, eiid3, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
-                    if (eiid1, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == (0, 1)):
-                        append_matres_train_dataset(train_set, eiid3, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                    if model_type == "box" or model_type == "vector":
+                        if (eiid1, eiid2) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
+                            append_matres_train_dataset(train_set, eiid2, eiid1, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                        if (eiid2, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (0, 1)):
+                            append_matres_train_dataset(train_set, eiid1, eiid3, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                        if (eiid1, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == (0, 1)):
+                            append_matres_train_dataset(train_set, eiid3, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                    else:
+                        if (eiid1, eiid2) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == 0 or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == 1):
+                            append_matres_train_dataset(train_set, eiid2, eiid1, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                        if (eiid2, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == 0 or eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == 1):
+                            append_matres_train_dataset(train_set, eiid1, eiid3, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+                        if (eiid1, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == 0 or eiid_pair_to_rel_id_dict[(eiid1, eiid3)] == 1):
+                            append_matres_train_dataset(train_set, eiid3, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
     return train_set
 
 
@@ -220,7 +240,7 @@ def append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc
         train_set.append(to_append)
 
 
-def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], symm_eval: int):
+def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dict: Dict[Tuple[int], int], model_type: str, symm_eval: int):
     final_set = []
     event_dict = data_dict["event_dict"]
     sntc_dict = data_dict["sentences"]
@@ -228,8 +248,13 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
 
     for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
         append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
-        if symm_eval and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
-            append_matres_eval_dataset(final_set, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+        # box
+        if model_type == "box" or model_type == "vector":
+            if symm_eval and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
+                append_matres_eval_dataset(final_set, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
+        else:
+            if symm_eval and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == 0 or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == 1):
+                append_matres_eval_dataset(final_set, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
     return final_set
 
 
@@ -313,7 +338,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     with temp_seed(10):
         for i, file in enumerate(tqdm(hieve_valid)):
             data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
             all_valid_cv_set.extend(cv_valid_set)
         print("done!")
 
@@ -327,7 +352,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
     with temp_seed(10):
         for i, file in enumerate(tqdm(hieve_test)):
             data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
-            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
             all_test_cv_set.extend(cv_test_set)
         print("done!")
 
@@ -341,7 +366,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:101]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
@@ -369,14 +394,14 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
             train_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict, args.symm_train)
             all_train_set.extend(train_set)
         elif file_name in all_tml_file_dict["aq"]:
-            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
+            valid_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.model, args.symm_eval)
             all_valid_set.extend(valid_set)
-            cv_valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            cv_valid_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict, args.model, args.symm_eval)
             all_valid_cv_set.extend(cv_valid_set)
         elif file_name in all_tml_file_dict["pl"]:
-            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.symm_eval)
+            test_set = get_matres_valid_test_set(data_dict, eiid_pair_to_rel_id_dict, args.model, args.symm_eval)
             all_test_set.extend(test_set)
-            cv_test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict)
+            cv_test_set = get_matres_train_set(data_dict, eiid_to_event_trigger_dict, eiid_pair_to_rel_id_dict, args.model, args.symm_eval)
             all_test_cv_set.extend(cv_test_set)
         else:
             raise ValueError(f"file_name={file_name} does not exist in MATRES dataset!")
@@ -390,7 +415,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
           f'cv-test instance num: {len(all_test_cv_set)}')
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_train_set[0:100]
+        all_train_set = all_valid_set[0:101]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
