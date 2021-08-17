@@ -217,7 +217,7 @@ class Trainer:
         logger.info("cv_valid_metrics: {0}".format(cv_valid_metrics))
         wandb.log(valid_metrics, commit=False)
 
-        if self.debug:
+        if not self.debug:
             logger.info("test_metrics: {0}".format(test_metrics))
             logger.info("cv_test_metrics: {0}".format(cv_test_metrics))
             wandb.log(test_metrics, commit=False)
