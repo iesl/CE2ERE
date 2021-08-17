@@ -227,22 +227,22 @@ class Trainer:
         else:                           # joint task
             f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
             # cross category constraint violation evaluation
-            print("Cross Category Constraint Violation Evalution starts...")
-            assert len(cv_hieve_xy_list) == len(cv_hieve_yz_list) == len(cv_hieve_xz_list) \
-                   == len(cv_matres_xy_list) == len(cv_matres_yz_list) == len(cv_matres_xz_list)
-
-            cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
-            if self.model_type == "box" or self.model_type == "vector":
-                cross_cv_eval.update_violation_count_box(cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list,
-                                                         cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list)
-                logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
-                logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
-            elif self.model_type == "bilstm":
-                cross_cv_eval.update_violation_count_vector(cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list,
-                                                         cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list)
-                logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
-                logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
-            print("done!")
+            # print("Cross Category Constraint Violation Evalution starts...")
+            # assert len(cv_hieve_xy_list) == len(cv_hieve_yz_list) == len(cv_hieve_xz_list) \
+            #        == len(cv_matres_xy_list) == len(cv_matres_yz_list) == len(cv_matres_xz_list)
+            #
+            # cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
+            # if self.model_type == "box" or self.model_type == "vector":
+            #     cross_cv_eval.update_violation_count_box(cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list,
+            #                                              cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list)
+            #     logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
+            #     logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
+            # elif self.model_type == "bilstm":
+            #     cross_cv_eval.update_violation_count_vector(cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list,
+            #                                              cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list)
+            #     logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
+            #     logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
+            # print("done!")
         self._update_save_best_score(f1_score, epoch)
         wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
 
