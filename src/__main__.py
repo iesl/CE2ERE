@@ -240,7 +240,7 @@ def main():
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
         num_classes = 4
-        if args.model == "joint":
+        if args.data_type == "joint":
             num_classes = 8
 
         model = create_model(args, num_classes)
