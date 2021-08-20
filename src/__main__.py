@@ -1,3 +1,5 @@
+import os
+
 import wandb
 
 from torch.nn import CrossEntropyLoss
@@ -5,7 +7,7 @@ from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
-from train import Trainer, OneThresholdEvaluator, VectorBiLSTMEvaluator
+from train import Trainer, ThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
 from pathlib import Path
 logger = logging.getLogger()
@@ -162,21 +164,41 @@ def setup(args, saved_model=None):
             test_cv_dataloader_dict=test_cv_dataloader_dict,
         )
     else:
-        print("Using OneThresholdEvaluator..!")
-        evaluator = OneThresholdEvaluator(
-            train_type=args.data_type,
-            model_type=args.model,
-            model=model,
-            device=device,
-            valid_dataloader_dict=valid_dataloader_dict,
-            test_dataloader_dict=test_dataloader_dict,
-            valid_cv_dataloader_dict=valid_cv_dataloader_dict,
-            test_cv_dataloader_dict=test_cv_dataloader_dict,
-            hieve_threshold=args.hieve_threshold,
-            matres_threshold=args.matres_threshold,
-            save_plot=args.save_plot,
-            wandb_id=wandb.run.id,
-        )
+        print("Using ThresholdEvaluator..!")
+        if args.eval_type == "one":
+            evaluator = ThresholdEvaluator(
+                train_type=args.data_type,
+                model_type=args.model,
+                model=model,
+                device=device,
+                valid_dataloader_dict=valid_dataloader_dict,
+                test_dataloader_dict=test_dataloader_dict,
+                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+                test_cv_dataloader_dict=test_cv_dataloader_dict,
+                hieve_threshold=args.hieve_threshold,
+                matres_threshold=args.matres_threshold,
+                eval_type=args.eval_type,
+                save_plot=args.save_plot,
+                wandb_id=wandb.run.id,
+            )
+        elif args.eval_type == "two":
+            evaluator = ThresholdEvaluator(
+                train_type=args.data_type,
+                model_type=args.model,
+                model=model,
+                device=device,
+                valid_dataloader_dict=valid_dataloader_dict,
+                test_dataloader_dict=test_dataloader_dict,
+                valid_cv_dataloader_dict=valid_cv_dataloader_dict,
+                test_cv_dataloader_dict=test_cv_dataloader_dict,
+                hieve_threshold1=args.hieve_threshold1,
+                hieve_threshold2=args.hieve_threshold2,
+                matres_threshold1=args.matres_threshold1,
+                matres_threshold2=args.matres_threshold2,
+                eval_type=args.eval_type,
+                save_plot=args.save_plot,
+                wandb_id=wandb.run.id,
+            )
     hier_weights, temp_weights = get_init_weights(device)
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)

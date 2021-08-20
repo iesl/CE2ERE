@@ -27,6 +27,36 @@ def threshold_evalution(volume1, volume2, relation_label, threshold):
 
     return preds, targets, constraint_dict
 
+
+def two_threshold_evalution(volume1, volume2, relation_label, threshold1, threshold2):
+    """
+    1.  hieve:   volume1: P(A|B), volume2: P(B|A)
+        matres:  volume1: P(B|A), volume2: P(A|B)
+    2. relation_labels: xy_relation_id, yz_relation_id, xz_relation_id
+    3. threshold: log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1
+    3. preds: prediction labels
+    4. targets: target labels
+    """
+    preds, targets = [], []
+    constraint_dict = {}
+    # case1: P(A|B) >= threshold1 && P(B|A) <= threshold1 => A and B are PC, B and A are CP, A is before B, B is after A
+    mask = (volume1 >= threshold1) & (volume2 <= threshold2)
+    update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "10")
+
+    # case2: P(A|B) < threshold1 && P(B|A) > threshold1 => A and B are CP, B and A are PC, A is after B, B is before A
+    mask = (volume1 < threshold1) & (volume2 > threshold2)
+    update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "01")
+
+    # case3: P(A|B) >= threshold1 && P(B|A) >= threshold1 => CoRef, Equal
+    mask = (volume1 >= threshold1) & (volume2 > threshold2)
+    update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "11")
+
+    # case4: P(A|B) < threshold1 && P(B|A) < threshold1 => NoRel, Vague
+    mask = (volume1 < threshold1) & (volume2 <= threshold2)
+    update_evaluation_list(mask, preds, targets, relation_label, constraint_dict, "00")
+
+    return preds, targets, constraint_dict
+
 """
 input: volume1 tensor, volume2 tensor, label
 threshold = 0.5
