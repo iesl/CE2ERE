@@ -111,7 +111,7 @@ class Trainer:
                 epoch_start_time = time.time()
                 self.model.train()
                 logger.info("Training start...")
-                logger.info("======== Epoch {:} / {:}, LR: {:} ========".format(epoch, self.epochs, self.scheduler.get_lr()))
+                logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
                 loss_vals = []
                 for step, batch in enumerate(tqdm(self.train_dataloader)):
                     device = self.device
