@@ -248,6 +248,7 @@ def main():
         print("done!")
 
         wandb.init(reinit=True)
+        set_logger(args.data_type, args.wandb_id.replace("/", "_"))
 
         api = wandb.Api()
         run = api.run(args.wandb_id)
@@ -256,19 +257,30 @@ def main():
         wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
         wandb.config.update({"seed": args.seed}, allow_val_change=True)
+        import itertools
+        for comb in list(itertools.permutations([-0.7, -0.602059991, -0.301029996, -0.124938737], 2)):
+            logger.info("threshold1: %s, threshold2: %s" % (comb[0], comb[1]))
+            wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
+            threshold1 = comb[0]
+            threshold2 = comb[1]
+            if run.config["data_type"] == "hieve":
+                wandb.config.update({"hieve_threshold1": threshold1}, allow_val_change=True)
+                wandb.config.update({"hieve_threshold2": threshold2}, allow_val_change=True)
+            elif run.config["data_type"] == "matres":
+                wandb.config.update({"matres_threshold1": threshold1}, allow_val_change=True)
+                wandb.config.update({"matres_threshold2": threshold2}, allow_val_change=True)
 
-        args = wandb.config
-        set_seed(args.seed)
-        set_logger(args.data_type, args.wandb_id.replace("/", "_"))
-        logger.info(args)
-        num_classes = 4
-        if args.data_type == "joint":
-            num_classes = 8
+            args = wandb.config
+            set_seed(args.seed)
+            logger.info(args)
+            num_classes = 4
+            if args.data_type == "joint":
+                num_classes = 8
 
-        model = create_model(args, num_classes)
-        model.load_state_dict(model_state_dict)
-        trainer, evaluator = setup(args, model)
-        trainer.evaluation(-1)
+            model = create_model(args, num_classes)
+            model.load_state_dict(model_state_dict)
+            trainer, evaluator = setup(args, model)
+            trainer.evaluation(-1)
 
     else:
         wandb.init()
