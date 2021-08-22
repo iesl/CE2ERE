@@ -218,28 +218,27 @@ class Trainer:
         else:                           # joint task
             f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
             # cross category constraint violation evaluation
-            # if not self.debug:
-            # print("Cross Category Constraint Violation Evalution starts...")
-            # cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
-            # h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.evaluate("hieve", "cv-test", cross=True)
-            # assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
-            #        == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-            # if self.model_type == "box" or self.model_type == "vector":
-            #     cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-            # else:
-            #     cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-            #
-            # h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.evaluate("matres", "cv-test", cross=True)
-            # assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
-            #        == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-            # if self.model_type == "box" or self.model_type == "vector":
-            #     cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-            # else:
-            #     cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-            #
-            # logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
-            # logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
-            # print("done!")
+            print("Cross Category Constraint Violation Evalution starts...")
+            cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("matres", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+
+            logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
+            logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
+            print("done!")
         self._update_save_best_score(f1_score, epoch)
         wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
 
@@ -317,7 +316,7 @@ class ThresholdEvaluator:
         plt.savefig(self.fig_save_dir + f"{eval_type}_{p1_name}_{p2_name}_{target}_frequency.png")
         plt.clf()
 
-    def evaluate(self, data_type: str, eval_type: str, cross=False):
+    def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
             constraint_violation = None
@@ -335,6 +334,88 @@ class ThresholdEvaluator:
         vol_ab, vol_bc, vol_ac = [], [], []
         vol_ba, vol_cb, vol_ca = [], [], []
         rids = []
+        eval_start_time = time.time()
+        logger.info(f"[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+                xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                flag = batch[15]  # 0: HiEve, 1: MATRES
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+
+                if vol_A_B.shape[-1] == 2:
+                    if data_type == "hieve":
+                        vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
+                        vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
+                        vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
+                        xy_rel_id = xy_rel_id[flag == 0]
+                        yz_rel_id = yz_rel_id[flag == 0]
+                        xz_rel_id = xz_rel_id[flag == 0]
+                    elif data_type == "matres":
+                        vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
+                        vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
+                        vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
+                        xy_rel_id = xy_rel_id[flag == 1]
+                        yz_rel_id = yz_rel_id[flag == 1]
+                        xz_rel_id = xz_rel_id[flag == 1]
+                else:
+                    vol_A_B, vol_B_A = vol_A_B.squeeze(1), vol_B_A.squeeze(1)  # [batch_size]
+                    vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
+                    vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
+
+                if self.evaluator == "one":
+                    if data_type == "hieve":
+                        threshold = self.hieve_threshold
+                    if data_type == "matres":
+                        threshold = self.matres_threshold
+                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
+                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
+                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                elif self.evaluator == "two":
+                    if data_type == "hieve":
+                        threshold1 = self.hieve_threshold1
+                        threshold2 = self.hieve_threshold2
+                    if data_type == "matres":
+                        threshold1 = self.matres_threshold1
+                        threshold2 = self.matres_threshold2
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
+
+                assert len(xy_preds) == len(xy_targets)
+                preds.extend(xy_preds)
+                targets.extend(xy_targets)
+                vol_ab.extend(torch.exp(vol_A_B).tolist())
+                vol_ba.extend(torch.exp(vol_B_A).tolist())
+                rids.extend([''.join(map(str, item)) for item in xy_rel_id.tolist()])
+
+                if constraint_violation:
+                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
+
+            if constraint_violation:
+                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
+                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
+
+        metrics = metric(data_type, eval_type, self.model_type, y_true=targets, y_pred=preds)
+        logger.info("done!")
+        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
+
+        ####### plot for conditional probabilities #######
+        if (eval_type == "valid" or eval_type == "test") and self.save_plot:
+            for label in ["10", "01", "11", "00"]:
+                self.create_disttribution_plot(eval_type, vol_ab, vol_ba, "vol_ab", "vol_ba", rids, label)
+                logger.info("# of {0} labels: {1}".format(label, len((np.array(rids)==label).nonzero()[0])))
+        return metrics
+
+    def cross_evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
+        else:
+            raise ValueError("Invalid evaluation type")
+
+        self.model.eval()
         h_cv_xy_list, h_cv_yz_list, h_cv_xz_list = [], [], []
         m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = [], [], []
         eval_start_time = time.time()
@@ -348,7 +429,7 @@ class ThresholdEvaluator:
                 flag = batch[15]  # 0: HiEve, 1: MATRES
                 vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                if cross and vol_A_B.shape[-1] == 2:
+                if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
                         h_vol_A_B, h_vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
                         h_vol_B_C, h_vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
@@ -416,71 +497,8 @@ class ThresholdEvaluator:
                     m_cv_xy_list.append(m_xy_constraint_dict)
                     m_cv_yz_list.append(m_yz_constraint_dict)
                     m_cv_xz_list.append(m_xz_constraint_dict)
-                    return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list
-
-                if vol_A_B.shape[-1] == 2:
-                    if data_type == "hieve":
-                        vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
-                        vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
-                        vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
-                        xy_rel_id = xy_rel_id[flag == 0]
-                        yz_rel_id = yz_rel_id[flag == 0]
-                        xz_rel_id = xz_rel_id[flag == 0]
-                    elif data_type == "matres":
-                        vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
-                        vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
-                        vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
-                        xy_rel_id = xy_rel_id[flag == 1]
-                        yz_rel_id = yz_rel_id[flag == 1]
-                        xz_rel_id = xz_rel_id[flag == 1]
-                else:
-                    vol_A_B, vol_B_A = vol_A_B.squeeze(1), vol_B_A.squeeze(1)  # [batch_size]
-                    vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
-                    vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
-
-                if self.evaluator == "one":
-                    if data_type == "hieve":
-                        threshold = self.hieve_threshold
-                    if data_type == "matres":
-                        threshold = self.matres_threshold
-                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
-                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
-                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
-                elif self.evaluator == "two":
-                    if data_type == "hieve":
-                        threshold1 = self.hieve_threshold1
-                        threshold2 = self.hieve_threshold2
-                    if data_type == "matres":
-                        threshold1 = self.matres_threshold1
-                        threshold2 = self.matres_threshold2
-                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
-                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
-                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
-
-                assert len(xy_preds) == len(xy_targets)
-                preds.extend(xy_preds)
-                targets.extend(xy_targets)
-                vol_ab.extend(torch.exp(vol_A_B).tolist())
-                vol_ba.extend(torch.exp(vol_B_A).tolist())
-                rids.extend([''.join(map(str, item)) for item in xy_rel_id.tolist()])
-
-                if constraint_violation:
-                    constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
-
-            if constraint_violation:
-                logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
-                logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
-
-        metrics = metric(data_type, eval_type, self.model_type, y_true=targets, y_pred=preds)
-        logger.info("done!")
-        metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
-
-        ####### plot for conditional probabilities #######
-        if (eval_type == "valid" or eval_type == "test") and self.save_plot:
-            for label in ["10", "01", "11", "00"]:
-                self.create_disttribution_plot(eval_type, vol_ab, vol_ba, "vol_ab", "vol_ba", rids, label)
-                logger.info("# of {0} labels: {1}".format(label, len((np.array(rids)==label).nonzero()[0])))
-        return metrics
+        logger.info("Cross Evaluation Elapsed Time: %s" % (time.time() - eval_start_time))
+        return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list
 
 
 class VectorBiLSTMEvaluator:
