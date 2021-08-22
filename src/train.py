@@ -516,7 +516,7 @@ class VectorBiLSTMEvaluator:
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
 
-    def evaluate(self, data_type: str, eval_type: str, cross=False):
+    def evaluate(self, data_type: str, eval_type: str):
         if eval_type == "valid":
             dataloader = self.valid_dataloader_dict[data_type]
             constraint_violation = None
@@ -543,32 +543,6 @@ class VectorBiLSTMEvaluator:
                 xy_rel_id = batch[12].to(device)
                 alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
-
-                if cross and self.train_type == "joint":
-                    h_alpha_indices = torch.max(alpha[:, 0:4], 1).indices
-                    h_beta_indices = torch.max(beta[:, 0:4], 1).indices
-                    h_gamma_indices = torch.max(gamma[:, 0:4], 1).indices
-
-                    h_alpha_indices = [val.item() for val in h_alpha_indices]
-                    h_beta_indices = [val.item() for val in h_beta_indices]
-                    h_gamma_indices = [val.item() for val in h_gamma_indices]
-
-                    m_alpha_indices = torch.max(alpha[:, 4:8], 1).indices
-                    m_beta_indices = torch.max(beta[:, 4:8], 1).indices
-                    m_gamma_indices = torch.max(gamma[:, 4:8], 1).indices
-
-                    m_alpha_indices = [val.item() for val in m_alpha_indices]
-                    m_beta_indices = [val.item() for val in m_beta_indices]
-                    m_gamma_indices = [val.item() for val in m_gamma_indices]
-
-                    h_cv_xy_list.append(h_alpha_indices)
-                    h_cv_yz_list.append(h_beta_indices)
-                    h_cv_xz_list.append(h_gamma_indices)
-
-                    m_cv_xy_list.append(m_alpha_indices)
-                    m_cv_yz_list.append(m_beta_indices)
-                    m_cv_xz_list.append(m_gamma_indices)
-                    return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list
 
                 if self.train_type == "hieve" or self.train_type == "matres":
                     pred = torch.max(alpha, 1).indices.cpu().numpy()  # alpha: [16, 4]
@@ -609,3 +583,46 @@ class VectorBiLSTMEvaluator:
             for label in [0, 1, 2, 3]:
                 logger.info("# of {0} labels: {1}".format(label, len((np.array(rids) == label).nonzero()[0])))
         return metrics
+
+    def cross_evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
+        else:
+            raise ValueError("Invalid evaluation type")
+
+        self.model.eval()
+        h_cv_xy_list, h_cv_yz_list, h_cv_xz_list = [], [], []
+        m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = [], [], []
+        eval_start_time = time.time()
+        logger.info(f"[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+                alpha, beta, gamma = self.model(batch, device)
+
+                if self.train_type == "joint":
+                    h_alpha_indices = torch.max(alpha[:, 0:4], 1).indices
+                    h_beta_indices = torch.max(beta[:, 0:4], 1).indices
+                    h_gamma_indices = torch.max(gamma[:, 0:4], 1).indices
+
+                    h_alpha_indices = [val.item() for val in h_alpha_indices]
+                    h_beta_indices = [val.item() for val in h_beta_indices]
+                    h_gamma_indices = [val.item() for val in h_gamma_indices]
+
+                    m_alpha_indices = torch.max(alpha[:, 4:8], 1).indices
+                    m_beta_indices = torch.max(beta[:, 4:8], 1).indices
+                    m_gamma_indices = torch.max(gamma[:, 4:8], 1).indices
+
+                    m_alpha_indices = [val.item() for val in m_alpha_indices]
+                    m_beta_indices = [val.item() for val in m_beta_indices]
+                    m_gamma_indices = [val.item() for val in m_gamma_indices]
+
+                    h_cv_xy_list.append(h_alpha_indices)
+                    h_cv_yz_list.append(h_beta_indices)
+                    h_cv_xz_list.append(h_gamma_indices)
+
+                    m_cv_xy_list.append(m_alpha_indices)
+                    m_cv_yz_list.append(m_beta_indices)
+                    m_cv_xz_list.append(m_gamma_indices)
+        logger.info("Cross Evaluation Elapsed Time: %s" % (time.time() - eval_start_time))
+        return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list
