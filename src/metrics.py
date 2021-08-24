@@ -494,41 +494,40 @@ class CrossCategoryConstraintViolation:
 
     def update_violation_count_vector(self, h_alpha_list, h_beta_list, h_gamma_list, m_alpha_list, m_beta_list, m_gamma_list):
         # update each violation dict key using xy, yz, xz constraint dict
-        for ha, hb, hg, ma, mb, mg in zip(h_alpha_list, h_beta_list, h_gamma_list, m_alpha_list, m_beta_list, m_gamma_list):
-            ma = [x + 4 for x in ma]
-            mb = [x + 4 for x in mb]
-            mg = [x + 4 for x in mg]
-            for i in range(len(ha)):
-                alpha, beta, gamma = ha[i], hb[i], hg[i]
-                self.update_values(alpha, beta, gamma)
-                self.all_case_count[(alpha, beta)] += 1 # add count only in the first case of (alpha, beta)
+        for key, value in self.violation_dict.items():
+            xy, yz, xz = key
+            for i, (ha, hb, hg, ma, mb, mg) in enumerate(zip(h_alpha_list, h_beta_list, h_gamma_list, m_alpha_list, m_beta_list, m_gamma_list)):
+                if xy < 4:
+                    a = ha
+                elif xy >= 4:
+                    a = ma+4
 
-                alpha, beta, gamma = ha[i], hb[i], mg[i]
-                self.update_values(alpha, beta, gamma)  # update constraint violation count only, don't add total count again
+                if yz < 4:
+                    b = hb
+                elif yz >= 4:
+                    b = mb+4
 
-                alpha, beta, gamma = ha[i], mb[i], hg[i]
-                self.update_values(alpha, beta, gamma)
-                self.all_case_count[(alpha, beta)] += 1
+                if xz < 4:
+                    g = hg
+                elif xz >= 4:
+                    g = mg+4
 
-                alpha, beta, gamma = ha[i], mb[i], mg[i]
-                self.update_values(alpha, beta, gamma)
+                if a == xy and b == yz and g == xz:
+                    self.violation_dict[key] += 1
 
-                alpha, beta, gamma = ma[i], hb[i], hg[i]
-                self.update_values(alpha, beta, gamma)
-                self.all_case_count[(alpha, beta)] += 1
+        for key, value in self.all_case_count.items():
+            xy, yz = key
+            for i, (ha, hb, ma, mb) in enumerate(zip(h_alpha_list, h_beta_list, m_alpha_list, m_beta_list)):
+                if xy < 4:
+                    a = ha
+                elif xy >= 4:
+                    a = ma + 4
 
-                alpha, beta, gamma = ma[i], hb[i], mg[i]
-                self.update_values(alpha, beta, gamma)
+                if yz < 4:
+                    b = hb
+                elif yz >= 4:
+                    b = mb + 4
 
-                alpha, beta, gamma = ma[i], mb[i], hg[i]
-                self.update_values(alpha, beta, gamma)
-                self.all_case_count[(alpha, beta)] += 1
-
-                alpha, beta, gamma = ma[i], mb[i], mg[i]
-                self.update_values(alpha, beta, gamma)
-
-    def update_values(self, alpha, beta, gamma):
-        v_key = (alpha, beta, gamma)
-        if v_key in self.violation_dict.keys():
-            self.violation_dict[v_key] += 1
+                if a == xy and b == yz:
+                    self.all_case_count[key] += 1
 
