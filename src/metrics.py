@@ -490,7 +490,8 @@ class CrossCategoryConstraintViolation:
                     yz_indices = h_yz_cv_dict[yz[1:]]
                 elif yz.startswith("m"):
                     yz_indices = m_yz_cv_dict[yz[1:]]
-                self.all_case_count[key] += len(xy_indices & yz_indices)
+                # multiply 2 because we have two cases for each (xy, yz) ie. hh -> hhh, hhm
+                self.all_case_count[key] += len(xy_indices & yz_indices) * 2
 
     def update_violation_count_vector(self, h_alpha_list, h_beta_list, h_gamma_list, m_alpha_list, m_beta_list, m_gamma_list):
         # update each violation dict key using xy, yz, xz constraint dict
@@ -529,5 +530,6 @@ class CrossCategoryConstraintViolation:
                     b = mb + 4
 
                 if a == xy and b == yz:
-                    self.all_case_count[key] += 1
+                    # +2 because we have two cases for each (xy, yz) ie. hh -> hhh, hhm
+                    self.all_case_count[key] += 2
 
