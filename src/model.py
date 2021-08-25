@@ -337,7 +337,7 @@ class Vector_BiLSTM_MLP(Module):
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
                  lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int, hieve_mlp_size: int,
-                 proj_output_dim: int, matres_mlp_size: int, loss_type: int, roberta_size_type="roberta-base"):
+                 proj_output_dim: int, matres_mlp_size: int, loss_type: int, use_vec_mlp=False, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -347,7 +347,8 @@ class Box_BiLSTM_MLP(Module):
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
-        self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
+        if use_vec_mlp:
+            self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
         self.MLP_hieve = MLP(2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         self.MLP_matres = MLP(2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)

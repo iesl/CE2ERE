@@ -248,8 +248,7 @@ class ThresholdEvaluator:
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
                  valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
                  eval_type: str, save_plot: int, hieve_threshold: Optional[float]=-0.5, matres_threshold: Optional[float]=-0.5,
-                 hieve_threshold1: Optional[float]=-0.5, hieve_threshold2: Optional[float]=-0.5,
-                 matres_threshold1: Optional[float]=-0.5, matres_threshold2: Optional[float]=-0.5, wandb_id: Optional[str]=""):
+                 threshold1: Optional[float]=-0.5, threshold2: Optional[float]=-0.5, wandb_id: Optional[str]=""):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -266,10 +265,8 @@ class ThresholdEvaluator:
             self.hieve_threshold = hieve_threshold
             self.matres_threshold = matres_threshold
         elif self.evaluator == "two":
-            self.hieve_threshold1 = hieve_threshold1
-            self.hieve_threshold2 = hieve_threshold2
-            self.matres_threshold1 = matres_threshold1
-            self.matres_threshold2 = matres_threshold2
+            self.threshold1 = threshold1
+            self.threshold2 = threshold2
 
         self.save_plot = save_plot
         if self.save_plot:
