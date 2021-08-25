@@ -247,8 +247,7 @@ class ThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
                  valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
-                 eval_type: str, save_plot: int, threshold1: Optional[float]=-0.5, threshold2: Optional[float]=-0.5,
-                 wandb_id: Optional[str]=""):
+                 eval_type: str, save_plot: int, threshold1: float, threshold2: Optional[float]=-0.5, wandb_id: Optional[str]=""):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model

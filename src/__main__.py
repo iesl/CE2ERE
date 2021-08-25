@@ -175,6 +175,7 @@ def setup(args, saved_model=None):
                 test_dataloader_dict=test_dataloader_dict,
                 valid_cv_dataloader_dict=valid_cv_dataloader_dict,
                 test_cv_dataloader_dict=test_cv_dataloader_dict,
+                threshold1=args.threshold1,
                 eval_type=args.eval_type,
                 save_plot=args.save_plot,
                 wandb_id=wandb.run.id,
