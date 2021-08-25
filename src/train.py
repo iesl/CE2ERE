@@ -262,11 +262,13 @@ class ThresholdEvaluator:
 
         self.evaluator = eval_type
         if self.evaluator == "one":
-            self.hieve_threshold = hieve_threshold
-            self.matres_threshold = matres_threshold
+            self.hieve_threshold = threshold1
+            self.matres_threshold = threshold1
         elif self.evaluator == "two":
-            self.threshold1 = threshold1
-            self.threshold2 = threshold2
+            self.hieve_threshold1 = threshold1
+            self.hieve_threshold2 = threshold2
+            self.matres_threshold1 = threshold1
+            self.matres_threshold2 = threshold2
 
         self.save_plot = save_plot
         if self.save_plot:
