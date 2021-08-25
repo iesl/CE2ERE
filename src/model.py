@@ -348,8 +348,8 @@ class Box_BiLSTM_MLP(Module):
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
-        self.MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, 2*proj_output_dim)
-        self.MLP_matres = MLP(mlp_output_dim, matres_mlp_size, 2*proj_output_dim)
+        self.MLP_hieve = MLP(2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
+        self.MLP_matres = MLP(2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
@@ -415,16 +415,7 @@ class Box_BiLSTM_MLP(Module):
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
-        if self.loss_type == 1 or self.loss_type == 3:
-            # pair-wise representation using Hadamard
-            pairAB = self.MLP_pair(self._get_pairwise_representation(output_A, output_B))  # [batch_size, lstm_hidden_dim * 2 * 3][64, 2048]
-        elif self.loss_type == 5:
-            # pair-wise representation without Hadamard
-            pairAB = self.MLP_pair(self._get_pairwise_representation2(output_A, output_B))  # [batch_size, lstm_hidden_dim * 2 * 2]
-
-        output_A = self.MLP(output_A) #[batch_size, mlp_output_dim]; [64, 44]
-        output_B = self.MLP(output_B)
-        output_C = self.MLP(output_C)
+        pairAB = self._get_pairwise_representation(output_A, output_B)
 
         # projection layers
         if data_type == "hieve":
@@ -433,7 +424,7 @@ class Box_BiLSTM_MLP(Module):
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
-                pairAB = self.MLP_hieve(pairAB).unsqueeze(1)
+                pairAB = self.MLP_pair_hieve(pairAB).unsqueeze(1)
 
         elif data_type == "matres":
             # event word
@@ -441,7 +432,7 @@ class Box_BiLSTM_MLP(Module):
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
-                pairAB = self.MLP_matres(pairAB).unsqueeze(1)
+                pairAB = self.MLP_pair_matres(pairAB).unsqueeze(1)
 
         elif data_type == "joint":
             output_A_hieve = self.MLP_hieve(output_A) # [output_dim, 2*proj_output_dim]
@@ -455,8 +446,8 @@ class Box_BiLSTM_MLP(Module):
             output_C = torch.stack([output_C_hieve, output_C_matres], dim=1)
 
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
-                pairAB_hieve = self.MLP_hieve(pairAB)
-                pairAB_matres = self.MLP_matres(pairAB)
+                pairAB_hieve = self.MLP_pair_hieve(pairAB)
+                pairAB_matres = self.MLP_pair_matres(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
 
         dataset_num = output_A.shape[1]
