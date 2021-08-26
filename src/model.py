@@ -425,7 +425,7 @@ class Box_BiLSTM_MLP(Module):
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
-                pairAB = self.MLP_pair_hieve(pairAB).unsqueeze(1)
+                pairAB = self.MLP_pair(pairAB).unsqueeze(1)
 
         elif data_type == "matres":
             # event word
@@ -433,7 +433,7 @@ class Box_BiLSTM_MLP(Module):
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
-                pairAB = self.MLP_pair_matres(pairAB).unsqueeze(1)
+                pairAB = self.MLP_pair(pairAB).unsqueeze(1)
 
         elif data_type == "joint":
             output_A_hieve = self.MLP_hieve(output_A) # [output_dim, 2*proj_output_dim]
