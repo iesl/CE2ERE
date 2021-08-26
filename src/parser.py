@@ -32,6 +32,8 @@ def build_parser():
 
     parser.add_argument('--threshold1', type=float, default=-0.602059991)
     parser.add_argument('--threshold2', type=float, default=-0.301029996)
+    parser.add_argument('--threshold3', type=float, default=-0.602059991)
+    parser.add_argument('--threshold4', type=float, default=-0.301029996)
 
     parser.add_argument('--mlp_size', type=int, default=512) # mlp hidden dim
     parser.add_argument('--mlp_output_dim', type=int, default=32) # mlp output dim;

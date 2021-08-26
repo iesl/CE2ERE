@@ -180,7 +180,7 @@ def setup(args, saved_model=None):
                 save_plot=args.save_plot,
                 wandb_id=wandb.run.id,
             )
-        elif args.eval_type == "two":
+        elif args.eval_type == "two" or args.eval_type == "four":
             evaluator = ThresholdEvaluator(
                 train_type=args.data_type,
                 model_type=args.model,
@@ -192,6 +192,8 @@ def setup(args, saved_model=None):
                 test_cv_dataloader_dict=test_cv_dataloader_dict,
                 threshold1=args.threshold1,
                 threshold2=args.threshold2,
+                threshold3=args.threshold3,
+                threshold4=args.threshold4,
                 eval_type=args.eval_type,
                 save_plot=args.save_plot,
                 wandb_id=wandb.run.id,
