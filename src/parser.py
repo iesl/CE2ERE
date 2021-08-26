@@ -52,7 +52,7 @@ def build_parser():
                         help="1: within task-constraints, 2: within task & cross constraints")
     parser.add_argument('--patience', type=int, default=10, help="patience for early stopping")
     parser.add_argument('--eval_step', type=int, default=1, help="evaluation every n epochs")
-    parser.add_argument('--eval_type', type=str, default="one", choices=["one", "two"], help="evaluate wheter using one threshold or two threshold")
+    parser.add_argument('--eval_type', type=str, default="one", choices=["one", "two", "four"], help="evaluate wheter using one threshold or two threshold")
     parser.add_argument('--seed', type=int, default=random.randint(0, 2 ** 32), help="seed for random number generator")
 
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
