@@ -336,8 +336,8 @@ class Vector_BiLSTM_MLP(Module):
 
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int, hieve_mlp_size: int,
-                 proj_output_dim: int, matres_mlp_size: int, loss_type: int, use_vec_mlp=False, roberta_size_type="roberta-base"):
+                 lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int,
+                 proj_output_dim: int, loss_type: int, use_vec_mlp=False, roberta_size_type="roberta-base", use_sub=False):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -346,6 +346,7 @@ class Box_BiLSTM_MLP(Module):
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+        self.use_sub = use_sub
 
         if use_vec_mlp:
             self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
@@ -354,7 +355,9 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.use_sub and (self.loss_type == 1 or self.loss_type == 3):
+            self.MLP_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
+        elif self.loss_type == 1 or self.loss_type == 3:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         elif self.loss_type == 5:
             self.MLP_pair = MLP(2 * 2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
@@ -385,8 +388,13 @@ class Box_BiLSTM_MLP(Module):
             return torch.stack(roberta_list)
 
     def _get_pairwise_representation(self, tensor1: Tensor, tensor2: Tensor):
-        mul = torch.mul(tensor1, tensor2) # [64, 512]
-        return torch.cat((tensor1, tensor2, mul), 1)
+        if self.use_sub:
+            sub = torch.sub(tensor1, tensor2)  # [64, 512]
+            mul = torch.mul(tensor1, tensor2)  # [64, 512]
+            return torch.cat((tensor1, tensor2, sub, mul), 1)
+        else:
+            mul = torch.mul(tensor1, tensor2)  # [64, 512]
+            return torch.cat((tensor1, tensor2, mul), 1)
 
     def _get_pairwise_representation2(self, tensor1: Tensor, tensor2: Tensor):
         return torch.cat((tensor1, tensor2), 1)

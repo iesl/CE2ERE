@@ -274,7 +274,6 @@ class ThresholdEvaluator:
             self.hieve_threshold2 = threshold2
             self.matres_threshold1 = threshold3
             self.matres_threshold2 = threshold4
-            print(self.hieve_threshold1, self.hieve_threshold2, self.matres_threshold1, self.matres_threshold2)
 
         self.save_plot = save_plot
         if self.save_plot:

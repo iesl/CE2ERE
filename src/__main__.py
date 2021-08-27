@@ -114,11 +114,10 @@ def create_model(args, num_classes):
             volume_temp=args.volume_temp,
             intersection_temp=args.intersection_temp,
             mlp_output_dim=args.mlp_output_dim,
-            hieve_mlp_size=args.hieve_mlp_size,
-            matres_mlp_size=args.matres_mlp_size,
             proj_output_dim=args.proj_output_dim,
             loss_type=args.loss_type,
             roberta_size_type="roberta-base",
+            use_sub=args.use_sub,
         )
     else:
         raise ValueError(f"{args.model} is unsupported!")
