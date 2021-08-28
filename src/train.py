@@ -11,14 +11,13 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from torch import Tensor, optim
-from torch.optim.lr_scheduler import StepLR
 from tqdm import tqdm
 from typing import Dict, Union, Optional
-from torch.nn import Module, CrossEntropyLoss, KLDivLoss
+from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
-from evalulation import threshold_evalution
+from evalulation import threshold_evalution, two_threshold_evalution
 from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss
-from metrics import metric, ConstraintViolation
+from metrics import metric, ConstraintViolation, CrossCategoryConstraintViolation
 
 logger = logging.getLogger()
 
@@ -61,8 +60,6 @@ class Trainer:
 
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
-
-        self.scheduler = optim.lr_scheduler.StepLR(optimizer=self.opt, step_size= self.epochs/2, gamma=0.1)
 
         if self.model_save:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
@@ -114,7 +111,7 @@ class Trainer:
                 epoch_start_time = time.time()
                 self.model.train()
                 logger.info("Training start...")
-                logger.info("======== Epoch {:} / {:}, LR: {:} ========".format(epoch, self.epochs, self.scheduler.get_lr()))
+                logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
                 loss_vals = []
                 for step, batch in enumerate(tqdm(self.train_dataloader)):
                     device = self.device
@@ -145,12 +142,8 @@ class Trainer:
 
                         if self.data_type == "hieve":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
-                            if self.loss_type:
-                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                         elif self.data_type == "matres":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
-                            if self.loss_type:
-                                loss += self.lambda_dict["lambda_trans"] * self.loss_func_trans(alpha, beta, gamma).sum()
                         elif self.data_type == "joint":
                             loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                             if self.loss_type:
@@ -164,7 +157,6 @@ class Trainer:
                     if self.model_type == "box" or self.model_type == "vector":
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
-                self.scheduler.step()
 
                 loss = sum(loss_vals) / len(loss_vals)
                 logger.info("epoch: %d, loss: %f" % (epoch, loss))
@@ -194,31 +186,26 @@ class Trainer:
         valid_metrics, test_metrics = {}, {}
         cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
         if self.data_type == "hieve" or self.data_type == "joint":
-            valid_metric, _, _, _ = self.evaluator.evaluate("hieve", "valid")
+            valid_metric = self.evaluator.evaluate("hieve", "valid")
             valid_metrics.update(valid_metric)
-            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("hieve", "cv-valid")[0])
 
             if not self.debug:
-                test_metric, _, _, _ = self.evaluator.evaluate("hieve", "test")
+                test_metric = self.evaluator.evaluate("hieve", "test")
                 test_metrics.update(test_metric)
-                cv_test_metric, cv_hieve_xy_list, cv_hieve_yz_list, cv_hieve_xz_list = self.evaluator.evaluate("hieve", "cv-test")
+                cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
                 cv_test_metrics.update(cv_test_metric)
-                assert len(cv_hieve_xy_list) == len(cv_hieve_yz_list) == len(cv_hieve_xz_list)
 
         if self.data_type == "matres" or self.data_type == "joint":
-            valid_metric, _, _, _ = self.evaluator.evaluate("matres", "valid")
+            valid_metric = self.evaluator.evaluate("matres", "valid")
             valid_metrics.update(valid_metric)
-            if self.cv_valid: cv_valid_metrics.update(self.evaluator.evaluate("matres", "cv-valid")[0])
 
             if not self.debug:
-                test_metric, _, _, _ = self.evaluator.evaluate("matres", "test")
+                test_metric = self.evaluator.evaluate("matres", "test")
                 test_metrics.update(test_metric)
-                cv_test_metric, cv_matres_xy_list, cv_matres_yz_list, cv_matres_xz_list = self.evaluator.evaluate("matres", "cv-test")
+                cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
                 cv_test_metrics.update(cv_test_metric)
-                assert len(cv_matres_xy_list) == len(cv_matres_yz_list) == len(cv_matres_xz_list)
 
         logger.info("valid_metrics: {0}".format(valid_metrics))
-        logger.info("cv_valid_metrics: {0}".format(cv_valid_metrics))
         wandb.log(valid_metrics, commit=False)
 
         if not self.debug:
@@ -231,23 +218,38 @@ class Trainer:
         else:                           # joint task
             f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
             # cross category constraint violation evaluation
-            # print("cv_hieve_xy_list:", cv_hieve_xy_list)
-            # print("cv_hieve_yz_list:", cv_hieve_yz_list)
-            # print("cv_hieve_xz_list:", cv_hieve_xz_list)
-            #
-            # print("cv_matres_xy_list:", cv_matres_xy_list)
-            # print("cv_matres_yz_list:", cv_matres_yz_list)
-            # print("cv_matres_xz_list:", cv_matres_xz_list)
+            logger.info("Cross Category Constraint Violation Evalution starts...")
+            cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
 
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("matres", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+
+            logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
+            logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
+            logger.info("done!")
         self._update_save_best_score(f1_score, epoch)
         wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
 
 
-class OneThresholdEvaluator:
+class ThresholdEvaluator:
     def __init__(self, train_type: str, model_type: str, model: Module, device: torch.device,
                  valid_dataloader_dict: Dict[str, DataLoader], test_dataloader_dict: Dict[str, DataLoader],
                  valid_cv_dataloader_dict: Dict[str, DataLoader], test_cv_dataloader_dict: Dict[str, DataLoader],
-                 hieve_threshold: float, matres_threshold: float, save_plot: int, wandb_id: Optional[str]=""):
+                 eval_type: str, save_plot: int, hieve_threshold: Optional[float]=-0.5, matres_threshold: Optional[float]=-0.5,
+                 hieve_threshold1: Optional[float]=-0.5, hieve_threshold2: Optional[float]=-0.5,
+                 matres_threshold1: Optional[float]=-0.5, matres_threshold2: Optional[float]=-0.5, wandb_id: Optional[str]=""):
         self.train_type = train_type
         self.model_type = model_type
         self.model = model
@@ -259,10 +261,17 @@ class OneThresholdEvaluator:
         self.best_hieve_score = 0.0
         self.best_matres_score = 0.0
 
-        self.hieve_threshold = hieve_threshold
-        self.matres_threshold = matres_threshold
-        self.save_plot = save_plot
+        self.evaluator = eval_type
+        if self.evaluator == "one":
+            self.hieve_threshold = hieve_threshold
+            self.matres_threshold = matres_threshold
+        elif self.evaluator == "two":
+            self.hieve_threshold1 = hieve_threshold1
+            self.hieve_threshold2 = hieve_threshold2
+            self.matres_threshold1 = matres_threshold1
+            self.matres_threshold2 = matres_threshold2
 
+        self.save_plot = save_plot
         if self.save_plot:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
             self.fig_save_dir = "./figures/" + f"{self.train_type}_{timestamp}_{wandb_id}/"
@@ -325,7 +334,6 @@ class OneThresholdEvaluator:
         vol_ab, vol_bc, vol_ac = [], [], []
         vol_ba, vol_cb, vol_ca = [], [], []
         rids = []
-        cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -357,14 +365,25 @@ class OneThresholdEvaluator:
                     vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
                     vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
 
-                if data_type == "hieve":
-                    threshold = self.hieve_threshold
-                if data_type == "matres":
-                    threshold = self.matres_threshold
+                if self.evaluator == "one":
+                    if data_type == "hieve":
+                        threshold = self.hieve_threshold
+                    if data_type == "matres":
+                        threshold = self.matres_threshold
+                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
+                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
+                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                elif self.evaluator == "two":
+                    if data_type == "hieve":
+                        threshold1 = self.hieve_threshold1
+                        threshold2 = self.hieve_threshold2
+                    if data_type == "matres":
+                        threshold1 = self.matres_threshold1
+                        threshold2 = self.matres_threshold2
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
 
-                xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
-                yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
-                xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
                 assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
                 targets.extend(xy_targets)
@@ -374,9 +393,6 @@ class OneThresholdEvaluator:
 
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
-                    cv_xy_list.append(xy_constraint_dict)
-                    cv_yz_list.append(yz_constraint_dict)
-                    cv_xz_list.append(xz_constraint_dict)
 
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
@@ -391,7 +407,86 @@ class OneThresholdEvaluator:
             for label in ["10", "01", "11", "00"]:
                 self.create_disttribution_plot(eval_type, vol_ab, vol_ba, "vol_ab", "vol_ba", rids, label)
                 logger.info("# of {0} labels: {1}".format(label, len((np.array(rids)==label).nonzero()[0])))
-        return metrics, cv_xy_list, cv_yz_list, cv_xz_list
+        return metrics
+
+    def cross_evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
+        else:
+            raise ValueError("Invalid evaluation type")
+
+        self.model.eval()
+        h_cv_xy_list, h_cv_yz_list, h_cv_xz_list = [], [], []
+        m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = [], [], []
+        eval_start_time = time.time()
+        logger.info(f"[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+                xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
+                xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
+                flag = batch[15]  # 0: HiEve, 1: MATRES
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+
+                if vol_A_B.shape[-1] == 2:
+                    if data_type == "hieve":
+                        h_vol_A_B, h_vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0] # [batch_size]
+                        h_vol_B_C, h_vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
+                        h_vol_A_C, h_vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
+                        if self.evaluator == "one":
+                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
+                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
+                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
+                        elif self.evaluator == "two":
+                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = two_threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = two_threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = two_threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                        m_vol_A_B, m_vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
+                        m_vol_B_C, m_vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
+                        m_vol_A_C, m_vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
+                        if self.evaluator == "one":
+                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
+                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
+                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
+                        elif self.evaluator == "two":
+                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = two_threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold1, self.matres_threshold2)
+                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = two_threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold1, self.matres_threshold2)
+                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = two_threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold1, self.matres_threshold2)
+                    elif data_type == "matres":
+                        h_vol_A_B, h_vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0]
+                        h_vol_B_C, h_vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
+                        h_vol_A_C, h_vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
+                        if self.evaluator == "one":
+                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
+                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
+                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
+                        elif self.evaluator == "two":
+                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = two_threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = two_threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = two_threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+
+                        m_vol_A_B, m_vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
+                        m_vol_B_C, m_vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
+                        m_vol_A_C, m_vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
+                        if self.evaluator == "one":
+                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
+                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
+                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
+                        elif self.evaluator == "two":
+                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = two_threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold1, self.matres_threshold2)
+                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = two_threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold1, self.matres_threshold2)
+                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = two_threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold1, self.matres_threshold2)
+
+                    h_cv_xy_list.append(h_xy_constraint_dict)
+                    h_cv_yz_list.append(h_yz_constraint_dict)
+                    h_cv_xz_list.append(h_xz_constraint_dict)
+
+                    m_cv_xy_list.append(m_xy_constraint_dict)
+                    m_cv_yz_list.append(m_yz_constraint_dict)
+                    m_cv_xz_list.append(m_xz_constraint_dict)
+        logger.info("Cross Evaluation Elapsed Time: %s" % (time.time() - eval_start_time))
+        return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list
 
 
 class VectorBiLSTMEvaluator:
@@ -424,7 +519,7 @@ class VectorBiLSTMEvaluator:
             constraint_violation = ConstraintViolation(self.model_type)
         self.model.eval()
         pred_vals, rel_ids = [], []
-        cv_xy_list, cv_yz_list, cv_xz_list = [], [], []
+        rids = []
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
@@ -434,6 +529,7 @@ class VectorBiLSTMEvaluator:
                 xy_rel_id = batch[12].to(device)
                 alpha, beta, gamma = self.model(batch, device)  # alpha: [16, 8]
                 xy_rel_ids = xy_rel_id.to("cpu").numpy() # xy_rel_id: [16]
+
                 if self.train_type == "hieve" or self.train_type == "matres":
                     pred = torch.max(alpha, 1).indices.cpu().numpy()  # alpha: [16, 4]
                     alpha_indices = torch.max(alpha, 1).indices
@@ -457,6 +553,7 @@ class VectorBiLSTMEvaluator:
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
+                rids.extend(xy_rel_ids.tolist())
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
@@ -467,4 +564,51 @@ class VectorBiLSTMEvaluator:
         metrics = metric(data_type, eval_type, self.model_type, y_true=rel_ids, y_pred=pred_vals)
         logger.info("done!")
         metrics[f"[{eval_type}] Elapsed Time"] = (time.time() - eval_start_time)
-        return metrics, cv_xy_list, cv_yz_list, cv_xz_list
+        ####### plot for conditional probabilities #######
+        if (eval_type == "valid" or eval_type == "test"):
+            for label in [0, 1, 2, 3]:
+                logger.info("# of {0} labels: {1}".format(label, len((np.array(rids) == label).nonzero()[0])))
+        return metrics
+
+    def cross_evaluate(self, data_type: str, eval_type: str):
+        if eval_type == "cv-test":
+            dataloader = self.test_cv_dataloader_dict[data_type]
+        else:
+            raise ValueError("Invalid evaluation type")
+
+        self.model.eval()
+        h_cv_xy_list, h_cv_yz_list, h_cv_xz_list = [], [], []
+        m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = [], [], []
+        eval_start_time = time.time()
+        logger.info(f"[{eval_type}-{data_type}] start... ")
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                device = self.device
+                alpha, beta, gamma = self.model(batch, device)
+
+                if self.train_type == "joint":
+                    h_alpha_indices = torch.max(alpha[:, 0:4], 1).indices
+                    h_beta_indices = torch.max(beta[:, 0:4], 1).indices
+                    h_gamma_indices = torch.max(gamma[:, 0:4], 1).indices
+
+                    h_alpha_indices = [val.item() for val in h_alpha_indices]
+                    h_beta_indices = [val.item() for val in h_beta_indices]
+                    h_gamma_indices = [val.item() for val in h_gamma_indices]
+
+                    m_alpha_indices = torch.max(alpha[:, 4:8], 1).indices
+                    m_beta_indices = torch.max(beta[:, 4:8], 1).indices
+                    m_gamma_indices = torch.max(gamma[:, 4:8], 1).indices
+
+                    m_alpha_indices = [val.item() for val in m_alpha_indices]
+                    m_beta_indices = [val.item() for val in m_beta_indices]
+                    m_gamma_indices = [val.item() for val in m_gamma_indices]
+
+                    h_cv_xy_list.extend(h_alpha_indices)
+                    h_cv_yz_list.extend(h_beta_indices)
+                    h_cv_xz_list.extend(h_gamma_indices)
+
+                    m_cv_xy_list.extend(m_alpha_indices)
+                    m_cv_yz_list.extend(m_beta_indices)
+                    m_cv_xz_list.extend(m_gamma_indices)
+        logger.info("Cross Evaluation Elapsed Time: %s" % (time.time() - eval_start_time))
+        return h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list

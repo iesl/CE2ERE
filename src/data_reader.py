@@ -292,6 +292,10 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                         add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "AFTER")
                     if line[5].lower() == "after":
                         add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "BEFORE")
+                    # if line[5].lower() == "equal":
+                    #     add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "VAGUE")
+                    # if line[5].lower() == "vague":
+                    #     add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "EQUAL")
 
                 if eiid1 not in eiid_to_event_trigger[fname].keys():
                     eiid_to_event_trigger[fname][eiid1] = trigger_word1
