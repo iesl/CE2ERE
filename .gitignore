@@ -6,8 +6,8 @@
 /src/__pycache__
 /log
 *.pt
-src/wandb/
+wandb/
 
-src/log/
+log/
 
-src/figures/
+figures/

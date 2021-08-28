@@ -1,0 +1,86 @@
+method: bayes
+metric:
+  goal: maximize
+  name: '[joint] Best F1 Score'
+parameters:
+  data_dir:
+    value: data
+  data_type:
+    value: joint
+  downsample:
+    value: 0.015
+  epochs:
+    value: 300
+  eval_step:
+    value: 1
+  eval_type:
+    value: one
+  hieve_mlp_size:
+    distribution: categorical
+    values: 
+    - 64
+    - 128
+    - 256
+  matres_mlp_size:
+    distribution: categorical
+    values: 
+    - 64
+    - 128
+    - 256
+  hieve_threshold:
+    distribution: uniform
+    max: -0.3
+    min: -0.7
+  matres_threshold:
+    distribution: uniform
+    max: -0.3
+    min: -0.7
+  intersection_temp:
+    distribution: uniform
+    max: 0.001
+    min: 0.0001
+  lambda_condi:
+    distribution: uniform
+    max: 1
+    min: 0.1
+  lambda_cross:
+    distribution: uniform
+    max: 1
+    min: 0.1
+  lambda_pair:
+    distribution: uniform
+    max: 1
+    min: 0.1
+  learning_rate:
+    distribution: log_uniform
+    max: -7.6
+    min: -14.5
+  log_batch_size:
+    value: 5
+  loss_type:
+    value: 2
+  lstm_hidden_size:
+    value: 256
+  lstm_input_size:
+    value: 768
+  max_grad_norm:
+    value: 5
+  mlp_output_dim:
+    value: 32
+  mlp_size:
+    value: 512
+  model:
+    value: box
+  model_save:
+    value: 1
+  num_layers:
+    value: 1
+  patience:
+    value: 25
+  proj_output_dim:
+    value: 32
+  volume_temp:
+    value: 3
+program: src/__main__.py
+# [joint] box-task & cross constraints
+# View sweep at: https://wandb.ai/ce2ere/CE2ERE-src/sweeps/pr54l0ga

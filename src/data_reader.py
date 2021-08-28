@@ -4,6 +4,7 @@ from nltk import sent_tokenize
 from pathlib import Path
 from transformers import RobertaTokenizer
 from typing import *
+import re
 import xml.etree.ElementTree as ET
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
@@ -372,14 +373,30 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
         end = MY_TEXT.find(">")
         if MY_TEXT[start + 1] == "E":
             event_description = MY_TEXT[start:end].split(" ")
-            eID = (event_description[2].split("="))[1].replace("\"", "")
+            if event_description[2].startswith("e"):
+                eID = (event_description[2].split("="))[1].replace("\"", "")
+            elif event_description[1].startswith("e"):
+                eID = (event_description[1].split("="))[1].replace("\"", "")
+            else:
+                raise ValueError(f"eID not in event_description: {event_description}")
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
             if eID in event_dict.keys():
-                event_dict[eID]["start_char"] = start # loading position of events
+                event_dict[eID]["start_char"] = start  # loading position of events
         else:
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
+        
+    # while MY_TEXT.find("<") != -1:
+    #     start = MY_TEXT.find("<")
+    #     end = MY_TEXT.find(">")
+    #     if MY_TEXT[start + 1] == "E":
+    #         local_root = ET.ElementTree(ET.fromstring(MY_TEXT[start:end]))
+    #         eID = local_root.attrib['eid']
+    #         if eID in event_dict.keys():
+    #             event_dict[eID]["start_char"] = start  # loading position of events
+    #     else:
+    #         MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
 
-    data_dict["doc_content"] = MY_TEXT
+    data_dict["doc_content"] = MY_TEXT.strip()
     return data_dict
 
 
