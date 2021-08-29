@@ -359,10 +359,12 @@ class Box_BiLSTM_MLP(Module):
             self.MLP_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         elif self.loss_type == 1 or self.loss_type == 3:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.loss_type == 5:
-            self.MLP_pair = MLP(2 * 2 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
+        elif self.use_sub and self.loss_type == 4:
+            self.MLP_h_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
+            self.MLP_m_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
         elif self.loss_type == 4:
-            self.pair_softvol = SoftVolume(volume_temp, intersection_temp)
+            self.MLP_h_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
+            self.MLP_m_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -432,7 +434,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
-            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
+            if self.loss_type == 1 or self.loss_type == 3:
                 pairAB = self.MLP_pair(pairAB).unsqueeze(1)
 
         elif data_type == "matres":
@@ -440,7 +442,7 @@ class Box_BiLSTM_MLP(Module):
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_matres(output_B).unsqueeze(1)
             output_C = self.MLP_matres(output_C).unsqueeze(1)
-            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 5:
+            if self.loss_type == 1 or self.loss_type == 3:
                 pairAB = self.MLP_pair(pairAB).unsqueeze(1)
 
         elif data_type == "joint":
@@ -458,7 +460,10 @@ class Box_BiLSTM_MLP(Module):
                 pairAB_hieve = self.MLP_pair(pairAB)
                 pairAB_matres = self.MLP_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
-
+            elif self.loss_type == 4:
+                pairAB_hieve = self.MLP_h_pair(pairAB)
+                pairAB_matres = self.MLP_m_pair(pairAB)
+                pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
         if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 5:
@@ -473,7 +478,7 @@ class Box_BiLSTM_MLP(Module):
             boxes_A.append(box_A_tmp)
             boxes_B.append(box_B_tmp)
             boxes_C.append(box_C_tmp)
-            if self.loss_type == 1 or self.loss_type == 3:
+            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
                 pbox_AB_tmp = self.box_embedding.get_box_embeddings(pairAB[..., i, :]).unsqueeze(dim=1)
                 pboxes_AB.append(pbox_AB_tmp)
 
@@ -481,7 +486,7 @@ class Box_BiLSTM_MLP(Module):
         box_B = torch.cat(boxes_B, dim=1)
         box_C = torch.cat(boxes_C, dim=1)
 
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
             pbox_AB = torch.cat(pboxes_AB, dim=1)
 
         # conditional probabilities
@@ -503,5 +508,8 @@ class Box_BiLSTM_MLP(Module):
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+        elif self.loss_type == 4:
+            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         else:
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None
