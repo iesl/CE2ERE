@@ -194,8 +194,8 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("hieve", "test")
                 test_metrics.update(test_metric)
-                cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
-                cv_test_metrics.update(cv_test_metric)
+                # cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
+                # cv_test_metrics.update(cv_test_metric)
 
         if self.data_type == "matres" or self.data_type == "joint":
             valid_metric = self.evaluator.evaluate("matres", "valid")
@@ -204,8 +204,8 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("matres", "test")
                 test_metrics.update(test_metric)
-                cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
-                cv_test_metrics.update(cv_test_metric)
+                # cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
+                # cv_test_metrics.update(cv_test_metric)
 
         logger.info("valid_metrics: {0}".format(valid_metrics))
         wandb.log(valid_metrics, commit=False)
