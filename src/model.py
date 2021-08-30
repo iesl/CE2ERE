@@ -355,16 +355,10 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.use_sub and (self.loss_type == 1 or self.loss_type == 3):
+        if self.use_sub and (self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4):
             self.MLP_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.loss_type == 1 or self.loss_type == 3:
+        elif self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.use_sub and self.loss_type == 4:
-            self.MLP_h_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-            self.MLP_m_pair = MLP(2 * 4 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.loss_type == 4:
-            self.MLP_h_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-            self.MLP_m_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
@@ -459,11 +453,10 @@ class Box_BiLSTM_MLP(Module):
             if self.loss_type == 1 or self.loss_type == 3:
                 pairAB_hieve = self.MLP_pair(pairAB)
                 pairAB_matres = self.MLP_pair(pairAB)
-                pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1) # [output_dim, 2, 2*proj_output_dim]
-            elif self.loss_type == 4:
-                pairAB_hieve = self.MLP_h_pair(pairAB)
-                pairAB_matres = self.MLP_m_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+            elif self.loss_type == 4:
+                pairAB = self.MLP_pair(pairAB)             # [output_dim, 1, 2*proj_output_dim]
+                pairAB = torch.stack([pairAB, pairAB], dim=1)  # [output_dim, 2, 2*proj_output_dim]
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
         if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 5:
