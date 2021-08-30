@@ -215,10 +215,12 @@ class Trainer:
             logger.info("cv_test_metrics: {0}".format(cv_test_metrics))
             wandb.log(test_metrics, commit=False)
 
-        if self.data_type != "joint":   # single task
+        if self.data_type == "hieve":   # single task
+            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score (PC-CP)"]
+        elif self.data_type == "matres":
             f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
         else:                           # joint task
-            f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
+            f1_score = valid_metrics[f"[valid-hieve] F1 Score (PC-CP)"] + valid_metrics[f"[valid-matres] F1 Score"]
             # cross category constraint violation evaluation
             # logger.info("Cross Category Constraint Violation Evalution starts...")
             # cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)

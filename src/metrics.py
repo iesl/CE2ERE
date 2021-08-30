@@ -19,29 +19,23 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     CM = confusion_matrix(y_true, y_pred)
     logger.info("confusion_matrix: \n{0}".format(CM))
     if model_type == "box" or model_type == "vector":
-        Acc, P, R, F1, _ = CM_metric_box(CM)
+        Acc, P, R, F1, _ = CM_metric_box_3class(CM)
     else:
-        Acc, P, R, F1, _ = CM_metric(CM)
+        Acc, P, R, F1, _ = CM_metric_3class(CM)
     metrics[f"[{eval_type}-{data_type}] Precision"] = P
     metrics[f"[{eval_type}-{data_type}] Recall"] = R
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-    result_dict = classification_report(y_true, y_pred, output_dict=True)
-    logger.info("classifiction_report: \n{0}".format(classification_report(y_true, y_pred)))
     if data_type == "hieve":
         if model_type == "box" or model_type == "vector":
-            pc_results = result_dict["10"]  # Parent-Child: precision, recall, f1, support
-            cp_results = result_dict["01"]  # Child-Parent: ~
+            P, R, F1 = CM_metric_box_2class(CM)
         else:
-            pc_results = result_dict["0"]   # Parent-Child: precision,recall, f1, support
-            cp_results = result_dict["1"]   # Child-Parent: ~
+            P, R, F1 = CM_metric_2class(CM)
+        metrics[f"[{eval_type}-{data_type}] Precision (PC-CP)"] = P
+        metrics[f"[{eval_type}-{data_type}] Recall (PC-CP)"] = R
+        metrics[f"[{eval_type}-{data_type}] F1 Score (PC-CP)"] = F1
 
-        pc_precision, pc_recall, pc_f1, pc_support = pc_results.values()
-        cp_precision, cp_recall, cp_f1, cp_support = cp_results.values()
-        f1_scores = [pc_f1, cp_f1]
-        macro_f1_score = get_macro_metric(f1_scores)
-        logger.info("macro f1 score: {:.4f}".format(macro_f1_score))
-
+    logger.info("classifiction_report: \n{0}".format(classification_report(y_true, y_pred)))
     return metrics
 
 
@@ -60,7 +54,7 @@ def get_f1_score(total_precision: float, total_recall: float) -> float:
     return 2 * (total_precision * total_recall) / (total_precision + total_recall)
 
 
-def CM_metric(CM):
+def CM_metric_3class(CM):
     all_ = CM.sum()
     Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
     P = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2]) / (CM[0][0:3].sum() + CM[1][0:3].sum() + CM[2][0:3].sum() + CM[3][0:3].sum())
@@ -69,7 +63,15 @@ def CM_metric(CM):
 
     return Acc, P, R, F1, CM
 
-def CM_metric_box(CM):
+
+def CM_metric_2class(CM):
+    P = 1.0 * (CM[0][0] + CM[1][1]) / (CM[0][0:2].sum() + CM[1][0:2].sum() + CM[2][0:2].sum() + CM[3][0:2].sum())
+    R = 1.0 * (CM[0][0] + CM[1][1]) / (CM[0].sum() + CM[1].sum())
+    F1 = 2 * P * R / (P + R)
+
+    return P, R, F1
+
+def CM_metric_box_3class(CM):
     """
     keys:
     00, 01, 10, 11
@@ -97,6 +99,32 @@ def CM_metric_box(CM):
     # R = 1.0 * (CM[1][1] + CM[2][2] + CM[3][3]) / (CM[1].sum() + CM[2].sum() + CM[3].sum())
 
     return Acc, P, R, F1, CM
+
+
+def CM_metric_box_2class(CM):
+    """
+    keys:
+    00, 01, 10, 11
+    """
+    rows = CM.shape[0] # 4
+    P_numerator, P_denominator = 0, 0
+    R_numerator, R_denominator = 0, 0
+    for i in range(rows):
+        P_denominator += CM[i][1:rows-1].sum()
+        if i==0 or i==3: continue # NoRel, Vague or Coref case
+        P_numerator += CM[i][i]
+        R_numerator += CM[i][i]
+        R_denominator += CM[i].sum()
+
+    P = P_numerator/P_denominator
+    R = R_numerator/R_denominator
+    F1 = 2 * P * R / (P + R)
+
+    # Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
+    # P = 1.0 * (CM[1][1] + CM[2][2]) / (CM[0][1:3].sum() + CM[1][1:3].sum() + CM[2][1:3].sum() + CM[3][1:3].sum())
+    # R = 1.0 * (CM[1][1] + CM[2][2]) / (CM[1].sum() + CM[2].sum())
+
+    return P, R, F1
 
 
 class ConstraintViolation:
