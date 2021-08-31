@@ -117,7 +117,7 @@ def create_model(args, num_classes):
             proj_output_dim=args.proj_output_dim,
             loss_type=args.loss_type,
             roberta_size_type="roberta-base",
-            use_sub=args.use_sub,
+            use_sub=0 if "use_sub" not in args.keys() else args.use_sub,
         )
     else:
         raise ValueError(f"{args.model} is unsupported!")
