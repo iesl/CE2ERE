@@ -129,7 +129,7 @@ class Trainer:
                         if self.loss_type == 2:
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
-                            loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += (1 - self.lambda_dict["lambda_condi"]) * self.pbce_loss(pvol_AB, xy_rel_id, flag)
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
