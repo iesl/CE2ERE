@@ -227,6 +227,7 @@ def setup(args, saved_model=None):
         cv_valid=args.cv_valid,
         model_save=args.model_save,
         max_grad_norm=args.max_grad_norm,
+        const_eval=1 if "const_eval" not in args.keys() else args.const_eval,
     )
 
     return trainer, evaluator

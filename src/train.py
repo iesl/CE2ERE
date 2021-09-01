@@ -26,7 +26,8 @@ class Trainer:
                  train_dataloader: DataLoader, evaluator: Module, opt: torch.optim.Optimizer, loss_type: int, loss_anno_dict: Dict[str, Module],
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
-                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5):
+                 wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5,
+                 const_eval=False):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -60,6 +61,7 @@ class Trainer:
 
         self.cv_valid = cv_valid      # contraint evaluation flag. 0: false, 1: true
         self.model_save = model_save
+        self.const_eval = const_eval
 
         if self.model_save:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
@@ -194,6 +196,7 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("hieve", "test")
                 test_metrics.update(test_metric)
+            if self.const_eval:
                 cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
                 cv_test_metrics.update(cv_test_metric)
 
@@ -204,6 +207,7 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("matres", "test")
                 test_metrics.update(test_metric)
+            if self.const_eval:
                 cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
                 cv_test_metrics.update(cv_test_metric)
 
@@ -223,9 +227,9 @@ class Trainer:
             f1_score = valid_metrics[f"[valid-hieve] F1 Score (PC-CP)"] + valid_metrics[f"[valid-matres] F1 Score"]
 
         # cross category constraint violation evaluation
-        logger.info("Cross Category Constraint Violation Evalution starts...")
-        cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
-        if self.data_type == "joint":
+        if self.data_type == "joint" and self.const_eval:
+            logger.info("Cross Category Constraint Violation Evalution starts...")
+            cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
             h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
             assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
                    == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
