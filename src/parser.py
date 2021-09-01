@@ -28,13 +28,10 @@ def build_parser():
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
 
     parser.add_argument('--hieve_threshold', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
+    parser.add_argument('--matres_threshold', type=float, default=-0.301029996)
 
-    parser.add_argument('--hieve_threshold1', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--hieve_threshold2', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold1', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold2', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-
+    parser.add_argument('--threshold1', type=float, default=-0.602059991)
+    parser.add_argument('--threshold2', type=float, default=-0.301029996)
 
     parser.add_argument('--mlp_size', type=int, default=512) # mlp hidden dim
     parser.add_argument('--mlp_output_dim', type=int, default=32) # mlp output dim;
@@ -65,6 +62,7 @@ def build_parser():
     parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--model_save', type=int, default=1, help="0: false, 1: true")
+    parser.add_argument('--use_sub', type=int, default=0, help="0: false, 1: true")
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
     return parser.parse_args()
