@@ -194,8 +194,8 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("hieve", "test")
                 test_metrics.update(test_metric)
-                # cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
-                # cv_test_metrics.update(cv_test_metric)
+                cv_test_metric = self.evaluator.evaluate("hieve", "cv-test")
+                cv_test_metrics.update(cv_test_metric)
 
         if self.data_type == "matres" or self.data_type == "joint":
             valid_metric = self.evaluator.evaluate("matres", "valid")
@@ -204,8 +204,8 @@ class Trainer:
             if not self.debug:
                 test_metric = self.evaluator.evaluate("matres", "test")
                 test_metrics.update(test_metric)
-                # cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
-                # cv_test_metrics.update(cv_test_metric)
+                cv_test_metric = self.evaluator.evaluate("matres", "cv-test")
+                cv_test_metrics.update(cv_test_metric)
 
         logger.info("valid_metrics: {0}".format(valid_metrics))
         wandb.log(valid_metrics, commit=False)
@@ -225,25 +225,26 @@ class Trainer:
         # cross category constraint violation evaluation
         logger.info("Cross Category Constraint Violation Evalution starts...")
         cross_cv_eval = CrossCategoryConstraintViolation(self.model_type)
-        h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
-        assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
-               == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-        if self.model_type == "box" or self.model_type == "vector":
-            cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-        else:
-            cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+        if self.data_type == "joint":
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
 
-        h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("matres", "cv-test")
-        assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
-               == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-        if self.model_type == "box" or self.model_type == "vector":
-            cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
-        else:
-            cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("matres", "cv-test")
+            assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
+                   == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
+            if self.model_type == "box" or self.model_type == "vector":
+                cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
+            else:
+                cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
 
-        logger.info(f"cross constraint-violation: %s" % cross_cv_eval.violation_dict)
-        logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
-        logger.info("done!")
+            logger.info(f"cross constraint-violation: %s, total count: %s" % (cross_cv_eval.violation_dict, sum(cross_cv_eval.violation_dict.values())))
+            logger.info(f"cross cv all_cases: %s, total count: %s" % (cross_cv_eval.all_case_count, sum(cross_cv_eval.all_case_count.values())))
+            logger.info("done!")
         self._update_save_best_score(f1_score, epoch)
         wandb.log({f"[{self.data_type}] Best F1 Score": self.best_f1_score}, commit=False)
 
