@@ -356,7 +356,7 @@ class Box_BiLSTM_MLP(Module):
         self.loss_type = loss_type
         if self.loss_type == 1 or self.loss_type == 3:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.loss_type == 4:
+        elif self.loss_type == 4 or self.loss_type == 2:
             self.MLP_h_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
             self.MLP_m_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
 
@@ -390,7 +390,7 @@ class Box_BiLSTM_MLP(Module):
     def _get_pairwise_representation2(self, tensor1: Tensor, tensor2: Tensor):
         return torch.cat((tensor1, tensor2), 1)
 
-    def _get_pairwise_representation_with_boxes(self, box1: Tensor, box2: Tensor):
+    def _get_minimum_enclosing_box(self, box1: Tensor, box2: Tensor):
         # shape: [batch_size, 1, box_min/box_max, hidden_dim]
         box_min = torch.min(torch.cat([box1[..., 0, :], box2[..., 0, :]], dim=-2), dim=-2).values
         box_max = torch.max(torch.cat([box1[..., 1, :], box2[..., 1, :]], dim=-2), dim=-2).values
@@ -449,13 +449,15 @@ class Box_BiLSTM_MLP(Module):
                 pairAB_hieve = self.MLP_pair(pairAB)
                 pairAB_matres = self.MLP_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
-            elif self.loss_type == 4:
+            elif self.loss_type == 4 or self.loss_type == 2:
                 pairAB_hieve = self.MLP_h_pair(pairAB)
                 pairAB_matres = self.MLP_m_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
-        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 5:
+        min_enclosing_boxes = []
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
             pboxes_AB = []
         for i in range(dataset_num):
             # box embedding layer
@@ -467,15 +469,19 @@ class Box_BiLSTM_MLP(Module):
             boxes_A.append(box_A_tmp)
             boxes_B.append(box_B_tmp)
             boxes_C.append(box_C_tmp)
-            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
+            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
                 pbox_AB_tmp = self.box_embedding.get_box_embeddings(pairAB[..., i, :]).unsqueeze(dim=1)
                 pboxes_AB.append(pbox_AB_tmp)
+
+            if self.loss_type == 2:
+                min_enc_box_AB = self._get_minimum_enclosing_box(box_A_tmp, box_B_tmp)
+                min_enclosing_boxes.append(min_enc_box_AB)
 
         box_A = torch.cat(boxes_A, dim=1) # [batch_size, # of boxes, min/max, 2*proj_output_dim/2]
         box_B = torch.cat(boxes_B, dim=1)
         box_C = torch.cat(boxes_C, dim=1)
 
-        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4:
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
             pbox_AB = torch.cat(pboxes_AB, dim=1)
 
         # conditional probabilities
@@ -490,9 +496,11 @@ class Box_BiLSTM_MLP(Module):
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         elif self.loss_type == 2 and len(boxes_A) == 2:
-            # boxes_A[0]: hieve, boxes_A[1]: matres
-            _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0]) # P(A_matres | A_hieve)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, vol_mh
+            # min enclosing box test
+            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            print("min_enc:",min_enclosing_boxes[1].shape, min_enclosing_boxes[0].shape)
+            _, _, vol_mh = self.volume(min_enclosing_boxes[1], min_enclosing_boxes[0])
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
         elif self.loss_type == 3 and len(boxes_A) == 2:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
