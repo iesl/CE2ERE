@@ -498,7 +498,6 @@ class Box_BiLSTM_MLP(Module):
         elif self.loss_type == 2 and len(boxes_A) == 2:
             # min enclosing box test
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            print("min_enc:",min_enclosing_boxes[1].shape, min_enclosing_boxes[0].shape)
             _, _, vol_mh = self.volume(min_enclosing_boxes[1], min_enclosing_boxes[0])
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
         elif self.loss_type == 3 and len(boxes_A) == 2:

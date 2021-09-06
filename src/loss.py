@@ -136,7 +136,7 @@ class BCELossWithLog(Module):
         loss = vol1_loss + vol2_loss
         return -loss
 
-    def forward(self, volume1, volume2, labels, flag, lambda_dict):
+    def forward(self, volume1, volume2, labels, flag):
         """
         volume1: P(A|B); [batch_size, # of datasets]
         volume2: P(B|A); [batch_size, # of datasets]
@@ -154,7 +154,7 @@ class BCELossWithLog(Module):
             hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
             matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
-            loss = lambda_dict["lambda_condi_h"] * hieve_loss + lambda_dict["lambda_condi_m"] * matres_loss
+            loss = hieve_loss + matres_loss
         return loss
 
 
@@ -162,7 +162,7 @@ class BCELossWithLogP(Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, pvol, label, flag, lambda_dict):
+    def forward(self, pvol, label, flag):
         """
         volume: P((A n B n AB) | AB)
         label: 1 or 0
@@ -183,7 +183,7 @@ class BCELossWithLogP(Module):
             nr_flag = flag[nr_indices]
             hieve_loss = -(not_nr_pvol[:,0][not_nr_flag == 0].sum() + log1mexp(nr_pvol[:,0][nr_flag == 0]).sum())
             matres_loss = -(not_nr_pvol[:,1][not_nr_flag == 1].sum() + log1mexp(nr_pvol[:,1][nr_flag == 1]).sum())
-            loss = (1-lambda_dict["lambda_condi_h"]) * hieve_loss + (1-lambda_dict["lambda_condi_m"]) * matres_loss
+            loss = hieve_loss + matres_loss
         return loss
 
 

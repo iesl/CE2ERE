@@ -80,8 +80,6 @@ def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
     lambda_dict["lambda_cross"] = args.lambda_cross
     lambda_dict["lambda_pair"] = args.lambda_pair
     lambda_dict["lambda_condi"] = args.lambda_condi
-    lambda_dict["lambda_condi_h"] = args.lambda_condi_h
-    lambda_dict["lambda_condi_m"] = args.lambda_condi_m
     return lambda_dict
 
 
