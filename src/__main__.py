@@ -147,7 +147,7 @@ def setup(args, saved_model=None):
 
     wandb.watch(model)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True) # AMSGrad
+    optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True, weight_decay=args.weight_decay) # AMSGrad
 
     if args.model != "box" and args.model != "vector":
         print("Using VectorBiLSTMEvaluator..!")
