@@ -1,5 +1,5 @@
 import torch
-from torch import Tensor
+from torch import Tensor, autograd
 from torch.nn import Module, LogSoftmax , BCEWithLogitsLoss
 
 from utils import log1mexp
@@ -120,8 +120,15 @@ class BCELossWithLog(Module):
     """
     binary cross entropy loss with log probabilities
     """
-    def __init__(self):
+    def __init__(self, data_type, hier_weights, temp_weights):
         super().__init__()
+        if data_type == "hieve":
+            self.weights = autograd.Variable(hier_weights)
+        elif data_type == "matres":
+            self.weights = autograd.Variable(temp_weights)
+        elif data_type == "joint":
+            self.hier_weights = autograd.Variable(hier_weights)
+            self.temp_weights = autograd.Variable(temp_weights)
 
     def loss_calculation(self, volume1, volume2, label1, label2):
         # loss = -(label1 * volume1 + (1 - label1) * log1mexp(volume1) + label2 * volume2 + (1 - label2) * log1mexp(volume2)).sum()
@@ -144,23 +151,30 @@ class BCELossWithLog(Module):
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         -(labels[:, 0] * log volume1 + (1 - labels[:, 0]) * log(1 - volume1) + labels[:, 1] * log volume2 + (1 - labels[:, 1]) * log(1 - volume2)).sum()
         """
-        if volume1.shape[-1] == 1:
+        if volume1.shape[-1] == 1: # either hieve or matres
             label1 = labels[:, 0].unsqueeze(-1)
             label2 = labels[:, 1].unsqueeze(-1)
             assert volume1.shape == label1.shape and volume2.shape == label2.shape
-            loss = self.loss_calculation(volume1, volume2, label1, label2)
+            loss = self.weights * self.loss_calculation(volume1, volume2, label1, label2)
         else:
             hieve_mask = (flag == 0).nonzero()
             hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
             matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
-            loss = hieve_loss + matres_loss
+            loss = self.hier_weights * hieve_loss + self.temp_weights * matres_loss
         return loss
 
 
 class BCELossWithLogP(Module):
-    def __init__(self):
+    def __init__(self, data_type, hier_weights, temp_weights):
         super().__init__()
+        if data_type == "hieve":
+            self.weights = autograd.Variable(hier_weights)
+        elif data_type == "matres":
+            self.weights = autograd.Variable(temp_weights)
+        elif data_type == "joint":
+            self.hier_weights = autograd.Variable(hier_weights)
+            self.temp_weights = autograd.Variable(temp_weights)
 
     def forward(self, pvol, label, flag):
         """
@@ -175,7 +189,7 @@ class BCELossWithLogP(Module):
         if pvol.shape[-1] == 1:
             not_nr_vol = pvol[not_nr_indices]
             nr_vol = pvol[nr_indices]
-            loss = -(not_nr_vol.sum() + log1mexp(nr_vol).sum())
+            loss = self.weights * -(not_nr_vol.sum() + log1mexp(nr_vol).sum())
         else:
             not_nr_pvol = pvol[not_nr_indices]
             nr_pvol = pvol[nr_indices]
@@ -183,7 +197,7 @@ class BCELossWithLogP(Module):
             nr_flag = flag[nr_indices]
             hieve_loss = -(not_nr_pvol[:,0][not_nr_flag == 0].sum() + log1mexp(nr_pvol[:,0][nr_flag == 0]).sum())
             matres_loss = -(not_nr_pvol[:,1][not_nr_flag == 1].sum() + log1mexp(nr_pvol[:,1][nr_flag == 1]).sum())
-            loss = hieve_loss + matres_loss
+            loss = self.hier_weights * hieve_loss + self.temp_weights * matres_loss
         return loss
 
 

@@ -227,6 +227,8 @@ def setup(args, saved_model=None):
         model_save=args.model_save,
         max_grad_norm=args.max_grad_norm,
         const_eval=1 if "const_eval" not in args.keys() else args.const_eval,
+        hier_weights=hier_weights,
+        temp_weights=temp_weights,
     )
 
     return trainer, evaluator

@@ -27,7 +27,7 @@ class Trainer:
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
                  wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5,
-                 const_eval=False):
+                 const_eval=False, hier_weights=None, temp_weights=None):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -47,10 +47,10 @@ class Trainer:
         self.loss_func_cross = loss_cross_category
 
         self.cross_entropy_loss = CrossEntropyLoss()
-        self.bce_loss = BCELossWithLog()
-
-        self.pbce_loss = BCELossWithLogP()
+        self.bce_loss = BCELossWithLog(data_type, hier_weights, temp_weights)   # conditional prob loss
+        self.pbce_loss = BCELossWithLogP(data_type, hier_weights, temp_weights) # pairwise box loss
         self.bce_logit_loss = BCELogitLoss()
+
         self.no_valid = no_valid
         self.best_f1_score = 0.0
         self.best_epoch = -1
