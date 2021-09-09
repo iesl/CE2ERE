@@ -196,15 +196,8 @@ class BCELossWithLog(Module):
 
 
 class BCELossWithLogP(Module):
-    def __init__(self, data_type, hier_weights, temp_weights):
+    def __init__(self):
         super().__init__()
-        if data_type == "hieve":
-            self.weights = autograd.Variable(hier_weights)
-        elif data_type == "matres":
-            self.weights = autograd.Variable(temp_weights)
-        elif data_type == "joint":
-            self.hier_weights = autograd.Variable(hier_weights)
-            self.temp_weights = autograd.Variable(temp_weights)
 
     def forward(self, pvol, label, flag):
         """
@@ -225,8 +218,8 @@ class BCELossWithLogP(Module):
             nr_pvol = pvol[nr_indices]
             not_nr_flag = flag[not_nr_indices]
             nr_flag = flag[nr_indices]
-            hieve_loss = -((not_nr_pvol[:,0][not_nr_flag == 0] * self.hier_weights[:3].sum()).sum() + log1mexp(nr_pvol[:,0][nr_flag == 0] * self.hier_weights[3]).sum())
-            matres_loss = -((not_nr_pvol[:,1][not_nr_flag == 1] * self.temp_weights[:3].sum()).sum() + log1mexp(nr_pvol[:,1][nr_flag == 1] * self.temp_weights[3]).sum())
+            hieve_loss = -((not_nr_pvol[:,0][not_nr_flag == 0]).sum() + log1mexp(nr_pvol[:,0][nr_flag == 0]).sum())
+            matres_loss = -((not_nr_pvol[:,1][not_nr_flag == 1]).sum() + log1mexp(nr_pvol[:,1][nr_flag == 1]).sum())
             loss = hieve_loss + matres_loss
         return loss
 
