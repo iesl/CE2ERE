@@ -134,6 +134,29 @@ def get_init_weights(device: torch.device):
     return torch.tensor(hier_weights, dtype=torch.float).to(device), torch.tensor(temp_weights, dtype=torch.float).to(device)
 
 
+def get_init_box_weights(device: torch.device):
+    HierPC = 1802.0 # 1802/2 = 901
+    HierCP = 1846.0 # 1846/2 = 923
+    HierCo = 758.0  # all 1
+    HierNo = 63755.0 # all 0
+    HierTo = HierPC + HierCP + HierCo + HierNo  # total number of event pairs
+    # total 1s : 901+923+758, total 0s: 901+923+63755
+    Hier1 = HierPC/2 + HierCP/2 + HierCo
+    Hier0 = HierPC/2 + HierCP/2 + HierNo
+
+    TempBF = 412.0  # 412/2 = 901
+    TempAF = 263.0  # 263/2 = 923
+    TempEQ = 30.0  # all 1
+    TempVG = 113.0  # all 0
+    TempTo = TempBF + TempAF + TempEQ + TempVG  # total number of event pairs
+    Temp1 = TempBF/2 + TempAF/2 + TempEQ
+    Temp0 = TempBF / 2 + TempAF / 2 + TempVG
+
+    hier_weights = [0.5 * HierTo / Hier1, 0.5 * HierTo / Hier0]
+    temp_weights = [0.5 * TempTo / Temp1, 0.5 * TempTo / Temp0]
+    return torch.tensor(hier_weights, dtype=torch.float).to(device), torch.tensor(temp_weights, dtype=torch.float).to(device)
+
+
 def setup(args, saved_model=None):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
@@ -161,6 +184,8 @@ def setup(args, saved_model=None):
             valid_cv_dataloader_dict=valid_cv_dataloader_dict,
             test_cv_dataloader_dict=test_cv_dataloader_dict,
         )
+
+        hier_weights, temp_weights = get_init_weights(device)
     else:
         print("Using ThresholdEvaluator..!")
         if args.eval_type == "one":
@@ -194,7 +219,9 @@ def setup(args, saved_model=None):
                 save_plot=args.save_plot,
                 wandb_id=wandb.run.id,
             )
-    hier_weights, temp_weights = get_init_weights(device)
+
+        hier_weights, temp_weights = get_init_box_weights(device)
+
     loss_anno_dict = {}
     loss_anno_dict["hieve"] = CrossEntropyLoss(weight=hier_weights)
     loss_anno_dict["matres"] = CrossEntropyLoss(weight=temp_weights)

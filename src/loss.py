@@ -143,14 +143,7 @@ class BCELossWithLog(Module):
         loss = vol1_loss + vol2_loss
         return -loss
 
-    def loss_calculation_with_weights(self, volume1, volume2, label1, label2, labels, type):
-        labels = labels.squeeze(dim=1)
-        cls1_indices = [i for i, lbl in enumerate(labels.tolist()) if lbl[0] == 1 and lbl[1] == 0]
-        cls2_indices = [i for i, lbl in enumerate(labels.tolist()) if lbl[0] == 0 and lbl[1] == 1]
-        cls3_indices = [i for i, lbl in enumerate(labels.tolist()) if lbl[0] == 1 and lbl[1] == 1]
-        cls4_indices = [i for i, lbl in enumerate(labels.tolist()) if lbl[0] == 0 and lbl[1] == 0]
-        assert len(cls1_indices) + len(cls2_indices) + len(cls3_indices) + len(cls4_indices) == volume1.shape[0]
-
+    def loss_calculation_with_weights(self, volume1, volume2, label1, label2, type):
         # loss = -(label1 * volume1 + (1 - label1) * log1mexp(volume1) + label2 * volume2 + (1 - label2) * log1mexp(volume2)).sum()
         vol1_pos_loss = (label1 * volume1)
         vol1_neg_loss = ((1 - label1) * log1mexp(volume1))
@@ -160,17 +153,16 @@ class BCELossWithLog(Module):
         vol2_neg_loss = ((1 - label2) * log1mexp(volume2))
         vol2_loss = vol2_pos_loss + vol2_neg_loss
 
-        loss = vol1_loss + vol2_loss
         if type == "hieve":
-            weighted_loss = (loss[cls1_indices] * self.hier_weights[0]).sum()
-            weighted_loss += (loss[cls2_indices] * self.hier_weights[1]).sum()
-            weighted_loss += (loss[cls3_indices] * self.hier_weights[2]).sum()
-            weighted_loss += (loss[cls4_indices] * self.hier_weights[3]).sum()
+            weighted_loss = (vol1_loss[label1 == 1] * self.hier_weights[0]).sum()
+            weighted_loss += (vol1_loss[label1 == 0] * self.hier_weights[1]).sum()
+            weighted_loss += (vol2_loss[label2 == 1] * self.hier_weights[0]).sum()
+            weighted_loss += (vol2_loss[label2 == 0] * self.hier_weights[1]).sum()
         if type == "matres":
-            weighted_loss = (loss[cls1_indices] * self.temp_weights[0]).sum()
-            weighted_loss += (loss[cls2_indices] * self.temp_weights[1]).sum()
-            weighted_loss += (loss[cls3_indices] * self.temp_weights[2]).sum()
-            weighted_loss += (loss[cls4_indices] * self.temp_weights[3]).sum()
+            weighted_loss = (vol1_loss[label1 == 1] * self.temp_weights[0]).sum()
+            weighted_loss += (vol1_loss[label1 == 0] * self.temp_weights[1]).sum()
+            weighted_loss += (vol2_loss[label2 == 1] * self.temp_weights[0]).sum()
+            weighted_loss += (vol2_loss[label2 == 0] * self.temp_weights[1]).sum()
         return -weighted_loss
 
     def forward(self, volume1, volume2, labels, flag):
@@ -188,9 +180,9 @@ class BCELossWithLog(Module):
             loss = self.loss_calculation(volume1, volume2, label1, label2)
         else:
             hieve_mask = (flag == 0).nonzero()
-            hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], labels[hieve_mask], "hieve")
+            hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
             matres_mask = (flag == 1).nonzero()
-            matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], labels[matres_mask], "matres")
+            matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
             loss = hieve_loss + matres_loss
         return loss
 
