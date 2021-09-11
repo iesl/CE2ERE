@@ -165,7 +165,7 @@ class BCELossWithLog(Module):
             weighted_loss += (vol2_loss[label2 == 0] * self.temp_weights[1]).sum()
         return -weighted_loss
 
-    def forward(self, volume1, volume2, labels, flag):
+    def forward(self, volume1, volume2, labels, flag, lambda_dict):
         """
         volume1: P(A|B); [batch_size, # of datasets]
         volume2: P(B|A); [batch_size, # of datasets]
@@ -180,10 +180,10 @@ class BCELossWithLog(Module):
             loss = self.loss_calculation(volume1, volume2, label1, label2)
         else:
             hieve_mask = (flag == 0).nonzero()
-            hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
+            hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
-            matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
-            loss = hieve_loss + matres_loss
+            matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
+            loss = hieve_loss + lambda_dict["lambda_condi_mh"] * matres_loss
         return loss
 
 
@@ -191,7 +191,7 @@ class BCELossWithLogP(Module):
     def __init__(self):
         super().__init__()
 
-    def forward(self, pvol, label, flag):
+    def forward(self, pvol, label, flag, lambda_dict):
         """
         volume: P((A n B n AB) | AB)
         label: 1 or 0
@@ -212,7 +212,7 @@ class BCELossWithLogP(Module):
             nr_flag = flag[nr_indices]
             hieve_loss = -((not_nr_pvol[:,0][not_nr_flag == 0]).sum() + log1mexp(nr_pvol[:,0][nr_flag == 0]).sum())
             matres_loss = -((not_nr_pvol[:,1][not_nr_flag == 1]).sum() + log1mexp(nr_pvol[:,1][nr_flag == 1]).sum())
-            loss = hieve_loss + matres_loss
+            loss = lambda_dict["lambda_pair_h"] * hieve_loss + lambda_dict["lambda_pair_m"] * matres_loss
         return loss
 
 

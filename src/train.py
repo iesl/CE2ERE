@@ -121,13 +121,13 @@ class Trainer:
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
                         vol_A_B, vol_B_A, _, _, _, _, pvol_AB, vol_mh = self.model(batch, device, self.data_type) # [batch_size, # of datasets]
-                        loss = self.lambda_dict["lambda_condi"] * self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag)
-                        if self.loss_type == 1 or self.loss_type == 5:
-                            loss += (1 - self.lambda_dict["lambda_condi"]) * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                        loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag, self.lambda_dict)
+                        if self.loss_type == 1:
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 4:
-                            loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 2:
-                            loss += self.lambda_dict["lambda_pair"] * self.pbce_loss(pvol_AB, xy_rel_id, flag)
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
                             loss += (1 - self.lambda_dict["lambda_condi"]) * self.pbce_loss(pvol_AB, xy_rel_id, flag)
