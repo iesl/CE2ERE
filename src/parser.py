@@ -23,7 +23,8 @@ def build_parser():
     parser.add_argument('--lambda_cross', type=float, default=0)
     parser.add_argument('--lambda_pair', type=float, default=0)
     parser.add_argument('--lambda_condi', type=float, default=1)
-    parser.add_argument('--lambda_condi_mh', type=float, default=1)
+    parser.add_argument('--lambda_condi_h', type=float, default=1)
+    parser.add_argument('--lambda_condi_m', type=float, default=1)
     parser.add_argument('--lambda_pair_h', type=float, default=0)
     parser.add_argument('--lambda_pair_m', type=float, default=0)
 
