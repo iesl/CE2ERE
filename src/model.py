@@ -490,11 +490,11 @@ class Box_BiLSTM_MLP(Module):
 
         # conditional probabilities
         inter_AB, intervol_AB, vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
-        _, _, vol_B_A = self.volume(box_B, box_A)
-        _, _, vol_B_C = self.volume(box_B, box_C)
-        _, _, vol_C_B = self.volume(box_C, box_B)
-        _, _, vol_A_C = self.volume(box_A, box_C)
-        _, _, vol_C_A = self.volume(box_C, box_A)
+        inter_BA, _, vol_B_A = self.volume(box_B, box_A)
+        inter_BC, _, vol_B_C = self.volume(box_B, box_C)
+        inter_CB, _, vol_C_B = self.volume(box_C, box_B)
+        inter_AC, _, vol_A_C = self.volume(box_A, box_C)
+        inter_CA, _, vol_C_A = self.volume(box_C, box_A)
 
         if self.loss_type == 1 or self.loss_type == 5:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
@@ -506,7 +506,8 @@ class Box_BiLSTM_MLP(Module):
         elif (self.loss_type == 3 or self.loss_type == 5) and len(boxes_A) == 2:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh,\
+                   inter_AB, inter_BA, inter_BC, inter_CB, inter_AC, inter_CA,
         elif self.loss_type == 4:
             pairvol_AB = self.pair_softvol(pbox_AB)
             pvol_AB = intervol_AB - pairvol_AB #P( A n B | AB)

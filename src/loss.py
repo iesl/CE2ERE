@@ -1,6 +1,7 @@
 import torch
 from torch import Tensor
 from torch.nn import Module, LogSoftmax , BCEWithLogitsLoss
+from collections import defaultdict
 
 from utils import log1mexp
 
@@ -214,3 +215,104 @@ class BCELogitLoss(Module):
             matres_loss = self.bll(logit1[:,1][matres_mask],labels[:,0][matres_mask]) + self.bll(logit2[:,1][matres_mask], labels[:,1][matres_mask])
             loss = hieve_loss + matres_loss
         return loss
+
+
+class BoxCrossCategoryLoss(Module):
+    def __init__(
+            self, xy_rel_id: torch.Tensor, yz_rel_id: torch.Tensor, xz_rel_id: torch.Tensor,
+            flag: torch.Tensor
+        ):
+        super().__init__()
+        self.eps = 1e-8
+        self.batch_size = xy_rel_id.shape[0]
+        self.hieve_mask = (flag == 0)
+        self.matres_mask = (flag == 1)
+        self.xy_rel_map = self.get_rel_map(xy_rel_id)
+        self.yz_rel_map = self.get_rel_map(yz_rel_id)
+        self.xz_rel_map = self.get_rel_map(xz_rel_id)
+        self.dataset_map = {
+            0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1
+        }
+    
+    def get_rel_map(self, rel_id: torch.Tensor) -> dict:
+        pc = ((rel_id[..., 0] == 1) & (rel_id[..., 1] == 0))
+        cp = ((rel_id[..., 0] == 0) & (rel_id[..., 1] == 1))
+        cr = ((rel_id[..., 0] == 1) & (rel_id[..., 1] == 1))
+        vg = ((rel_id[..., 0] == 0) & (rel_id[..., 1] == 0))
+        rel_map = {
+            0: (pc & self.hieve_mask),
+            1: (cp & self.hieve_mask),
+            2: (cr & self.hieve_mask),
+            3: (vg & self.hieve_mask),
+            4: (pc & self.matres_mask),
+            5: (cp & self.matres_mask),
+            6: (cr & self.matres_mask),
+            7: (vg & self.matres_mask)
+        }
+        return rel_map
+    
+    @staticmethod
+    def loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3):
+        loss = volume1[idx, flag1] + volume2[idx, flag2] - volume3[idx, flag3]
+        return -loss.sum()
+    
+    @staticmethod
+    def neg_loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3):
+        neg_volume3 = log1mexp(volume3[idx][flag3])
+        loss = volume1[idx][flag1] + volume2[idx][flag2] - neg_volume3
+        return -loss.sum()
+    
+    def forward(self, volume1, volume2, volume3):
+        loss_recipe = [
+            (0,4,4), (0,6,4), 
+            (1,5,5), (1,6,5), 
+            (2,4,4), (2,5,5), 
+            (2,6,6), (2,7,7), 
+            (4,0,4), (4,2,4), 
+            (5,1,5), (5,2,5), 
+            (6,2,6), (7,2,7)
+        ]
+        neg_loss_recipe = [
+            (0,4,1), (0,4,2),
+            (0,6,1), (0,6,2),
+            (1,5,0), (1,5,2),
+            (1,6,0), (1,6,2),
+            (2,4,1), (2,4,2),
+            (2,5,0), (2,5,2),
+            (4,0,1), (4,0,2),
+            (4,2,1), (4,2,2),
+            (5,1,0), (5,1,2),
+            (5,2,0), (5,2,2),
+            (2,7,2), (7,2,2)
+        ]
+        loss = 0
+        for xy, yz, xz in loss_recipe:
+            idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
+            # tmp1 = self.xy_rel_map[xy]
+            # tmp2 = self.yz_rel_map[yz]
+            # tmp3 = self.xz_rel_map[xz]
+            # idx = (tmp1 & tmp2 & tmp3).nonzero().flatten()
+            # tmp4 = self.xy_rel_map[xy].nonzero().flatten()
+            # tmp5 = self.yz_rel_map[yz].nonzero().flatten()
+            # tmp6 = self.xz_rel_map[xz].nonzero().flatten()
+            if idx.shape[0] > 0:
+                flag1 = self.dataset_map[xy]
+                flag2 = self.dataset_map[yz]
+                flag3 = self.dataset_map[xz]
+                loss += self.loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3)
+        for xy, yz, xz in neg_loss_recipe:
+            idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
+            # tmp1 = self.xy_rel_map[xy]
+            # tmp2 = self.yz_rel_map[yz]
+            # tmp3 = self.xz_rel_map[xz]
+            # idx = (tmp1 & tmp2 & tmp3).nonzero().flatten()
+            # tmp4 = self.xy_rel_map[xy].nonzero().flatten()
+            # tmp5 = self.yz_rel_map[yz].nonzero().flatten()
+            # tmp6 = self.xz_rel_map[xz].nonzero().flatten()
+            if idx.shape[0] > 0:
+                flag1 = self.dataset_map[xy]
+                flag2 = self.dataset_map[yz]
+                flag3 = self.dataset_map[xz]
+                loss += self.neg_loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3)
+        return loss
+

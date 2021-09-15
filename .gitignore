@@ -7,7 +7,7 @@
 /log
 *.pt
 wandb/
-
+/test
 log/
 
 figures/
