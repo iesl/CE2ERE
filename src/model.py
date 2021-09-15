@@ -494,12 +494,12 @@ class Box_BiLSTM_MLP(Module):
 
         if self.loss_type == 1:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None, _, _, _, _, _, _
         elif self.loss_type == 2 and len(boxes_A) == 2:
             # min enclosing box test
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             _, _, vol_mh = self.volume(min_enclosing_boxes[1], min_enclosing_boxes[0])
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh, _, _, _, _, _, _
         elif self.loss_type == 3 and len(boxes_A) == 2:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
@@ -507,6 +507,6 @@ class Box_BiLSTM_MLP(Module):
                    inter_AB, inter_BA, inter_BC, inter_CB, inter_AC, inter_CA,
         elif self.loss_type == 4:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None, _, _, _, _, _, _
         else:
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None, _, _, _, _, _, _

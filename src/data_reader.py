@@ -377,12 +377,10 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
         end = MY_TEXT.find(">")
         if MY_TEXT[start + 1] == "E":
             event_description = MY_TEXT[start:end].split(" ")
-            if event_description[2].startswith("e"):
-                eID = (event_description[2].split("="))[1].replace("\"", "")
-            elif event_description[1].startswith("e"):
-                eID = (event_description[1].split("="))[1].replace("\"", "")
-            else:
-                raise ValueError(f"eID not in event_description: {event_description}")
+            for desc in event_description:
+                if desc.lower().startswith("eid"):
+                    eID = (desc.split("="))[1].replace("\"", "")
+                    break
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
             if eID in event_dict.keys():
                 event_dict[eID]["start_char"] = start  # loading position of events

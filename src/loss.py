@@ -317,13 +317,6 @@ class BoxCrossCategoryLoss(Module):
         loss = 0
         for xy, yz, xz in loss_recipe:
             idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
-            # tmp1 = self.xy_rel_map[xy]
-            # tmp2 = self.yz_rel_map[yz]
-            # tmp3 = self.xz_rel_map[xz]
-            # idx = (tmp1 & tmp2 & tmp3).nonzero().flatten()
-            # tmp4 = self.xy_rel_map[xy].nonzero().flatten()
-            # tmp5 = self.yz_rel_map[yz].nonzero().flatten()
-            # tmp6 = self.xz_rel_map[xz].nonzero().flatten()
             if idx.shape[0] > 0:
                 flag1 = self.dataset_map[xy]
                 flag2 = self.dataset_map[yz]
@@ -331,13 +324,6 @@ class BoxCrossCategoryLoss(Module):
                 loss += self.loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3)
         for xy, yz, xz in neg_loss_recipe:
             idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
-            # tmp1 = self.xy_rel_map[xy]
-            # tmp2 = self.yz_rel_map[yz]
-            # tmp3 = self.xz_rel_map[xz]
-            # idx = (tmp1 & tmp2 & tmp3).nonzero().flatten()
-            # tmp4 = self.xy_rel_map[xy].nonzero().flatten()
-            # tmp5 = self.yz_rel_map[yz].nonzero().flatten()
-            # tmp6 = self.xz_rel_map[xz].nonzero().flatten()
             if idx.shape[0] > 0:
                 flag1 = self.dataset_map[xy]
                 flag2 = self.dataset_map[yz]

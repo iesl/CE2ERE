@@ -302,7 +302,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         key = int(key)
         if i <= 20:
             test_range.append(key)
-        elif i <= 40:
+        elif i <= 35:
             valid_range.append(key)
         else:
             train_range.append(key)
