@@ -316,10 +316,6 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         elif i in test_range:
             hieve_test.append(file)
 
-    logger.info("train files: "+str(hieve_train))
-    logger.info("valid files: "+str(hieve_valid))
-    logger.info("test files: "+str(hieve_test))
-
     start_time = time.time()
     print("HiEve train files processing...")
     for i, file in enumerate(tqdm(hieve_train)):
@@ -366,7 +362,7 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_valid_set[0:101]
+        all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set
@@ -415,7 +411,7 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
           f'cv-test instance num: {len(all_test_cv_set)}')
     if args.debug:
         logger.info("debug mode on")
-        all_train_set = all_valid_set[0:101]
+        all_train_set = all_train_set[0:100]
         all_valid_set = all_train_set
         all_test_set = all_train_set
         all_valid_cv_set = all_train_set

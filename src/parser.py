@@ -23,18 +23,19 @@ def build_parser():
     parser.add_argument('--lambda_cross', type=float, default=0)
     parser.add_argument('--lambda_pair', type=float, default=0)
     parser.add_argument('--lambda_condi', type=float, default=1)
+    parser.add_argument('--lambda_condi_h', type=float, default=1)
+    parser.add_argument('--lambda_condi_m', type=float, default=1)
+    parser.add_argument('--lambda_pair_h', type=float, default=0)
+    parser.add_argument('--lambda_pair_m', type=float, default=0)
 
     parser.add_argument('--volume_temp', type=float, default=1)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
 
     parser.add_argument('--hieve_threshold', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
+    parser.add_argument('--matres_threshold', type=float, default=-0.301029996)
 
-    parser.add_argument('--hieve_threshold1', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--hieve_threshold2', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold1', type=float, default=-0.602059991, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-    parser.add_argument('--matres_threshold2', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
-
+    parser.add_argument('--threshold1', type=float, default=-0.602059991)
+    parser.add_argument('--threshold2', type=float, default=-0.301029996)
 
     parser.add_argument('--mlp_size', type=int, default=512) # mlp hidden dim
     parser.add_argument('--mlp_output_dim', type=int, default=32) # mlp output dim;
@@ -67,4 +68,6 @@ def build_parser():
     parser.add_argument('--model_save', type=int, default=1, help="0: false, 1: true")
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
+    parser.add_argument('--const_eval', type=int, default=1, help="single & cross category contraint evalaution")
+    parser.add_argument('--weight_decay', type=float, default=0, help="weight decay")
     return parser.parse_args()
