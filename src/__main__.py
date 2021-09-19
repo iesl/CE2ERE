@@ -138,15 +138,15 @@ def get_init_box_weights(device: torch.device):
     HierPC = 1802.0
     HierCP = 1846.0
     HierCo = 758.0
-    HierNo = 63755.0
+    HierNo = 63755.0 * 0.02
     HierTo = HierPC + HierCP + HierCo + HierNo  # total number of event pairs
     TempTo = 818.0
     Total = float(HierTo + TempTo)
-    hier_weights = [0.25 * HierTo / HierPC, 0.25 * HierTo / HierCP, 0.25 * HierTo / HierCo, 0.25 * HierTo / HierNo]
-    temp_weights = [0.25 * 818.0 / 412.0, 0.25 * 818.0 / 263.0, 0.25 * 818.0 / 30.0, 0.25 * 818.0 / 113.0]
-    return (Total / HierTo) * torch.tensor(hier_weights, dtype=torch.float).to(device), \
-           (Total / TempTo) * torch.tensor(temp_weights, dtype=torch.float).to(device)
-
+    hier_weights = [0.25 * HierTo / HierPC, 0.25 * HierTo / HierCP, 0.25 * HierTo / HierCo, 0.25 * HierTo / HierNo, Total/HierTo]
+    temp_weights = [0.25 * 818.0 / 412.0, 0.25 * 818.0 / 263.0, 0.25 * 818.0 / 30.0, 0.25 * 818.0 / 113.0, Total/TempTo]
+    return torch.tensor(hier_weights, dtype=torch.float, requires_grad=True).to(device), torch.tensor(temp_weights, dtype=torch.float, requires_grad=True).to(device)
+    # return torch.nn.Parameter(torch.tensor(Total/HierTo, dtype=torch.float).to(device)), \
+    #        torch.nn.Parameter(torch.tensor(Total/TempTo, dtype=torch.float).to(device))
 
 def setup(args, saved_model=None):
     device = cuda_if_available(args.no_cuda)

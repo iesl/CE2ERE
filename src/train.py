@@ -49,7 +49,7 @@ class Trainer:
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog(data_type, hier_weights, temp_weights)
 
-        self.pbce_loss = BCELossWithLogP()
+        self.pbce_loss = BCELossWithLogP(data_type, hier_weights, temp_weights)
         self.bce_logit_loss = BCELogitLoss()
         self.no_valid = no_valid
         self.best_f1_score = 0.0
