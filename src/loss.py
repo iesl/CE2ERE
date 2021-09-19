@@ -324,13 +324,13 @@ class BoxCrossCategoryLoss(Module):
 
     @staticmethod
     def loss_calculation(volume1, volume2, volume3, flag1, flag2, flag3):
-        loss = volume1[:, flag1] + volume2[:, flag2] - volume3[:, flag3]
-        return -loss.sum()
+        loss = torch.max(torch.zeros(1).to(volume1.device), volume1[:, flag1] + volume2[:, flag2] - volume3[:, flag3])
+        return loss.sum()
 
     def neg_loss_calculation(self, volume1, volume2, volume3, flag1, flag2, flag3):
         neg_volume3 = (1-volume3[:, flag3]).clamp(self.eps)
-        loss = volume1[:, flag1] + volume2[:, flag2] - neg_volume3
-        return -loss.sum()
+        loss = torch.max(torch.zeros(1).to(volume1.device), volume1[:, flag1] + volume2[:, flag2] - neg_volume3)
+        return loss.sum()
 
     @staticmethod
     def create_probabilities(volume1, volume2):
