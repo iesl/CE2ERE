@@ -354,9 +354,9 @@ class Box_BiLSTM_MLP(Module):
         self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
 
         self.loss_type = loss_type
-        if self.loss_type == 1 or self.loss_type == 3:
+        if self.loss_type == 1:
             self.MLP_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
-        elif self.loss_type == 4 or self.loss_type == 2:
+        elif self.loss_type == 4 or self.loss_type == 2 or self.loss_type == 3:
             self.MLP_h_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
             self.MLP_m_pair = MLP(2 * 3 * hidden_size, 2 * mlp_size, 2 * proj_output_dim)
 
@@ -445,11 +445,11 @@ class Box_BiLSTM_MLP(Module):
             output_B = torch.stack([output_B_hieve, output_B_matres], dim=1)
             output_C = torch.stack([output_C_hieve, output_C_matres], dim=1)
 
-            if self.loss_type == 1 or self.loss_type == 3:
+            if self.loss_type == 1:
                 pairAB_hieve = self.MLP_pair(pairAB)
                 pairAB_matres = self.MLP_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
-            elif self.loss_type == 4 or self.loss_type == 2:
+            elif self.loss_type == 4 or self.loss_type == 2 or self.loss_type == 3:
                 pairAB_hieve = self.MLP_h_pair(pairAB)
                 pairAB_matres = self.MLP_m_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
@@ -502,8 +502,8 @@ class Box_BiLSTM_MLP(Module):
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
         elif self.loss_type == 3 and len(boxes_A) == 2:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+            # _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
+            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
         elif self.loss_type == 4:
             _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
             return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None

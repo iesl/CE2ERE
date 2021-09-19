@@ -48,9 +48,10 @@ class Trainer:
 
         self.cross_entropy_loss = CrossEntropyLoss()
         self.bce_loss = BCELossWithLog(data_type, hier_weights, temp_weights)
-
         self.pbce_loss = BCELossWithLogP(data_type, hier_weights, temp_weights)
+        self.cross_cate_loss = BoxCrossCategoryLoss()
         self.bce_logit_loss = BCELogitLoss()
+
         self.no_valid = no_valid
         self.best_f1_score = 0.0
         self.best_epoch = -1
@@ -125,10 +126,7 @@ class Trainer:
                         (vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh) = self.model(
                             batch, device, self.data_type
                         )  # [batch_size, # of datasets]
-                        cross_cate_loss = BoxCrossCategoryLoss(
-                            xy_rel_id, yz_rel_id, xz_rel_id,
-                            flag
-                        )
+
                         loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 1:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
@@ -138,9 +136,10 @@ class Trainer:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
-                            loss += (1 - self.lambda_dict["lambda_condi"]) * self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             # loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
-                            # loss += self.lambda_dict["lambda_cross"] * cross_cate_loss(inter_AB, inter_BC, inter_AC)
+                            loss += self.lambda_dict["lambda_cross"] * self.cross_cate_loss(vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A,
+                                                                                       xy_rel_id, yz_rel_id, xz_rel_id)
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]

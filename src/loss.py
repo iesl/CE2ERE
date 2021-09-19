@@ -276,20 +276,35 @@ class BCELogitLoss(Module):
 
 
 class BoxCrossCategoryLoss(Module):
-    def __init__(self, xy_rel_id: torch.Tensor, yz_rel_id: torch.Tensor, xz_rel_id: torch.Tensor,
-            flag: torch.Tensor):
+    def __init__(self):
         super().__init__()
         self.eps = 1e-8
-        self.batch_size = xy_rel_id.shape[0]
-        self.hieve_mask = (flag == 0)
-        self.matres_mask = (flag == 1)
-        self.xy_rel_map = self.get_rel_map(xy_rel_id)
-        self.yz_rel_map = self.get_rel_map(yz_rel_id)
-        self.xz_rel_map = self.get_rel_map(xz_rel_id)
         self.dataset_map = {
             0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1
         }
-    
+        self.loss_recipe = [
+            (0, 4, 4), (0, 6, 4),
+            (1, 5, 5), (1, 6, 5),
+            (2, 4, 4), (2, 5, 5),
+            (2, 6, 6), (2, 7, 7),
+            (4, 0, 4), (4, 2, 4),
+            (5, 1, 5), (5, 2, 5),
+            (6, 2, 6), (7, 2, 7)
+        ]
+        self.neg_loss_recipe = [
+            (0, 4, 1), (0, 4, 2),
+            (0, 6, 1), (0, 6, 2),
+            (1, 5, 0), (1, 5, 2),
+            (1, 6, 0), (1, 6, 2),
+            (2, 4, 1), (2, 4, 2),
+            (2, 5, 0), (2, 5, 2),
+            (4, 0, 1), (4, 0, 2),
+            (4, 2, 1), (4, 2, 2),
+            (5, 1, 0), (5, 1, 2),
+            (5, 2, 0), (5, 2, 2),
+            (2, 7, 2), (7, 2, 2)
+        ]
+
     def get_rel_map(self, rel_id: torch.Tensor) -> dict:
         pc = ((rel_id[..., 0] == 1) & (rel_id[..., 1] == 0))
         cp = ((rel_id[..., 0] == 0) & (rel_id[..., 1] == 1))
@@ -306,55 +321,42 @@ class BoxCrossCategoryLoss(Module):
             7: (vg & self.matres_mask)
         }
         return rel_map
-    
+
     @staticmethod
-    def loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3):
-        loss = volume1[idx, flag1] + volume2[idx, flag2] - volume3[idx, flag3]
+    def loss_calculation(volume1, volume2, volume3, flag1, flag2, flag3):
+        loss = volume1[:, flag1] + volume2[:, flag2] - volume3[:, flag3]
         return -loss.sum()
-    
+
+    def neg_loss_calculation(self, volume1, volume2, volume3, flag1, flag2, flag3):
+        neg_volume3 = (1-volume3[:, flag3]).clamp(self.eps)
+        loss = volume1[:, flag1] + volume2[:, flag2] - neg_volume3
+        return -loss.sum()
+
     @staticmethod
-    def neg_loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3):
-        neg_volume3 = log1mexp(volume3[idx][flag3])
-        loss = volume1[idx][flag1] + volume2[idx][flag2] - neg_volume3
-        return -loss.sum()
-    
-    def forward(self, volume1, volume2, volume3):
-        loss_recipe = [
-            (0,4,4), (0,6,4), 
-            (1,5,5), (1,6,5), 
-            (2,4,4), (2,5,5), 
-            (2,6,6), (2,7,7), 
-            (4,0,4), (4,2,4), 
-            (5,1,5), (5,2,5), 
-            (6,2,6), (7,2,7)
-        ]
-        neg_loss_recipe = [
-            (0,4,1), (0,4,2),
-            (0,6,1), (0,6,2),
-            (1,5,0), (1,5,2),
-            (1,6,0), (1,6,2),
-            (2,4,1), (2,4,2),
-            (2,5,0), (2,5,2),
-            (4,0,1), (4,0,2),
-            (4,2,1), (4,2,2),
-            (5,1,0), (5,1,2),
-            (5,2,0), (5,2,2),
-            (2,7,2), (7,2,2)
-        ]
+    def create_probabilities(volume1, volume2):
+        vol_PC = volume1 * (1 - volume2)
+        vol_CP = (1 - volume1) * volume2
+        vol_CR = volume1 * volume2
+        vol_NR = (1 - volume1) * (1 - volume2)
+        return [vol_PC, vol_CP, vol_CR, vol_NR]
+
+    def forward(self, vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, xy_rel_id, yz_rel_id, xz_rel_id):
+        pAB_list, pBC_list, pAC_list = [], [], []
+        # bc of nan isssue, change log prob to real prob
+        pAB_list.extend(self.create_probabilities(vol_AB.exp(), vol_BA.exp()))
+        pBC_list.extend(self.create_probabilities(vol_BC.exp(), vol_CB.exp()))
+        pAC_list.extend(self.create_probabilities(vol_AC.exp(), vol_CA.exp()))
+
         loss = 0
-        for xy, yz, xz in loss_recipe:
-            idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
-            if idx.shape[0] > 0:
-                flag1 = self.dataset_map[xy]
-                flag2 = self.dataset_map[yz]
-                flag3 = self.dataset_map[xz]
-                loss += self.loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3)
-        for xy, yz, xz in neg_loss_recipe:
-            idx = (self.xy_rel_map[xy] & self.yz_rel_map[yz] & self.xz_rel_map[xz]).nonzero().flatten()
-            if idx.shape[0] > 0:
-                flag1 = self.dataset_map[xy]
-                flag2 = self.dataset_map[yz]
-                flag3 = self.dataset_map[xz]
-                loss += self.neg_loss_calculation(volume1, volume2, volume3, idx, flag1, flag2, flag3)
+        for xy, yz, xz in self.loss_recipe:
+            flag1 = self.dataset_map[xy]
+            flag2 = self.dataset_map[yz]
+            flag3 = self.dataset_map[xz]
+            loss += self.loss_calculation(pAB_list[xy % 4], pBC_list[yz % 4], pAC_list[xz % 4], flag1, flag2, flag3)
+        for xy, yz, xz in self.neg_loss_recipe:
+            flag1 = self.dataset_map[xy]
+            flag2 = self.dataset_map[yz]
+            flag3 = self.dataset_map[xz]
+            loss += self.neg_loss_calculation(pAB_list[xy % 4], pBC_list[yz % 4], pAC_list[xz % 4], flag1, flag2, flag3)
         return loss
 
