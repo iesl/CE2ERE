@@ -189,7 +189,7 @@ class BCELossWithLog(Module):
             hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
             matres_mask = (flag == 1).nonzero()
             matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
-            loss = self.hier_weights[4] * hieve_loss + self.temp_weights[4] * matres_loss
+            loss = lambda_dict["lambda_condi_h"] * hieve_loss + lambda_dict["lambda_condi_m"] * matres_loss
         return loss
 
 
@@ -242,7 +242,7 @@ class BCELossWithLogP(Module):
             matres_loss += (cr_vol[:, 1][cr_flag == 1] * self.temp_weights[2]).sum()
             matres_loss += (log1mexp(nr_vol[:, 1][nr_flag == 1]) * self.temp_weights[3]).sum()
 
-            loss = -(self.hier_weights[4] * hieve_loss + self.temp_weights[4] * matres_loss)
+            loss = -(lambda_dict["lambda_pair_h"] * hieve_loss + lambda_dict["lambda_pair_m"] * matres_loss)
         return loss
 
 
