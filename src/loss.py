@@ -185,10 +185,14 @@ class BCELossWithLog(Module):
             assert volume1.shape == label1.shape and volume2.shape == label2.shape
             loss = self.loss_calculation(volume1, volume2, label1, label2)
         else:
+            # hieve_mask = (flag == 0).nonzero()
+            # hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
+            # matres_mask = (flag == 1).nonzero()
+            # matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
             hieve_mask = (flag == 0).nonzero()
-            hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
+            hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
             matres_mask = (flag == 1).nonzero()
-            matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
+            matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
             loss = lambda_dict["lambda_condi_h"] * hieve_loss + lambda_dict["lambda_condi_m"] * matres_loss
         return loss
 
@@ -210,6 +214,7 @@ class BCELossWithLogP(Module):
         label: 1 or 0
         PC, CP, CR: P(A,B|AB) -> 1 and NR: P(A,B|AB) -> 0
         """
+        # not_nr = ((label[:, 0] != 0) | (label[:, 1] != 0)).squeeze(-1)
         pc = ((label[:, 0] == 1) & (label[:, 1] == 0)).squeeze(-1)
         cp = ((label[:, 0] == 0) & (label[:, 1] == 1)).squeeze(-1)
         cr = ((label[:, 0] == 1) & (label[:, 1] == 1)).squeeze(-1)
@@ -232,16 +237,25 @@ class BCELossWithLogP(Module):
             cr_flag = flag[cr]
             nr_flag = flag[nr]
 
-            hieve_loss = (pc_vol[:, 0][pc_flag == 0] * self.hier_weights[0]).sum()
-            hieve_loss += (cp_vol[:, 0][cp_flag == 0] * self.hier_weights[1]).sum()
-            hieve_loss += (cr_vol[:, 0][cr_flag == 0] * self.hier_weights[2]).sum()
-            hieve_loss += (log1mexp(nr_vol[:, 0][nr_flag == 0]) * self.hier_weights[3]).sum()
+            # hieve_loss = (pc_vol[:, 0][pc_flag == 0] * self.hier_weights[0]).sum()
+            # hieve_loss += (cp_vol[:, 0][cp_flag == 0] * self.hier_weights[1]).sum()
+            # hieve_loss += (cr_vol[:, 0][cr_flag == 0] * self.hier_weights[2]).sum()
+            # hieve_loss += (log1mexp(nr_vol[:, 0][nr_flag == 0]) * self.hier_weights[3]).sum()
+            #
+            # matres_loss = (pc_vol[:, 1][pc_flag == 1] * self.temp_weights[0]).sum()
+            # matres_loss += (cp_vol[:, 1][cp_flag == 1] * self.temp_weights[1]).sum()
+            # matres_loss += (cr_vol[:, 1][cr_flag == 1] * self.temp_weights[2]).sum()
+            # matres_loss += (log1mexp(nr_vol[:, 1][nr_flag == 1]) * self.temp_weights[3]).sum()
 
-            matres_loss = (pc_vol[:, 1][pc_flag == 1] * self.temp_weights[0]).sum()
-            matres_loss += (cp_vol[:, 1][cp_flag == 1] * self.temp_weights[1]).sum()
-            matres_loss += (cr_vol[:, 1][cr_flag == 1] * self.temp_weights[2]).sum()
-            matres_loss += (log1mexp(nr_vol[:, 1][nr_flag == 1]) * self.temp_weights[3]).sum()
+            hieve_loss = (pc_vol[:, 0][pc_flag == 0]).sum()
+            hieve_loss += (cp_vol[:, 0][cp_flag == 0]).sum()
+            hieve_loss += (cr_vol[:, 0][cr_flag == 0]).sum()
+            hieve_loss += (log1mexp(nr_vol[:, 0][nr_flag == 0])).sum()
 
+            matres_loss = (pc_vol[:, 1][pc_flag == 1]).sum()
+            matres_loss += (cp_vol[:, 1][cp_flag == 1]).sum()
+            matres_loss += (cr_vol[:, 1][cr_flag == 1]).sum()
+            matres_loss += (log1mexp(nr_vol[:, 1][nr_flag == 1])).sum()
             loss = -(lambda_dict["lambda_pair_h"] * hieve_loss + lambda_dict["lambda_pair_m"] * matres_loss)
         return loss
 
