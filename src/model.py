@@ -87,7 +87,7 @@ class BoxToBoxVolume(Module):
         box2_volume = self.volume(box2)                     # logP(B); [batch_size, # of datasets]
         conditional_prob = intersection_volume - box2_volume # logP(A,B)-logP(B)=logP(A|B); [batch_size, # of datasets]
         assert (torch.le(conditional_prob, 0)).all()        # all probability values should be less than or equal to 0
-        return intersection_box, intersection_volume, conditional_prob
+        return intersection_box, conditional_prob
 
 
 class RoBERTa_MLP(Module):
@@ -416,6 +416,8 @@ class Box_BiLSTM_MLP(Module):
         output_C = self._get_embeddings_from_position(bilstm_output_C, z_position)
 
         pairAB = self._get_pairwise_representation(output_A, output_B)
+        pairBC = self._get_pairwise_representation(output_B, output_C)
+        pairAC = self._get_pairwise_representation(output_A, output_C)
 
         # projection layers
         if data_type == "hieve":
@@ -453,12 +455,19 @@ class Box_BiLSTM_MLP(Module):
                 pairAB_hieve = self.MLP_h_pair(pairAB)
                 pairAB_matres = self.MLP_m_pair(pairAB)
                 pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+                pairBC_hieve = self.MLP_h_pair(pairBC)
+                pairBC_matres = self.MLP_m_pair(pairBC)
+                pairBC = torch.stack([pairBC_hieve, pairBC_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+                pairAC_hieve = self.MLP_h_pair(pairAC)
+                pairAC_matres = self.MLP_m_pair(pairAC)
+                pairAC = torch.stack([pairAC_hieve, pairAC_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
 
         dataset_num = output_A.shape[1]
         boxes_A, boxes_B, boxes_C = [], [], []
-        min_enclosing_boxes = []
         if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
             pboxes_AB = []
+            pboxes_BC = []
+            pboxes_AC = []
         for i in range(dataset_num):
             # box embedding layer
             # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
@@ -472,40 +481,40 @@ class Box_BiLSTM_MLP(Module):
             if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
                 pbox_AB_tmp = self.box_embedding.get_box_embeddings(pairAB[..., i, :]).unsqueeze(dim=1)
                 pboxes_AB.append(pbox_AB_tmp)
-
-            if self.loss_type == 2:
-                min_enc_box_AB = self._get_minimum_enclosing_box(box_A_tmp, box_B_tmp)
-                min_enclosing_boxes.append(min_enc_box_AB)
+                pbox_BC_tmp = self.box_embedding.get_box_embeddings(pairBC[..., i, :]).unsqueeze(dim=1)
+                pboxes_BC.append(pbox_BC_tmp)
+                pbox_AC_tmp = self.box_embedding.get_box_embeddings(pairAC[..., i, :]).unsqueeze(dim=1)
+                pboxes_AC.append(pbox_AC_tmp)
 
         box_A = torch.cat(boxes_A, dim=1) # [batch_size, # of boxes, min/max, 2*proj_output_dim/2]
         box_B = torch.cat(boxes_B, dim=1)
         box_C = torch.cat(boxes_C, dim=1)
-
         if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
             pbox_AB = torch.cat(pboxes_AB, dim=1)
+            pbox_BC = torch.cat(pboxes_BC, dim=1)
+            pbox_AC = torch.cat(pboxes_AC, dim=1)
 
         # conditional probabilities
-        inter_AB, intervol_AB, vol_A_B = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
-        inter_BA, _, vol_B_A = self.volume(box_B, box_A)
-        inter_BC, _, vol_B_C = self.volume(box_B, box_C)
-        inter_CB, _, vol_C_B = self.volume(box_C, box_B)
-        inter_AC, _, vol_A_C = self.volume(box_A, box_C)
-        inter_CA, _, vol_C_A = self.volume(box_C, box_A)
+        inter_AB, vol_AB = self.volume(box_A, box_B) # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
+        _, vol_BA = self.volume(box_B, box_A)
+        inter_BC, vol_BC = self.volume(box_B, box_C)
+        _, vol_CB = self.volume(box_C, box_B)
+        inter_AC, vol_AC = self.volume(box_A, box_C)
+        _, vol_CA = self.volume(box_C, box_A)
 
         if self.loss_type == 1:
-            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
         elif self.loss_type == 2 and len(boxes_A) == 2:
-            # min enclosing box test
-            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            _, _, vol_mh = self.volume(min_enclosing_boxes[1], min_enclosing_boxes[0])
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
         elif self.loss_type == 3 and len(boxes_A) == 2:
-            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            # _, _, vol_mh = self.volume(boxes_A[1], boxes_A[0])  # P(A_matres | A_hieve)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, pvol_BC = self.volume(inter_BC, pbox_BC)
+            _, pvol_AC = self.volume(inter_AC, pbox_AC)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
         elif self.loss_type == 4:
-            _, _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, None
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
         else:
-            return vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, None, None
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, None, None, None, None

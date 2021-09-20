@@ -123,11 +123,11 @@ class Trainer:
                         yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                         xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                         flag = batch[15].to(device)  # 0: HiEve, 1: MATRES
-                        (vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, pvol_AB, vol_mh) = self.model(
+                        (vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, vol_mh) = self.model(
                             batch, device, self.data_type
                         )  # [batch_size, # of datasets]
 
-                        loss = self.bce_loss(vol_A_B, vol_B_A, xy_rel_id, flag, self.lambda_dict)
+                        loss = self.bce_loss(vol_AB, vol_BA, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 1:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 4:
@@ -136,9 +136,12 @@ class Trainer:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
+                            loss += self.bce_loss(vol_BC, vol_CB, xz_rel_id, flag, self.lambda_dict)
+                            loss += self.bce_loss(vol_AC, vol_CA, yz_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
-                            # loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
-                            loss += self.lambda_dict["lambda_cross"] * self.cross_cate_loss(vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A,
+                            loss += self.pbce_loss(pvol_BC, yz_rel_id, flag, self.lambda_dict)
+                            loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict)
+                            loss += self.lambda_dict["lambda_cross"] * self.cross_cate_loss(vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA,
                                                                                        xy_rel_id, yz_rel_id, xz_rel_id)
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
@@ -360,7 +363,7 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
