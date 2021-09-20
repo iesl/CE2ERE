@@ -357,9 +357,9 @@ class BoxCrossCategoryLoss(Module):
             flag2 = self.dataset_map[yz]
             flag3 = self.dataset_map[xz]
             loss += self.loss_calculation(pAB_list[xy % 4], pBC_list[yz % 4], pAC_list[xz % 4], flag1, flag2, flag3)
-        # for xy, yz, xz in self.neg_loss_recipe:
-        #     flag1 = self.dataset_map[xy]
-        #     flag2 = self.dataset_map[yz]
-        #     flag3 = self.dataset_map[xz]
-        #     loss += self.neg_loss_calculation(pAB_list[xy % 4], pBC_list[yz % 4], pAC_list[xz % 4], flag1, flag2, flag3)
+        for xy, yz, xz in self.neg_loss_recipe:
+            flag1 = self.dataset_map[xy]
+            flag2 = self.dataset_map[yz]
+            flag3 = self.dataset_map[xz]
+            loss += self.neg_loss_calculation(pAB_list[xy % 4], pBC_list[yz % 4], pAC_list[xz % 4], flag1, flag2, flag3)
         return loss

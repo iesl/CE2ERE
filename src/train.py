@@ -136,8 +136,8 @@ class Trainer:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
-                            loss += self.bce_loss(vol_BC, vol_CB, xz_rel_id, flag, self.lambda_dict)
-                            loss += self.bce_loss(vol_AC, vol_CA, yz_rel_id, flag, self.lambda_dict)
+                            loss += self.bce_loss(vol_BC, vol_CB, yz_rel_id, flag, self.lambda_dict)
+                            loss += self.bce_loss(vol_AC, vol_CA, xz_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_BC, yz_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict)
@@ -363,36 +363,36 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
-                if vol_A_B.shape[-1] == 2:
+                if vol_AB.shape[-1] == 2:
                     if data_type == "hieve":
-                        vol_A_B, vol_B_A = vol_A_B[:, 0][flag == 0], vol_B_A[:, 0][flag == 0]  # [batch_size]
-                        vol_B_C, vol_C_B = vol_B_C[:, 0][flag == 0], vol_C_B[:, 0][flag == 0]
-                        vol_A_C, vol_C_A = vol_A_C[:, 0][flag == 0], vol_C_A[:, 0][flag == 0]
+                        vol_AB, vol_BA = vol_AB[:, 0][flag == 0], vol_BA[:, 0][flag == 0]  # [batch_size]
+                        vol_BC, vol_CB = vol_BC[:, 0][flag == 0], vol_CB[:, 0][flag == 0]
+                        vol_AC, vol_CA = vol_AC[:, 0][flag == 0], vol_CA[:, 0][flag == 0]
                         xy_rel_id = xy_rel_id[flag == 0]
                         yz_rel_id = yz_rel_id[flag == 0]
                         xz_rel_id = xz_rel_id[flag == 0]
                     elif data_type == "matres":
-                        vol_A_B, vol_B_A = vol_A_B[:, 1][flag == 1], vol_B_A[:, 1][flag == 1]
-                        vol_B_C, vol_C_B = vol_B_C[:, 1][flag == 1], vol_C_B[:, 1][flag == 1]
-                        vol_A_C, vol_C_A = vol_A_C[:, 1][flag == 1], vol_C_A[:, 1][flag == 1]
+                        vol_AB, vol_BA = vol_AB[:, 1][flag == 1], vol_BA[:, 1][flag == 1]
+                        vol_BC, vol_CB = vol_BC[:, 1][flag == 1], vol_CB[:, 1][flag == 1]
+                        vol_AC, vol_CA = vol_AC[:, 1][flag == 1], vol_CA[:, 1][flag == 1]
                         xy_rel_id = xy_rel_id[flag == 1]
                         yz_rel_id = yz_rel_id[flag == 1]
                         xz_rel_id = xz_rel_id[flag == 1]
                 else:
-                    vol_A_B, vol_B_A = vol_A_B.squeeze(1), vol_B_A.squeeze(1)  # [batch_size]
-                    vol_B_C, vol_C_B = vol_B_C.squeeze(1), vol_C_B.squeeze(1)
-                    vol_A_C, vol_C_A = vol_A_C.squeeze(1), vol_C_A.squeeze(1)
+                    vol_AB, vol_BA = vol_AB.squeeze(1), vol_BA.squeeze(1)  # [batch_size]
+                    vol_BC, vol_CB = vol_BC.squeeze(1), vol_CB.squeeze(1)
+                    vol_AC, vol_CA = vol_AC.squeeze(1), vol_CA.squeeze(1)
 
                 if self.evaluator == "one":
                     if data_type == "hieve":
                         threshold = self.hieve_threshold
                     if data_type == "matres":
                         threshold = self.matres_threshold
-                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold)
-                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold)
-                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold)
+                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_AB, vol_BA, xy_rel_id, threshold)
+                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_BC, vol_CB, yz_rel_id, threshold)
+                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_AC, vol_CA, xz_rel_id, threshold)
                 elif self.evaluator == "two" or self.evaluator == "four":
                     if data_type == "hieve":
                         threshold1 = self.hieve_threshold1
@@ -400,15 +400,15 @@ class ThresholdEvaluator:
                     if data_type == "matres":
                         threshold1 = self.matres_threshold1
                         threshold2 = self.matres_threshold2
-                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_A_B, vol_B_A, xy_rel_id, threshold1, threshold2)
-                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_B_C, vol_C_B, yz_rel_id, threshold1, threshold2)
-                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_A_C, vol_C_A, xz_rel_id, threshold1, threshold2)
+                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_AB, vol_BA, xy_rel_id, threshold1, threshold2)
+                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_BC, vol_CB, yz_rel_id, threshold1, threshold2)
+                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_AC, vol_CA, xz_rel_id, threshold1, threshold2)
 
                 assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
                 targets.extend(xy_targets)
-                vol_ab.extend(torch.exp(vol_A_B).tolist())
-                vol_ba.extend(torch.exp(vol_B_A).tolist())
+                vol_ab.extend(torch.exp(vol_AB).tolist())
+                vol_ba.extend(torch.exp(vol_BA).tolist())
                 rids.extend([''.join(map(str, item)) for item in xy_rel_id.tolist()])
 
                 if constraint_violation:
@@ -447,7 +447,7 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
 
                 if vol_A_B.shape[-1] == 2:
                     if data_type == "hieve":
