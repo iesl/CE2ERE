@@ -515,6 +515,8 @@ class Box_BiLSTM_MLP(Module):
             return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
         elif self.loss_type == 4:
             _, pvol_AB = self.volume(inter_AB, pbox_AB)
-            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
+            _, pvol_BC = self.volume(inter_BC, pbox_BC)
+            _, pvol_AC = self.volume(inter_AC, pbox_AC)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
         else:
             return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, None, None, None, None
