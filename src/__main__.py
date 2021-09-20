@@ -138,7 +138,7 @@ def get_init_box_weights(device: torch.device):
     HierPC = 1802.0
     HierCP = 1846.0
     HierCo = 758.0
-    HierNo = 63755.0
+    HierNo = 63755.0 * 0.015
     HierTo = HierPC + HierCP + HierCo + HierNo  # total number of event pairs
     TempTo = 818.0
     Total = float(HierTo + TempTo)
