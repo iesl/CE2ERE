@@ -185,14 +185,14 @@ class BCELossWithLog(Module):
             assert volume1.shape == label1.shape and volume2.shape == label2.shape
             loss = self.loss_calculation(volume1, volume2, label1, label2)
         else:
-            hieve_mask = (flag == 0).nonzero()
-            hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
-            matres_mask = (flag == 1).nonzero()
-            matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
             # hieve_mask = (flag == 0).nonzero()
-            # hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
+            # hieve_loss = self.loss_calculation_with_weights(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask], "hieve")
             # matres_mask = (flag == 1).nonzero()
-            # matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
+            # matres_loss = self.loss_calculation_with_weights(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask], "matres")
+            hieve_mask = (flag == 0).nonzero()
+            hieve_loss = self.loss_calculation(volume1[:, 0][hieve_mask], volume2[:, 0][hieve_mask], labels[:, 0][hieve_mask], labels[:, 1][hieve_mask])
+            matres_mask = (flag == 1).nonzero()
+            matres_loss = self.loss_calculation(volume1[:, 1][matres_mask], volume2[:, 1][matres_mask], labels[:, 0][matres_mask], labels[:, 1][matres_mask])
             loss = lambda_dict["lambda_condi_h"] * hieve_loss + lambda_dict["lambda_condi_m"] * matres_loss
         return loss
 
@@ -227,25 +227,25 @@ class BCELossWithLogP(Module):
             nr_vol = pvol[nr]
             loss = -(pc_vol.sum() + cp_vol.sum() + cr_vol.sum() + log1mexp(nr_vol).sum())
         else:
-            hieve_loss = (pvol[:, 0][(flag == 0) & pc] * self.hier_weights[0]).sum()
-            hieve_loss += (pvol[:, 0][(flag == 0) & cp] * self.hier_weights[1]).sum()
-            hieve_loss += (pvol[:, 0][(flag == 0) & cr] * self.hier_weights[2]).sum()
-            hieve_loss += (log1mexp(pvol[:, 0][(flag == 0) & nr]) * self.hier_weights[3]).sum()
-
-            matres_loss = (pvol[:, 1][(flag == 1) & pc] * self.temp_weights[0]).sum()
-            matres_loss += (pvol[:, 1][(flag == 1) & cp] * self.temp_weights[1]).sum()
-            matres_loss += (pvol[:, 1][(flag == 1) & cr] * self.temp_weights[2]).sum()
-            matres_loss += (log1mexp(pvol[:, 1][(flag == 1) & nr]) * self.temp_weights[3]).sum()
-
-            # hieve_loss = (pc_vol[:, 0][pc_flag == 0]).sum()
-            # hieve_loss += (cp_vol[:, 0][cp_flag == 0]).sum()
-            # hieve_loss += (cr_vol[:, 0][cr_flag == 0]).sum()
-            # hieve_loss += (log1mexp(nr_vol[:, 0][nr_flag == 0])).sum()
+            # hieve_loss = (pvol[:, 0][(flag == 0) & pc] * self.hier_weights[0]).sum()
+            # hieve_loss += (pvol[:, 0][(flag == 0) & cp] * self.hier_weights[1]).sum()
+            # hieve_loss += (pvol[:, 0][(flag == 0) & cr] * self.hier_weights[2]).sum()
+            # hieve_loss += (log1mexp(pvol[:, 0][(flag == 0) & nr]) * self.hier_weights[3]).sum()
             #
-            # matres_loss = (pc_vol[:, 1][pc_flag == 1]).sum()
-            # matres_loss += (cp_vol[:, 1][cp_flag == 1]).sum()
-            # matres_loss += (cr_vol[:, 1][cr_flag == 1]).sum()
-            # matres_loss += (log1mexp(nr_vol[:, 1][nr_flag == 1])).sum()
+            # matres_loss = (pvol[:, 1][(flag == 1) & pc] * self.temp_weights[0]).sum()
+            # matres_loss += (pvol[:, 1][(flag == 1) & cp] * self.temp_weights[1]).sum()
+            # matres_loss += (pvol[:, 1][(flag == 1) & cr] * self.temp_weights[2]).sum()
+            # matres_loss += (log1mexp(pvol[:, 1][(flag == 1) & nr]) * self.temp_weights[3]).sum()
+
+            hieve_loss = pvol[:, 0][(flag == 0) & pc].sum()
+            hieve_loss += pvol[:, 0][(flag == 0) & cp].sum()
+            hieve_loss += pvol[:, 0][(flag == 0) & cr].sum()
+            hieve_loss += log1mexp(pvol[:, 0][(flag == 0) & nr]).sum()
+
+            matres_loss = pvol[:, 1][(flag == 1) & pc].sum()
+            matres_loss += pvol[:, 1][(flag == 1) & cp].sum()
+            matres_loss += pvol[:, 1][(flag == 1) & cr].sum()
+            matres_loss += log1mexp(pvol[:, 1][(flag == 1) & nr]).sum()
             loss = -(lambda_dict["lambda_pair_h"] * hieve_loss + lambda_dict["lambda_pair_m"] * matres_loss)
         return loss
 
