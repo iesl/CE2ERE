@@ -220,11 +220,11 @@ class Vector_BiLSTM_MLP(Module):
 
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
 
-        self.FF1_MLP_hieve = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
-        self.FF1_MLP_matres = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
+        self.FF1_MLP_hieve = MLP(mlp_output_dim, 2 * mlp_size, mlp_output_dim)
+        self.FF1_MLP_matres = MLP(mlp_output_dim, 2 * mlp_size, mlp_output_dim)
 
-        self.FF2_MLP_hieve = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
-        self.FF2_MLP_matres = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
+        self.FF2_MLP_hieve = MLP(mlp_output_dim, 2 * mlp_size, mlp_output_dim)
+        self.FF2_MLP_matres = MLP(mlp_output_dim, 2 * mlp_size, mlp_output_dim)
 
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
