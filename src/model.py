@@ -209,7 +209,7 @@ class BiLSTM_MLP(Module):
 
 class Vector_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
-                 lstm_input_size: int, mlp_output_dim: int, proj_output_dim: int, hieve_mlp_size: int, matres_mlp_size: int,
+                 lstm_input_size: int, mlp_output_dim: int, hieve_mlp_size: int, matres_mlp_size: int,
                  roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
@@ -220,11 +220,11 @@ class Vector_BiLSTM_MLP(Module):
 
         self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
 
-        self.FF1_MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, mlp_output_dim)
-        self.FF1_MLP_matres = MLP(mlp_output_dim, matres_mlp_size, mlp_output_dim)
+        self.FF1_MLP_hieve = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
+        self.FF1_MLP_matres = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
 
-        self.FF2_MLP_hieve = MLP(mlp_output_dim, hieve_mlp_size, mlp_output_dim)
-        self.FF2_MLP_matres = MLP(mlp_output_dim, matres_mlp_size, mlp_output_dim)
+        self.FF2_MLP_hieve = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
+        self.FF2_MLP_matres = MLP(mlp_size, 2 * mlp_size, mlp_output_dim)
 
         self.lstm_input_size = lstm_input_size
         self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
@@ -261,7 +261,7 @@ class Vector_BiLSTM_MLP(Module):
         return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
 
 
-    def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
@@ -284,7 +284,7 @@ class Vector_BiLSTM_MLP(Module):
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 
-        if data_type == "hieve":
+        if self.data_type == "hieve":
             output_A1 = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
             output_B1 = self.FF1_MLP_hieve(output_B)
             output_C1 = self.FF1_MLP_hieve(output_C)
@@ -293,7 +293,7 @@ class Vector_BiLSTM_MLP(Module):
             output_B2 = self.FF2_MLP_hieve(output_B)
             output_C2 = self.FF2_MLP_hieve(output_C)
             dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A = self._get_dot_product(output_A1, output_B1, output_C1, output_A2, output_B2, output_C2)
-        elif data_type == "matres":
+        elif self.data_type == "matres":
             output_A1 = self.FF1_MLP_matres(output_A) #[batch_size, mlp_output_dim]; [64, 32]
             output_B1 = self.FF1_MLP_matres(output_B)
             output_C1 = self.FF1_MLP_matres(output_C)
@@ -302,7 +302,7 @@ class Vector_BiLSTM_MLP(Module):
             output_B2 = self.FF2_MLP_matres(output_B)
             output_C2 = self.FF2_MLP_matres(output_C)
             dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A = self._get_dot_product(output_A1, output_B1, output_C1, output_A2, output_B2, output_C2)
-        elif data_type == "joint":
+        elif self.data_type == "joint":
             output_A1_hieve = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
             output_B1_hieve = self.FF1_MLP_hieve(output_B)
             output_C1_hieve = self.FF1_MLP_hieve(output_C)
@@ -323,7 +323,7 @@ class Vector_BiLSTM_MLP(Module):
                 = self._get_dot_product(output_A1_hieve, output_B1_hieve, output_C1_hieve, output_A2_hieve, output_B2_hieve, output_C2_hieve)
             dot_A_B_matres, dot_B_A_matres, dot_B_C_matres, dot_C_B_matres, dot_A_C_matres, dot_C_A_matres \
                 = self._get_dot_product(output_A1_matres, output_B1_matres, output_C1_matres, output_A2_matres, output_B2_matres, output_C2_matres)
-
+            # [batch_size, 1]
             dot_A_B = torch.cat([dot_A_B_hieve, dot_A_B_matres], dim=-1)
             dot_B_A = torch.cat([dot_B_A_hieve, dot_B_A_matres], dim=-1)
             dot_B_C = torch.cat([dot_B_C_hieve, dot_B_C_matres], dim=-1)
