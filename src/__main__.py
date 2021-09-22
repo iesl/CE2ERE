@@ -142,8 +142,8 @@ def get_init_box_weights(device: torch.device):
     HierTo = HierPC + HierCP + HierCo + HierNo  # total number of event pairs
     TempTo = 818.0
     Total = float(HierTo + TempTo)
-    hier_weights = [0.25 * HierTo / HierPC, 0.25 * HierTo / HierCP, 0.25 * HierTo / HierCo, 0.25 * HierTo / HierNo, Total/HierTo]
-    temp_weights = [0.25 * 818.0 / 412.0, 0.25 * 818.0 / 263.0, 0.25 * 818.0 / 30.0, 0.25 * 818.0 / 113.0, Total/TempTo]
+    hier_weights = [0.25 * HierTo / HierPC, 0.25 * HierTo / HierCP, 0.25 * HierTo / HierCo, 0.25 * HierTo / HierNo, 0.5 * Total/HierTo]
+    temp_weights = [0.25 * 818.0 / 412.0, 0.25 * 818.0 / 263.0, 0.25 * 818.0 / 30.0, 0.25 * 818.0 / 113.0, 0.5 * Total/TempTo]
     return torch.tensor(hier_weights, dtype=torch.float, requires_grad=True).to(device), torch.tensor(temp_weights, dtype=torch.float, requires_grad=True).to(device)
     # return torch.nn.Parameter(torch.tensor(Total/HierTo, dtype=torch.float).to(device)), \
     #        torch.nn.Parameter(torch.tensor(Total/TempTo, dtype=torch.float).to(device))
