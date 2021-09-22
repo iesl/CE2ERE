@@ -263,6 +263,8 @@ class BCELogitLoss(Module):
         flag:   [batch_size]; 0: HiEve, 1: MATRES
         """
         labels = labels.to(device=logit1.device, dtype=torch.float)
+        logit1 = logit1.clamp_min(1e-10)
+        logit2 = logit2.clamp_min(1e-10)
         if logit1.shape[-1] == 1:
             loss = self.bll(logit1, labels[:,0].unsqueeze(-1)) + self.bll(logit2, labels[:,1].unsqueeze(-1))
         else:
