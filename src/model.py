@@ -212,6 +212,7 @@ class Vector_BiLSTM_MLP(Module):
                  lstm_input_size: int, mlp_output_dim: int, hieve_mlp_size: int, matres_mlp_size: int,
                  roberta_size_type="roberta-base"):
         super().__init__()
+        self.eps = 1e-10
         self.num_classes = num_classes
         self.data_type = data_type
         self.hidden_size = hidden_size
@@ -324,13 +325,12 @@ class Vector_BiLSTM_MLP(Module):
             dot_A_B_matres, dot_B_A_matres, dot_B_C_matres, dot_C_B_matres, dot_A_C_matres, dot_C_A_matres \
                 = self._get_dot_product(output_A1_matres, output_B1_matres, output_C1_matres, output_A2_matres, output_B2_matres, output_C2_matres)
             # [batch_size, 1]
-            dot_A_B = torch.cat([dot_A_B_hieve, dot_A_B_matres], dim=-1)
-            dot_B_A = torch.cat([dot_B_A_hieve, dot_B_A_matres], dim=-1)
-            dot_B_C = torch.cat([dot_B_C_hieve, dot_B_C_matres], dim=-1)
-            dot_C_B = torch.cat([dot_C_B_hieve, dot_C_B_matres], dim=-1)
-            dot_A_C = torch.cat([dot_A_C_hieve, dot_A_C_matres], dim=-1)
-            dot_C_A = torch.cat([dot_C_A_hieve, dot_C_A_matres], dim=-1)
-
+            dot_A_B = torch.sigmoid(torch.cat([dot_A_B_hieve, dot_A_B_matres], dim=-1)).clamp_min(self.eps)
+            dot_B_A = torch.sigmoid(torch.cat([dot_B_A_hieve, dot_B_A_matres], dim=-1)).clamp_min(self.eps)
+            dot_B_C = torch.sigmoid(torch.cat([dot_B_C_hieve, dot_B_C_matres], dim=-1)).clamp_min(self.eps)
+            dot_C_B = torch.sigmoid(torch.cat([dot_C_B_hieve, dot_C_B_matres], dim=-1)).clamp_min(self.eps)
+            dot_A_C = torch.sigmoid(torch.cat([dot_A_C_hieve, dot_A_C_matres], dim=-1)).clamp_min(self.eps)
+            dot_C_A = torch.sigmoid(torch.cat([dot_C_A_hieve, dot_C_A_matres], dim=-1)).clamp_min(self.eps)
         return dot_A_B, dot_B_A, dot_B_C, dot_C_B, dot_A_C, dot_C_A
 
 
