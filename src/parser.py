@@ -70,4 +70,6 @@ def build_parser():
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
     parser.add_argument('--const_eval', type=int, default=1, help="single & cross category contraint evalaution")
     parser.add_argument('--weight_decay', type=float, default=0, help="weight decay")
+    parser.add_argument('--roberta_type', type=str, default="roberta-base", help="roberta emd type")
+
     return parser.parse_args()

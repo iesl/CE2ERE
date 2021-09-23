@@ -7,6 +7,7 @@ import spacy
 import torch
 import tqdm
 import math
+import numpy as np
 
 from os import listdir
 from os.path import isfile, join
@@ -17,18 +18,19 @@ from sklearn.model_selection import train_test_split
 from torch.utils.data import Dataset
 from transformers import RobertaTokenizer, RobertaForMaskedLM, DataCollatorForLanguageModeling
 from transformers import Trainer, TrainingArguments
+from transformers import pipeline
 
 TRAIN_BATCH_SIZE = 16    # input batch size for training (default: 64)
 VALID_BATCH_SIZE = 8    # input batch size for testing (default: 1000)
-TRAIN_EPOCHS = 15        # number of epochs to train (default: 10)
-LEARNING_RATE = 1e-4    # learning rate (default: 0.001)
+TRAIN_EPOCHS = 50        # number of epochs to train (default: 10)
+LEARNING_RATE = 1e-5    # learning rate (default: 0.001)
 WEIGHT_DECAY = 0.01
 SEED = 42               # random seed (default: 42)
 MAX_LEN = 128
 SUMMARY_LEN = 7
 
 nlp = spacy.load("en_core_web_sm")
-random.seed(SEED)
+
 
 class CustomDataset(Dataset):
     def __init__(self, data, tokenizer):
@@ -45,6 +47,14 @@ class CustomDataset(Dataset):
 
     def __getitem__(self, item):
         return torch.tensor(self.encoded_line[item])
+
+
+def set_seed():
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed(SEED)
+    np.random.seed(SEED)
+    random.seed(SEED)
+    torch.backends.cudnn.deterministic=True
 
 
 def create_txt_file(data_dir, txt_path):
@@ -121,12 +131,22 @@ def setup(roberta_model_save_dir, file_path_dict):
     trainer = Trainer(
         model=model,
         args=training_args,
-        data_collector=data_collector,
+        data_collator=data_collector,
         train_dataset=train_dataset,
         eval_dataset=test_dataset,
     )
 
     return trainer
+
+
+def verify_model(roberta_path):
+    fill_mask = pipeline(
+        "fill-mask",
+        model=roberta_path,
+        tokenizer="roberta-base",
+    )
+    fill_mask("Firefighters and <mask> crews were called to the scene.")
+    fill_mask("Instead, he was able to trigger the <mask>.")
 
 
 if __name__ == '__main__':
@@ -135,6 +155,8 @@ if __name__ == '__main__':
     parser.add_argument("--create_file", default=False, action="store_true")
     args = parser.parse_args()
     data_dir = Path(args.data_dir).expanduser()
+
+    set_seed()
 
     roberta_model_save_dir = "./roberta_retrained/"
     Path(roberta_model_save_dir).mkdir(parents=True, exist_ok=True)
@@ -147,6 +169,11 @@ if __name__ == '__main__':
     get_num_lines(txt_path)
     file_path_dict = get_train_test_split(data_dir, txt_path)
 
-    trainer = setup(data_dir, roberta_model_save_dir, file_path_dict)
+    trainer = setup(roberta_model_save_dir, file_path_dict)
 
     trainer.train()
+    trainer.save_model(roberta_model_save_dir)
+
+    eval_results = trainer.evaluate()
+    print(f"Perplexity: {math.exp(eval_results['eval_loss']):.2f}")
+    verify_model(roberta_model_save_dir)

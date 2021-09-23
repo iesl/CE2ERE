@@ -362,12 +362,13 @@ class Box_BiLSTM_MLP(Module):
 
         self.roberta_size_type = roberta_size_type
         self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
+        print("roberta:", roberta_size_type)
         if roberta_size_type == "roberta-base":
             self.roberta_dim = 768
         elif roberta_size_type == "roberta-large":
             self.roberta_dim = 1024
         else:
-            raise ValueError(f"{roberta_size_type} doesn't exist!")
+            self.roberta_dim = 768
 
         self.box_embedding = BoxEmbedding(volume_temp=volume_temp, threshold=20)
 

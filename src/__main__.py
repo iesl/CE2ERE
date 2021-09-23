@@ -87,7 +87,7 @@ def create_model(args, num_classes):
             num_layers=args.num_layers,
             mlp_size=args.mlp_size,
             lstm_input_size=args.lstm_input_size,
-            roberta_size_type="roberta-base",
+            roberta_size_type=args.roberta_type,
         )
     elif args.model == "vector":
         model = Vector_BiLSTM_MLP(
@@ -100,7 +100,7 @@ def create_model(args, num_classes):
             mlp_output_dim=args.mlp_output_dim,
             hieve_mlp_size=args.hieve_mlp_size,
             matres_mlp_size=args.matres_mlp_size,
-            roberta_size_type="roberta-base",
+            roberta_size_type=args.roberta_type,
         )
     elif args.model == "box":
         model = Box_BiLSTM_MLP(
@@ -115,7 +115,7 @@ def create_model(args, num_classes):
             mlp_output_dim=args.mlp_output_dim,
             proj_output_dim=args.proj_output_dim,
             loss_type=args.loss_type,
-            roberta_size_type="roberta-base",
+            roberta_size_type=args.roberta_type,
         )
     else:
         raise ValueError(f"{args.model} is unsupported!")
