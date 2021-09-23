@@ -4,6 +4,7 @@ import random
 
 import pandas as pd
 import spacy
+import torch
 import tqdm
 import math
 
@@ -13,11 +14,38 @@ from pathlib import Path
 
 from natsort import natsorted
 from sklearn.model_selection import train_test_split
-from transformers import RobertaTokenizer, RobertaForMaskedLM
-from transformers import LineByLineTextDataset
+from torch.utils.data import Dataset
+from transformers import RobertaTokenizer, RobertaForMaskedLM, DataCollatorForLanguageModeling
+from transformers import Trainer, TrainingArguments
+
+TRAIN_BATCH_SIZE = 16    # input batch size for training (default: 64)
+VALID_BATCH_SIZE = 8    # input batch size for testing (default: 1000)
+TRAIN_EPOCHS = 15        # number of epochs to train (default: 10)
+LEARNING_RATE = 1e-4    # learning rate (default: 0.001)
+WEIGHT_DECAY = 0.01
+SEED = 42               # random seed (default: 42)
+MAX_LEN = 128
+SUMMARY_LEN = 7
 
 nlp = spacy.load("en_core_web_sm")
-random.seed(10)
+random.seed(SEED)
+
+class CustomDataset(Dataset):
+    def __init__(self, data, tokenizer):
+        super().__init__()
+        self.tokenizer = tokenizer
+
+        self.encoded_line = []
+        for line in data:
+            x = self.tokenizer.encode(line)
+            self.encoded_line += [x]
+
+    def __len__(self):
+        return len(self.encoded_line)
+
+    def __getitem__(self, item):
+        return torch.tensor(self.encoded_line[item])
+
 
 def create_txt_file(data_dir, txt_path):
     hieve_dir = data_dir / "hievents_v2/processed/"
@@ -67,15 +95,38 @@ def get_train_test_split(data_dir, txt_path):
     }
 
 
-def setup_tokenizer(file_path_dict):
-    tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
+def setup(roberta_model_save_dir, file_path_dict):
     model = RobertaForMaskedLM.from_pretrained('roberta-base')
+    tokenizer = RobertaTokenizer.from_pretrained('roberta-base')
+    train_dataset = CustomDataset(file_path_dict["train"], tokenizer)
+    test_dataset = CustomDataset(file_path_dict["test"], tokenizer)
 
-    # dataset = LineByLineTextDataset(
-    #     tokenizer=tokenizer,
-    #     file_path=file_path_dict["train"],
-    #     block_size=512,
-    # )
+    data_collector = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer, mlm=True, mlm_probability=0.15
+    )
+
+    training_args = TrainingArguments(
+        output_dir=roberta_model_save_dir,
+        overwrite_output_dir=True,
+        evaluation_strategy="epoch",
+        num_train_epochs=TRAIN_EPOCHS,
+        learning_rate=LEARNING_RATE,
+        weight_decay=WEIGHT_DECAY,
+        per_device_train_batch_size=TRAIN_BATCH_SIZE,
+        per_device_eval_batch_size=VALID_BATCH_SIZE,
+        save_steps=8192,
+        save_total_limit=1,
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        data_collector=data_collector,
+        train_dataset=train_dataset,
+        eval_dataset=test_dataset,
+    )
+
+    return trainer
 
 
 if __name__ == '__main__':
@@ -96,4 +147,6 @@ if __name__ == '__main__':
     get_num_lines(txt_path)
     file_path_dict = get_train_test_split(data_dir, txt_path)
 
-    # setup_tokenizer(file_path_dict)
+    trainer = setup(data_dir, roberta_model_save_dir, file_path_dict)
+
+    trainer.train()
