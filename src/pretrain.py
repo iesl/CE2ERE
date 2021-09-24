@@ -153,12 +153,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser("pretrain arg parser")
     parser.add_argument("--data_dir", help="data directory", type=str)
     parser.add_argument("--create_file", default=False, action="store_true")
+    parser.add_argument("--save_dir", default="./roberta_retrained_tmp/", help="roberta model save directory", type=str)
     args = parser.parse_args()
     data_dir = Path(args.data_dir).expanduser()
 
     set_seed()
 
-    roberta_model_save_dir = "./roberta_retrained/"
+    roberta_model_save_dir = args.save_dir
     Path(roberta_model_save_dir).mkdir(parents=True, exist_ok=True)
     model_save_path = roberta_model_save_dir
 
