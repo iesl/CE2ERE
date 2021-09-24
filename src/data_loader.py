@@ -324,14 +324,14 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
         all_train_set.extend(train_set)
     print("done!")
 
-    with temp_seed(args.seed):
+    with temp_seed(10):
         print("HiEve valid files processing...")
         for i, file in enumerate(tqdm(hieve_valid)):
             data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
             valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
             all_valid_set.extend(valid_set)
 
-    with temp_seed(args.seed):
+    with temp_seed(10):
         for i, file in enumerate(tqdm(hieve_valid)):
             data_dict = hieve_file_reader(hieve_dir, file, args.model, args.symm_eval)
             cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)

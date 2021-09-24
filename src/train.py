@@ -138,7 +138,6 @@ class Trainer:
                             loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 2:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
-                            loss += self.lambda_dict["lambda_cross"] * -vol_mh.sum()
                         if self.loss_type == 3:
                             loss += self.bce_loss(vol_BC, vol_CB, yz_rel_id, flag, self.lambda_dict)
                             loss += self.bce_loss(vol_AC, vol_CA, xz_rel_id, flag, self.lambda_dict)

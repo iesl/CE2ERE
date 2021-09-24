@@ -145,8 +145,8 @@ def verify_model(roberta_path):
         model=roberta_path,
         tokenizer="roberta-base",
     )
-    fill_mask("Firefighters and <mask> crews were called to the scene.")
-    fill_mask("Instead, he was able to trigger the <mask>.")
+    print(fill_mask("Firefighters and <mask> crews were called to the scene."))
+    print(fill_mask("Instead, he was able to trigger the <mask>."))
 
 
 if __name__ == '__main__':
