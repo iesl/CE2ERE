@@ -270,6 +270,7 @@ def main():
         wandb.config.update({"save_plot": 1}, allow_val_change=True)
         wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
+        wandb.config.update({"model_save": 0}, allow_val_change=True)
 
         if args.threshold_test:
             wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
