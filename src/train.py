@@ -291,6 +291,8 @@ class ThresholdEvaluator:
             self.hieve_threshold = threshold1
             self.matres_threshold = threshold2
 
+        print(f"hieve threshold: {self.hieve_threshold}, matres_threshold: {self.matres_threshold}")
+
         self.save_plot = save_plot
         if self.save_plot:
             timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")

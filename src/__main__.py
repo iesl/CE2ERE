@@ -272,6 +272,7 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
 
         if args.threshold_test:
+            wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
             wandb.config.update({"threshold1": args.threshold1}, allow_val_change=True)
             wandb.config.update({"threshold2": args.threshold2}, allow_val_change=True)
 
