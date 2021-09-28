@@ -270,7 +270,10 @@ def main():
         wandb.config.update({"save_plot": 1}, allow_val_change=True)
         wandb.config.update({"symm_eval": args.symm_eval}, allow_val_change=True)
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
-        wandb.config.update({"seed": args.seed}, allow_val_change=True)
+
+        if args.threshold_test:
+            wandb.config.update({"threshold1": args.threshold1}, allow_val_change=True)
+            wandb.config.update({"threshold2": args.threshold2}, allow_val_change=True)
 
         args = wandb.config
         set_seed(args.seed)

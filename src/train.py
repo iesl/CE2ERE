@@ -288,10 +288,8 @@ class ThresholdEvaluator:
             self.hieve_threshold = threshold1
             self.matres_threshold = threshold1
         elif self.evaluator == "two":
-            self.hieve_threshold1 = threshold1
-            self.hieve_threshold2 = threshold2
-            self.matres_threshold1 = threshold1
-            self.matres_threshold2 = threshold2
+            self.hieve_threshold = threshold1
+            self.matres_threshold = threshold2
 
         self.save_plot = save_plot
         if self.save_plot:
@@ -389,24 +387,13 @@ class ThresholdEvaluator:
                     vol_BC, vol_CB = vol_BC.squeeze(1), vol_CB.squeeze(1)
                     vol_AC, vol_CA = vol_AC.squeeze(1), vol_CA.squeeze(1)
 
-                if self.evaluator == "one":
-                    if data_type == "hieve":
-                        threshold = self.hieve_threshold
-                    if data_type == "matres":
-                        threshold = self.matres_threshold
-                    xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_AB, vol_BA, xy_rel_id, threshold)
-                    yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_BC, vol_CB, yz_rel_id, threshold)
-                    xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_AC, vol_CA, xz_rel_id, threshold)
-                elif self.evaluator == "two" or self.evaluator == "four":
-                    if data_type == "hieve":
-                        threshold1 = self.hieve_threshold1
-                        threshold2 = self.hieve_threshold2
-                    if data_type == "matres":
-                        threshold1 = self.matres_threshold1
-                        threshold2 = self.matres_threshold2
-                    xy_preds, xy_targets, xy_constraint_dict = two_threshold_evalution(vol_AB, vol_BA, xy_rel_id, threshold1, threshold2)
-                    yz_preds, yz_targets, yz_constraint_dict = two_threshold_evalution(vol_BC, vol_CB, yz_rel_id, threshold1, threshold2)
-                    xz_preds, xz_targets, xz_constraint_dict = two_threshold_evalution(vol_AC, vol_CA, xz_rel_id, threshold1, threshold2)
+                if data_type == "hieve":
+                    threshold = self.hieve_threshold
+                if data_type == "matres":
+                    threshold = self.matres_threshold
+                xy_preds, xy_targets, xy_constraint_dict = threshold_evalution(vol_AB, vol_BA, xy_rel_id, threshold)
+                yz_preds, yz_targets, yz_constraint_dict = threshold_evalution(vol_BC, vol_CB, yz_rel_id, threshold)
+                xz_preds, xz_targets, xz_constraint_dict = threshold_evalution(vol_AC, vol_CA, xz_rel_id, threshold)
 
                 assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
@@ -451,56 +438,44 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                vol_A_B, vol_B_A, vol_B_C, vol_C_B, vol_A_C, vol_C_A, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
+                if self.model_type == "box":
+                    vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, _, _, _, _ = self.model(batch, device, self.train_type)  # [batch_size, 2]
+                elif self.model_type == "vector":
+                    vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA = self.model(batch, device)  # [batch_size, # of datasets]
 
-                if vol_A_B.shape[-1] == 2:
+                if vol_AB.shape[-1] == 2:
                     if data_type == "hieve":
-                        h_vol_A_B, h_vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0] # [batch_size]
-                        h_vol_B_C, h_vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
-                        h_vol_A_C, h_vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
-                        if self.evaluator == "one":
-                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
-                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
-                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
-                        elif self.evaluator == "two" or self.evaluator == "four":
-                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = two_threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold1, self.hieve_threshold2)
-                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = two_threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
-                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = two_threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
-                        m_vol_A_B, m_vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
-                        m_vol_B_C, m_vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
-                        m_vol_A_C, m_vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
-                        if self.evaluator == "one":
-                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
-                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
-                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
-                        elif self.evaluator == "two" or self.evaluator == "four":
-                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = two_threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold1, self.matres_threshold2)
-                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = two_threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold1, self.matres_threshold2)
-                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = two_threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold1, self.matres_threshold2)
-                    elif data_type == "matres":
-                        h_vol_A_B, h_vol_B_A = vol_A_B[:, 0], vol_B_A[:, 0]
-                        h_vol_B_C, h_vol_C_B = vol_B_C[:, 0], vol_C_B[:, 0]
-                        h_vol_A_C, h_vol_C_A = vol_A_C[:, 0], vol_C_A[:, 0]
-                        if self.evaluator == "one":
-                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
-                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
-                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
-                        elif self.evaluator == "two" or self.evaluator == "four":
-                            h_xy_preds, h_xy_targets, h_xy_constraint_dict = two_threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold1, self.hieve_threshold2)
-                            h_yz_preds, h_yz_targets, h_yz_constraint_dict = two_threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
-                            h_xz_preds, h_xz_targets, h_xz_constraint_dict = two_threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold1, self.hieve_threshold2)
+                        h_vol_A_B, h_vol_B_A = vol_AB[:, 0], vol_BA[:, 0] # [batch_size]
+                        h_vol_B_C, h_vol_C_B = vol_BC[:, 0], vol_CB[:, 0]
+                        h_vol_A_C, h_vol_C_A = vol_AC[:, 0], vol_CA[:, 0]
 
-                        m_vol_A_B, m_vol_B_A = vol_A_B[:, 1], vol_B_A[:, 1]
-                        m_vol_B_C, m_vol_C_B = vol_B_C[:, 1], vol_C_B[:, 1]
-                        m_vol_A_C, m_vol_C_A = vol_A_C[:, 1], vol_C_A[:, 1]
-                        if self.evaluator == "one":
-                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
-                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
-                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
-                        elif self.evaluator == "two" or self.evaluator == "four":
-                            m_xy_preds, m_xy_targets, m_xy_constraint_dict = two_threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold1, self.matres_threshold2)
-                            m_yz_preds, m_yz_targets, m_yz_constraint_dict = two_threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold1, self.matres_threshold2)
-                            m_xz_preds, m_xz_targets, m_xz_constraint_dict = two_threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold1, self.matres_threshold2)
+                        h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
+                        h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
+                        h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
+
+                        m_vol_A_B, m_vol_B_A = vol_AB[:, 1], vol_BA[:, 1]
+                        m_vol_B_C, m_vol_C_B = vol_BC[:, 1], vol_CB[:, 1]
+                        m_vol_A_C, m_vol_C_A = vol_AC[:, 1], vol_CA[:, 1]
+
+                        m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
+                        m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
+                        m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
+                    elif data_type == "matres":
+                        h_vol_A_B, h_vol_B_A = vol_AB[:, 0], vol_BA[:, 0]
+                        h_vol_B_C, h_vol_C_B = vol_BC[:, 0], vol_CB[:, 0]
+                        h_vol_A_C, h_vol_C_A = vol_AC[:, 0], vol_CA[:, 0]
+
+                        h_xy_preds, h_xy_targets, h_xy_constraint_dict = threshold_evalution(h_vol_A_B, h_vol_B_A, xy_rel_id, self.hieve_threshold)
+                        h_yz_preds, h_yz_targets, h_yz_constraint_dict = threshold_evalution(h_vol_B_C, h_vol_C_B, yz_rel_id, self.hieve_threshold)
+                        h_xz_preds, h_xz_targets, h_xz_constraint_dict = threshold_evalution(h_vol_A_C, h_vol_C_A, xz_rel_id, self.hieve_threshold)
+
+                        m_vol_A_B, m_vol_B_A = vol_AB[:, 1], vol_BA[:, 1]
+                        m_vol_B_C, m_vol_C_B = vol_BC[:, 1], vol_CB[:, 1]
+                        m_vol_A_C, m_vol_C_A = vol_AC[:, 1], vol_CA[:, 1]
+
+                        m_xy_preds, m_xy_targets, m_xy_constraint_dict = threshold_evalution(m_vol_A_B, m_vol_B_A, xy_rel_id, self.matres_threshold)
+                        m_yz_preds, m_yz_targets, m_yz_constraint_dict = threshold_evalution(m_vol_B_C, m_vol_C_B, yz_rel_id, self.matres_threshold)
+                        m_xz_preds, m_xz_targets, m_xz_constraint_dict = threshold_evalution(m_vol_A_C, m_vol_C_A, xz_rel_id, self.matres_threshold)
 
                     h_cv_xy_list.append(h_xy_constraint_dict)
                     h_cv_yz_list.append(h_yz_constraint_dict)

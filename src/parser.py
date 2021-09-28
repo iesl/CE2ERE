@@ -71,5 +71,6 @@ def build_parser():
     parser.add_argument('--const_eval', type=int, default=1, help="single & cross category contraint evalaution")
     parser.add_argument('--weight_decay', type=float, default=0, help="weight decay")
     parser.add_argument('--roberta_type', type=str, default="roberta-base", help="roberta emd type")
+    parser.add_argument('--threshold_test', type=int, default=0, help="threshold test when loading the model")
 
     return parser.parse_args()
