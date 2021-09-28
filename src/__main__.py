@@ -272,6 +272,11 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
         wandb.config.update({"model_save": 0}, allow_val_change=True)
 
+        if "lambda_trans_h" not in run.config.keys():
+            wandb.config.update({"lambda_trans_h": args.lambda_trans_h}, allow_val_change=True)
+        if "lambda_trans_h" not in run.config.keys():
+            wandb.config.update({"lambda_trans_m": args.lambda_trans_m}, allow_val_change=True)
+
         if args.threshold_test:
             wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
             wandb.config.update({"threshold1": args.threshold1}, allow_val_change=True)
