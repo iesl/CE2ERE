@@ -279,10 +279,64 @@ class BCELogitLoss(Module):
         return loss
 
 
+
+class BoxSameCategoryLoss(Module):
+    def __init__(self):
+        super().__init__()
+        self.dataset_map = {
+            0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1
+        }
+        self.loss_recipe = [
+            (0, 0, 0), (0, 2, 0),
+            (1, 1, 1), (1, 2, 1),
+            (2, 0, 0), (2, 1, 1),
+            (2, 2, 2), (2, 3, 3),
+            (3, 2, 3)
+        ]
+        self.neg_loss_recipe = [
+            (0, 3, 1), (0, 3, 2),
+            (1, 3, 0), (1, 3, 2),
+            (3, 0, 1), (3, 0, 2),
+            (3, 1, 0), (3, 1, 2)
+        ]
+
+    @staticmethod
+    def loss_calculation(volume1, volume2, volume3):
+        loss = torch.max(torch.zeros(1).to(volume1.device), volume1 + volume2 - volume3)
+        return loss.sum()
+
+    @staticmethod
+    def neg_loss_calculation(volume1, volume2, volume3):
+        neg_volume3 = log1mexp(volume3)
+        loss = torch.max(torch.zeros(1).to(volume1.device), volume1 + volume2 - neg_volume3)
+        return loss.sum()
+
+    @staticmethod
+    def create_probabilities(volume1, volume2):
+        vol_PC = volume1 + log1mexp(volume2)
+        vol_CP = log1mexp(volume1) + volume2
+        vol_CR = volume1 + volume2
+        vol_NR = log1mexp(volume1) + log1mexp(volume2)
+        return [vol_PC, vol_CP, vol_CR, vol_NR]
+
+    def forward(self, vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA):
+        pAB_list, pBC_list, pAC_list = [], [], []
+        pAB_list.extend(self.create_probabilities(vol_AB, vol_BA))
+        pBC_list.extend(self.create_probabilities(vol_BC, vol_CB))
+        pAC_list.extend(self.create_probabilities(vol_AC, vol_CA))
+
+        loss = 0
+        for xy, yz, xz in self.loss_recipe:
+            loss += self.loss_calculation(pAB_list[xy], pBC_list[yz], pAC_list[xz])
+        for xy, yz, xz in self.neg_loss_recipe:
+            loss += self.neg_loss_calculation(pAB_list[xy], pBC_list[yz], pAC_list[xz])
+        return loss
+
+
+
 class BoxCrossCategoryLoss(Module):
     def __init__(self):
         super().__init__()
-        self.eps = 1e-8
         self.dataset_map = {
             0: 0, 1: 0, 2: 0, 3: 0, 4: 1, 5: 1, 6: 1, 7: 1
         }
@@ -345,7 +399,7 @@ class BoxCrossCategoryLoss(Module):
         vol_NR = log1mexp(volume1) + log1mexp(volume2)
         return [vol_PC, vol_CP, vol_CR, vol_NR]
 
-    def forward(self, vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, xy_rel_id, yz_rel_id, xz_rel_id):
+    def forward(self, vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA):
         pAB_list, pBC_list, pAC_list = [], [], []
         pAB_list.extend(self.create_probabilities(vol_AB, vol_BA))
         pBC_list.extend(self.create_probabilities(vol_BC, vol_CB))

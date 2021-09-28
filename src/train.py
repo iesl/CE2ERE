@@ -16,7 +16,7 @@ from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 from evalulation import threshold_evalution, two_threshold_evalution
-from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss, BoxCrossCategoryLoss
+from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss, BoxCrossCategoryLoss, BoxSameCategoryLoss
 from metrics import metric, ConstraintViolation, CrossCategoryConstraintViolation
 
 logger = logging.getLogger()
@@ -50,6 +50,7 @@ class Trainer:
         self.bce_loss = BCELossWithLog(data_type, hier_weights, temp_weights)
         self.pbce_loss = BCELossWithLogP(data_type, hier_weights, temp_weights)
         self.cross_cate_loss = BoxCrossCategoryLoss()
+        self.same_cate_loss = BoxSameCategoryLoss()
         self.bce_logit_loss = BCELogitLoss()
 
         self.no_valid = no_valid
@@ -144,7 +145,17 @@ class Trainer:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_BC, yz_rel_id, flag, self.lambda_dict)
                             loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict)
-                            loss += self.lambda_dict["lambda_cross"] * self.cross_cate_loss(vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, xy_rel_id, yz_rel_id, xz_rel_id)
+                            loss += self.lambda_dict["lambda_trans_h"] * self.same_cate_loss(
+                                vol_AB[..., 0], vol_BA[..., 0], vol_BC[..., 0],
+                                vol_CB[..., 0], vol_AC[..., 0], vol_CA[..., 0]
+                            )
+                            loss += self.lambda_dict["lambda_trans_m"] * self.same_cate_loss(
+                                vol_AB[..., 1], vol_BA[..., 1], vol_BC[..., 1],
+                                vol_CB[..., 1], vol_AC[..., 1], vol_CA[..., 1],
+                            )
+                            loss += self.lambda_dict["lambda_cross"] * self.cross_cate_loss(
+                                vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA
+                            )
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
