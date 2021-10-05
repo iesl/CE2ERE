@@ -6,7 +6,6 @@ from transformers import RobertaTokenizer
 from typing import *
 import re
 import xml.etree.ElementTree as ET
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
 tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
 nlp = spacy.load("en_core_web_sm")
 
@@ -386,7 +385,7 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
                 event_dict[eID]["start_char"] = start  # loading position of events
         else:
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
-        
+
     # while MY_TEXT.find("<") != -1:
     #     start = MY_TEXT.find("<")
     #     end = MY_TEXT.find(">")
