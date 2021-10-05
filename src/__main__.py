@@ -1,7 +1,7 @@
 import os
 
 import wandb
-import numpy as np
+
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
 from loss import TransitivityLoss, CrossCategoryLoss
@@ -14,15 +14,10 @@ logger = logging.getLogger()
 
 
 def set_seed(seed: int):
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    np.random.seed(seed)
-    random.seed(seed)
     torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-    torch.backends.cudnn.enabled = False
-    torch.backends.cudnn.benchmark = False
-    torch.backends.cudnn.deterministic = True
+    random.seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 
 def create_dataloader(args):
@@ -267,7 +262,7 @@ def main():
         model_state_dict = torch.load(model_state_dict_path, map_location="cpu")
         print("done!")
 
-        wandb.init()
+        wandb.init(reinit=True)
 
         api = wandb.Api()
         run = api.run(args.wandb_id)
