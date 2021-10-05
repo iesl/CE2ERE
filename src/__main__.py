@@ -15,6 +15,7 @@ logger = logging.getLogger()
 
 def set_seed(seed: int):
     os.environ['PYTHONHASHSEED'] = str(seed)
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
     np.random.seed(seed)
     random.seed(seed)
     torch.manual_seed(seed)
