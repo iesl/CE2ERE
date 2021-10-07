@@ -272,18 +272,21 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
         wandb.config.update({"model_save": 0}, allow_val_change=True)
 
-        if "roberta_type" not in run.config.keys():
-            wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
-        if "weight_decay" not in run.config.keys():
-            wandb.config.update({"weight_decay": 0}, allow_val_change=True)
-        if "lambda_condi_h" not in run.config.keys():
-            wandb.config.update({"lambda_condi_h": args.lambda_condi_h}, allow_val_change=True)
-        if "lambda_condi_m" not in run.config.keys():
-            wandb.config.update({"lambda_condi_m": args.lambda_condi_m}, allow_val_change=True)
-        if "lambda_pair_h" not in run.config.keys():
-            wandb.config.update({"lambda_pair_h": args.lambda_pair_h}, allow_val_change=True)
-        if "lambda_pair_m" not in run.config.keys():
-            wandb.config.update({"lambda_pair_h": args.lambda_pair_m}, allow_val_change=True)
+        for key in args.keys():
+            if key not in run.config.keys():
+                wandb.config.update({key: args[key]}, allow_val_change=True)
+        # if "roberta_type" not in run.config.keys():
+        #     wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
+        # if "weight_decay" not in run.config.keys():
+        #     wandb.config.update({"weight_decay": 0}, allow_val_change=True)
+        # if "lambda_condi_h" not in run.config.keys():
+        #     wandb.config.update({"lambda_condi_h": args.lambda_condi_h}, allow_val_change=True)
+        # if "lambda_condi_m" not in run.config.keys():
+        #     wandb.config.update({"lambda_condi_m": args.lambda_condi_m}, allow_val_change=True)
+        # if "lambda_pair_h" not in run.config.keys():
+        #     wandb.config.update({"lambda_pair_h": args.lambda_pair_h}, allow_val_change=True)
+        # if "lambda_pair_m" not in run.config.keys():
+        #     wandb.config.update({"lambda_pair_m": args.lambda_pair_m}, allow_val_change=True)
 
         if args.threshold_test:
             wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
