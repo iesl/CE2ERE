@@ -272,9 +272,9 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
         wandb.config.update({"model_save": 0}, allow_val_change=True)
 
-        for key in args.keys():
+        for key, value in sorted(vars(args).items()):
             if key not in run.config.keys():
-                wandb.config.update({key: args[key]}, allow_val_change=True)
+                wandb.config.update({key: value}, allow_val_change=True)
         # if "roberta_type" not in run.config.keys():
         #     wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
         # if "weight_decay" not in run.config.keys():
