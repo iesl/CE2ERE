@@ -272,6 +272,8 @@ def main():
         wandb.config.update({"symm_train": args.symm_train}, allow_val_change=True)
         wandb.config.update({"model_save": 0}, allow_val_change=True)
 
+        if "roberta_type" not in run.config.keys():
+            wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
             wandb.config.update({"lambda_trans_h": args.lambda_trans_h}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
@@ -291,7 +293,7 @@ def main():
             num_classes = 8
 
         model = create_model(args, num_classes)
-        model.load_state_dict(model_state_dict)
+        model.load_state_dict(model_state_dict, strict=False)
         trainer, evaluator = setup(args, model)
         trainer.evaluation(-1)
 
