@@ -276,6 +276,10 @@ def main():
             wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
         if "weight_decay" not in run.config.keys():
             wandb.config.update({"weight_decay": 0}, allow_val_change=True)
+        if "lambda_condi_h" not in run.config.keys():
+            wandb.config.update({"lambda_condi_h": args.lambda_condi_h}, allow_val_change=True)
+        if "lambda_condi_m" not in run.config.keys():
+            wandb.config.update({"lambda_condi_m": args.lambda_condi_m}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
             wandb.config.update({"lambda_trans_h": args.lambda_trans_h}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
