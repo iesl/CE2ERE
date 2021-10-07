@@ -274,6 +274,8 @@ def main():
 
         if "roberta_type" not in run.config.keys():
             wandb.config.update({"roberta_type": "roberta-base"}, allow_val_change=True)
+        if "weight_decay" not in run.config.keys():
+            wandb.config.update({"weight_decay": 0}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
             wandb.config.update({"lambda_trans_h": args.lambda_trans_h}, allow_val_change=True)
         if "lambda_trans_h" not in run.config.keys():
