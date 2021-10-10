@@ -27,7 +27,7 @@ class Trainer:
                  loss_transitivity_h: Module, loss_transitivity_t: Module, loss_cross_category: Module,
                  lambda_dict: Dict[str, float], no_valid: bool, debug: bool, cv_valid: int, model_save: int,
                  wandb_id: Optional[str] = "", eval_step: Optional[int] = 1, patience: Optional[int] = 8, max_grad_norm: Optional[float] = 5,
-                 const_eval=False, hier_weights=None, temp_weights=None):
+                 const_eval=False, hier_weights=None, temp_weights=None, weighted=0):
         self.data_type = data_type
         self.model_type = model_type
         self.model = model
@@ -53,6 +53,7 @@ class Trainer:
         self.same_cate_loss = BoxSameCategoryLoss()
         self.bce_logit_loss = BCELogitLoss()
 
+        self.use_weighted = weighted
         self.no_valid = no_valid
         self.best_f1_score = 0.0
         self.best_epoch = -1
@@ -128,7 +129,7 @@ class Trainer:
                             batch, device, self.data_type
                         )  # [batch_size, # of datasets]
 
-                        loss = self.bce_loss(vol_AB, vol_BA, xy_rel_id, flag, self.lambda_dict)
+                        loss = self.bce_loss(vol_AB, vol_BA, xy_rel_id, flag, self.lambda_dict, self.use_weighted)
                         if self.loss_type == 1:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 4:
@@ -140,11 +141,11 @@ class Trainer:
                         if self.loss_type == 2:
                             loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
                         if self.loss_type == 3:
-                            loss += self.bce_loss(vol_BC, vol_CB, yz_rel_id, flag, self.lambda_dict)
-                            loss += self.bce_loss(vol_AC, vol_CA, xz_rel_id, flag, self.lambda_dict)
-                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict)
-                            loss += self.pbce_loss(pvol_BC, yz_rel_id, flag, self.lambda_dict)
-                            loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict)
+                            loss += self.bce_loss(vol_BC, vol_CB, yz_rel_id, flag, self.lambda_dict, self.use_weighted)
+                            loss += self.bce_loss(vol_AC, vol_CA, xz_rel_id, flag, self.lambda_dict, self.use_weighted)
+                            loss += self.pbce_loss(pvol_AB, xy_rel_id, flag, self.lambda_dict, self.use_weighted)
+                            loss += self.pbce_loss(pvol_BC, yz_rel_id, flag, self.lambda_dict, self.use_weighted)
+                            loss += self.pbce_loss(pvol_AC, xz_rel_id, flag, self.lambda_dict, self.use_weighted)
                             loss += self.lambda_dict["lambda_trans_h"] * self.same_cate_loss(
                                 vol_AB[..., 0], vol_BA[..., 0], vol_BC[..., 0],
                                 vol_CB[..., 0], vol_AC[..., 0], vol_CA[..., 0]
