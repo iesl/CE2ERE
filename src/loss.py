@@ -258,7 +258,7 @@ class BCELogitLoss(Module):
         super().__init__()
         self.loss_func = BCELoss()
 
-    def forward(self, logit1, logit2, labels, flag):
+    def forward(self, logit1, logit2, labels, flag, lambda_dict):
         """
         logit1: P(A|B); [batch_size, # of datasets]
         logit2: P(B|A); [batch_size, # of datasets]
@@ -278,7 +278,7 @@ class BCELogitLoss(Module):
             # loss between P(B|A) and labels[:,1] for MATRES Data
             matres_mask = (flag == 1).nonzero()
             matres_loss = self.loss_func(logit1[:,1][matres_mask],labels[:,0][matres_mask]) + self.loss_func(logit2[:,1][matres_mask], labels[:,1][matres_mask])
-            loss = hieve_loss + matres_loss
+            loss = lambda_dict["lambda_condi_h"] * hieve_loss + lambda_dict["lambda_condi_m"] * matres_loss
         return loss
 
 
