@@ -160,9 +160,13 @@ class Trainer:
                         assert not torch.isnan(loss)
                     elif self.model_type == "vector":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
+                        yz_rel_id = torch.stack(batch[13], dim=-1).to(device) # [batch_size, 2]
+                        xz_rel_id = torch.stack(batch[14], dim=-1).to(device) # [batch_size, 2]
                         flag = batch[15]  # 0: HiEve, 1: MATRES
-                        logits_A_B, logits_B_A, _, _, _, _ = self.model(batch, device) # [batch_size, # of datasets]
-                        loss = self.bce_logit_loss(logits_A_B,logits_B_A, xy_rel_id, flag)
+                        logits_AB, logits_BA, logits_BC, logits_CB, logits_AC, logits_CA, = self.model(batch, device) # [batch_size, # of datasets]
+                        loss = self.bce_logit_loss(logits_AB, logits_BA, xy_rel_id, flag)
+                        loss += self.bce_logit_loss(logits_BC, logits_CB, yz_rel_id, flag)
+                        loss += self.bce_logit_loss(logits_AC,logits_CA, xz_rel_id, flag)
                         assert not torch.isnan(loss)
                     else:
                         xy_rel_id, yz_rel_id, xz_rel_id = batch[12].to(device), batch[13].to(device), batch[14].to(device)
