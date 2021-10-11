@@ -1,5 +1,6 @@
 import torch
 from torch import Tensor, autograd
+from torch.autograd import Variable
 from torch.nn import Module, LogSoftmax , BCELoss
 from collections import defaultdict
 
@@ -9,10 +10,10 @@ from utils import log1mexp
 class TransitionLoss(Module):
     def __init__(self):
         super().__init__()
+        self.zero = Variable(torch.zeros(1), requires_grad=False).to("cuda" if torch.cuda.is_available() else "cpu")
 
     def forward(self, log_y_alpha, log_y_beta, log_y_gamma, alpha_index, beta_index, gamma_index):
-        zero = torch.zeros(1).to(log_y_alpha.device)
-        loss = torch.max(zero, log_y_alpha[:, alpha_index] + log_y_beta[:, beta_index] - log_y_gamma[:, gamma_index])
+        loss = torch.max(self.zero, log_y_alpha[:, alpha_index] + log_y_beta[:, beta_index] - log_y_gamma[:, gamma_index])
         return loss
 
 
@@ -20,11 +21,11 @@ class TransitionNotLoss(Module):
     def __init__(self):
         super().__init__()
         self.eps = 1e-8
+        self.zero = Variable(torch.zeros(1), requires_grad=False).to("cuda" if torch.cuda.is_available() else "cpu")
 
     def forward(self, log_y_alpha, log_y_beta, log_y_gamma, alpha_index, beta_index, gamma_index):
-        zero = torch.zeros(1).to(log_y_alpha.device)
         log_not_y_gamma = (1 - log_y_gamma.exp()).clamp(self.eps).log()
-        loss = torch.max(zero, log_y_alpha[:, alpha_index] + log_y_beta[:, beta_index] - log_not_y_gamma[:, gamma_index])
+        loss = torch.max(self.zero, log_y_alpha[:, alpha_index] + log_y_beta[:, beta_index] - log_not_y_gamma[:, gamma_index])
         return loss
 
 
@@ -302,16 +303,15 @@ class BoxSameCategoryLoss(Module):
             (3, 0, 1), (3, 0, 2),
             (3, 1, 0), (3, 1, 2)
         ]
+        self.zero = Variable(torch.zeros(1), requires_grad=False).to("cuda" if torch.cuda.is_available() else "cpu")
 
-    @staticmethod
-    def loss_calculation(volume1, volume2, volume3):
-        loss = torch.max(torch.zeros(1).to(volume1.device), volume1 + volume2 - volume3)
+    def loss_calculation(self, volume1, volume2, volume3):
+        loss = torch.max(self.zero, volume1 + volume2 - volume3)
         return loss.sum()
 
-    @staticmethod
-    def neg_loss_calculation(volume1, volume2, volume3):
+    def neg_loss_calculation(self, volume1, volume2, volume3):
         neg_volume3 = log1mexp(volume3)
-        loss = torch.max(torch.zeros(1).to(volume1.device), volume1 + volume2 - neg_volume3)
+        loss = torch.max(self.zero, volume1 + volume2 - neg_volume3)
         return loss.sum()
 
     @staticmethod
@@ -365,6 +365,7 @@ class BoxCrossCategoryLoss(Module):
             (5, 2, 0), (5, 2, 2),
             (2, 7, 2), (7, 2, 2)
         ]
+        self.zero = Variable(torch.zeros(1), requires_grad=False).to("cuda" if torch.cuda.is_available() else "cpu")
 
     def get_rel_map(self, rel_id: torch.Tensor) -> dict:
         pc = ((rel_id[..., 0] == 1) & (rel_id[..., 1] == 0))
@@ -383,15 +384,13 @@ class BoxCrossCategoryLoss(Module):
         }
         return rel_map
 
-    @staticmethod
-    def loss_calculation(volume1, volume2, volume3, flag1, flag2, flag3):
-        loss = torch.max(torch.zeros(1).to(volume1.device), volume1[:, flag1] + volume2[:, flag2] - volume3[:, flag3])
+    def loss_calculation(self, volume1, volume2, volume3, flag1, flag2, flag3):
+        loss = torch.max(self.zero, volume1[:, flag1] + volume2[:, flag2] - volume3[:, flag3])
         return loss.sum()
 
-    @staticmethod
-    def neg_loss_calculation(volume1, volume2, volume3, flag1, flag2, flag3):
+    def neg_loss_calculation(self, volume1, volume2, volume3, flag1, flag2, flag3):
         neg_volume3 = log1mexp(volume3[:, flag3])
-        loss = torch.max(torch.zeros(1).to(volume1.device), volume1[:, flag1] + volume2[:, flag2] - neg_volume3)
+        loss = torch.max(self.zero, volume1[:, flag1] + volume2[:, flag2] - neg_volume3)
         return loss.sum()
 
     @staticmethod
