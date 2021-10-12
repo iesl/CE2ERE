@@ -29,11 +29,12 @@ def create_dataloader(args):
         num_classes = 4
         hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
 
+        tag2index = get_tag2index(hieve_train_set)
+        hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
+        _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
+
         if args.use_pos_tag:
-            tag2index = get_tag2index(hieve_train_set)
             n_tags = len(tag2index)
-            hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
-            _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
         else:
             n_tags = 0
 
@@ -50,11 +51,12 @@ def create_dataloader(args):
         num_classes = 4
         matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
 
+        tag2index = get_tag2index(matres_train_set)
+        matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
+        _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
+
         if args.use_pos_tag:
-            tag2index = get_tag2index(matres_train_set)
             n_tags = len(tag2index)
-            matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
-            _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
         else:
             n_tags = 0
 
@@ -72,18 +74,17 @@ def create_dataloader(args):
         hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
         matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
 
+        tag2index = get_tag2index(hieve_train_set + matres_train_set)
+        hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
+        _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
+        matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
+        _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
+
         if args.use_pos_tag:
-            tag2index = get_tag2index(hieve_train_set + matres_train_set)
             n_tags = len(tag2index)
-            hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
-            _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
-            matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
-            _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
         else:
             n_tags = 0
-
         joint_train_set = hieve_train_set + matres_train_set
-
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         valid_set_dict["matres"] = matres_valid_set
