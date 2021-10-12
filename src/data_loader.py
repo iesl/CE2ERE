@@ -19,9 +19,12 @@ def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_l
         one_list[0:len(subword_ids)] = subword_ids
         return torch.tensor(one_list, dtype=torch.long)
     else:
-        one_list = ["None"] * max_sent_len
-        one_list[0:len(subword_ids)] = subword_ids
-        return one_list
+        # one_list = ["None"] * max_sent_len
+        # one_list[0:len(subword_ids)] = subword_ids
+        # return one_list
+        zero_list = [0] * max_sent_len
+        zero_list[0:len(subword_ids)] = subword_ids
+        return zero_list
 
 def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type: str, symm_train: Optional[int]=0) -> List[Tuple]:
     train_set = []
@@ -72,9 +75,9 @@ def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event
     y_position = event_dict[y]["roberta_subword_id"]
     z_position = event_dict[z]["roberta_subword_id"]
 
-    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
-    z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
+    y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
+    z_sntc_pos_tag = sntc_dict[z_sntc_id]["roberta_subword_pos"]
 
     # rel_id: {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
     xy_rel_id = relation_dict[(x, y)]["relation"]
@@ -136,8 +139,8 @@ def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dic
     x_position = event_dict[x]["roberta_subword_id"]
     y_position = event_dict[y]["roberta_subword_id"]
 
-    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
+    y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
 
     xy_rel_id = relation_dict[(x, y)]["relation"]
 
@@ -225,9 +228,9 @@ def append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc
         y_position = event_dict[y_evnt_id]["roberta_subword_id"]
         z_position = event_dict[z_evnt_id]["roberta_subword_id"]
 
-        x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-        y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
-        z_sntc_pos_tag = padding(sntc_dict[z_sntc_id]["roberta_subword_pos"], isPosTag=True)
+        x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
+        y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
+        z_sntc_pos_tag = sntc_dict[z_sntc_id]["roberta_subword_pos"]
 
         to_append = \
             x_evnt_id, y_evnt_id, z_evnt_id, \
@@ -273,8 +276,8 @@ def append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, e
     x_position = event_dict[x_evnt_id]["roberta_subword_id"]
     y_position = event_dict[y_evnt_id]["roberta_subword_id"]
 
-    x_sntc_pos_tag = padding(sntc_dict[x_sntc_id]["roberta_subword_pos"], isPosTag=True)
-    y_sntc_pos_tag = padding(sntc_dict[y_sntc_id]["roberta_subword_pos"], isPosTag=True)
+    x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
+    y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
 
     to_append = \
         x_evnt_id, y_evnt_id, x_evnt_id, \
@@ -468,3 +471,84 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
         test_cv_dataloader_dict[data_type] = test_dataloader
 
     return train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict
+
+
+def get_tag2index(all_train_set):
+    tags = set([])
+    for train_set in all_train_set:
+        x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag = train_set[9], train_set[10], train_set[11]
+        tags.update(x_sntc_pos_tag[1:-1])
+        tags.update(y_sntc_pos_tag[1:-1])
+        tags.update(z_sntc_pos_tag[1:-1])
+    tag2index = {tag: i for i, tag in enumerate(list(tags))}
+    return tag2index
+
+
+def add_pos_tag_embedding(all_train_set, all_valid_set, all_test_set, tag2index):
+    new_all_train_set, new_all_valid_set, new_all_test_set = [], [], []
+    n_tags = len(tag2index)
+    if all_train_set is not None:
+        for train_set in all_train_set:
+            x_tag_sent = padding([tag2index[tag] for tag in train_set[9][1:-1]], isPosTag=True)
+            y_tag_sent = padding([tag2index[tag] for tag in train_set[10][1:-1]], isPosTag=True)
+            z_tag_sent = padding([tag2index[tag] for tag in train_set[11][1:-1]], isPosTag=True)
+
+            x_one_hot_tag = get_one_hot_tag(x_tag_sent, n_tags)
+            y_one_hot_tag = get_one_hot_tag(y_tag_sent, n_tags)
+            z_one_hot_tag = get_one_hot_tag(z_tag_sent, n_tags)
+
+            to_append = \
+                train_set[0], train_set[1], train_set[2], \
+                train_set[3], train_set[4], train_set[5], \
+                train_set[6], train_set[7], train_set[8], \
+                x_one_hot_tag, y_one_hot_tag, z_one_hot_tag, \
+                train_set[12], train_set[13], train_set[14], \
+                train_set[15]  # 0: HiEve, 1: MATRES
+            new_all_train_set.append(to_append)
+
+    for valid_set in all_valid_set:
+        x_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in valid_set[9][1:-1]],
+                             isPosTag=True)
+        y_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in valid_set[10][1:-1]],
+                             isPosTag=True)
+        z_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in valid_set[11][1:-1]],
+                             isPosTag=True)
+
+        x_one_hot_tag = get_one_hot_tag(x_tag_sent, n_tags)
+        y_one_hot_tag = get_one_hot_tag(y_tag_sent, n_tags)
+        z_one_hot_tag = get_one_hot_tag(z_tag_sent, n_tags)
+
+        to_append = \
+            valid_set[0], valid_set[1], valid_set[2], \
+            valid_set[3], valid_set[4], valid_set[5], \
+            valid_set[6], valid_set[7], valid_set[8], \
+            x_one_hot_tag, y_one_hot_tag, z_one_hot_tag, \
+            valid_set[12], valid_set[13], valid_set[14], \
+            valid_set[15]  # 0: HiEve, 1: MATRES
+        new_all_valid_set.append(to_append)
+
+    for test_set in all_test_set:
+        x_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in test_set[9][1:-1]],
+                             isPosTag=True)
+        y_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in test_set[10][1:-1]],
+                             isPosTag=True)
+        z_tag_sent = padding([tag2index[tag] if tag in tag2index else -1 for tag in test_set[11][1:-1]],
+                             isPosTag=True)
+
+        x_one_hot_tag = get_one_hot_tag(x_tag_sent, n_tags)
+        y_one_hot_tag = get_one_hot_tag(y_tag_sent, n_tags)
+        z_one_hot_tag = get_one_hot_tag(z_tag_sent, n_tags)
+
+        to_append = \
+            test_set[0], test_set[1], test_set[2], \
+            test_set[3], test_set[4], test_set[5], \
+            test_set[6], test_set[7], test_set[8], \
+            x_one_hot_tag, y_one_hot_tag, z_one_hot_tag, \
+            test_set[12], test_set[13], test_set[14], \
+            test_set[15]  # 0: HiEve, 1: MATRES
+        new_all_test_set.append(to_append)
+
+    all_train_set = new_all_train_set
+    all_valid_set = new_all_valid_set
+    all_test_set = new_all_test_set
+    return all_train_set, all_valid_set, all_test_set

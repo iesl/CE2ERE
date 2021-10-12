@@ -3,7 +3,7 @@ import os
 import wandb
 
 from torch.nn import CrossEntropyLoss
-from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders
+from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders, get_tag2index, add_pos_tag_embedding
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
 from parser import *
@@ -28,6 +28,15 @@ def create_dataloader(args):
     if data_type == "hieve":
         num_classes = 4
         hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
+
+        if args.use_pos_tag:
+            tag2index = get_tag2index(hieve_train_set)
+            n_tags = len(tag2index)
+            hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
+            _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
+        else:
+            n_tags = 0
+
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         test_set_dict["hieve"] = hieve_test_set
@@ -40,6 +49,15 @@ def create_dataloader(args):
     elif data_type == "matres":
         num_classes = 4
         matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+
+        if args.use_pos_tag:
+            tag2index = get_tag2index(matres_train_set)
+            n_tags = len(tag2index)
+            matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
+            _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
+        else:
+            n_tags = 0
+
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["matres"] = matres_valid_set
         test_set_dict["matres"] = matres_test_set
@@ -53,7 +71,19 @@ def create_dataloader(args):
         num_classes = 8
         hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)
         matres_train_set, matres_valid_set, matres_test_set, matres_valid_cv_set, matres_test_cv_set = matres_data_loader(args, data_dir)
+
+        if args.use_pos_tag:
+            tag2index = get_tag2index(hieve_train_set + matres_train_set)
+            n_tags = len(tag2index)
+            hieve_train_set, hieve_valid_set, hieve_test_set = add_pos_tag_embedding(hieve_train_set, hieve_valid_set, hieve_test_set, tag2index)
+            _, hieve_valid_cv_set, hieve_test_cv_set = add_pos_tag_embedding(None, hieve_valid_cv_set, hieve_test_cv_set, tag2index)
+            matres_train_set, matres_valid_set, matres_test_set = add_pos_tag_embedding(matres_train_set, matres_valid_set, matres_test_set, tag2index)
+            _, matres_valid_cv_set, matres_test_cv_set = add_pos_tag_embedding(None, matres_valid_cv_set, matres_test_cv_set, tag2index)
+        else:
+            n_tags = 0
+
         joint_train_set = hieve_train_set + matres_train_set
+
         valid_set_dict, test_set_dict = {}, {}
         valid_set_dict["hieve"] = hieve_valid_set
         valid_set_dict["matres"] = matres_valid_set
@@ -67,11 +97,10 @@ def create_dataloader(args):
         test_cv_set_dict["matres"] = matres_test_cv_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
             = get_dataloaders(log_batch_size, joint_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
+    print("# of tags:", n_tags)
+    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes, n_tags
 
-    return train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes
-
-
-def create_model(args, num_classes):
+def create_model(args, num_classes, n_tags):
     if args.model == "finetune":
         model = RoBERTa_MLP(
             num_classes=num_classes,
@@ -116,6 +145,7 @@ def create_model(args, num_classes):
             proj_output_dim=args.proj_output_dim,
             loss_type=args.loss_type,
             roberta_size_type=args.roberta_type,
+            n_tags=n_tags,
         )
     else:
         raise ValueError(f"{args.model} is unsupported!")
@@ -150,12 +180,12 @@ def get_init_box_weights(device: torch.device):
 def setup(args, saved_model=None):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
-    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes = create_dataloader(args)
+    train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes, n_tags = create_dataloader(args)
 
     if saved_model:
         model = saved_model.to(device)
     else:
-        model = create_model(args, num_classes)
+        model = create_model(args, num_classes, n_tags)
         model = model.to(device)
 
     wandb.watch(model)

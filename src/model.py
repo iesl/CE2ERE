@@ -337,7 +337,7 @@ class Vector_BiLSTM_MLP(Module):
 class Box_BiLSTM_MLP(Module):
     def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
                  lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int,
-                 proj_output_dim: int, loss_type: int, use_vec_mlp=False, roberta_size_type="roberta-base"):
+                 proj_output_dim: int, loss_type: int, n_tags, use_vec_mlp=False, roberta_size_type="roberta-base"):
         super().__init__()
         self.num_classes = num_classes
         self.data_type = data_type
@@ -345,7 +345,8 @@ class Box_BiLSTM_MLP(Module):
         self.num_layers = num_layers
         self.mlp_size = mlp_size
         self.lstm_input_size = lstm_input_size
-        self.bilstm = LSTM(self.lstm_input_size, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
+        self.n_tags = n_tags
+        self.bilstm = LSTM(self.lstm_input_size + self.n_tags, self.hidden_size, self.num_layers, batch_first=True, bidirectional=True)
 
         if use_vec_mlp:
             self.MLP = MLP(2 * hidden_size, 2 * mlp_size, mlp_output_dim)
@@ -401,6 +402,8 @@ class Box_BiLSTM_MLP(Module):
         # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
         x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
         x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        if self.n_tags > 0:
+            x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag = batch[9].to(device), batch[10].to(device), batch[11].to(device)
 
         # get RoBERTa embedding
         roberta_x_sntc = self._get_roberta_embedding(x_sntc) #[64, 120, 768];[batch_size, padded_len, roberta_dim]
@@ -408,9 +411,15 @@ class Box_BiLSTM_MLP(Module):
         roberta_z_sntc = self._get_roberta_embedding(z_sntc)
 
         # BiLSTM layer
-        bilstm_output_A, _ = self.bilstm(roberta_x_sntc) #[batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
-        bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
-        bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
+        if self.n_tags > 0:
+            # [batch_size, padded_len, lstm_hidden_dim * 2]; [64, 120, 512]
+            bilstm_output_A, _ = self.bilstm(torch.cat([roberta_x_sntc, x_sntc_pos_tag], dim=-1))
+            bilstm_output_B, _ = self.bilstm(torch.cat([roberta_y_sntc, y_sntc_pos_tag], dim=-1))
+            bilstm_output_C, _ = self.bilstm(torch.cat([roberta_z_sntc, z_sntc_pos_tag], dim=-1))
+        else:
+            bilstm_output_A, _ = self.bilstm(roberta_x_sntc)
+            bilstm_output_B, _ = self.bilstm(roberta_y_sntc)
+            bilstm_output_C, _ = self.bilstm(roberta_z_sntc)
 
         output_A = self._get_embeddings_from_position(bilstm_output_A, x_position) #[batch_size, lstm_hidden_dim * 2]; [64, 512]
         output_B = self._get_embeddings_from_position(bilstm_output_B, y_position)

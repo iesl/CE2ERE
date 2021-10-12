@@ -123,6 +123,15 @@ def temp_seed(seed):
         random.setstate(state)
 
 
+def get_one_hot_tag(tag_sent, n_tags):
+    tags_one_hot = []
+    for tag in tag_sent:
+        tags_one_hot.append(torch.zeros(n_tags))
+        if tag != -1:
+            tags_one_hot[-1][tag] = 1.0
+    return torch.stack(tags_one_hot, dim=0)
+
+
 _LOG1MEXP_SPLIT_POINT = torch.tensor(0.5).log()
 def log1mexp(x: torch.Tensor, split_point=_LOG1MEXP_SPLIT_POINT, exp_zero_eps=1e-7) -> torch.Tensor:
     """

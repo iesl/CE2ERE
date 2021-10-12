@@ -75,5 +75,6 @@ def build_parser():
     parser.add_argument('--roberta_type', type=str, default="roberta-base", help="roberta emd type")
     parser.add_argument('--threshold_test', type=int, default=0, help="threshold test when loading the model")
     parser.add_argument('--weighted', type=int, default=0, help="whether to use weighted version or not")
+    parser.add_argument('--use_pos_tag', type=int, default=0, help="whether to use pos tag embedding or not")
 
     return parser.parse_args()
