@@ -178,13 +178,15 @@ def get_init_box_weights(device: torch.device):
     # return torch.nn.Parameter(torch.tensor(Total/HierTo, dtype=torch.float).to(device)), \
     #        torch.nn.Parameter(torch.tensor(Total/TempTo, dtype=torch.float).to(device))
 
-def setup(args, saved_model=None):
+def setup(args, model_state_dict=None):
     device = cuda_if_available(args.no_cuda)
     args.data_type = args.data_type.lower()
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes, n_tags = create_dataloader(args)
 
-    if saved_model:
-        model = saved_model.to(device)
+    if model_state_dict:
+        model = create_model(args, num_classes)
+        model.load_state_dict(model_state_dict, strict=False)
+        model = model.to(device)
     else:
         model = create_model(args, num_classes, n_tags)
         model = model.to(device)
@@ -317,13 +319,7 @@ def main():
         set_seed(args.seed)
         set_logger(args.data_type, args.wandb_id.replace("/", "_"))
         logger.info(args)
-        num_classes = 4
-        if args.data_type == "joint":
-            num_classes = 8
-
-        model = create_model(args, num_classes)
-        model.load_state_dict(model_state_dict, strict=False)
-        trainer, evaluator = setup(args, model)
+        trainer, evaluator = setup(args, model_state_dict)
         trainer.evaluation(-1)
 
     else:
