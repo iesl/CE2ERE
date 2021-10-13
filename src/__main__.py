@@ -184,7 +184,7 @@ def setup(args, model_state_dict=None):
     train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict, num_classes, n_tags = create_dataloader(args)
 
     if model_state_dict:
-        model = create_model(args, num_classes)
+        model = create_model(args, num_classes, n_tags)
         model.load_state_dict(model_state_dict, strict=False)
         model = model.to(device)
     else:
