@@ -250,11 +250,11 @@ class Trainer:
             wandb.log(test_metrics, commit=False)
 
         if self.data_type == "hieve":   # single task
-            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score (PC-CP)"]
+            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
         elif self.data_type == "matres":
             f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
         else:                           # joint task
-            f1_score = valid_metrics[f"[valid-hieve] F1 Score (PC-CP)"] + valid_metrics[f"[valid-matres] F1 Score"]
+            f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
 
         # cross category constraint violation evaluation
         if self.data_type == "joint" and self.const_eval:
