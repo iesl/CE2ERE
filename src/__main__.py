@@ -201,7 +201,7 @@ def setup(args, model_state_dict=None):
 
     if model_state_dict:
         model = create_model(args, num_classes, n_tags)
-        model.load_state_dict(model_state_dict, strict=False)
+        model.load_state_dict(model_state_dict, strict=True)
         model = model.to(device)
     else:
         model = create_model(args, num_classes, n_tags)
