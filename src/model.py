@@ -530,3 +530,166 @@ class Box_BiLSTM_MLP(Module):
             return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
         else:
             return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, None, None, None, None
+
+
+class Box_RoBERTa_MLP(Module):
+    def __init__(self, num_classes: int, data_type: str, hidden_size: int, num_layers: int, mlp_size: int,
+                 lstm_input_size: int, volume_temp: int, intersection_temp: int, mlp_output_dim: int,
+                 proj_output_dim: int, loss_type: int, n_tags, use_vec_mlp=False, roberta_size_type="roberta-base"):
+        super().__init__()
+        self.num_classes = num_classes
+        self.data_type = data_type
+        self.hidden_size = hidden_size
+        self.num_layers = num_layers
+        self.mlp_size = mlp_size
+        self.lstm_input_size = lstm_input_size
+        self.n_tags = n_tags
+
+        self.roberta_size_type = roberta_size_type
+        self.RoBERTa_layer = RobertaModel.from_pretrained(roberta_size_type)
+        print("roberta:", roberta_size_type)
+        if roberta_size_type == "roberta-base":
+            self.roberta_dim = 768
+        elif roberta_size_type == "roberta-large":
+            self.roberta_dim = 1024
+        else:
+            self.roberta_dim = 768
+
+        self.MLP_hieve = MLP(self.roberta_dim, 2 * mlp_size, 2 * proj_output_dim)
+        self.MLP_matres = MLP(self.roberta_dim, 2 * mlp_size, 2 * proj_output_dim)
+        self.volume = BoxToBoxVolume(volume_temp=volume_temp, intersection_temp=intersection_temp)
+
+        self.loss_type = loss_type
+        if self.loss_type == 1:
+            self.MLP_pair = MLP(3 * self.roberta_dim, 2 * mlp_size, 2 * proj_output_dim)
+        elif self.loss_type == 4 or self.loss_type == 2 or self.loss_type == 3:
+            self.MLP_h_pair = MLP(3 * self.roberta_dim, 2 * mlp_size, 2 * proj_output_dim)
+            self.MLP_m_pair = MLP(3 * self.roberta_dim, 2 * mlp_size, 2 * proj_output_dim)
+
+        self.box_embedding = BoxEmbedding(volume_temp=volume_temp, threshold=20)
+
+    def _get_embeddings_from_position(self, roberta_embd: Tensor, position: Tensor):
+        batch_size = position.shape[0]
+        return torch.cat([roberta_embd[i, position[i], :].unsqueeze(0) for i in range(0, batch_size)], 0)
+
+    def _get_pairwise_representation(self, tensor1: Tensor, tensor2: Tensor):
+        mul = torch.mul(tensor1, tensor2)  # [64, 512]
+        return torch.cat((tensor1, tensor2, mul), 1)
+
+    def forward(self, batch: Tuple[torch.Tensor], device: torch.device, data_type: str):
+        # x_sntc: [64, 120]; [batch_size, padding_length]; word id information
+        x_sntc, y_sntc, z_sntc = batch[3].to(device), batch[4].to(device), batch[5].to(device)
+        x_position, y_position, z_position = batch[6].to(device), batch[7].to(device), batch[8].to(device)
+        if self.n_tags > 0:
+            x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag = batch[9].to(device), batch[10].to(device), batch[11].to(
+                device)
+
+        output_A = self._get_embeddings_from_position(self.RoBERTa_layer(x_sntc)[0], x_position)  # [128, 768]
+        output_B = self._get_embeddings_from_position(self.RoBERTa_layer(y_sntc)[0], y_position)
+        output_C = self._get_embeddings_from_position(self.RoBERTa_layer(z_sntc)[0], z_position)
+
+        pairAB = self._get_pairwise_representation(output_A, output_B)
+        pairBC = self._get_pairwise_representation(output_B, output_C)
+        pairAC = self._get_pairwise_representation(output_A, output_C)
+
+        # projection layers
+        if data_type == "hieve":
+            # event word
+            output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
+            output_B = self.MLP_hieve(output_B).unsqueeze(1)
+            output_C = self.MLP_hieve(output_C).unsqueeze(1)
+            if self.loss_type == 1 or self.loss_type == 3:
+                pairAB = self.MLP_pair(pairAB).unsqueeze(1)
+
+        elif data_type == "matres":
+            # event word
+            output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
+            output_B = self.MLP_matres(output_B).unsqueeze(1)
+            output_C = self.MLP_matres(output_C).unsqueeze(1)
+            if self.loss_type == 1 or self.loss_type == 3:
+                pairAB = self.MLP_pair(pairAB).unsqueeze(1)
+
+        elif data_type == "joint":
+            output_A_hieve = self.MLP_hieve(output_A)  # [output_dim, 2*proj_output_dim]
+            output_B_hieve = self.MLP_hieve(output_B)
+            output_C_hieve = self.MLP_hieve(output_C)
+            output_A_matres = self.MLP_matres(output_A)  # [output_dim, 2*proj_output_dim]
+            output_B_matres = self.MLP_matres(output_B)
+            output_C_matres = self.MLP_matres(output_C)
+            output_A = torch.stack([output_A_hieve, output_A_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+            output_B = torch.stack([output_B_hieve, output_B_matres], dim=1)
+            output_C = torch.stack([output_C_hieve, output_C_matres], dim=1)
+
+            if self.loss_type == 1:
+                pairAB_hieve = self.MLP_pair(pairAB)
+                pairAB_matres = self.MLP_pair(pairAB)
+                pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+            elif self.loss_type == 4 or self.loss_type == 2 or self.loss_type == 3:
+                pairAB_hieve = self.MLP_h_pair(pairAB)
+                pairAB_matres = self.MLP_m_pair(pairAB)
+                pairAB = torch.stack([pairAB_hieve, pairAB_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+                pairBC_hieve = self.MLP_h_pair(pairBC)
+                pairBC_matres = self.MLP_m_pair(pairBC)
+                pairBC = torch.stack([pairBC_hieve, pairBC_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+                pairAC_hieve = self.MLP_h_pair(pairAC)
+                pairAC_matres = self.MLP_m_pair(pairAC)
+                pairAC = torch.stack([pairAC_hieve, pairAC_matres], dim=1)  # [output_dim, 2, 2*proj_output_dim]
+
+        dataset_num = output_A.shape[1]
+        boxes_A, boxes_B, boxes_C = [], [], []
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
+            pboxes_AB = []
+            pboxes_BC = []
+            pboxes_AC = []
+        for i in range(dataset_num):
+            # box embedding layer
+            # [batch_size, 1, min/max, 2*proj_output_dim/2]; [64, 1, 2, 128]
+            box_A_tmp = self.box_embedding.get_box_embeddings(output_A[..., i, :]).unsqueeze(dim=1)
+            box_B_tmp = self.box_embedding.get_box_embeddings(output_B[..., i, :]).unsqueeze(dim=1)
+            box_C_tmp = self.box_embedding.get_box_embeddings(output_C[..., i, :]).unsqueeze(dim=1)
+
+            boxes_A.append(box_A_tmp)
+            boxes_B.append(box_B_tmp)
+            boxes_C.append(box_C_tmp)
+            if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
+                pbox_AB_tmp = self.box_embedding.get_box_embeddings(pairAB[..., i, :]).unsqueeze(dim=1)
+                pboxes_AB.append(pbox_AB_tmp)
+                pbox_BC_tmp = self.box_embedding.get_box_embeddings(pairBC[..., i, :]).unsqueeze(dim=1)
+                pboxes_BC.append(pbox_BC_tmp)
+                pbox_AC_tmp = self.box_embedding.get_box_embeddings(pairAC[..., i, :]).unsqueeze(dim=1)
+                pboxes_AC.append(pbox_AC_tmp)
+
+        box_A = torch.cat(boxes_A, dim=1)  # [batch_size, # of boxes, min/max, 2*proj_output_dim/2]
+        box_B = torch.cat(boxes_B, dim=1)
+        box_C = torch.cat(boxes_C, dim=1)
+        if self.loss_type == 1 or self.loss_type == 3 or self.loss_type == 4 or self.loss_type == 2:
+            pbox_AB = torch.cat(pboxes_AB, dim=1)
+            pbox_BC = torch.cat(pboxes_BC, dim=1)
+            pbox_AC = torch.cat(pboxes_AC, dim=1)
+
+        # conditional probabilities
+        inter_AB, vol_AB = self.volume(box_A, box_B)  # [batch_size, # of datasets]; [64, 2] (joint case) [64, 1] (single case)
+        _, vol_BA = self.volume(box_B, box_A)
+        inter_BC, vol_BC = self.volume(box_B, box_C)
+        _, vol_CB = self.volume(box_C, box_B)
+        inter_AC, vol_AC = self.volume(box_A, box_C)
+        _, vol_CA = self.volume(box_C, box_A)
+
+        if self.loss_type == 1:
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
+        elif self.loss_type == 2 and len(boxes_A) == 2:
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, None, None, None
+        elif self.loss_type == 3 and len(boxes_A) == 2:
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, pvol_BC = self.volume(inter_BC, pbox_BC)
+            _, pvol_AC = self.volume(inter_AC, pbox_AC)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
+        elif self.loss_type == 4:
+            _, pvol_AB = self.volume(inter_AB, pbox_AB)
+            _, pvol_BC = self.volume(inter_BC, pbox_BC)
+            _, pvol_AC = self.volume(inter_AC, pbox_AC)
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, pvol_AB, pvol_BC, pvol_AC, None
+        else:
+            return vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, None, None, None, None

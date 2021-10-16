@@ -191,7 +191,7 @@ def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def add_hieve_symmetric_data(data_dict, model_type, event_id1, event_id2, rel_type):
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         rel_id = get_hier_relation_tuple_id(rel_type)
     else:
         rel_id = get_relation_id(rel_type)
@@ -200,7 +200,7 @@ def add_hieve_symmetric_data(data_dict, model_type, event_id1, event_id2, rel_ty
 
 
 def add_matres_symmetric_data(eiid_pair_to_rid_per_fname, model_type, eiid1, eiid2, rel_type):
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         temp_rel_id = get_temp_relation_tuple_id(rel_type)
     else:
         temp_rel_id = get_temp_rel_id(rel_type)
@@ -242,7 +242,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm:
             }
         elif type == "relation":
             event_id1, event_id2, rel_type = int(line[1]), int(line[2]), line[3]
-            if model_type == "box" or model_type == "vector":
+            if model_type.startswith("box") or model_type == "vector":
                 rel_id = get_hier_relation_tuple_id(rel_type)
             else:
                 rel_id = get_relation_id(rel_type)
@@ -276,7 +276,7 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                 trigger_word2 = line[2]
                 eiid1 = int(line[3]) # eiid1 = trigger_word_id1
                 eiid2 = int(line[4]) # eiid2 = trigger_word_id2
-                if model_type == "box" or model_type == "vector":
+                if model_type.startswith("box") or model_type == "vector":
                     temp_rel_id = get_temp_relation_tuple_id(line[5])
                 else:
                     temp_rel_id = get_temp_rel_id(line[5])

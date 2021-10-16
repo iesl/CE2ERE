@@ -5,7 +5,7 @@ import wandb
 from torch.nn import CrossEntropyLoss
 from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders, get_tag2index, add_pos_tag_embedding
 from loss import TransitivityLoss, CrossCategoryLoss
-from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP
+from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP, Box_RoBERTa_MLP
 from parser import *
 from train import Trainer, ThresholdEvaluator, VectorBiLSTMEvaluator
 from utils import *
@@ -148,6 +148,22 @@ def create_model(args, num_classes, n_tags):
             roberta_size_type=args.roberta_type,
             n_tags=n_tags,
         )
+    elif args.model == "box-finetune":
+        model = Box_RoBERTa_MLP(
+            num_classes=num_classes,
+            data_type=args.data_type,
+            hidden_size=args.lstm_hidden_size,
+            num_layers=args.num_layers,
+            mlp_size=args.mlp_size,
+            lstm_input_size=args.lstm_input_size,
+            volume_temp=args.volume_temp,
+            intersection_temp=args.intersection_temp,
+            mlp_output_dim=args.mlp_output_dim,
+            proj_output_dim=args.proj_output_dim,
+            loss_type=args.loss_type,
+            roberta_size_type=args.roberta_type,
+            n_tags=n_tags,
+        )
     else:
         raise ValueError(f"{args.model} is unsupported!")
     return model
@@ -195,7 +211,7 @@ def setup(args, model_state_dict=None):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=args.learning_rate, amsgrad=True, weight_decay=args.weight_decay) # AMSGrad
 
-    if args.model != "box" and args.model != "vector":
+    if not args.model.startswith("box") and args.model != "vector":
         print("Using VectorBiLSTMEvaluator..!")
         evaluator = VectorBiLSTMEvaluator(
             train_type=args.data_type,

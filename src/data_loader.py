@@ -37,7 +37,7 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
         for y in range(x+1, num_event+1):
             for z in range(y+1, num_event+1):
                 append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict)
-                if symm_train and (model_type == "box" or model_type == "vector"):
+                if symm_train and (model_type.startswith("box") or model_type == "vector"):
                     if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
                         if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
                             append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
@@ -92,7 +92,7 @@ def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event
         xy_rel_id, yz_rel_id, xz_rel_id, \
         0  # 0: HiEve, 1: MATRES
 
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         if xy_rel_id == (0, 0) and yz_rel_id == (0, 0):
             pass  # x-y: NoRel and y-z: NoRel
         elif xy_rel_id == (0, 0) or yz_rel_id == (0, 0) or xz_rel_id == (0, 0):  # if one of them is NoRel
@@ -120,7 +120,7 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
     for x in range(1, num_event+1):
         for y in range(x+1, num_event+1):
             append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict)
-            if symm_eval and (model_type == "box" or model_type == "vector"):
+            if symm_eval and (model_type.startswith("box") or model_type == "vector"):
                 if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
                     append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
             elif symm_eval and (model_type == "bilstm"):
@@ -152,7 +152,7 @@ def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dic
         xy_rel_id, xy_rel_id, xy_rel_id, \
         0  # 0: HiEve, 1: MATRES
 
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         if xy_rel_id == (0, 0):
             if random.uniform(0, 1) < downsample:
                 final_set.append(to_append)
@@ -185,7 +185,7 @@ def get_matres_train_set(data_dict: Dict[str, Any], eiid_to_event_trigger_dict: 
                     append_matres_train_dataset(train_set, eiid1, eiid2, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
                     if not symm_train: continue
                     eiid_pair_keys = eiid_pair_to_rel_id_dict.keys()
-                    if model_type == "box" or model_type == "vector":
+                    if model_type.startswith("box") or model_type == "vector":
                         if (eiid1, eiid2) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
                             append_matres_train_dataset(train_set, eiid2, eiid1, eiid3, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
                         if (eiid2, eiid3) in eiid_pair_keys and (eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid2, eiid3)] == (0, 1)):
@@ -252,7 +252,7 @@ def get_matres_valid_test_set(data_dict: Dict[str, Any], eiid_pair_to_rel_id_dic
     for (eiid1, eiid2) in eiid_pair_to_rel_id_dict.keys():
         append_matres_eval_dataset(final_set, eiid1, eiid2, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
         # box
-        if model_type == "box" or model_type == "vector":
+        if model_type.startswith("box") or model_type == "vector":
             if symm_eval and (eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (1, 0) or eiid_pair_to_rel_id_dict[(eiid1, eiid2)] == (0, 1)):
                 append_matres_eval_dataset(final_set, eiid2, eiid1, event_dict, sntc_dict, eiid_dict, eiid_pair_to_rel_id_dict)
         else:

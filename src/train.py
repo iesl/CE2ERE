@@ -120,7 +120,7 @@ class Trainer:
                 loss_vals = []
                 for step, batch in enumerate(tqdm(self.train_dataloader)):
                     device = self.device
-                    if self.model_type == "box":
+                    if self.model_type.startswith("box"):
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
                         yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                         xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
@@ -188,7 +188,7 @@ class Trainer:
 
                     loss_vals.append(loss.item())
                     loss.backward()
-                    if self.model_type == "box" or self.model_type == "vector":
+                    if self.model_type.startswith("box") or self.model_type == "vector":
                         torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
                     self.opt.step()
 
@@ -263,7 +263,7 @@ class Trainer:
             h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("hieve", "cv-test")
             assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
                    == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-            if self.model_type == "box" or self.model_type == "vector":
+            if self.model_type.startswith("box") or self.model_type == "vector":
                 cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
             else:
                 cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
@@ -271,7 +271,7 @@ class Trainer:
             h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list = self.evaluator.cross_evaluate("matres", "cv-test")
             assert len(h_cv_xy_list) == len(h_cv_yz_list) == len(h_cv_xz_list) \
                    == len(m_cv_xy_list) == len(m_cv_yz_list) == len(m_cv_xz_list)
-            if self.model_type == "box" or self.model_type == "vector":
+            if self.model_type.startswith("box") or self.model_type == "vector":
                 cross_cv_eval.update_violation_count_box(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
             else:
                 cross_cv_eval.update_violation_count_vector(h_cv_xy_list, h_cv_yz_list, h_cv_xz_list, m_cv_xy_list, m_cv_yz_list, m_cv_xz_list)
@@ -381,7 +381,7 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                if self.model_type == "box":
+                if self.model_type.startswith("box"):
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, _, _, _, _ = self.model(batch, device, self.train_type) # [batch_size, 2]
                 elif self.model_type == "vector":
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA = self.model(batch, device)  # [batch_size, # of datasets]
@@ -456,7 +456,7 @@ class ThresholdEvaluator:
                 yz_rel_id = torch.stack(batch[13], dim=-1).to(device)
                 xz_rel_id = torch.stack(batch[14], dim=-1).to(device)
                 flag = batch[15]  # 0: HiEve, 1: MATRES
-                if self.model_type == "box":
+                if self.model_type.startswith("box"):
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA, _, _, _, _ = self.model(batch, device, self.train_type)  # [batch_size, 2]
                 elif self.model_type == "vector":
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA = self.model(batch, device)  # [batch_size, # of datasets]

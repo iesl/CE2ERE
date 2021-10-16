@@ -13,7 +13,7 @@ def build_parser():
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
 
-    parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector"],
+    parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector", "box-finetune"],
                         help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning, bilstm: roberta-base emb w/o finetuning + BiLSTM, box: roberta-base emb w/o finetuning + BiLSTM + Box")
 
     parser.add_argument('--downsample', type=float, default=0.01)

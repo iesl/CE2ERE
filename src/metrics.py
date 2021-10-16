@@ -18,7 +18,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics = {}
     CM = confusion_matrix(y_true, y_pred)
     logger.info("confusion_matrix: \n{0}".format(CM))
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         Acc, P, R, F1, _ = CM_metric_box_3class(CM)
     else:
         Acc, P, R, F1, _ = CM_metric_3class(CM)
@@ -27,7 +27,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
     if data_type == "hieve":
-        if model_type == "box" or model_type == "vector":
+        if model_type.startswith("box") or model_type == "vector":
             P, R, F1 = CM_metric_box_2class(CM)
         else:
             P, R, F1 = CM_metric_2class(CM)
@@ -156,7 +156,7 @@ class ConstraintViolation:
     """
     def __init__(self, model_type):
         super().__init__()
-        if model_type == "box" or model_type == "vector":
+        if model_type.startswith("box") or model_type == "vector":
             self.violation_dict = {
                 ("10", "10", "01"): 0, ("10", "10", "11"): 0, ("10", "10", "00"): 0,
                 ("10", "11", "01"): 0, ("10", "11", "11"): 0, ("10", "11", "00"): 0,
@@ -319,7 +319,7 @@ class CrossCategoryConstraintViolation:
     """
     def __init__(self, model_type):
         super().__init__()
-        if model_type == "box" or model_type == "vector":
+        if model_type.startswith("box") or model_type == "vector":
             self.violation_dict = {
                 ("h10", "h10", "h01"): 0, ("h10", "h10", "h11"): 0, ("h10", "h10", "h00"): 0, ("h10", "h10", "m01"): 0,
                 ("h10", "h11", "h01"): 0, ("h10", "h11", "h11"): 0, ("h10", "h11", "h00"): 0, ("h10", "h11", "m01"): 0,
