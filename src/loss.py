@@ -268,7 +268,11 @@ class BCELogitLoss(Module):
         """
         labels = labels.to(dtype=torch.float)
         if logit1.shape[-1] == 1:
-            loss = self.loss_func(logit1, labels[:,0].unsqueeze(-1)) + self.loss_func(logit2, labels[:,1].unsqueeze(-1))
+            label1 = labels[:, 0].unsqueeze(-1)
+            label2 = labels[:, 1].unsqueeze(-1)
+            assert logit1.shape == label1.shape
+            assert logit2.shape == label2.shape
+            loss = self.loss_func(logit1, label1) + self.loss_func(logit2, label2)
         else:
             # loss between P(A|B) and labels[:,0] for HiEve Data +
             # loss between P(B|A) and labels[:,1] for HiEve Data
