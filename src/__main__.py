@@ -326,7 +326,7 @@ def main():
             if key not in run.config.keys():
                 wandb.config.update({key: value}, allow_val_change=True)
 
-        if args.threshold_test:
+        if args.threshold_test != 0:
             wandb.config.update({"eval_type": args.eval_type}, allow_val_change=True)
             wandb.config.update({"threshold1": args.threshold1}, allow_val_change=True)
             wandb.config.update({"threshold2": args.threshold2}, allow_val_change=True)
