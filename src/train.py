@@ -436,7 +436,7 @@ class ThresholdEvaluator:
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
-            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}")
+            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}, total: {str(symm_total)}")
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
@@ -630,7 +630,7 @@ class VectorBiLSTMEvaluator:
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
-            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}")
+            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}, total: {str(symm_total)}")
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
