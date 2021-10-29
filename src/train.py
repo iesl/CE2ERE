@@ -622,7 +622,6 @@ class VectorBiLSTMEvaluator:
                     const_count, total = self.symm_constraint_evaluation(alpha_indices, beta_indices)
                     symm_const += const_count
                     symm_total += total
-                logger.info(f"[{data_type}] - Symmetric constraint-violation: {str(count)}")
 
                 pred_vals.extend(pred)
                 rel_ids.extend(xy_rel_ids)
