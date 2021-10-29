@@ -375,6 +375,12 @@ class ThresholdEvaluator:
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
+            if eval_type.startswith("cv-"):
+                symm_const = -1
+            else:
+                symm_const = 0
+                symm_total = 0
+
             for i, batch in enumerate(dataloader):
                 device = self.device
                 xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
@@ -415,8 +421,10 @@ class ThresholdEvaluator:
 
                 # to check symmetric constraints between xy and yx, use xy_preds & yz_preds (=yx_preds)
                 # in the case of standard evaluation (not const-violation evaluation), the samples are (x,y,x) order
-                count = self.symm_constraint_evaluation(xy_constraint_dict, yz_constraint_dict)
-                logger.info(f"[{data_type}] - Symmetric constraint-violation: {str(count)}")
+                if symm_const == 0:
+                    const_count, total = self.symm_constraint_evaluation(xy_constraint_dict, yz_constraint_dict)
+                    symm_const += const_count
+                    symm_total += total
 
                 assert len(xy_preds) == len(xy_targets)
                 preds.extend(xy_preds)
@@ -428,6 +436,7 @@ class ThresholdEvaluator:
                 if constraint_violation:
                     constraint_violation.update_violation_count_box(xy_constraint_dict, yz_constraint_dict, xz_constraint_dict)
 
+            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}")
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
@@ -444,6 +453,7 @@ class ThresholdEvaluator:
         return metrics
 
     def symm_constraint_evaluation(self, xy_const_dict, yx_const_dict):
+        total = len(xy_const_dict["10"]) + len(xy_const_dict["01"]) + len(xy_const_dict["11"]) + len(xy_const_dict["00"])
         count = 0
         # check pc in xy == cp in yx
         if len(xy_const_dict["10"] & yx_const_dict["01"]) != len(xy_const_dict["10"]):
@@ -468,7 +478,7 @@ class ThresholdEvaluator:
             count += len(xy_const_dict["00"] & yx_const_dict["01"])
             count += len(xy_const_dict["00"] & yx_const_dict["11"])
 
-        return count
+        return count, total
 
     def cross_evaluate(self, data_type: str, eval_type: str):
         if eval_type == "cv-test":
@@ -572,6 +582,12 @@ class VectorBiLSTMEvaluator:
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
+            if eval_type.startswith("cv-"):
+                symm_const = -1
+            else:
+                symm_const = 0
+                symm_total = 0
+
             for i, batch in enumerate(dataloader):
                 device = self.device
 
@@ -602,7 +618,10 @@ class VectorBiLSTMEvaluator:
 
                 # to check symmetric constraints between xy and yx, use alpha (=xy) & beta (=yx)
                 # in the case of standard evaluation (not const-violation evaluation), the samples are (x,y,x) order
-                count = self.symm_constraint_evaluation(alpha_indices, beta_indices)
+                if symm_const == 0:
+                    const_count, total = self.symm_constraint_evaluation(alpha_indices, beta_indices)
+                    symm_const += const_count
+                    symm_total += total
                 logger.info(f"[{data_type}] - Symmetric constraint-violation: {str(count)}")
 
                 pred_vals.extend(pred)
@@ -611,6 +630,7 @@ class VectorBiLSTMEvaluator:
                 if constraint_violation:
                     constraint_violation.update_violation_count_vector(alpha_indices, beta_indices, gamma_indices)
 
+            logger.info(f"[{eval_type}-{data_type}] - symmetric constraint-violation: {str(symm_const)}")
             if constraint_violation:
                 logger.info(f"[{eval_type}-{data_type}] constraint-violation: %s" % constraint_violation.violation_dict)
                 logger.info(f"[{eval_type}-{data_type}] all_cases: %s" % constraint_violation.all_case_count)
@@ -626,8 +646,9 @@ class VectorBiLSTMEvaluator:
 
     def symm_constraint_evaluation(self, xy_preds, yx_preds):
         assert len(xy_preds) == len(yx_preds)
+        total = len(xy_preds)
         count = 0
-        for i in range(len(xy_preds)):
+        for i in range(total):
             if xy_preds[i] == "0":      # pc
                 if yx_preds[i] != "1":
                     count += 1
@@ -640,7 +661,7 @@ class VectorBiLSTMEvaluator:
             elif xy_preds[i] == "3":    # nr
                 if yx_preds[i] != "3":
                     count += 1
-        return count
+        return count, total
 
     def cross_evaluate(self, data_type: str, eval_type: str):
         if eval_type == "cv-test":
