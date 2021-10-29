@@ -375,11 +375,11 @@ class ThresholdEvaluator:
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
+            symm_total = 0
             if eval_type.startswith("cv-"):
                 symm_const = -1
             else:
                 symm_const = 0
-                symm_total = 0
 
             for i, batch in enumerate(dataloader):
                 device = self.device
@@ -582,11 +582,11 @@ class VectorBiLSTMEvaluator:
         eval_start_time = time.time()
         logger.info(f"[{eval_type}-{data_type}] start... ")
         with torch.no_grad():
+            symm_total = 0
             if eval_type.startswith("cv-"):
                 symm_const = -1
             else:
                 symm_const = 0
-                symm_total = 0
 
             for i, batch in enumerate(dataloader):
                 device = self.device
