@@ -649,17 +649,17 @@ class VectorBiLSTMEvaluator:
         total = len(xy_preds)
         count = 0
         for i in range(total):
-            if xy_preds[i] == "0":      # pc
-                if yx_preds[i] != "1":
+            if xy_preds[i] == 0:      # pc
+                if yx_preds[i] != 1:
                     count += 1
-            elif xy_preds[i] == "1":    # cp
-                if yx_preds[i] != "0":
+            elif xy_preds[i] == 1:    # cp
+                if yx_preds[i] != 0:
                     count += 1
-            elif xy_preds[i] == "2":    # cr
-                if yx_preds[i] != "2":
+            elif xy_preds[i] == 2:    # cr
+                if yx_preds[i] != 2:
                     count += 1
-            elif xy_preds[i] == "3":    # nr
-                if yx_preds[i] != "3":
+            elif xy_preds[i] == 3:    # nr
+                if yx_preds[i] != 3:
                     count += 1
         return count, total
 
