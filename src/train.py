@@ -421,7 +421,7 @@ class ThresholdEvaluator:
 
                 # to check symmetric constraints between xy and yx, use xy_preds & yz_preds (=yx_preds)
                 # in the case of standard evaluation (not const-violation evaluation), the samples are (x,y,x) order
-                if symm_const == 0:
+                if symm_const != -1:
                     const_count, total = self.symm_constraint_evaluation(xy_constraint_dict, yz_constraint_dict)
                     symm_const += const_count
                     symm_total += total
@@ -618,7 +618,7 @@ class VectorBiLSTMEvaluator:
 
                 # to check symmetric constraints between xy and yx, use alpha (=xy) & beta (=yx)
                 # in the case of standard evaluation (not const-violation evaluation), the samples are (x,y,x) order
-                if symm_const == 0:
+                if symm_const != -1:
                     const_count, total = self.symm_constraint_evaluation(alpha_indices, beta_indices)
                     symm_const += const_count
                     symm_total += total
