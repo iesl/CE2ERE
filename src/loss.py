@@ -7,6 +7,31 @@ from collections import defaultdict
 from utils import log1mexp
 
 
+class SymmetryLoss(Module):
+    def __init__(self):
+        super().__init__()
+        self.softmax = LogSoftmax(dim=1)
+        self.zero = Variable(torch.zeros(1), requires_grad=False).to("cuda" if torch.cuda.is_available() else "cpu")
+
+    def loss_calculation(self, log_y_alpha, log_y_beta, alpha_index, beta_index):
+        loss = torch.max(self.zero, log_y_alpha[:, alpha_index] - log_y_beta[:, beta_index])
+        return loss
+
+    def forward(self, alpha_logits, beta_logits, gamma_logits):
+        log_y_alpha = self.softmax(alpha_logits)
+        log_y_beta = self.softmax(beta_logits)
+        log_y_gamma = self.softmax(gamma_logits)
+
+        loss = self.loss_calculation(log_y_alpha, log_y_beta, 0, 1)
+        loss += self.loss_calculation(log_y_alpha, log_y_beta, 1, 0)
+        loss += self.loss_calculation(log_y_alpha, log_y_beta, 1, 1)
+        loss += self.loss_calculation(log_y_alpha, log_y_beta, 0, 0)
+        loss += self.loss_calculation(log_y_beta, log_y_gamma, 0, 1)
+        loss += self.loss_calculation(log_y_beta, log_y_gamma, 1, 0)
+        loss += self.loss_calculation(log_y_beta, log_y_gamma, 1, 1)
+        loss += self.loss_calculation(log_y_beta, log_y_gamma, 0, 0)
+        return loss
+
 class TransitionLoss(Module):
     def __init__(self):
         super().__init__()

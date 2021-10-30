@@ -16,7 +16,7 @@ from typing import Dict, Union, Optional
 from torch.nn import Module, CrossEntropyLoss
 from torch.utils.data import DataLoader
 from evalulation import threshold_evalution, two_threshold_evalution
-from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss, BoxCrossCategoryLoss, BoxSameCategoryLoss
+from loss import BCELossWithLog, BCELossWithLogP, BCELogitLoss, BoxCrossCategoryLoss, BoxSameCategoryLoss, SymmetryLoss
 from metrics import metric, ConstraintViolation, CrossCategoryConstraintViolation
 
 logger = logging.getLogger()
@@ -44,6 +44,8 @@ class Trainer:
         self.loss_anno_dict = loss_anno_dict
         self._get_trans_loss_h = loss_transitivity_h
         self._get_trans_loss_t = loss_transitivity_t
+        self._get_symm_loss_h = SymmetryLoss()
+        self._get_symm_loss_t = SymmetryLoss()
         self.loss_func_cross = loss_cross_category
 
         self.cross_entropy_loss = CrossEntropyLoss()
@@ -181,6 +183,8 @@ class Trainer:
                         elif self.data_type == "joint":
                             loss = self.lambda_dict["lambda_anno"] * self._get_anno_loss(batch_size, flag, alpha, beta, gamma, xy_rel_id, yz_rel_id, xz_rel_id)
                             if self.loss_type:
+                                loss += self.lambda_dict["lambda_symm"] * self._get_symm_loss_h(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4]).sum()
+                                loss += self.lambda_dict["lambda_symm"] * self._get_symm_loss_t(alpha[:, 4:8], beta[:, 4:8], gamma[:, 4:8]).sum()
                                 loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_h(alpha[:, 0:4], beta[:, 0:4], gamma[:, 0:4]).sum()
                                 loss += self.lambda_dict["lambda_trans"] * self._get_trans_loss_t(alpha[:, 4:8], beta[:, 4:8], gamma[:, 4:8]).sum()
                                 if self.loss_type == 2:
