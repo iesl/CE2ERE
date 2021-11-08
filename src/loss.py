@@ -1,7 +1,7 @@
 import torch
 from torch import Tensor, autograd
 from torch.autograd import Variable
-from torch.nn import Module, LogSoftmax , BCELoss
+from torch.nn import Module, LogSoftmax, BCELoss, BCEWithLogitsLoss
 from collections import defaultdict
 
 from utils import log1mexp
@@ -282,7 +282,7 @@ class BCELossWithLogP(Module):
 class BCELogitLoss(Module):
     def __init__(self):
         super().__init__()
-        self.loss_func = BCELoss()
+        self.loss_func = BCEWithLogitsLoss()
 
     def forward(self, logit1, logit2, labels, flag, lambda_dict):
         """

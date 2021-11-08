@@ -252,13 +252,13 @@ class Vector_BiLSTM_MLP(Module):
             return torch.stack(roberta_list)
 
     def _get_dot_product(self, output_A1, output_B1, output_C1, output_A2, output_B2, output_C2):
-        dot_AB = torch.sigmoid(torch.sum(torch.mul(output_A1, output_B1), dim=-1, keepdim=True)).clamp_min(self.eps)  # [batch_size, 1]
-        dot_BC = torch.sigmoid(torch.sum(torch.mul(output_B1, output_C1), dim=-1, keepdim=True)).clamp_min(self.eps)
-        dot_AC = torch.sigmoid(torch.sum(torch.mul(output_A1, output_C1), dim=-1, keepdim=True)).clamp_min(self.eps)
+        dot_AB = torch.bmm(output_A1.unsqueeze(dim=1), output_B1.unsqueeze(dim=2)).squeeze(-1) # [batch_size, 1]
+        dot_BC = torch.bmm(output_B1.unsqueeze(dim=1), output_C1.unsqueeze(dim=2)).squeeze(-1)
+        dot_AC = torch.bmm(output_A1.unsqueeze(dim=1), output_C1.unsqueeze(dim=2)).squeeze(-1)
 
-        dot_BA = torch.sigmoid(torch.sum(torch.mul(output_B2, output_A2), dim=-1, keepdim=True)).clamp_min(self.eps)
-        dot_CB = torch.sigmoid(torch.sum(torch.mul(output_C2, output_B2), dim=-1, keepdim=True)).clamp_min(self.eps)
-        dot_CA = torch.sigmoid(torch.sum(torch.mul(output_C2, output_A2), dim=-1, keepdim=True)).clamp_min(self.eps)
+        dot_BA = torch.bmm(output_B2.unsqueeze(dim=1), output_A2.unsqueeze(dim=2)).squeeze(-1)
+        dot_CB = torch.bmm(output_C2.unsqueeze(dim=1), output_B2.unsqueeze(dim=2)).squeeze(-1)
+        dot_CA = torch.bmm(output_C2.unsqueeze(dim=1), output_A2.unsqueeze(dim=2)).squeeze(-1)
         return dot_AB, dot_BA, dot_BC, dot_CB, dot_AC, dot_CA
 
 
