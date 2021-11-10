@@ -1,0 +1,60 @@
+Text	http://nypost. com/2013/04/12/video-of-brooklyn-womans-fatal-shooting-is-played-at-trial-of-two-men-charged-in-rooftop-gunplay/Video of Brooklyn woman's fatal shooting is played at trial of two men charged in rooftop gunplay April 12, 2013 | 4:00am Rapt jurors yesterday watched surveillance video of the chilling moment that a Brooklyn mom was fatally struck by stray gunfire and slowly fell over into a pool of her own blood. The disturbing evidence was made public at the trial of the two men accused of killing Zurana Horton from a Brownsville rooftop in 2011. Horton, 34, was walking with one of her 12 children when Andrew Lopez, 20, fired from the rooftop on the orders of his brother Jonathan Carrasquillo, 24, prosecutors charge. Also shot were a woman named Unique Armstead, who was walking near Horton, and an 11-year-old girl who was passing by. Yesterday, Armstead told jurors at the Brooklyn Supreme Court trial about the moment she was struck in the shooting, which was allegedly sparked by a gangland territorial beef. "At the time, I thought it was a brick, but it was a bullet, " testified Armstead, who was walking with her son and who can be seen in the video stumbling against a building after she is shot. When prosecutor Seth Goldman asked whether she shielded her son with her body, Armstead quietly answered, "Yes. " "When me and my son were on the floor, I noticed Mrs. Horton fall down. I honestly thought she was shot in the head. There was blood. " Armstead also testified that she heard a group of young men arguing about a gun shortly before the shooting, which matches up with prosecutors' claim that Carrasquillo ordered Lopez to the roof with the gun after a dispute between their 8 Block gang and the rival Young Guns crew. The talk of guns had made Armstead nervous, especially since she was with her young son. "I speed-walked to my son, and I held him. I was scared. I was trying to get out of harm's way, " she testified. Armstead said she sought safety for herself and her son in a store, but when activity on the street seemed to have settled, she walked back outside-where a bullet went straight through her arm and she saw Horton killed. Brooklyn Supreme Court Judge Vincent Del Giudice briefly sealed the courtroom at the request of prosecutors because their next witness had been threatened with death by the alleged shooter's brother. The fearful witness had entered the courtroom with hood over his head, Del Giudice said when the courtroom was reopened. "The man is an emotional wreck, " the judge said before postponing the man's testimony until Monday.
+Event	65	gunplay	Occurence	217
+Event	178	walking	Occurence	793
+Event	77	watched	Occurence	271
+Event	224	beef	Occurence	1029
+Event	192	passing	Occurence	846
+Event	119	accused	Occurence	496
+Event	195	Yesterday	Occurence	858
+Event	149	fired	Occurence	640
+Event	114	trial	Occurence	475
+Event	205	trial	Occurence	920
+Event	219	sparked	Occurence	995
+Event	93	gunfire	Occurence	369
+Event	211	struck	Occurence	951
+Event	62	charged	Occurence	198
+Event	76	yesterday	Occurence	261
+Event	155	orders	Occurence	670
+Event	214	shooting	Occurence	965
+Event	168	shot	Occurence	744
+Event	56	played	Occurence	171
+Event	121	killing	Occurence	507
+Event	136	walking	Occurence	581
+Event	129	2011	Occurence	559
+Event	90	struck	Occurence	353
+Event	96	fell	Occurence	388
+Event	58	trial	Occurence	181
+Relation	76	56	SuperSub	true	yesterday	played
+Relation	76	77	SuperSub	true	yesterday	watched
+Relation	76	90	SubSuper	true	yesterday	struck
+Relation	76	93	SubSuper	true	yesterday	gunfire
+Relation	76	96	SubSuper	true	yesterday	fell
+Relation	129	121	SuperSub	true	2011	killing
+Relation	129	136	SuperSub	true	2011	walking
+Relation	129	149	SuperSub	true	2011	fired
+Relation	129	155	SuperSub	true	2011	orders
+Relation	129	168	SuperSub	true	2011	shot
+Relation	129	178	SuperSub	true	2011	walking
+Relation	129	192	SuperSub	true	2011	passing
+Relation	129	211	SuperSub	true	2011	struck
+Relation	129	214	SuperSub	true	2011	shooting
+Relation	129	219	SuperSub	true	2011	sparked
+Relation	129	224	SuperSub	true	2011	beef
+Relation	58	62	SubSuper	true	trial	charged
+Relation	62	65	SubSuper	true	charged	gunplay
+Relation	90	96	SuperSub	true	struck	fell
+Relation	90	93	SubSuper	true	struck	gunfire
+Relation	114	119	SubSuper	true	trial	accused
+Relation	119	121	SubSuper	true	accused	killing
+Relation	149	155	SubSuper	true	fired	orders
+Relation	205	214	SubSuper	true	trial	shooting
+Relation	214	224	SubSuper	true	shooting	beef
+Relation	129	65	SuperSub	true	2011	gunplay
+Relation	129	119	NoRel	true	2011	accused
+Relation	129	114	SuperSub	true	2011	trial
+Relation	195	205	NoRel	true	Yesterday	trial
+Relation	195	211	SubSuper	true	Yesterday	struck
+Relation	195	214	SubSuper	true	Yesterday	shooting
+Relation	195	219	SubSuper	true	Yesterday	sparked
+Relation	195	224	SubSuper	true	Yesterday	beef
+Relation	211	214	SubSuper	true	struck	shooting

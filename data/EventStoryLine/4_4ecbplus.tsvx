@@ -1,0 +1,4 @@
+Text	http://www. contactmusic. com/news/esther-williams-dies_3708023 Esther Williams-Esther Williams:"Million Dollar Mermaid" Swimmer And Actress Dies Aged 91. 07 June 2013 Golden girl of screen and pool, Esther Williams, has died peacefully in her sleep aged 91. It has been confirmed by publicist Harlan Boll that the 1940s Hollywood actress and record-setting swimmer, Esther Williams, died on 6th June in her sleep. Stunning Williams quickly achieved movie success and pin-up status, due to her swimmer's physique being regularly snapped in bathing suits.
+Event	107	snapped	Occurence	529
+Event	93	success	Occurence	456
+Relation	93	107	SubSuper	true	success	snapped

@@ -1,0 +1,30 @@
+Text	http://www. independent. co. uk/news/world/asia/indonesia-earthquake-24-dead-and-over-200-injured-as-61-magnitude-quake-hits-aceh-province-8684832. html Indonesia earthquake:24 dead and over 200 injured as 6. 1 magnitude quake hits Aceh province WEDNESDAY 03 JULY 2013 Soldiers and police are leading rescue operations in Indonesia after a 6. 1 magnitude earthquake hit Aceh province leaving 24 dead and over 200 injured. The quake struck yesterday afternoon at a depth of just six miles and was centred on the far western tip of Sumatra island in Aceh province. Twelve people were killed and 70 others were injured by a landslide or collapsing buildings in Bener Meriah district, said Sutopo Purwo Nugroho of the National Disaster Mitigation Agency. In neighbouring Central Aceh district, 10 people were killed, 140 were injured and about 1, 500 houses and buildings were damaged, Nugroho said. The quake also triggered landslides and caused hundreds of people to be evacuated to 10 temporary shelters. Another two people are also reported to have been killed, although it has not been stated where. Nugroho told Agence-France Presse:"We have recorded 24 people dead and 249 people injured", adding that more than 300 buildings have been damaged in the quake. Rescuers and other assistance teams have arrived in Bener Meriah, while the air force have dispatched a helicopter and a CN-235 aircraft to the region, Nugroho said. "We are now concentrating on searching for people who may be trapped under the rubble, " said Rusli M. Saleh, the deputy district chief of Bener Meriah. He said at least 25 of the injured in his district were hospitalised in intensive care. As the quake hit, villagers in the area ran out of their homes in panic and screamed for help. "I see many houses were damaged and their roofs fell onto some people, " Bensu Elianita, a 22-year-old resident of Bukit Sama village in Central Aceh district, said shortly after the quake hit. "Many people were injured, but it is difficult to evacuate them due to traffic jams. " The quake also caused concern among officials attending a meeting of the Asia Pacific Economic Cooperation forum in Medan, the capital of neighboring North Sumatra province. They were escorted from the second-floor meeting room by security officers. Indonesia is prone to seismic upheaval due to its location on the Pacific Ring of Fire, an arc of volcanoes and fault lines encircling the Pacific Ocean. In 2004, a magnitude-9. 1 earthquake off Aceh triggered a tsunami that killed 230, 000 people in 14 countries.
+Event	394	quake	Occurence	1946
+Event	136	injured	Occurence	608
+Event	191	landslides	Occurence	921
+Event	500	tsunami	Occurence	2506
+Event	182	damaged	Occurence	873
+Event	141	collapsing	Occurence	634
+Event	199	evacuated	Occurence	968
+Event	361	damaged	Occurence	1787
+Event	188	quake	Occurence	900
+Event	502	killed	Occurence	2519
+Event	139	landslide	Occurence	621
+Event	131	killed	Occurence	582
+Event	172	injured	Occurence	822
+Event	168	killed	Occurence	805
+Event	102	quake	Occurence	426
+Event	487	2004	Occurence	2451
+Relation	487	500	SuperSub	true	2004	tsunami
+Relation	487	502	SuperSub	true	2004	killed
+Relation	102	131	SuperSub	true	quake	killed
+Relation	188	191	SuperSub	true	quake	landslides
+Relation	188	199	SuperSub	true	quake	evacuated
+Relation	168	188	SubSuper	true	killed	quake
+Relation	172	188	SubSuper	true	injured	quake
+Relation	182	188	SubSuper	true	damaged	quake
+Relation	361	394	SubSuper	true	damaged	quake
+Relation	500	502	SuperSub	true	tsunami	killed
+Relation	131	139	SubSuper	true	killed	landslide
+Relation	136	139	SubSuper	true	injured	landslide
+Relation	131	141	SubSuper	true	killed	collapsing

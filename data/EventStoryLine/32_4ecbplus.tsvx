@@ -1,0 +1,40 @@
+Text	http://www. bbc. co. uk/news/uk-england-cumbria-22838267 10 June 2013 Last updated at 14:00 GMT John Jenkin accused of Millom mother and sister murder A man has been remanded in custody after being charged with the murder of his mother and sister in Cumbria. The bodies of Alice McMeekin, 58, and Kathryn Jenkin, 20, were found at a terraced house in Newton Street, Millom, on Saturday. Both had suffered head injuries. The family dog had also been killed. John Jenkin, 23, was remanded in his absence by Barrow magistrates, after the court heard he was deemed a risk to himself and potentially to others. No pleas were entered and a bail hearing was scheduled for Wednesday at Preston Crown Court. 'Untimely death' Mr Jenkin, of Newton Street, Millom, who arrested an hour after the bodies were discovered in a distressed state, has also been charged with animal cruelty. Friends of Kathryn Jenkin, known as Katie, have described her as a "bright and much-liked student. " Miss Jenkin was a student at the University of South Wales in Cardiff. Gill Sandford, dean of the Faculty of Creative and Cultural Industries, said:"The university's staff and students are extremely sad to hear of the untimely death of Katie Jenkin. "She was a bright, much-liked and promising student and our thoughts are with her family. "As a close community we will come together to support our colleagues and students at this difficult time. "
+Event	127	risk	Occurence	563
+Event	50	charged	Occurence	198
+Event	175	state	Occurence	823
+Event	77	found	Occurence	322
+Event	95	injuries	Occurence	410
+Event	138	entered	Occurence	620
+Event	114	absence	Occurence	494
+Event	93	suffered	Occurence	396
+Event	180	charged	Occurence	844
+Event	40	murder	Occurence	144
+Event	144	scheduled	Occurence	651
+Event	146	Wednesday	Occurence	665
+Event	53	murder	Occurence	215
+Event	34	accused	Occurence	108
+Event	171	discovered	Occurence	796
+Event	89	Saturday	Occurence	377
+Event	136	pleas	Occurence	609
+Event	103	killed	Occurence	449
+Event	111	remanded	Occurence	478
+Event	164	arrested	Occurence	757
+Relation	89	40	SuperSub	true	Saturday	murder
+Relation	89	53	SuperSub	true	Saturday	murder
+Relation	89	77	SuperSub	true	Saturday	found
+Relation	89	93	SuperSub	true	Saturday	suffered
+Relation	89	95	SuperSub	true	Saturday	injuries
+Relation	89	103	SuperSub	true	Saturday	killed
+Relation	146	136	SubSuper	true	Wednesday	pleas
+Relation	146	138	SubSuper	true	Wednesday	entered
+Relation	146	144	SubSuper	true	Wednesday	scheduled
+Relation	34	40	SubSuper	true	accused	murder
+Relation	50	53	SubSuper	true	charged	murder
+Relation	114	127	SubSuper	true	absence	risk
+Relation	95	53	SuperSub	true	injuries	murder
+Relation	164	175	SubSuper	true	arrested	state
+Relation	164	180	SubSuper	true	arrested	charged
+Relation	171	180	SuperSub	true	discovered	charged
+Relation	164	180	SuperSub	true	arrested	charged
+Relation	93	95	SubSuper	true	suffered	injuries
+Relation	111	127	SubSuper	true	remanded	risk

@@ -1,0 +1,30 @@
+Text	http://www. eastsideboxing. com/weblog/news. php ? p=32688&more=1 Article posted on 08. 07. 2012 Wladimir Klitschko stops Tony Thompson in 6 with efficient execution Heavyweight champion Wladimir Klitschko once again displayed his dominance by scoring a sixth round stoppage against American contender Tony Thompson. Klitschko utilized good ring smarts and superior punching power to systematically break Thompson down. The first round started cautiously with both fighters becoming reacquainted with each other in a tentative feeling out process. Tony was exhibiting his trademark awkward movement and Wladimir was measuring him with the left rangefinder. It was a relatively even round without much action, but Klitschko landed the two best shots of the round even if Tony threw a little more. Thompson tried jumping on Wladimir to start the second but the champion was prepared. Klitschko followed this with a nice right hand followed by a short crisp combination. Later in the round another Klitschko right snuck in, and then a series of big rights backed the challenger into the ropes. Thompson was wrestled down to the canvas a couple of times in this stanza, and Wlad's superior strength was evident. Klitschko was patient and measured, and his approach was paying off in round two. In between rounds Hall of Fame trainer Emanuel Steward told Klitschko he was mentally wearing Thompson down with pressure, and this certainly appeared to be the case. In round three Klitschko was again using his left hand to block jabs and establish range. Klitschko was looking almost exclusively for right hands, and was not using the authoritative jab we are accustomed to seeing because of Thompson's awkwardness. Thompson was throwing jabs that were mostly being blocked or missing the mark. While it was obvious Thompson was having success in neutralizing Wlad's jab, he was also being peppered with Klitschko right hands that were inflicting far more damage than anything Thompson was throwing. Wladimir finally landed a solid jab almost halfway through the round, but his right hand was still the story of the fight. Thompson landed a decent left later in the round, but Klitschko was too elusive for him for the most part. It was another clear round for the champion. The fourth round was more of the same. The action was highlighted by a thudding right and a well timed combination from the champion. Before the start of the fifth, Steward urged Wladimir to throw more jabs and to spend less time waiting in between attacks. As has been the case many times in the past, Klitschko responded to Steward's instructions and executed with workmanlike precision. He started landing the jab more, and this enabled him to score with a booming right hand that sent Thompson crashing to the canvas. Tony rose to his feet and the action resumed with about 20 seconds left. The challenger held on to survive, but this was perhaps the beginning of the end. Thompson came out to start the sixth and seemed to have regained his equilibrium. He was bouncing around, reacting to Klitschko's feints, and mostly retreating in a defensive posture. As the round progressed he was trying to fling the jab out, but Klitschko was slowly measuring him up, cool as an assassin. Klitschko began throwing the infrequent jab and landing more big rights. Thompson was trying his best to survive, but then a vicious two-handed assault sent Thompson down for the second time. To his credit, he managed to rise to his feet, but the referee then waved it off. This was Klitschko's second victory over Thompson, and with it he improves to 58-3 with 51 wins coming by way of knockout. Slowly but surely, Wladimir Klitschko is beginning to establish a strong legacy for himself. He may not always have the most crowd pleasing style, but he is intelligent, powerful, consistent, and extremely efficient at executing his game plan. The EPIX broadcast of the match made note of the following all-time heavyweight records in title fights:HEAVYWEIGHT TITLE FIGHTS Joe Louis 26-1 Muhammad Ali 22-3 Larry Holmes 21-5 Wladimir Klitschko 19-2 Lennox Lewis 15-2-1 Now of course this includes Klitschko's title reign as WBO champion as well as his current reign which began when he captured the IBF strap from Chris Byrd. Many critics will note that the WBO was not universally recognized in high regard at the time Klitschko held that title. Even still, however, Klitschko has won 16 fights in a row since losing to Lamon Brewster in April 2004, and he was won 13 title fights in a row since his April 2006 victory over Byrd. Beyond that, he has rarely lost a round during that impressive stretch. Given the current state of the heavyweight landscape, it is not inconceivable that Klitschko may well top that list before all is said and done.
+Event	628	assault	Occurence	3396
+Event	629	sent	Occurence	3404
+Event	50	stoppage	Occurence	266
+Event	678	wins	Occurence	3617
+Event	663	victory	Occurence	3554
+Event	49	round	Occurence	260
+Event	44	dominance	Occurence	231
+Event	644	rise	Occurence	3473
+Event	28	stops	Occurence	116
+Event	46	scoring	Occurence	244
+Event	35	execution	Occurence	156
+Event	683	knockout	Occurence	3639
+Event	671	improves	Occurence	3592
+Event	64	punching	Occurence	366
+Event	653	waved	Occurence	3512
+Event	619	survive	Occurence	3357
+Relation	28	35	SubSuper	true	stops	execution
+Relation	44	50	SubSuper	true	dominance	stoppage
+Relation	50	64	SubSuper	true	stoppage	punching
+Relation	619	644	SuperSub	true	survive	rise
+Relation	663	671	SuperSub	true	victory	improves
+Relation	678	683	SuperSub	true	wins	knockout
+Relation	663	683	SubSuper	true	victory	knockout
+Relation	653	663	SuperSub	true	waved	victory
+Relation	644	653	SuperSub	true	rise	waved
+Relation	49	50	SubSuper	true	round	stoppage
+Relation	44	46	SuperSub	true	dominance	scoring
+Relation	619	628	SuperSub	true	survive	assault
+Relation	628	629	SuperSub	true	assault	sent

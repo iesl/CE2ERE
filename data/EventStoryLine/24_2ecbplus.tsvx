@@ -1,0 +1,13 @@
+Text	http://www. telegraph. co. uk/news/worldnews/europe/france/10296054/Two-million-euro-jewellery-heist-in-central-Paris. html Two million euro jewellery heist in central Paris Thieves pulled off a two million-euro jewellery heist in central Paris on Monday morning after smashing their car through the store's front window. 12:48PM BST 09 Sep 2013 Four men rammed their car into the Casty store near Paris's chic Place Vendôme in the latest in a spate of high-profile robberies in France-most on the Riviera. A police source said the men drove a large four-by-four car into the store at around 4. 30am and grabbed jewellery and luxury watches worth an estimated two million euros ( £1. 7 million ). They then set fire to the vehicle and escaped in another car. The entire robbery was over in a matter of minutes. Forensic teams were examining the crime scene on Rue de Castiglione in Paris' first arrondissement, home to numerous jewellery shops. "They are absolutely not afraid of anything, " Gérard Bénézat, the store's insurer, told France Info. "It's become almost routine and yet everyone knows what needs to be done to be protected. "
+Event	171	robbery	Occurence	770
+Event	138	grabbed	Occurence	604
+Event	65	smashing	Occurence	269
+Event	83	rammed	Occurence	355
+Event	44	heist	Occurence	151
+Event	120	drove	Occurence	536
+Event	57	heist	Occurence	222
+Relation	57	65	SubSuper	true	heist	smashing
+Relation	44	65	SubSuper	true	heist	smashing
+Relation	57	83	SubSuper	true	heist	rammed
+Relation	120	138	SuperSub	true	drove	grabbed
+Relation	120	171	SuperSub	true	drove	robbery

@@ -1,0 +1,17 @@
+Text	http://www. trust. org/item/? map=plane-bombs-south-sudan-refugee-camp-witness/Plane bombs South Sudan refugee camp-witness Thu, 10 Nov 2011 02:45 PM A refugee camp was the target of an air strike in South Sudan's Unity state on Thursday, less than 50 km ( 30 miles ) from the tense border with Sudan, a Reuters witness said. There appeared to be no casualties. The Reuters correspondent heard a large explosion, then saw a crater about two metres ( 6. 6 feet ) wide, an unexploded bomb wedged in the side of a school building and a white aircraft flying north from the Yida refugee camp. Witnesses at the camp said there were three other explosions at 3 p.m. ( 1200 GMT ).
+Event	116	wedged	Occurence	487
+Event	61	Thursday	Occurence	229
+Event	29	bombs	Occurence	85
+Event	114	unexploded	Occurence	471
+Event	128	flying	Occurence	548
+Event	96	explosion	Occurence	402
+Event	88	casualties	Occurence	350
+Event	93	heard	Occurence	388
+Relation	61	29	SuperSub	true	Thursday	bombs
+Relation	61	88	SuperSub	true	Thursday	casualties
+Relation	61	96	SuperSub	true	Thursday	explosion
+Relation	61	93	SuperSub	true	Thursday	heard
+Relation	61	114	SuperSub	true	Thursday	unexploded
+Relation	61	116	SuperSub	true	Thursday	wedged
+Relation	61	128	SuperSub	true	Thursday	flying
+Relation	29	88	SuperSub	true	bombs	casualties

@@ -1,0 +1,26 @@
+Text	http://www. fia. uk. com/en/Information/Details/index. cfm/Waitrose-in-Wellington-catches-fire Waitrose in Wellington catches fire 22 Jul 2013 A Waitrose supermarket in a Somerset town caught fire yesterday ( July 21st ), causing substantial damage to the building's roof. The fire service was called at approximately 06:00 BST to the store, which is on Wellington's high street. Upon arrival they found that the roof fire was quite significant. Fire crews from Devon and Somerset Fire and Rescue attended the scene and then called a further four appliances to help, a report from ITV revealed. They contained the fire to one corner of the roof but could not be extinguished before a part of the entrance building collapsed. However, the main area of the one-storey supermarket was left largely intact with only smoke damage. By about 09:30 BST the fire was largely out, with crews checking for hotspots. The fire service's Matt Goodman explained that the fire began on the outside of the building. "It then quickly spread to the roof so there is a significant amount of damage to the roof, but thankfully due to the early actions of the Wellington crew we could get a large weight of response to the scene, " he said. "We've been able to prevent it spreading to other areas of the building, so the main store on the inside has got a reasonably small amount of smoke damage. " A spokesperson from Waitrose explained that no one was hurt in the incident and was grateful to the emergency services for their quick response and effective help. Investigations into what caused the fire are ongoing. In a bid to remove potential fire hazards, commercial buildings and non-domestic premises in England and Wales are already forced to undertake a 'suitable and sufficient' fire risk assessment carried out under the Regulatory Reform ( Fire Safety ) Order 2005. While the overwhelming majority of premises do this, if the assessment is thought to have been carried out to an insufficient extent, the Responsible Person can face an unlimited fine or up to two years in prison.
+Event	96	fire	Occurence	418
+Event	48	fire	Occurence	192
+Event	314	help	Occurence	1535
+Event	300	incident	Occurence	1444
+Event	201	fire	Occurence	956
+Event	321	fire	Occurence	1577
+Event	316	Investigations	Occurence	1541
+Event	311	response	Occurence	1512
+Event	90	arrival	Occurence	385
+Event	36	fire	Occurence	126
+Event	187	checking	Occurence	882
+Event	297	hurt	Occurence	1432
+Event	180	fire	Occurence	849
+Relation	36	90	SuperSub	true	fire	arrival
+Relation	48	90	SuperSub	true	fire	arrival
+Relation	90	96	SubSuper	true	arrival	fire
+Relation	180	187	SuperSub	true	fire	checking
+Relation	201	297	SuperSub	true	fire	hurt
+Relation	297	300	SubSuper	true	hurt	incident
+Relation	300	311	SuperSub	true	incident	response
+Relation	201	311	SuperSub	true	fire	response
+Relation	300	314	SuperSub	true	incident	help
+Relation	201	314	SuperSub	true	fire	help
+Relation	297	314	SubSuper	true	hurt	help
+Relation	316	321	SubSuper	true	Investigations	fire

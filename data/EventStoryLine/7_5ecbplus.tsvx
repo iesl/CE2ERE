@@ -1,0 +1,64 @@
+Text	http://www. badlefthook. com/2012/7/7/3143743/klitschko-vs-thompson-ii-results-wladimir-klitschko-tko-sixth-round-heavyweight-boxing-news Klitschko vs Thompson II Results:Wladimir Klitschko Cruises Again, Wins in Six on Jul 7 2012, 5:55p Wladimir Klitschko won his 16th straight fight today, successfully defending the WBA, WBO, and IBF heavyweight titles against Tony Thompson, stopping the 40-year-old American in the sixth round of a fight that was never really close. Klitschko ( 58-3, 51 KO ) bombed Thompson with a vicious right hand in the fifth round, putting him down late in the frame. That Thompson got up spoke a lot about his desire to try and win, but the fight essentially ended there. He survived the round, but by the end of the sixth frame, appeared mentally beaten and looking for a way out. He went down again in the corner late in the round, and this time referee Sam Williams stopped it at 2:56. Klitschko had beaten Thompson back in 2008, mostly dominating that fight and knocking "The Tiger" out in the 11th rounds. This time, with Thompson four years older and having had no significant tests in the four years that had passed since their first bout, it wasn't even as competitive as it was the first time. Thompson ( 36-3, 24 KO ) just didn't have a shot in there, looked old, and though his awkward southpaw style gave Klitschko some moments of slight discomfort, it would be a stretch to say that he troubled Wladimir. At this point with the Klitschkos, as much as I admire their talent, skill, dedication to their craft, and the classy manner in which they carry themselves, I just feel like I've seen enough from them both. We're running rerun bouts now. Is there really anyone out there you can look at and see as an actual threat to them ? Is there anyone on the way up who has that skill set ? I just don't see it, and I've grown tired of tuning in for passionless exhibitions of superiority. I don't think they've killed the division, I just think they've dominated it, and with no actual hope for that earth-shaking upset on the horizon, I think I'd personally prefer to just see them both take farewell fights and head on out. There's nothing more to see here.
+Event	220	dominating	Occurence	969
+Event	130	round	Occurence	553
+Event	104	fight	Occurence	437
+Event	217	2008	Occurence	956
+Event	178	beaten	Occurence	777
+Event	257	bout	Occurence	1170
+Event	174	frame	Occurence	752
+Event	73	today	Occurence	285
+Event	120	bombed	Occurence	498
+Event	263	competitive	Occurence	1194
+Event	163	survived	Occurence	704
+Event	231	rounds	Occurence	1032
+Event	138	frame	Occurence	589
+Event	101	round	Occurence	426
+Event	222	fight	Occurence	985
+Event	180	looking	Occurence	788
+Event	52	Cruises	Occurence	190
+Event	76	defending	Occurence	305
+Event	246	tests	Occurence	1112
+Event	72	fight	Occurence	279
+Event	55	Wins	Occurence	205
+Event	213	beaten	Occurence	932
+Event	165	round	Occurence	717
+Event	68	won	Occurence	257
+Event	90	stopping	Occurence	379
+Event	57	Six	Occurence	213
+Event	126	hand	Occurence	535
+Event	196	round	Occurence	856
+Relation	73	52	SuperSub	true	today	Cruises
+Relation	73	55	SuperSub	true	today	Wins
+Relation	73	68	SuperSub	true	today	won
+Relation	73	76	SuperSub	true	today	defending
+Relation	73	90	SuperSub	true	today	stopping
+Relation	73	101	SuperSub	true	today	round
+Relation	73	104	SuperSub	true	today	fight
+Relation	73	120	SuperSub	true	today	bombed
+Relation	73	126	SuperSub	true	today	hand
+Relation	73	130	SuperSub	true	today	round
+Relation	73	163	SuperSub	true	today	survived
+Relation	73	165	SuperSub	true	today	round
+Relation	73	178	SuperSub	true	today	beaten
+Relation	73	180	SuperSub	true	today	looking
+Relation	217	213	SuperSub	true	2008	beaten
+Relation	217	220	SuperSub	true	2008	dominating
+Relation	217	222	SuperSub	true	2008	fight
+Relation	217	231	SuperSub	true	2008	rounds
+Relation	73	174	SuperSub	true	today	frame
+Relation	73	196	SuperSub	true	today	round
+Relation	217	257	SuperSub	true	2008	bout
+Relation	52	55	SubSuper	true	Cruises	Wins
+Relation	68	76	SuperSub	true	won	defending
+Relation	68	90	SubSuper	true	won	stopping
+Relation	76	90	SubSuper	true	defending	stopping
+Relation	68	72	SubSuper	true	won	fight
+Relation	72	90	SuperSub	true	fight	stopping
+Relation	178	180	SuperSub	true	beaten	looking
+Relation	213	220	SubSuper	true	beaten	dominating
+Relation	213	222	SubSuper	true	beaten	fight
+Relation	73	57	SuperSub	true	today	Six
+Relation	73	72	SuperSub	true	today	fight
+Relation	73	138	SuperSub	true	today	frame
+Relation	217	246	SubSuper	true	2008	tests
+Relation	246	263	SubSuper	true	tests	competitive

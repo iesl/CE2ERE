@@ -1,0 +1,62 @@
+Text	http://newsone. com/2376991/zurana-hurton-13-children/Footage Of Brooklyn Mother's Fatal Shooting Released During Trial Apr 12, 2013 Video of Brooklyn Mother of 13 Zurana Horton shot and killed in a gang shooting was revealed Thursday, according to the N. Y. Daily News. The footage shows 34-year-old Horton ( pictured ) picking up her daughter from school on October 21, 2011, in Brooklyn's Brownsville section. Around 2:18 p.m., Horton and two other Moms are seen waiting at an intersection as a yellow bus pulls up to the curb. The shooting then breaks out, with Horton pushing a child out of the way to take a bullet. She then grips her chest and collapses to the ground. Prosecutors showed the tragic footage at the trial of the two youths charged with murdering Horton. Twenty-year-old Andrew Lopez has been accused of carelessly firing at rival gang members from a rooftop. Half-brother Jonathan Carrasquillo is suspected of having directed Lopez to kill their enemies. Both are charged with murder, with Lopez standing accused of letting off 13 shots in Horton's death. One of the two Mothers with Horton that day testified at the trial. "I saw her fall back... I saw blood coming from her, " said Unique Armstead, who is seen in the video covering her son with her body as the shooting began. Armstead sustained a gunshot wound to her left arm. Armstead said she heard someone say, "He has a gun, " prompting her to take her son inside a nearby corner bodega for safety. When the coast seemed clear, they reportedly went back out, which is when the shots began. "I thought it was a brick but it was a bullet, " Armstead said. "I told my son, I think I'm shot. " The trial is scheduled to resume Monday, with testimony from a man who claims Lopez's brother threatened to kill him; he is reportedly scared to take the stand. "The man is petrified, " Judge Vincent DelGiudice said. "The man is an emotional wreck. "
+Event	48	revealed	Occurence	217
+Event	25	Released	Occurence	98
+Event	363	resume	Occurence	1697
+Event	128	pushing	Occurence	573
+Event	63	shows	Occurence	283
+Event	377	kill	Occurence	1779
+Event	163	charged	Occurence	745
+Event	195	suspected	Occurence	919
+Event	375	threatened	Occurence	1765
+Event	49	Thursday	Occurence	226
+Event	367	testimony	Occurence	1717
+Event	201	kill	Occurence	957
+Event	219	shots	Occurence	1053
+Event	40	shot	Occurence	178
+Event	180	firing	Occurence	836
+Event	222	death	Occurence	1071
+Event	236	trial	Occurence	1139
+Event	209	murder	Occurence	999
+Event	233	testified	Occurence	1122
+Event	142	grips	Occurence	631
+Event	42	killed	Occurence	187
+Event	359	trial	Occurence	1675
+Event	146	collapses	Occurence	651
+Event	46	shooting	Occurence	204
+Event	207	charged	Occurence	986
+Event	214	accused	Occurence	1027
+Event	121	shooting	Occurence	535
+Event	136	take	Occurence	607
+Event	361	scheduled	Occurence	1684
+Event	165	murdering	Occurence	758
+Event	383	scared	Occurence	1806
+Event	364	Monday	Occurence	1704
+Relation	49	25	SuperSub	true	Thursday	Released
+Relation	49	40	SubSuper	true	Thursday	shot
+Relation	49	42	SubSuper	true	Thursday	killed
+Relation	49	46	SubSuper	true	Thursday	shooting
+Relation	49	48	SuperSub	true	Thursday	revealed
+Relation	49	63	SuperSub	true	Thursday	shows
+Relation	364	359	NoRel	true	Monday	trial
+Relation	364	361	SubSuper	true	Monday	scheduled
+Relation	364	363	SuperSub	true	Monday	resume
+Relation	364	367	SuperSub	true	Monday	testimony
+Relation	364	375	SubSuper	true	Monday	threatened
+Relation	364	377	SubSuper	true	Monday	kill
+Relation	40	46	SubSuper	true	shot	shooting
+Relation	42	46	SubSuper	true	killed	shooting
+Relation	121	128	SuperSub	true	shooting	pushing
+Relation	128	136	SuperSub	true	pushing	take
+Relation	163	165	SubSuper	true	charged	murdering
+Relation	180	201	SubSuper	true	firing	kill
+Relation	209	219	SubSuper	true	murder	shots
+Relation	219	222	SubSuper	true	shots	death
+Relation	214	219	SubSuper	true	accused	shots
+Relation	207	209	SubSuper	true	charged	murder
+Relation	207	236	SuperSub	true	charged	trial
+Relation	207	359	SuperSub	true	charged	trial
+Relation	364	383	SubSuper	true	Monday	scared
+Relation	367	377	SubSuper	true	testimony	kill
+Relation	195	201	SubSuper	true	suspected	kill
+Relation	142	146	SuperSub	true	grips	collapses
+Relation	233	236	SubSuper	true	testified	trial

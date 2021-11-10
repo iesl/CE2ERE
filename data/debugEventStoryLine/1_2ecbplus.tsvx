@@ -1,0 +1,38 @@
+Text	http://www. cbsnews. com/8301-207_162-57582560/lawyer-lindsay-lohan-checks-into-rehab-facility/May 2, 2013, 1:12 PM Lawyer:Lindsay Lohan checks into rehab facility Updated 4:08 p.m. ET Lindsay Lohan's attorney said Thursday the actress checked into a Southern California rehab facility that a state official said is unlicensed to perform the type of treatment a judge required her to receive. Mark Jay Heller told a judge that Lohan was settling in at Morningside Recovery, a treatment facility in Newport Beach. "My client is ensconced in the bosom of that facility right now, " Heller argued after a prosecutor objected to Lohan's choice of rehab facilities. "She's in rehab right now. Nothing bad is going to happen. " TMZ reported Lohan was shopping at an electronics store while her attorney was in court, and that she never entered Morningside. White said he was "completely blindsided" by Lohan's placement at Morningside because Heller had previously agreed to send the actress to a different facility that had been vetted.
+Event	79	unlicensed	Occurence	316
+Event	81	perform	Occurence	330
+Event	206	vetted	Occurence	1024
+Event	118	ensconced	Occurence	527
+Event	194	agreed	Occurence	959
+Event	160	shopping	Occurence	745
+Event	88	required	Occurence	368
+Event	134	objected	Occurence	613
+Event	137	choice	Occurence	633
+Event	144	rehab	Occurence	671
+Event	176	entered	Occurence	830
+Event	184	blindsided"	Occurence	881
+Event	146	now	Occurence	683
+Event	63	Thursday	Occurence	215
+Event	187	placement	Occurence	904
+Event	85	treatment	Occurence	350
+Event	91	receive	Occurence	384
+Relation	63	79	NoRel	true	Thursday	unlicensed
+Relation	63	81	NoRel	true	Thursday	perform
+Relation	63	85	NoRel	true	Thursday	treatment
+Relation	63	88	SubSuper	true	Thursday	required
+Relation	63	91	NoRel	true	Thursday	receive
+Relation	63	118	SuperSub	true	Thursday	ensconced
+Relation	63	134	SubSuper	true	Thursday	objected
+Relation	63	137	SubSuper	true	Thursday	choice
+Relation	146	144	SuperSub	true	now	rehab
+Relation	63	160	SuperSub	true	Thursday	shopping
+Relation	63	176	SuperSub	true	Thursday	entered
+Relation	63	184	SuperSub	true	Thursday	blindsided"
+Relation	63	187	SuperSub	true	Thursday	placement
+Relation	118	134	SubSuper	true	ensconced	objected
+Relation	134	137	SubSuper	true	objected	choice
+Relation	160	176	SuperSub	true	shopping	entered
+Relation	184	187	SubSuper	true	blindsided"	placement
+Relation	184	194	SubSuper	true	blindsided"	agreed
+Relation	184	206	SubSuper	true	blindsided"	vetted
+Relation	85	88	SubSuper	true	treatment	required

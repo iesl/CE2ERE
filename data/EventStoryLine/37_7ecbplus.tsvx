@@ -1,0 +1,27 @@
+Text	http://www. globalpost. com/dispatch/news/regions/asia-pacific/indonesia/130702/powerful-earthquake-injures-dozens-indonesias-ac July 2, 2013 07:44 Powerful earthquake injures dozens in Indonesia's Aceh province At least 50 reported injured and buildings destroyed after a 6. 1 magnitude earthquake strikes Sumatra's Aceh province. A powerful 6. 1 magnitude earthquake hit Indonesia's northwestern Aceh province on the island of Sumatra early Tuesday. Dozens have been reported injured. The epicenter of the quake was roughly 55 kilometers from the town of Bireuen, a regency of the larger Aceh province, according to data from the US Geological Survey. It took place at 7:37 AM local time. Although it's unknown how many were injured, Sky News estimates"at least 50 people, " and numerous buildings have collapsed as an effect of the powerful tremor. The quake appears to have shaken the provincial capital of Banda Aceh, which is located at the northern tip of the Sumatran land mass. More from GlobalPost:Aceh's bloodstained elections "I see many houses were damaged and their roofs fell onto some people, " central Aceh district resident Bensu Elianita told the Associated Press. "Many people were injured but it is difficult to evacuate them due to traffic jams. " "We have received around 50 people with injuries suffered when the walls of their houses collapsed, " said doctor Ema Suryani to AFP, speaking from Lampahan city in Aceh's Bener Meriah district. Aceh was hit extremely hard by the massive Boxing Day earthquake and tsunami in 2004, killing 170, 000 people in Sumatra alone-with 35, 000 bodies never recovered. The rebuilding process continues to this day from the enormous natural disaster. Here's a slideshow of images of the northern Sumatra quake on Tuesday.
+Event	231	injured	Occurence	1202
+Event	282	hit	Occurence	1474
+Event	170	quake	Occurence	856
+Event	66	strikes	Occurence	299
+Event	55	injured	Occurence	233
+Event	174	shaken	Occurence	878
+Event	294	2004	Occurence	1545
+Event	296	killing	Occurence	1551
+Event	311	recovered	Occurence	1618
+Event	44	earthquake	Occurence	157
+Event	292	tsunami	Occurence	1534
+Event	45	injures	Occurence	168
+Event	207	damaged	Occurence	1062
+Event	58	destroyed	Occurence	255
+Relation	294	292	SuperSub	true	2004	tsunami
+Relation	294	282	SuperSub	true	2004	hit
+Relation	294	296	SuperSub	true	2004	killing
+Relation	294	311	NoRel	true	2004	recovered
+Relation	44	45	SuperSub	true	earthquake	injures
+Relation	170	174	SuperSub	true	quake	shaken
+Relation	170	207	SuperSub	true	quake	damaged
+Relation	170	231	SuperSub	true	quake	injured
+Relation	282	292	SubSuper	true	hit	tsunami
+Relation	292	296	SuperSub	true	tsunami	killing
+Relation	58	66	SubSuper	true	destroyed	strikes
+Relation	55	66	SubSuper	true	injured	strikes

@@ -1,0 +1,6 @@
+Text	http://www. frontiersman. com/news/historic-mat-maid-warehouse-burns/article_e84396ea-e0b6-11e1-a449-0019bb2963f4. html ? mode=image&photo= Historic Mat Maid warehouse burns Mat Maid mop up Remains of the Mat Maid warehouse smolder Tuesday morning in Palmer. The fire was reported at 3:33 a.m. and is under investigation by the Palmer Police and the State Fire Marshal.
+Event	53	smolder	Occurence	224
+Event	42	burns	Occurence	168
+Event	60	fire	Occurence	263
+Relation	42	60	SubSuper	true	burns	fire
+Relation	53	60	SubSuper	true	smolder	fire

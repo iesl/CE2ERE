@@ -1,0 +1,23 @@
+Text	http://www. pardaphash. com/news/indian-navy-captures-26-somali-pirates-in-gulf-of-aden/683284. html#. UlFH6xaKwlI Indian Navy captures 26 Somali pirates in Gulf of Aden Published on:Fri, 11 Nov 2011 at 09:56 IST New Delhi/Mumbai:An Indian warship foiled a five-boat pirate attack on merchant vessels transiting the Gulf of Aden on Friday capturing 26 Somani brigands on three of the skiffs and confiscating their weapons. Patrol vessel INS Sukanya was escorting the five merchant vessels through the Internationally Recognised Transit Corridor in the Gulf of Aden on Thursday morning when the warship's crew noticed the five-boat pirate formation approaching the cargo ship group. "The warship immediately altered towards the suspicious vessels and challenged them, " the officer said, adding the pirate skiffs then reversed course and tried to flee the area. "While two of the skiffs and its crew managed to get away, Sukanya successfully intercepted the remaining three skiffs and carried out well-practiced and professionally executed boarding-and-search action. "The three boats had a total of 26 Somali crew on board. During the operation, six AK-47 rifles, 12 magazines and about 300 rounds of ammunition were found and confiscated, " the officer said. He said that in addition, the naval boarding party also found a host of other equipment such as grapnels, ladders and rope-handling gloves, all of which confirmed their intent to attack and hijack the merchant vessels. This anti-piracy action by INS Sukanya was the fifth successful operation by its crew during its current patrol mission in the Gulf of Aden since September this year. The officer said that INS Sukanya has seized a total of 14 AK-47 rifles, 31 magazines and 923 rounds of ammunition during the five operations it carried out there.
+Event	79	transiting	Occurence	301
+Event	40	captures	Occurence	127
+Event	86	capturing	Occurence	339
+Event	303	operation	Occurence	1543
+Event	69	foiled	Occurence	248
+Event	311	mission	Occurence	1591
+Event	96	confiscating	Occurence	395
+Event	295	action	Occurence	1496
+Event	85	Friday	Occurence	332
+Relation	85	69	SuperSub	true	Friday	foiled
+Relation	85	295	SuperSub	true	Friday	action
+Relation	85	79	SuperSub	true	Friday	transiting
+Relation	85	86	SuperSub	true	Friday	capturing
+Relation	85	96	SuperSub	true	Friday	confiscating
+Relation	85	40	SuperSub	true	Friday	captures
+Relation	40	69	SubSuper	true	captures	foiled
+Relation	69	86	SuperSub	true	foiled	capturing
+Relation	69	96	SuperSub	true	foiled	confiscating
+Relation	295	311	SubSuper	true	action	mission
+Relation	303	311	SubSuper	true	operation	mission
+Relation	85	303	SuperSub	true	Friday	operation
+Relation	86	96	SuperSub	true	capturing	confiscating

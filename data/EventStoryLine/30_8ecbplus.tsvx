@@ -1,0 +1,13 @@
+Text	http://mybroadband. co. za/news/telecoms/35702-seacom-problems-only-resolved-next-week. html SEACOM problems only resolved next week Initial estimates indicate that the total SEACOM repair time will be around twelve days October 10, 2011 SEACOM said today ( 10 October 2011 ) that the total repair time of the current problems they experience will be around twelve days depending on weather conditions. SEACOM started to experience problems on Saturday 8 October 2011, caused by a problem on a cable between Abu Talat ( Egypt ) and Marseilles ( France ). "Initial estimates indicate that the total repair time will be around twelve days depending on weather conditions. This entails gaining the necessary permits and the actual repair time. A repair vessel has been notified of the call-out and mobilization will occur immediately once permits are received, " SEACOM said in an official statement. "The outage initially affected all SEACOM traffic to Europe, however SEACOM was able to restore some services by Saturday afternoon. " "Further restoration has continued throughout the weekend in cooperation with customers and partners and SEACOM will continue to actively work on securing additional capacity for all necessary services over the next day or two. "
+Event	173	outage	Occurence	903
+Event	218	capacity	Occurence	1199
+Event	97	problem	Occurence	481
+Event	87	problems	Occurence	432
+Event	187	restore	Occurence	986
+Event	222	services	Occurence	1226
+Event	196	restoration	Occurence	1042
+Relation	87	97	SuperSub	true	problems	problem
+Relation	173	187	SuperSub	true	outage	restore
+Relation	97	173	SuperSub	true	problem	outage
+Relation	173	196	SuperSub	true	outage	restoration
+Relation	218	222	SuperSub	true	capacity	services

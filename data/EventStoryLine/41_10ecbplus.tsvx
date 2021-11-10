@@ -1,0 +1,33 @@
+Text	http://usatoday30. usatoday. com/news/world/story/2011-11-10/sudan-violence/51150434/1 South Sudan warns of war after Sudan bombs refugee camp Military aircraft from Sudan crossed the new international border with South Sudan and dropped bombs Thursday in and around a camp filled with refugees, officials said. A government official initially reported deaths, but an American activist who spoke to aid workers at the camp later said there were no casualties. The violence in and near the Yida refugee camp, located 10 miles south of the border, came one day after bombings were reported in another region of South Sudan, an attack that provoked strong condemnation from the U. S. State Department. The president of South Sudan, which became the world's newest country only four months ago, said he fears the Khartoum-based government intends to invade the south soon. "Whatever allegations Khartoum labels against the Republic of South Sudan are baseless, but intended to justify his pending invasion of the south, " President Salva Kiir said. He later added:"We are committed to peaceful resolutions to any conflict but we will never allow our sovereignty to be violated by anybody. " There was no immediate comment from the Sudanese government in Khartoum on Thursday. The violence is especially troubling given the history between the two sides:The black African tribes of South Sudan and the mainly Arab north battled two civil wars over more than five decades, and some 2 million died in the latest war, from 1983-2005. A peace deal ended the war and South Sudan became its own country in July after a successful independence referendum. But there have been lingering disputes over border demarcation and oil-sharing revenues. Ryan Boyette, a former aid worker who lives in Sudan who is now leading a team of 15 citizen journalists, said he talked to five aid workers in the Yida camp, all of whom said that four bombs were dropped but that they caused no casualties.
+Event	127	attack	Occurence	625
+Event	372	dropped	Occurence	1930
+Event	116	bombings	Occurence	565
+Event	55	Thursday	Occurence	244
+Event	92	casualties	Occurence	448
+Event	61	filled	Occurence	274
+Event	73	deaths	Occurence	353
+Event	95	violence	Occurence	464
+Event	44	crossed	Occurence	172
+Event	32	warns	Occurence	99
+Event	53	dropped	Occurence	230
+Event	131	condemnation	Occurence	653
+Event	378	casualties	Occurence	1962
+Event	37	bombs	Occurence	124
+Relation	32	37	SubSuper	true	warns	bombs
+Relation	44	53	SuperSub	true	crossed	dropped
+Relation	53	73	SuperSub	true	dropped	deaths
+Relation	37	73	SuperSub	true	bombs	deaths
+Relation	37	92	SuperSub	true	bombs	casualties
+Relation	53	92	SuperSub	true	dropped	casualties
+Relation	95	116	SubSuper	true	violence	bombings
+Relation	127	131	SuperSub	true	attack	condemnation
+Relation	372	378	SuperSub	true	dropped	casualties
+Relation	55	37	SuperSub	true	Thursday	bombs
+Relation	55	44	SuperSub	true	Thursday	crossed
+Relation	55	53	SuperSub	true	Thursday	dropped
+Relation	55	61	NoRel	true	Thursday	filled
+Relation	55	73	SuperSub	true	Thursday	deaths
+Relation	55	92	SuperSub	true	Thursday	casualties
+Relation	55	372	SuperSub	true	Thursday	dropped
+Relation	55	378	SuperSub	true	Thursday	casualties
+Relation	116	131	SuperSub	true	bombings	condemnation

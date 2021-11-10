@@ -1,0 +1,25 @@
+Text	http://bigstory. ap. org/article/wladimir-klitschko-retains-world-heavyweight-belts WLADIMIR KLITSCHKO RETAINS WORLD HEAVYWEIGHT BELTS Jul. 7 5:59 PM EDT Wladimir Klitschko stopped Tony Thompson in the sixth round to retain his WBA, IBF and WBO heavyweight title belts Saturday night. The 36-year-old champion Klitschko, 58-3 with 51 knockouts, floored Thompson with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight. In 2008, Klitschko stopped Thompson in the 11th round. Thompson, who was the mandatory challenger nominated by the IBF, dropped to 36-3.
+Event	130	fight	Occurence	624
+Event	105	recovered	Occurence	471
+Event	48	retain	Occurence	217
+Event	110	dropped	Occurence	505
+Event	136	stopped	Occurence	650
+Event	83	hand	Occurence	379
+Event	26	RETAINS	Occurence	103
+Event	141	round	Occurence	679
+Event	77	floored	Occurence	345
+Event	128	stopping	Occurence	611
+Event	126	count	Occurence	598
+Event	133	2008	Occurence	634
+Event	40	stopped	Occurence	173
+Relation	133	136	SuperSub	true	2008	stopped
+Relation	133	141	SuperSub	true	2008	round
+Relation	40	48	SuperSub	true	stopped	retain
+Relation	26	40	SubSuper	true	RETAINS	stopped
+Relation	77	83	SubSuper	true	floored	hand
+Relation	77	105	SuperSub	true	floored	recovered
+Relation	110	126	SuperSub	true	dropped	count
+Relation	126	128	SuperSub	true	count	stopping
+Relation	110	130	SubSuper	true	dropped	fight
+Relation	40	130	SubSuper	true	stopped	fight
+Relation	77	130	SubSuper	true	floored	fight

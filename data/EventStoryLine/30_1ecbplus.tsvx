@@ -1,0 +1,26 @@
+Text	http://mybroadband. co. za/news/telecoms/37617-seacom-back-online-4-november-2011. html Seacom operations fully restored:4 November 2011 The break in an undersea cable on that affected Seacom has been repaired November 4, 2011 Undersea cable operator Seacom announced today ( 4 November 2011 ) that repairs have been completed on a broken cable off the coast of Egypt that caused an outage on its network. Seacom said that its cable network was successfully repaired on 29 October 2011 and all circuits were restored to the core network as of 4 November 02:00 GMT. All Seacom traffic to Europe was affected by the break which happened on 8 October 2011 on one of their Mediterranean backhaul service providers' cables between Abu Talat and Marseilles. Initial indications were that the break would take 12 days to fix. The cable operator announced that it had restored services to its business customers via alternate routes on 14 October 2011. This was followed by similar restoration to the rest of its clients on 20 October 2011. "Our partner network has informed us that the assigned cable ship worked in optimal weather conditions for the duration of their repairs. The cable was quickly lifted, the new cable spliced in, tested and re-laid thanks to close coordination between the ship crew and on-shore support, " Seacom said in an announcement on their website.
+Event	105	restored	Occurence	508
+Event	50	repaired	Occurence	201
+Event	83	outage	Occurence	383
+Event	125	affected	Occurence	598
+Event	39	break	Occurence	141
+Event	67	repairs	Occurence	299
+Event	128	break	Occurence	614
+Event	155	break	Occurence	786
+Event	31	operations	Occurence	95
+Event	96	repaired	Occurence	458
+Event	33	restored	Occurence	112
+Relation	33	50	SubSuper	true	restored	repaired
+Relation	39	50	SuperSub	true	break	repaired
+Relation	67	83	SubSuper	true	repairs	outage
+Relation	83	96	SuperSub	true	outage	repaired
+Relation	39	67	SuperSub	true	break	repairs
+Relation	33	67	SubSuper	true	restored	repairs
+Relation	39	96	SuperSub	true	break	repaired
+Relation	33	96	SuperSub	true	restored	repaired
+Relation	125	128	SubSuper	true	affected	break
+Relation	125	155	SubSuper	true	affected	break
+Relation	96	128	SubSuper	true	repaired	break
+Relation	96	155	SubSuper	true	repaired	break
+Relation	96	105	SuperSub	true	repaired	restored
+Relation	31	33	SubSuper	true	operations	restored

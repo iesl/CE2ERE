@@ -1,0 +1,31 @@
+Text	http://www. wibw. com/home/headlines/78153572. html ? site=full Texas Lifer Escapes Prison Van Near Houston A Texas inmate escaped from a prison van near Houston after pulling a gun on two guards who were transporting him between prisons, according to a Texas prison statement Monday. Arcade Joseph Comeaux Jr., 49, ran away on foot with the guards' guns and wearing one of their gray correctional officer uniforms, the statement from the Texas Department of Criminal Justice said. Comeaux was serving a life sentence for indecency with a child, aggravated sexual assault and two counts of aggravated assault with a deadly weapon, it said. The escape happened near Baytown, Texas, about 25 miles east of Houston, it said.
+Event	127	happened	Occurence	651
+Event	98	serving	Occurence	494
+Event	38	pulling	Occurence	168
+Event	22	Escapes	Occurence	76
+Event	103	indecency	Occurence	522
+Event	30	escaped	Occurence	123
+Event	122	it	Occurence	631
+Event	76	wearing	Occurence	359
+Event	67	ran	Occurence	316
+Event	57	Monday	Occurence	277
+Event	46	transporting	Occurence	205
+Event	126	escape	Occurence	644
+Event	101	sentence	Occurence	509
+Relation	30	38	SubSuper	true	escaped	pulling
+Relation	67	76	SubSuper	true	ran	wearing
+Relation	101	126	SuperSub	true	sentence	escape
+Relation	67	126	SubSuper	true	ran	escape
+Relation	57	30	SuperSub	true	Monday	escaped
+Relation	57	38	SuperSub	true	Monday	pulling
+Relation	57	46	SuperSub	true	Monday	transporting
+Relation	57	76	SuperSub	true	Monday	wearing
+Relation	57	98	SubSuper	true	Monday	serving
+Relation	57	126	SuperSub	true	Monday	escape
+Relation	57	127	SuperSub	true	Monday	happened
+Relation	57	22	SuperSub	true	Monday	Escapes
+Relation	57	67	SuperSub	true	Monday	ran
+Relation	98	103	SubSuper	true	serving	indecency
+Relation	67	76	SuperSub	true	ran	wearing
+Relation	103	122	SubSuper	true	indecency	it
+Relation	126	127	SuperSub	true	escape	happened

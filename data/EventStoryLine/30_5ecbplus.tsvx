@@ -1,0 +1,29 @@
+Text	http://www. yourfibreopticnews. com/news_item. php ? newsID=30873 Submarine cable problem disrupts telecom services in Alexandria Thursday, Aug 18, 2011 Services on Egypt's three telecom operators were disrupted in parts of Alexandria on Tuesday afternoon, and some users in Cairo experienced slower internet connections due to "downtime" in a submarine cable. Vodafone Egypt said some users are continuing to face slight problems due to damage in Telecom Egypt's cables which began in central Cairo. "Vodafone, along with the country's three telecom providers has been affected by a damage in one of Telecom Egypt's fiber cables in a wire going from the Ramsis Communications Center all the way to Sadat City, " said Khaled Hegazy, Vodafone's external affairs director. "This has affected and continues to affect communications especially in parts of Alexandria and Suez governorates, " he said. "We have not been told when it will be fixed yet, it is in the hands of Telecom Egypt. Right now it is still slightly affecting some connections, " he added. On its Twitter account, Etisalat Misr said, "Customers on all three Egyptian mobile operators may currently face connection issues with voice, mobile internet, and/or BlackBerry services as a result of a damaged fiber cable from TE Data. "The issue is currently under investigation and services will be restored as soon as possible. " According to MyBroadband, the largest IT website in South Africa, the problem was attributed to downtime experienced by the pan-African ICT enabler SEACOM. The company which is a privately funded venture that owns and operates a submarine fiber-optic cable connecting communication carriers in south and east Africa, affected Mobinil, Vodafone, and Etisalat networks across parts of Alexandria and Suez. "We are seeing some problems in our telecom towers which are affecting only certain parts like Abu Qir district or Maamoura, for example, " a Mobinil customer service representative told Daily News Egypt. "Other than that, our clients have been calling us as usual. " A Vodafone customer representative also confirmed that some of their users were experiencing downtime in parts of Alexandria due to "minor technical difficulties. " According to SEACOM, the problems began at around 08:30 am on Tuesday, and were resolved at approximately 09:40. "SEACOM's partner network experienced a terrestrial fiber cut between Alexandria and the Suez this morning 16th August from 06:31GMT. All links are back up as of 07:35GMT. Total downtime was 1hr 4 mins, " the company was quoted as saying in an official statement.
+Event	100	affected	Occurence	570
+Event	309	affected	Occurence	1707
+Event	59	"downtime"	Occurence	328
+Event	20	problem	Occurence	82
+Event	271	downtime	Occurence	1486
+Event	103	damage	Occurence	584
+Event	143	affect	Occurence	807
+Event	39	disrupted	Occurence	202
+Event	75	problems	Occurence	422
+Event	78	damage	Occurence	438
+Event	21	disrupts	Occurence	90
+Event	139	affected	Occurence	781
+Event	267	problem	Occurence	1460
+Event	56	connections	Occurence	309
+Event	167	fixed	Occurence	936
+Relation	20	21	SuperSub	true	problem	disrupts
+Relation	20	39	SuperSub	true	problem	disrupted
+Relation	39	56	SuperSub	true	disrupted	connections
+Relation	56	59	SubSuper	true	connections	"downtime"
+Relation	20	59	SuperSub	true	problem	"downtime"
+Relation	75	78	SubSuper	true	problems	damage
+Relation	100	103	SubSuper	true	affected	damage
+Relation	103	139	SuperSub	true	damage	affected
+Relation	103	143	SuperSub	true	damage	affect
+Relation	103	167	SuperSub	true	damage	fixed
+Relation	267	271	SubSuper	true	problem	downtime
+Relation	267	309	SuperSub	true	problem	affected
+Relation	139	143	SuperSub	true	affected	affect

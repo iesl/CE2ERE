@@ -1,0 +1,43 @@
+Text	http://www. nwemail. co. uk/news/provisional-trial-date-set-for-millom-double-murder-accused-1. 1062072 ? referrerPath=n PROVISIONAL TRIAL DATE SET FOR MILLOM DOUBLE MURDER ACCUSED Last updated at 11:24, Tuesday, 18 June 2013 A PROVISIONAL trial date has been set in the case of a son accused of killing his mother, sister and pet dog in Millom. A preliminary hearing for John Jenkin, 23, charged with the murders of his mother Alice McMeekin, 58, and sister Katie Jenkin, 20, was heard in Preston Crown Court this morning. Jenkin was due to appear via videolink from HMP Preston, but did not do so as he was considered a risk to his own safety and that of other people, according to crown prosecutor Susan Carter. The case was heard in his absence, and a provisional trial date was set for October 28 with a duration of three days. The bodies of Ms McMeekin and Miss Jenkin, were found in their house in Newton Street, Millom, on Saturday about 8. 40am. An earlier hearing at Furness Magistrates' Court, in Barrow, heard they had "severe head injuries". The family's border collie, named Fenn, was also found beaten to death in the backyard of the house. Jenkin was arrested at Millom Pier around 9. 35am. He faces one charge of causing unnecessary suffering to an animal in relation to the dog's death. No application for bail was made at yesterday's hearing and no plea was entered. A plea and case management hearing will be held on September 6. Judge Anthony Russell QC asked for psychiatric reports to be completed on Jenkin before the next hearing. At the earlier hearing on Monday he was deemed too much of a risk to appear in the dock at Furness Magistrates' Court. Jenkin was brought to the magistrates' court building by a secure van on Monday, but did not appear in the dock and no pleas were entered. Miss Rachel Bates, court clerk, said:"He is at risk of causing harm to himself and causing harm to others as well. " ( Custody ) are having difficulties restraining him and they can't move him from the cell. "There are extreme difficulties and for the safety of everybody, including the defendant, the best approach is ( to hold the hearing ) in the defendant's absence. " The court heard police were called after hearing an argument at the family's home at 8. 39am on Saturday. Seven of Jenkin's friends attended court as a show of support. Jenkin had been living in South Wales with his mum for the past three years and they had moved back to Millom around six weeks ago.
+Event	266	charge	Occurence	1220
+Event	143	risk	Occurence	622
+Event	294	entered	Occurence	1377
+Event	288	yesterday's	Occurence	1341
+Event	289	hearing	Occurence	1353
+Event	172	trial	Occurence	768
+Event	282	application	Occurence	1308
+Event	244	death	Occurence	1120
+Event	74	killing	Occurence	296
+Event	254	arrested	Occurence	1167
+Event	94	charged	Occurence	389
+Event	61	trial	Occurence	240
+Event	242	beaten	Occurence	1110
+Event	87	hearing	Occurence	360
+Event	167	absence	Occurence	741
+Event	279	death	Occurence	1298
+Event	72	accused	Occurence	285
+Event	215	hearing	Occurence	966
+Event	229	injuries"	Occurence	1044
+Event	270	suffering	Occurence	1250
+Event	97	murders	Occurence	406
+Event	126	appear	Occurence	542
+Event	241	found	Occurence	1104
+Event	196	found	Occurence	881
+Relation	288	282	SuperSub	true	yesterday's	application
+Relation	288	289	SuperSub	true	yesterday's	hearing
+Relation	288	294	SuperSub	true	yesterday's	entered
+Relation	61	72	SubSuper	true	trial	accused
+Relation	72	74	SubSuper	true	accused	killing
+Relation	87	94	SubSuper	true	hearing	charged
+Relation	94	97	SubSuper	true	charged	murders
+Relation	87	126	SuperSub	true	hearing	appear
+Relation	143	167	SuperSub	true	risk	absence
+Relation	94	215	SuperSub	true	charged	hearing
+Relation	94	172	SuperSub	true	charged	trial
+Relation	97	229	SubSuper	true	murders	injuries"
+Relation	242	244	SuperSub	true	beaten	death
+Relation	254	266	SuperSub	true	arrested	charge
+Relation	196	254	SuperSub	true	found	arrested
+Relation	241	254	SuperSub	true	found	arrested
+Relation	266	270	SubSuper	true	charge	suffering
+Relation	266	279	SubSuper	true	charge	death

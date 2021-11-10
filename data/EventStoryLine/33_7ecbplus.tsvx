@@ -1,0 +1,45 @@
+Text	http://www. nydailynews. com/new-york/brooklyn/video-shows-moments-brooklyn-mom-12-article-1. 1314511 Last moments of Brooklyn mother of 12 killed in crossfire caught on tape Zurana Horton, 34, was killed on Oct. 21, 2011 while walking near an intersection in Brownsville after 2 p.m. Andrew Lopez, 20, is the accused gunman who sprayed gunfire from a rooftop. THURSDAY, APRIL 11, 2013, 9:53 PM A shocking video released for the first time Thursday captures the moment a Brooklyn mother of 12 was killed in a gang shootout as she picked her daughter up from school. The dramatic footage was shown at the trial of two local toughs charged with killing Zurana Horton, 34, on Oct. 21, 2011. At 2:18 p.m., Horton and two other moms are seen approaching a Brownsville intersection as a yellow school bus rolls up. A commotion breaks out as the three mothers and two children press up against a storefront for safety. Horton pushes a child out of the way, grips her chest, then collapses to the ground next to a pool of her own blood. "I saw her fall back... I saw blood coming from her, " testified Unique Armstead, the mother in the video wearing a white jacket, seen enveloping herself around her son as they dive to the ground just feet from where Horton was killed. Armstead was shot in the left arm. Andrew Lopez, 20, is accused of firing indiscriminately at rival gang members from a nearby rooftop. His half-brother, Jonathan Carrasquillo, 24, who allegedly instructed Lopez to take care of their enemies, is also on trial for murder. Armstead, 32, testified that after she overheard someone say "he has a gun, " she took refuge inside a corner bodega with her son, who was celebrating his 11th birthday that day. They stepped out less than a minute later when it looked like the threat was over, she said, but then shots started to ring out. "I thought it was a brick but it was a bullet, " Armstead testified. "I told my son, 'I think I'm shot. ' " An 11-year-old girl, Cheanne McKnight, was grazed in the cheek. Lopez is accused of spraying 13 shots on a Friday afternoon, just as schools were being let out. Horton's senseless death shook the city and highlighted the scourge of gun violence that plagues its hardscrabble neighborhoods. The two juries hearing the case-one for each defendant-showed little emotion as the disturbing tape was played in court. Horton's mother, Denise Peace, said she is now caring for five of her daughter's orphaned kids while their father is looking after seven others. Of the alleged gunman, she said, "He's a menace to society. " The trial will resume Monday with testimony from a man who purportedly told prosecutors he has been threatened with death by Lopez's brother. After the witness, who covered his face with a hoodie, was heard in an empty courtroom, the judge ruled he can testify in open court. But Justice Vincent DelGiudice made clear the witness is reluctant to take the stand. "The man is petrified, " he said. "The man is an emotional wreck. "
+Event	220	collapses	Occurence	972
+Event	108	Thursday	Occurence	440
+Event	122	shootout	Occurence	514
+Event	570	threatened	Occurence	2671
+Event	615	reluctant	Occurence	2904
+Event	139	trial	Occurence	604
+Event	556	resume	Occurence	2586
+Event	109	captures	Occurence	449
+Event	80	accused	Occurence	310
+Event	559	testimony	Occurence	2605
+Event	41	killed	Occurence	140
+Event	61	walking	Occurence	228
+Event	299	firing	Occurence	1332
+Event	144	charged	Occurence	630
+Event	146	killing	Occurence	643
+Event	53	killed	Occurence	198
+Event	554	trial	Occurence	2575
+Event	624	petrified	Occurence	2945
+Event	118	killed	Occurence	497
+Event	83	sprayed	Occurence	329
+Event	215	grips	Occurence	950
+Event	103	released	Occurence	412
+Event	572	death	Occurence	2687
+Event	557	Monday	Occurence	2593
+Event	43	crossfire	Occurence	150
+Relation	108	103	SuperSub	true	Thursday	released
+Relation	108	109	SuperSub	true	Thursday	captures
+Relation	557	554	NoRel	true	Monday	trial
+Relation	557	556	SuperSub	true	Monday	resume
+Relation	557	559	SuperSub	true	Monday	testimony
+Relation	557	570	SubSuper	true	Monday	threatened
+Relation	557	572	SubSuper	true	Monday	death
+Relation	41	43	SubSuper	true	killed	crossfire
+Relation	53	61	SubSuper	true	killed	walking
+Relation	80	83	SubSuper	true	accused	sprayed
+Relation	53	83	SubSuper	true	killed	sprayed
+Relation	118	122	SubSuper	true	killed	shootout
+Relation	144	146	SubSuper	true	charged	killing
+Relation	139	144	SubSuper	true	trial	charged
+Relation	215	299	SubSuper	true	grips	firing
+Relation	220	299	SubSuper	true	collapses	firing
+Relation	559	572	SuperSub	true	testimony	death
+Relation	572	624	SuperSub	true	death	petrified
+Relation	572	615	SuperSub	true	death	reluctant

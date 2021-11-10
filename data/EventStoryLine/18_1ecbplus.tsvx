@@ -1,0 +1,30 @@
+Text	http://edition. cnn. com/2007/US/04/09/michigan. shooting/Sheriff:Michigan office shooting kills 1, injures 2 POSTED:1052 GMT ( 1852 HKT ), April 10, 2007 A Michigan man shot to death one person and injured two others Monday at the suburban Detroit accounting firm from which he was fired last week, police said. The suspect, 38-year-old Anthony LaCalamita, was "deliberately seeking out these individuals, " according to Troy police Lt. Gerry Scherlinck. A female receptionist died and two men, believed to be "management level employees, " underwent surgery for gunshot wounds at Royal Oak Beaumont Hospital, Scherlinck said. A 50-year-old man from Dexter, Michigan, tipped off authorities to LaCalamita's location after hearing a description of the suspect's vehicle-- a 2007 silver Ford Fusion-- on the radio. The man, who did not want to be identified, called 911 when he realized the vehicle directly next to him matched the description on the radio, according to Genesee County Sheriff Robert Pickell. Police attempted to stop the vehicle as it entered Vienna township, but LaCalamita would not pull over, Pickell said. LaCalamita drove across several counties, at speeds up to 120 miles per hour, surrendering only after authorities boxed in his car on Interstate 75 in Saginaw, Michigan. He surrendered "peacefully and without incident, " Pickell said. Upon arrest, police seized a shotgun and several shells, he said. LaCalamita is being held in the Genesee County jail and is expected to be handed over to the Detroit police. A Web site for the public accounting firm Gordon Advisors in the building lists LaCalamita as an employee. "We heard gunshots.... We're on the third floor, barricaded in, " Bill Adgate, who works for LPL Financial in the office building, told CNN affiliate WDIV-TV as the search went on for the gunman. "We put a conference table in front of the front door with a bunch of chairs, " Adgate told WDIV, a Detroit station. "We have four entrances-- three entrances to our offices. We put file cabinets and things of that nature in front of it. " Monday's shooting follows two last week in public places in Atlanta, Georgia, and Seattle, Washington. In Atlanta's CNN Center on Tuesday, police say a man shot to death his former girlfriend just downstairs from the center's Omni Hotel and outside the CNN. com newsroom. On Monday on the Seattle campus of the University of Washington, a gunman killed his former girlfriend and then himself. In early March, a gunman shot and wounded three people at a printing facility near Los Angeles, California, before killing himself. Police said he was a disgruntled employee of the facility in Signal Hill, California. In February, a gunman killed five people and injured several others at a shopping mall in Salt Lake City, Utah, before an off-duty policeman killed the shooter.
+Event	107	died	Occurence	478
+Event	121	surgery	Occurence	552
+Event	426	Monday's	Occurence	2080
+Event	49	shot	Occurence	170
+Event	55	injured	Occurence	199
+Event	427	shooting	Occurence	2089
+Event	27	shooting	Occurence	82
+Event	429	two	Occurence	2106
+Event	69	fired	Occurence	283
+Event	28	kills	Occurence	91
+Event	31	injures	Occurence	100
+Event	58	Monday	Occurence	218
+Event	51	death	Occurence	178
+Relation	58	49	SuperSub	true	Monday	shot
+Relation	58	51	SuperSub	true	Monday	death
+Relation	58	55	SuperSub	true	Monday	injured
+Relation	58	69	SubSuper	true	Monday	fired
+Relation	58	107	SuperSub	true	Monday	died
+Relation	426	427	SuperSub	true	Monday's	shooting
+Relation	426	429	SubSuper	true	Monday's	two
+Relation	58	27	SuperSub	true	Monday	shooting
+Relation	58	28	SuperSub	true	Monday	kills
+Relation	58	31	SuperSub	true	Monday	injures
+Relation	27	28	SuperSub	true	shooting	kills
+Relation	27	31	SuperSub	true	shooting	injures
+Relation	49	51	SuperSub	true	shot	death
+Relation	49	55	SuperSub	true	shot	injured
+Relation	49	107	SuperSub	true	shot	died
+Relation	49	121	SuperSub	true	shot	surgery

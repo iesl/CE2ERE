@@ -1,0 +1,27 @@
+Text	http://www. nbcnews. com/id/18022825/ns/us_news-crime_and_courts/t/gunman-kills-wounds-accounting-office/Gunman kills 1, wounds 2 at accounting office Suspect had been fired last week by Troy, Mich., company An accounting firm employee who was fired last week shot and killed a woman and wounded two men Monday at the suburban Detroit building where he worked, then led officers on a high-speed chase, police said. Hours after the shooting, a motorist 50 miles north of Detroit spotted a vehicle described on radio reports and notified authorities, touching off a 30-mile pursuit that passed through a construction zone and reached speeds of 120 mph, officials said. Anthony LaCalamita III, 38, said nothing after officers surrounded him, Genesee County Sheriff Robert J. Pickell said. Officers found a 12-gauge pump-action shotgun and three live shells in the vehicle, but LaCalamita as " subdued. Very, very, very subdued, " the sheriff said. LaCalamita's calmness at the conclusion belied a frantic mid-morning at the offices of Gordon Advisors, a 40-to 50-employee company where workers had been busy preparing tax returns. 'Pop, pop, pop' " We heard pop, pop, pop, " smelled gunpowder and heard co-workers yelling, said Jean Larson, 48, a staff accountant for G&C, a subsidiary of Gordon Advisors. " I heard one employee screaming, ' He's got a gun. He's got a gun. '... It was a panic. No one knew what to do. No one knew where to go. " After briefly assembling in the employee lunchroom, some employees opted to hole up inside individual offices. Larson joined two female co-workers, barricading the locked door with chairs, turning off the lights and silencing their cell phones. Beneath a desk, the three curled up and kept quiet. " I was just so scared, " Larson said. " I just kept thinking, ' This can ' t be happening. " ' Police said the person killed was a 63-year-old woman from Warren but would not name her. A message posted Monday afternoon on the accounting firm's Web site said the office would be closed Tuesday in memory of Madeline Kafoury. Retiree had returned part-time Larson said Kafoury was well-known and well-liked. She said Kafoury retired last year following the conclusion of tax season, but returned part-time this year after her successor quit. Troy Police Lt. Gerry Scherlinck identified the other victims as a 47-year-old man and a 48-year-old man. Wolfe said the families of the wounded men requested privacy, and the hospital would not release any details about their conditions. " I ' m not positive all three of the people were targeted but there appeared to be some purpose, " Troy Police Chief Charles Craft said. LaCalamita was being held on charges of fleeing and eluding police and was expected to be charged Tuesday in the shooting. LaCalamita was fired last week, Craft said, but still was listed on the Web site of Gordon Advisors. Calls made to Gordon were not answered, and a recording said the offices were closed.
+Event	79	Monday	Occurence	304
+Event	72	killed	Occurence	269
+Event	417	killed	Occurence	1859
+Event	76	wounded	Occurence	288
+Event	67	fired	Occurence	244
+Event	97	chase	Occurence	395
+Event	70	shot	Occurence	260
+Event	87	worked	Occurence	353
+Event	40	kills	Occurence	112
+Event	43	wounds	Occurence	121
+Relation	79	70	SuperSub	true	Monday	shot
+Relation	79	67	SubSuper	true	Monday	fired
+Relation	79	72	SuperSub	true	Monday	killed
+Relation	79	76	SuperSub	true	Monday	wounded
+Relation	79	87	SubSuper	true	Monday	worked
+Relation	79	97	SuperSub	true	Monday	chase
+Relation	79	417	SuperSub	true	Monday	killed
+Relation	79	40	SuperSub	true	Monday	kills
+Relation	79	43	SuperSub	true	Monday	wounds
+Relation	40	70	SubSuper	true	kills	shot
+Relation	43	70	SubSuper	true	wounds	shot
+Relation	70	72	SuperSub	true	shot	killed
+Relation	70	76	SuperSub	true	shot	wounded
+Relation	70	97	SuperSub	true	shot	chase
+Relation	70	417	SuperSub	true	shot	killed
+Relation	67	76	SuperSub	true	fired	wounded

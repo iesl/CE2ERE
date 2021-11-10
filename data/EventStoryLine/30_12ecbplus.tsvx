@@ -1,0 +1,8 @@
+Text	http://broabandtrafficmanagement. blogspot. nl/2011/10/south-africa-p2p-control-helps-overcome. html TUESDAY, OCTOBER 11, 2011 South Africa:P2P Control Helps Overcome Undersea Cable Outage "The SEACOM undersea cable, which provides a data link between South Africa, Europe and India, experienced downtime beginning on Saturday 8 October 2011, caused by a problem on a cable between Abu Talat ( Egypt ) and Marseilles ( France ).. Meanwhile, local Internet Service Providers ( ISPs ) who use bandwidth on the SEACOM cable have been scrambling to implement contingency plans to keep their customers connected". According to an MWEB update-"Some more bandwidth was brought online last night [ 10 October 2011 ] bringing us up to 83% of our required capacity. We allowed P2P traffic to run from midnight to 7am, after which it had to give way for critical traffic again. " As MWEB also uses PeerApp's caching solution, it may help serve some P2P traffic without accessing the undersea cable.
+Event	74	problem	Occurence	355
+Event	109	scrambling	Occurence	531
+Event	63	downtime	Occurence	296
+Event	43	Outage	Occurence	182
+Relation	63	74	SubSuper	true	downtime	problem
+Relation	43	74	SuperSub	true	Outage	problem
+Relation	63	109	SuperSub	true	downtime	scrambling

@@ -1,0 +1,4 @@
+Text	http://sportzassassin2. blogspot. nl/2005_05_01_archive. html Tuesday, May 24, 2005 Up the coast... the Philly Sixers canned Jim O'Brien [ who had been under fire all season ] and quickly hired Mo Cheeks. Mo ran the Sixers in the 1980s as their point guard. He looks to be a perfect coach for Allen Iverson. Really, this move has been in the making for quite some time. The Sixers have bugged Portland about talking to him about their head coaching job over the past 3 years. After the Blazers fired Cheeks... it was only a matter of time before Philly and Cheeks hooked up again.
+Event	49	hired	Occurence	188
+Event	35	canned	Occurence	118
+Relation	35	49	SuperSub	true	canned	hired

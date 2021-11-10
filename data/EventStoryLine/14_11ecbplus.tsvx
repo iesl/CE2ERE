@@ -1,0 +1,9 @@
+Text	http://www. wellington-today. co. uk/news. cfm ? id=24877 Fire at Waitrose in Wellington Sunday, 21 July 2013 A FIRE has badly damaged the Waitrose supermarket in Wellington's High Street. Eight crews fought the blaze which broke out in the early hours of Sunday morning. It is not known how long the store will be closed.
+Event	47	blaze	Occurence	212
+Event	20	Fire	Occurence	58
+Event	45	fought	Occurence	201
+Event	31	FIRE	Occurence	112
+Event	34	damaged	Occurence	127
+Relation	20	34	SuperSub	true	Fire	damaged
+Relation	31	34	SuperSub	true	FIRE	damaged
+Relation	45	47	SubSuper	true	fought	blaze

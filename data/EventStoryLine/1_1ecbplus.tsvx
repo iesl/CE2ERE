@@ -1,0 +1,42 @@
+Text	http://www. accesshollywood. com/lindsay-lohan-leaves-betty-ford-checks-into-malibu-rehab_article_80744 Lindsay Lohan Leaves Betty Ford, Checks Into Malibu Rehab First Published:June 13, 2013 4:59 PM EDT Lindsay Lohan has left the Betty Ford Center and is moving to a rehab facility in Malibu, Calif., Access Hollywood has confirmed. A spokesperson for The Los Angeles Superior Court confirmed to Access that a judge signed an order yesterday allowing the transfer to Cliffside, where she will continue with her 90-day court-mandated rehab. Lohan's attorney, Shawn Holley, spoke out about the move. " Lindsay is grateful for the treatment she received at the Betty Ford Center. She has completed her course of treatment there and looks forward to continuing her treatment and building on the foundation established at Betty Ford, " Holley said in a statement to Access. The actress checked into the Betty Ford Center in May as part of a plea deal stemming from her June 2012 car accident case.
+Event	100	transfer	Occurence	456
+Event	130	move	Occurence	593
+Event	161	treatment	Occurence	762
+Event	116	rehab	Occurence	534
+Event	138	treatment	Occurence	629
+Event	94	signed	Occurence	417
+Event	196	deal	Occurence	942
+Event	204	case	Occurence	988
+Event	190	May	Occurence	920
+Event	97	yesterday	Occurence	433
+Event	57	left	Occurence	222
+Event	34	Leaves	Occurence	118
+Event	135	grateful	Occurence	612
+Event	153	treatment	Occurence	710
+Event	64	moving	Occurence	256
+Event	163	building	Occurence	776
+Event	167	established	Occurence	803
+Event	140	received	Occurence	643
+Relation	97	34	SuperSub	true	yesterday	Leaves
+Relation	97	57	SuperSub	true	yesterday	left
+Relation	97	64	SuperSub	true	yesterday	moving
+Relation	97	94	SuperSub	true	yesterday	signed
+Relation	97	100	SuperSub	true	yesterday	transfer
+Relation	97	116	NoRel	true	yesterday	rehab
+Relation	97	130	SuperSub	true	yesterday	move
+Relation	97	138	SuperSub	true	yesterday	treatment
+Relation	97	140	SuperSub	true	yesterday	received
+Relation	97	153	SuperSub	true	yesterday	treatment
+Relation	97	161	NoRel	true	yesterday	treatment
+Relation	97	163	NoRel	true	yesterday	building
+Relation	97	167	SubSuper	true	yesterday	established
+Relation	190	196	SuperSub	true	May	deal
+Relation	57	64	SuperSub	true	left	moving
+Relation	94	100	SuperSub	true	signed	transfer
+Relation	135	138	SubSuper	true	grateful	treatment
+Relation	196	204	SubSuper	true	deal	case
+Relation	190	116	SubSuper	true	May	rehab
+Relation	190	138	SubSuper	true	May	treatment
+Relation	190	153	SubSuper	true	May	treatment
+Relation	190	140	SubSuper	true	May	received
+Relation	100	116	SuperSub	true	transfer	rehab

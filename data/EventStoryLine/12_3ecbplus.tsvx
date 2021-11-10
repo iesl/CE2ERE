@@ -1,0 +1,42 @@
+Text	http://www. defence. pk/forums/indian-defence/140085-indian-navy-foils-attack-gulf-aden-nabs-26-pirates. html Indian Navy foils attack in Gulf of Aden, nabs 26 pirates Mumbai, Nov 11-Indian Navy patrolling the Gulf of Aden yesterday thwarted a multi-boat attack by sea brigands on merchant vessels, apprehending 26 Somali pirates and confiscating arms and ammunition, in the fifth successful anti-piracy operation since September. At about 9:25 Thursday morning, navy personnel aboard warship INS Sukanya spotted a group of five suspicious boats speedily approaching the merchant vessels of her group. "The warship immediately altered ( its direction ) towards the suspicious vessels and challenged them. On seeing the resolve evident in the warship's action and probably mindful of the reputation for resolute action that the Indian Navy justly enjoys in such deployments, the pirate skiffs reversed course and tried to flee the area, " Captain Manohar Nambiar, Chief Public Relations Officer, Defence, said. While two of them managed to escape, INS Sukanya successfully intercepted the remaining three boats and, in a well-practiced and professionally executed boarding-and-search action, nabbed 26 Somali pirates with six AK 47 rifles, 12 magazines and about 300 rounds of ammunition. This is the fifth successful anti-piracy operation conducted by INS Sukanya in the course of her ongoing patrol mission in the Gulf of Aden that commenced in September, the navy said. Warship Sukanya, currently deployed on anti-piracy patrols in the Gulf of Aden under the operational control of the Western Naval Command, was escorting a group of five merchant vessels through the Internationally Recognised Transit Corridor when the incident happened. The timely operation by INS Sukanya resulted, once again, in foiling the pirates' attempt to attack merchant vessels transiting the busy sea lane through which over nearly 100 billion USD worth India's external trade passes each year, Nambiar said. In their five operations so far, the personnel on board the warship have confiscated 14 AK-47 Rifles, 31 magazines and 923 rounds of ammunition, he said. Indian Navy is part of the international effort to ensure the safety and freedom of seaborne trade in this high-risk stronghold of modern-day piracy.
+Event	81	confiscating	Occurence	334
+Event	257	operation	Occurence	1329
+Event	41	attack	Occurence	128
+Event	276	commenced	Occurence	1433
+Event	269	mission	Occurence	1400
+Event	268	patrol	Occurence	1393
+Event	47	nabs	Occurence	152
+Event	62	yesterday	Occurence	223
+Event	76	apprehending	Occurence	299
+Event	95	September	Occurence	420
+Event	57	patrolling	Occurence	195
+Event	68	attack	Occurence	255
+Event	258	conducted	Occurence	1339
+Event	63	thwarted	Occurence	233
+Event	93	operation	Occurence	404
+Event	278	September	Occurence	1446
+Event	40	foils	Occurence	122
+Relation	95	93	SuperSub	true	September	operation
+Relation	278	268	SubSuper	true	September	patrol
+Relation	278	269	SubSuper	true	September	mission
+Relation	278	276	SubSuper	true	September	commenced
+Relation	278	257	SuperSub	true	September	operation
+Relation	278	258	SuperSub	true	September	conducted
+Relation	62	57	SuperSub	true	yesterday	patrolling
+Relation	62	63	SuperSub	true	yesterday	thwarted
+Relation	62	68	SuperSub	true	yesterday	attack
+Relation	62	76	SuperSub	true	yesterday	apprehending
+Relation	62	81	SuperSub	true	yesterday	confiscating
+Relation	62	93	SuperSub	true	yesterday	operation
+Relation	62	40	SuperSub	true	yesterday	foils
+Relation	62	41	SuperSub	true	yesterday	attack
+Relation	62	47	SuperSub	true	yesterday	nabs
+Relation	40	47	SuperSub	true	foils	nabs
+Relation	57	63	SuperSub	true	patrolling	thwarted
+Relation	63	76	SubSuper	true	thwarted	apprehending
+Relation	63	81	SubSuper	true	thwarted	confiscating
+Relation	57	93	SubSuper	true	patrolling	operation
+Relation	63	93	SubSuper	true	thwarted	operation
+Relation	76	93	SubSuper	true	apprehending	operation
+Relation	81	93	SubSuper	true	confiscating	operation
+Relation	257	269	SubSuper	true	operation	mission

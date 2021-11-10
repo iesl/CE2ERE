@@ -1,0 +1,41 @@
+Text	http://query. nytimes. com/gst/fullpage. html ? res=9A0DE2DE1431F93BA15752C1A9639C8B63 Powerful Quake in Iran Kills 10; 80 Hurt and 7 Villages Damaged Published:November 28, 2005 A powerful earthquake hit southern Iran on Sunday, causing major destruction in seven villages and killing 10 people and injuring 80. The tremor shook Oman and the United Arab Emirates as well, forcing many office workers to evacuate their buildings. The official IRNA news agency and the United States Geological Survey said it had a magnitude of 5. 9. Iran's seismologic center said the epicenter of the earthquake was in the waters of the Persian Gulf, 35 miles southwest of the port of Bandar Abbas. Iran is on seismic fault lines. A major earthquake killed more than 31, 000 in city of Bam in central Iran in 2003, and 600 were killed in the city of Zarand in February in an earthquake with a magnitude of 6. 4. The tourist Island of Qeshm on the Persian Gulf and seven of its villages were most strongly affected by the quake. It hit at 1:53 p.m. local time and was followed by at least four strong aftershocks, IRNA reported. The news agency also reported that one of the major hospitals on the island, in the village of Jeyhian, was destroyed and the village's power lines were cut. The island's airport was also damaged. Abdolreza Sheikholeslami, the governor of Hormozgan Province, the center of the damaged area, said 40 percent to 70 percent of the buildings in seven villages were destroyed, IRNA reported. Two helicopters began moving the injured to the hospital in Bandar Abbas, and aid workers began distributing food, blankets and tents in the region, the governor said. Qeshm is Iran's largest island in the Persian Gulf, with a population of 120, 000. The quake jolted several cities in the United Arab Emirates, across the Persian Gulf from Iran. Office workers in Dubai, United Arab Emirates, evacuated several buildings in the city, pouring onto the streets and snarling traffic. There were no reported injuries in Dubai. Mehdi Zareh, director of the seismological center in Tehran, dismissed concerns that the earthquake would cause tsunamis, IRNA reported. ''The Persian Gulf is not deep enough so that we can expect tsunamis, '' he was quoted as saying. Map of Iran highlighting epicenter of earthquake:A tremor shook southern Iran yesterday, causing major damage.
+Event	254	cut	Occurence	1265
+Event	195	affected	Occurence	989
+Event	48	destruction	Occurence	244
+Event	261	damaged	Occurence	1300
+Event	22	Kills	Occurence	110
+Event	26	Hurt	Occurence	123
+Event	30	Damaged	Occurence	143
+Event	39	earthquake	Occurence	190
+Event	247	destroyed	Occurence	1220
+Event	44	Sunday	Occurence	222
+Event	53	killing	Occurence	278
+Event	57	injuring	Occurence	300
+Event	198	quake	Occurence	1005
+Event	292	destroyed	Occurence	1473
+Event	19	Quake	Occurence	96
+Relation	44	19	SuperSub	true	Sunday	Quake
+Relation	44	22	SuperSub	true	Sunday	Kills
+Relation	44	26	SuperSub	true	Sunday	Hurt
+Relation	44	30	SuperSub	true	Sunday	Damaged
+Relation	44	39	SuperSub	true	Sunday	earthquake
+Relation	44	48	SuperSub	true	Sunday	destruction
+Relation	44	53	SuperSub	true	Sunday	killing
+Relation	44	57	SuperSub	true	Sunday	injuring
+Relation	44	198	SuperSub	true	Sunday	quake
+Relation	44	247	SuperSub	true	Sunday	destroyed
+Relation	44	254	SuperSub	true	Sunday	cut
+Relation	44	261	SuperSub	true	Sunday	damaged
+Relation	44	292	SuperSub	true	Sunday	destroyed
+Relation	19	22	SuperSub	true	Quake	Kills
+Relation	19	26	SuperSub	true	Quake	Hurt
+Relation	19	30	SuperSub	true	Quake	Damaged
+Relation	39	48	SuperSub	true	earthquake	destruction
+Relation	39	53	SuperSub	true	earthquake	killing
+Relation	39	57	SuperSub	true	earthquake	injuring
+Relation	198	247	SuperSub	true	quake	destroyed
+Relation	198	254	SuperSub	true	quake	cut
+Relation	198	261	SuperSub	true	quake	damaged
+Relation	198	292	SuperSub	true	quake	destroyed
+Relation	247	254	SuperSub	true	destroyed	cut
+Relation	195	198	SubSuper	true	affected	quake

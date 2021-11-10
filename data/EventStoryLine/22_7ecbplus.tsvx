@@ -1,0 +1,29 @@
+Text	http://philadelphia. cbslocal. com/2012/09/10/trial-underway-for-woman-charged-in-2010-kraft-foods-rampage-in-ne-philadelphia/Woman Convicted of Double Murder In 2010 Kraft Foods Rampage In NE Philadelphia September 10, 2012 4:15 PM A Philadelphia judge today found a former Kraft Foods company employee guilty of murder in a workplace rampage exactly two years ago in Northeast Philadelphia that left two women dead and a third employee wounded. Witnesses say defendant Yvonne Hiller had long complained of abuse by fellow employees, claimed they were poisoning her by spraying her with chemicals including deer urine. But authorities say the allegations were investigated by police and OSHA and were determined to be unfounded. Then, on September 10, 2010, according to a surviving victim, Hiller went berserk again, cursing and making accusations and threats. She was suspended on the spot and escorted from the building. But, the witness says, she returned minutes later with a gun, opening fire on several employees in a break room, killing Latonya Brown and Tanya Wilson, and wounding Bryant Dalton. Dalton says the bullet went through his neck and lodged in his shoulder, and is still there. In the one-day, non-jury trial, Common Pleas Court judge Benjamin Lerner found Hiller guilty of two counts of first-degree murder and one count of attempted murder. The automatic sentence in life in prison, although formal sentencing will take place at a later date.
+Event	81	rampage	Occurence	336
+Event	52	Rampage	Occurence	179
+Event	98	wounded	Occurence	438
+Event	49	2010	Occurence	162
+Event	47	Murder	Occurence	152
+Event	77	murder	Occurence	314
+Event	67	today	Occurence	254
+Event	44	Convicted	Occurence	132
+Event	75	guilty	Occurence	304
+Event	68	found	Occurence	260
+Event	93	dead	Occurence	412
+Relation	49	47	SuperSub	true	2010	Murder
+Relation	49	44	SuperSub	true	2010	Convicted
+Relation	49	52	SuperSub	true	2010	Rampage
+Relation	44	47	SubSuper	true	Convicted	Murder
+Relation	44	52	SubSuper	true	Convicted	Rampage
+Relation	75	77	SubSuper	true	guilty	murder
+Relation	75	81	SubSuper	true	guilty	rampage
+Relation	75	93	SubSuper	true	guilty	dead
+Relation	75	98	SubSuper	true	guilty	wounded
+Relation	67	68	SuperSub	true	today	found
+Relation	67	75	SuperSub	true	today	guilty
+Relation	67	77	SubSuper	true	today	murder
+Relation	67	81	SubSuper	true	today	rampage
+Relation	67	93	SubSuper	true	today	dead
+Relation	67	98	SubSuper	true	today	wounded
+Relation	47	52	SubSuper	true	Murder	Rampage
+Relation	81	98	SuperSub	true	rampage	wounded

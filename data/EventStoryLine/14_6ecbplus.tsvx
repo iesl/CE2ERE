@@ -1,0 +1,11 @@
+Text	http://www. itv. com/news/westcountry/story/2013-07-21/wellington-supermarket-fire/10:24 AM, MON 22 JUL 2013 Fire at Waitrose supermarket may have been arson Police are continuing to investigate a fire at a Waitrose supermarket in Wellington. Staff are today turning away customers. Shoppers have been arriving at the supermarket unaware of the fire at the weekend. Police say it may have been arson.
+Event	52	fire	Occurence	197
+Event	50	investigate	Occurence	183
+Event	38	Fire	Occurence	109
+Event	45	arson	Occurence	152
+Event	88	arson	Occurence	394
+Relation	38	45	SuperSub	true	Fire	arson
+Relation	50	52	SubSuper	true	investigate	fire
+Relation	45	52	SubSuper	true	arson	fire
+Relation	52	88	SuperSub	true	fire	arson
+Relation	38	45	SubSuper	true	Fire	arson

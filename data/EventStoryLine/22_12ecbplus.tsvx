@@ -1,0 +1,35 @@
+Text	http://www. xhuffingtonpost. com/2010/09/10/kraft-shooting-yvonne-hil_n_712178. html Kraft Shooting:Yvonne Hiller Charged With Two Counts Of Murder 09/10/10 08:23 PM ET A Kraft Foods plant worker who had been suspended for feuding with colleagues, then escorted from the building, returned minutes later with a handgun, found her foes in a break room and executed two of them with a single bullet each and critically wounded a third, police said Friday. Yvonne Hiller, 43, had gotten into an argument Thursday evening with her co-workers at the northeast Philadelphia plant, police said. After she was disciplined, she went to her vehicle, made several phone calls, and then grabbed a. 357 Magnum and used it to force her way past security guards at the front gate. About 100 people were at work at the plant, which makes Nabisco cookies and crackers. Hiller walked to the third-floor mixing area and found four people in the break room. She had no quarrels with one woman and told her to leave. She then opened fire on the others, Philadelphia Homicide Capt. James Clark said. "She believed they were spraying chemicals at her, saying things behind her back, " Clark said. After leaving the break room, Hiller went down a hallway and fired shots at the supervisor who had suspended her and at a mechanic who was using a walkie-talkie to alert police and co-workers to her whereabouts, police said. She missed both. Hiller finally went to a second-floor office and called police to tell them what she had done, authorities said. Seven other workers were hiding in a closet nearby. Cpl. Janice Leader, a 911 dispatcher, told reporters Friday that Hiller called 911, saying "I'm the one you're looking for" and reporting that she had been harassed at work. Keeping her on the line, Leader said she told Hiller to put the gun down and place her hands on her head so officers wouldn't take any aggressive action against her. When tactical police who had entered the plant found her, Hiller was in a fetal position on the floor, the gun beside her. Police called the mechanic a hero who "did a phenomenal job" in alerting employees to evacuate the building and directing officers to where Hiller was. "By following the suspect at great peril to himself-and we can see that by the fact that he was shot at and almost hit-he reduced our tactical problem quite dramatically, " Chief Inspector Joe Sullivan said. Police identified the victims as Tanya Renee Wilson, 47; LaTonya Sharon Brown, 36; and Bryant A. Dalton, 39, all of Philadelphia. Wilson and Brown died at the plant. Dalton, shot in the neck, remained in intensive care Friday at Jefferson University Hospital, police said. The plant will remain closed indefinitely, Kraft said. "We suspended the employee when she became agitated and used profanity. We wanted the opportunity to investigate the situation, " Kraft said in a statement Friday. Hiller was charged with two counts of murder, one count of attempted murder, aggravated assault and other charges. She had a permit to carry the gun, authorities said. Hiller has worked for Kraft for about 15 years, and had been in repeated arguments there in the past several years, a few of them physical, Clark said. Yet a next-door neighbor described Hiller as a quiet woman who kept to herself but said she was polite and exchanged pleasantries when they saw each other. Catherine Hillgen, who has lived on the tidy middle-class city block for about 45 years, said Hiller moved in several years ago with her son but recently has been living alone. She initially dismissed a neighbor's report Thursday that Hiller might be involved in a fatal workplace shooting, but then heard her named on the news Friday. "It was a complete shock, " Hillgen said. "I would not expect it. " Kraft, based in Northfield, Ill., also makes Oreo cookies, Philadelphia cream cheese, Oscar Mayer bacon and other products. Mass shootings are rarely carried out by women, said Dr. Park Dietz, president of Threat Assessment Group Inc., a Newport Beach, Calif.-based violence prevention firm. Earlier this year, Amy Bishop, a former instructor and researcher at the University of Alabama's Huntsville campus, was charged with murder in a campus shooting spree that left three biology professors dead and three other employees wounded. She claimed the shootings "didn't happen. " Thursday's shooting came just weeks after a driver who had been accused of stealing from a Manchester, Conn., beer distributorship fatally shot eight people, then himself. The driver, who was black, had seethed with a sense of racial injustice in his job, said his girlfriend. But the beer distributor's president said there was no record to support claims of "racial insensitivity. "
+Event	59	suspended	Occurence	209
+Event	66	escorted	Occurence	253
+Event	86	executed	Occurence	355
+Event	61	feuding	Occurence	223
+Event	103	Friday	Occurence	446
+Event	608	assault	Occurence	2984
+Event	594	charged	Occurence	2907
+Event	599	murder	Occurence	2934
+Event	78	found	Occurence	320
+Event	97	wounded	Occurence	417
+Event	35	Charged	Occurence	114
+Event	31	Shooting	Occurence	91
+Event	71	returned	Occurence	281
+Event	40	Murder	Occurence	141
+Relation	103	35	SuperSub	true	Friday	Charged
+Relation	103	59	SubSuper	true	Friday	suspended
+Relation	103	61	SubSuper	true	Friday	feuding
+Relation	103	66	SubSuper	true	Friday	escorted
+Relation	103	71	SubSuper	true	Friday	returned
+Relation	103	78	SubSuper	true	Friday	found
+Relation	103	86	SubSuper	true	Friday	executed
+Relation	103	97	SubSuper	true	Friday	wounded
+Relation	103	594	SuperSub	true	Friday	charged
+Relation	31	40	SuperSub	true	Shooting	Murder
+Relation	35	40	SuperSub	true	Charged	Murder
+Relation	59	61	SubSuper	true	suspended	feuding
+Relation	59	66	SuperSub	true	suspended	escorted
+Relation	59	86	SuperSub	true	suspended	executed
+Relation	71	86	SuperSub	true	returned	executed
+Relation	71	97	SuperSub	true	returned	wounded
+Relation	59	97	SuperSub	true	suspended	wounded
+Relation	594	599	SubSuper	true	charged	murder
+Relation	594	608	SubSuper	true	charged	assault
+Relation	61	86	SuperSub	true	feuding	executed

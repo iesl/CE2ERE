@@ -1,0 +1,18 @@
+Text	http://www. sott. net/article/263487-Powerful-6-1-magnitude-earthquake-injures-dozens-in-Indonesias-Aceh-province Powerful 6. 1 magnitude earthquake injures dozens in Indonesia's Aceh province Tue, 02 Jul 2013 12:28 CDT A powerful 6. 1 magnitude earthquake hit Indonesia's northwestern Aceh province, on the island of Sumatra. Dozens have been reported injured. The epicenter of the quake was roughly 55 kilometers from the town of Bireuen, a regency of the larger Aceh province, and took place at 7:37 AM local time according to data from the US Geological Survey. Although it's unknown how many were injured, Sky News estimates"at least 50 people, " and numerous buildings have collapsed as an effect of the powerful tremblor. The quake appears to have shaken the provincial capital of Banda Aceh, which is located at the northern tip of the Sumatran land mass. "I see many houses were damaged and their roofs fell onto some people, " said central Aceh district resident Bensu Elianita to the Associated Press. "Many people were injured but it is difficult to evacuate them due to traffic jams. " "We have received around 50 people with injuries suffered when the walls of their houses collapsed, " said doctor Ema Suryani to AFP, speaking from Lampahan city in Aceh's Bener Meriah district. Aceh was hit extremely hard by the massive "Boxing Day" earthquake and tsunami in 2004, killing 170, 000 people in Sumatra alone-with 35, 000 bodies never recovered. The rebuilding process continues to this day from the enormous natural disaster.
+Event	209	injured	Occurence	1031
+Event	158	shaken	Occurence	755
+Event	270	tsunami	Occurence	1365
+Event	260	hit	Occurence	1303
+Event	184	damaged	Occurence	888
+Event	272	2004	Occurence	1376
+Event	289	recovered	Occurence	1449
+Event	154	quake	Occurence	733
+Event	274	killing	Occurence	1382
+Relation	272	270	SuperSub	true	2004	tsunami
+Relation	272	260	SuperSub	true	2004	hit
+Relation	272	289	SuperSub	true	2004	recovered
+Relation	154	158	SuperSub	true	quake	shaken
+Relation	154	184	SuperSub	true	quake	damaged
+Relation	154	209	SuperSub	true	quake	injured
+Relation	260	270	SubSuper	true	hit	tsunami
+Relation	270	274	SuperSub	true	tsunami	killing

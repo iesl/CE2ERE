@@ -1,0 +1,10 @@
+Text	http://nypost. com/2013/05/02/lindsay-lohan-is-mia-after-pretending-to-check-into-unlicensed-calif-rehab-center/Lindsay Lohan is MIA after pretending to check into unlicensed Calif. rehab center May 2, 2013 | 5:03pm " The " Mean Girls " star fooled an L. A Superior Court judge, a Santa Monica prosecutor and apparently her own lawyer, by pretending to check into a rehabilitation facility, but chickening out when she got there. Prosecutor Terry White told The Post a couple hours after a court hearing — where Lohan's lawyer Mark Heller said she was " ensconced in the bosom " of Morningside Recovery in Newport Beach — " I hear she's on her way to LAX and getting on a flight back to New York. " Unfortunately, Morningside is unlicensed and photogs snapped her shopping for gadgets at the very moment of her alleged check in. Lohan reportedly pulled up to Morningside in an SUV but the vehicle left without the actress ever getting out. " The facility that Lindsay is now in, that's not a licensed residential drug treatment center, " California Department of Alcohol and Drug Program deputy director Millicent Tidwell told The Post.
+Event	174	shopping	Occurence	764
+Event	44	MIA	Occurence	129
+Event	46	pretending	Occurence	139
+Event	90	pretending	Occurence	339
+Event	70	fooled	Occurence	242
+Relation	46	70	SuperSub	true	pretending	fooled
+Relation	70	90	SubSuper	true	fooled	pretending
+Relation	44	46	SubSuper	true	MIA	pretending
+Relation	90	174	SuperSub	true	pretending	shopping

@@ -1,0 +1,52 @@
+Text	http://www. huffingtonpost. com/2011/10/25/andrew-lopez-confesses-to_n_1031411. html Andrew Lopez Confesses To Murder Of Zurana Horton In Brooklyn Shooting First Posted:10/25/11 06:44 PM ET Updated:12/25/11 05:12 AM ET An 18-year old male confessed to the gang related murder of a Brooklyn mother who tried to protect a group of school children from harm by shielding them. The suspect, Andrew Lopez, was among three teens arrested on Tuesday for the shooting that took place last Friday outside a Brownsville school that claimed the life of 34-year old Zurana Horton. Horton died instantly from a shot in the face and chest when she attempted to protect students from gunfire. Horton was the mother of 12 children. Lopez was reportedly aiming for an 11-year old girl whom he was in a dispute with over a cell-phone. The 11-year old girl survived an injury on her arm and graze wound on her face. Lopez and his brother Kristian, who was also arrested, are believed to be members of a gang called 8 Block. Police Commissioner Ray Kelly commented on Lopez in a briefing:We're certainly pleased with the fact that the investigation has identified Mr. Lopez and he's made statements and apparently made a full confession. Browsnville is among the most crime-ridden neighborhoods in the city. Since the shocking shooting, community members, including Rev. Al Sharpton who met with Horton's family, have called for an end to gun violence.
+Event	217	believed	Occurence	956
+Event	178	dispute	Occurence	785
+Event	92	harm	Occurence	350
+Event	77	murder	Occurence	269
+Event	139	shot	Occurence	598
+Event	109	Tuesday	Occurence	435
+Event	107	arrested	Occurence	423
+Event	112	shooting	Occurence	451
+Event	152	gunfire	Occurence	669
+Event	149	protect	Occurence	647
+Event	32	Confesses	Occurence	98
+Event	259	made	Occurence	1194
+Event	85	protect	Occurence	310
+Event	40	Shooting	Occurence	147
+Event	94	shielding	Occurence	358
+Event	256	statements	Occurence	1168
+Event	237	briefing	Occurence	1059
+Event	247	investigation	Occurence	1115
+Event	135	died	Occurence	576
+Event	34	Murder	Occurence	111
+Event	262	confession	Occurence	1206
+Event	214	arrested	Occurence	942
+Event	255	made	Occurence	1163
+Event	72	confessed	Occurence	239
+Event	165	aiming	Occurence	737
+Event	241	pleased	Occurence	1084
+Relation	109	32	SuperSub	true	Tuesday	Confesses
+Relation	109	72	SuperSub	true	Tuesday	confessed
+Relation	109	112	SubSuper	true	Tuesday	shooting
+Relation	109	107	SuperSub	true	Tuesday	arrested
+Relation	32	34	SubSuper	true	Confesses	Murder
+Relation	34	40	SubSuper	true	Murder	Shooting
+Relation	72	77	SubSuper	true	confessed	murder
+Relation	85	94	SuperSub	true	protect	shielding
+Relation	107	112	SubSuper	true	arrested	shooting
+Relation	135	139	SubSuper	true	died	shot
+Relation	139	149	SubSuper	true	shot	protect
+Relation	149	152	SubSuper	true	protect	gunfire
+Relation	241	256	SubSuper	true	pleased	statements
+Relation	241	262	SubSuper	true	pleased	confession
+Relation	109	214	SuperSub	true	Tuesday	arrested
+Relation	109	217	SuperSub	true	Tuesday	believed
+Relation	109	237	SuperSub	true	Tuesday	briefing
+Relation	109	241	SuperSub	true	Tuesday	pleased
+Relation	109	247	SuperSub	true	Tuesday	investigation
+Relation	109	255	SuperSub	true	Tuesday	made
+Relation	109	256	SuperSub	true	Tuesday	statements
+Relation	109	259	SuperSub	true	Tuesday	made
+Relation	109	262	SuperSub	true	Tuesday	confession
+Relation	165	178	SubSuper	true	aiming	dispute
+Relation	85	92	SubSuper	true	protect	harm

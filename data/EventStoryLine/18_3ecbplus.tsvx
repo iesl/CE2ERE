@@ -1,0 +1,17 @@
+Text	http://voices. yahoo. com/troy-michigan-office-shooting-follow-1-dead-2-injured-294072. html ? cat=8 Troy, Michigan Office Shooting Follow-Up-1 Dead, 2 Injured, and Suspect Caught Apr 12, 2007 "A man suspected of shooting three people, killing one, at an accounting firm where was fired last week was arrested after a high-speed chase a few hours after the Monday morning attack, authorities said. Police said they had located Anthony LaCalamita, 38, on Interstate 75, north of the suburban Detroit office building where the shootings took place. Sheriff's deputies and state police chased him for 30 miles, including through a construction zone, at speeds up to 120 mph before he finally pulled over after about 15 minutes, Genesee County Sheriff Robert J. Pickell said. 'He probably realized if he didn't, he was going to be shot, ' Undersheriff James Gage said. LaCalamita said nothing after officers surrounded him, Pickell said, describing the suspect as 'subdued. Very, very, very subdued. ' Officers found a 12-gauge pump-action shotgun and three live shells in the vehicle, Pickell said. Witnesses said the shooter used a shotgun or a rifle, Troy police Lt. Gerry Scherlinck said. " ( Fox News article ) The suspect was finally apprehended after a high-speed chase on Interstate 75. He was finally stopped near the Saginaw County and Bay County border. Evidence found in the vehicle points to having apprehended the correct suspect. "Officers found a gun in the vehicle matching the description of the one used in the shootings, Troy police Lt. Gerry Scherlinck said. Some witnesses told police that when the shooter walked into the office on the building's second floor around 10 a.m. Monday, he looked as if he was trying to hide something, Troy Police Chief Charles Craft said. Police couldn't say how many shots were fired. 'I'm not positive all three of the people were targeted, but there appeared to be some purpose, ' Craft said. The families of the two wounded men requested 'total privacy, ' and the hospital would not release any details about their conditions, Beaumont Hospital spokeswoman Ilene Wolfe said. She said the third victim died on the way to the hospital. LaCalamita was listed among the professional staff on the website of Gordon Advisors, a public accounting and business consulting firm in the building. Calls to Gordon Advisors were not answered Monday afternoon, and a recording said the offices were closed. " ( USA Today article ) Local evening news in Michigan originally reported that two of the three victims died. The subsequent car chase tied up traffic on the I-75 corridor in Flint, Saginaw, and Bay City, Michigan for quite some time.
+Event	47	Injured	Occurence	152
+Event	38	Shooting	Occurence	123
+Event	83	chase	Occurence	329
+Event	77	arrested	Occurence	301
+Event	44	Dead	Occurence	144
+Event	60	shooting	Occurence	213
+Event	58	suspected	Occurence	200
+Event	64	killing	Occurence	236
+Relation	38	44	SuperSub	true	Shooting	Dead
+Relation	38	47	SuperSub	true	Shooting	Injured
+Relation	58	77	SuperSub	true	suspected	arrested
+Relation	64	77	SuperSub	true	killing	arrested
+Relation	77	83	SubSuper	true	arrested	chase
+Relation	38	64	SuperSub	true	Shooting	killing
+Relation	38	77	SuperSub	true	Shooting	arrested
+Relation	60	64	SuperSub	true	shooting	killing

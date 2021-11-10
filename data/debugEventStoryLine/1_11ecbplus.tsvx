@@ -1,0 +1,18 @@
+Text	http://www. nydailynews. com/entertainment/gossip/lindsay-lohan-checks-newport-beach-rehab-article-1. 1333220 Lindsay Lohan checks into rehab at Betty Ford Center, rehires longtime lawyer Shawn Holley Actress Lindsay Lohan finally checked into court-mandated rehab at the Betty Ford Center late Thursday, after hiring former lawyer Shawn Holley for help. PUBLISHED:THURSDAY, MAY 2, 2013, 1:32 PM UPDATED:FRIDAY, MAY 3, 2013, 9:56 AM Lindsay Lohan checked into California's Betty Ford Center rehab facility late Thursday, dodging arrest after whirlwind confusion surrounding the actress' whereabouts, sources told the Daily News. It's the same place the troubled starlet sought help in 2010, where she got into a physical altercation with a staffer.
+Event	117	confusion	Occurence	552
+Event	72	help	Occurence	349
+Event	66	hiring	Occurence	311
+Event	147	altercation	Occurence	721
+Event	42	rehires	Occurence	164
+Event	137	help	Occurence	677
+Event	114	arrest	Occurence	529
+Event	139	2010	Occurence	685
+Event	56	rehab	Occurence	259
+Relation	139	137	SuperSub	true	2010	help
+Relation	139	147	SuperSub	true	2010	altercation
+Relation	66	72	SuperSub	true	hiring	help
+Relation	56	114	SubSuper	true	rehab	arrest
+Relation	114	117	SubSuper	true	arrest	confusion
+Relation	137	147	SubSuper	true	help	altercation
+Relation	114	117	SubSuper	true	arrest	confusion
+Relation	42	72	SuperSub	true	rehires	help

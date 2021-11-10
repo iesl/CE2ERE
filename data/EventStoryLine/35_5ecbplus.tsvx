@@ -1,0 +1,19 @@
+Text	http://www. zimbio. com/Jamal+Williams/articles/6/Chargers+Jamal+Williams+Arrested+DUI Chargers ' Jamal Williams Arrested For DUI on February 4, 2009 Chargers defensive tackle Jamal Williams was arrested early Sunday for suspicions of driving under the influence. Williams was pulled over by the California Highway Patrol for speeding in a San Diego freeway. He was given a blood alcohol test but the results have not been revealed. He was taken to the County jail where he was booked and released on bail. According to authorities, he was driving his Bentley at about 1:00 am Sunday on highway 94 when the cops stopped him. This is the second DUI related arrest for the team. Earlier this year, star receiver Vincent Jackson was arrested for drunk driving a few days before their play-off game.
+Event	81	taken	Occurence	440
+Event	89	booked	Occurence	478
+Event	126	arrest	Occurence	656
+Event	117	stopped	Occurence	612
+Event	66	given	Occurence	366
+Event	22	Arrested	Occurence	113
+Event	36	arrested	Occurence	195
+Event	24	DUI	Occurence	126
+Event	124	DUI	Occurence	644
+Event	101	driving	Occurence	540
+Event	91	released	Occurence	489
+Relation	22	24	SubSuper	true	Arrested	DUI
+Relation	36	66	SuperSub	true	arrested	given
+Relation	36	81	SuperSub	true	arrested	taken
+Relation	81	89	SuperSub	true	taken	booked
+Relation	89	91	SuperSub	true	booked	released
+Relation	101	117	SuperSub	true	driving	stopped
+Relation	124	126	SuperSub	true	DUI	arrest

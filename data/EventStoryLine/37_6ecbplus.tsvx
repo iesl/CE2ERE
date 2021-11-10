@@ -1,0 +1,37 @@
+Text	http://www. bbc. co. uk/news/world-23141479 3 July 2013 Last updated at 13:38 GMT Indonesia Aceh rescue operation after deadly earthquake Rescue operations are under way after a 6. 1 magnitude earthquake hit Indonesia's Aceh province, flattening houses and causing landslides. Officials say at least 24 people were killed and more than 200 injured by the quake, which struck the western tip of Sumatra island on Tuesday. One report said six children were killed and 14 trapped under debris when a mosque collapsed in Central Aceh. Indonesia is located on one of the most seismically active regions on earth. "We have recorded 24 people dead and 249 people injured, " disaster agency spokesman Sutopo Purwo Nugroho told Agence-France Presse ( AFP ) news agency. He added that more than 300 buildings have been damaged in the quake. Power cut Soldiers and police have been deployed in rescue operations, but have struggled to access some areas where roads were blocked by landslides, officials said. The Indonesian air force deployed a helicopter and a plane as part of the rescue efforts. Officials say that the quake was felt for around 15 seconds, from Banda Aceh, the regional capital, to Bener Meriah, one of the worst-hit areas. In Bener Meriah, about 300 people slept outdoors on Tuesday night as the area was hit by strong aftershocks and people were afraid to return to their homes, a local official told AFP. "We have a power outage now and communications are unreliable, " he added. In 2004, a magnitude 9. 1 quake off Indonesia triggered a tsunami that killed some 230, 000 people around the Indian Ocean. Indonesia is prone to earthquakes due to its location on the Pacific Ring of Fire, an arc of volcanoes and fault lines encircling the Pacific Basin.
+Event	52	flattening	Occurence	235
+Event	65	killed	Occurence	315
+Event	47	hit	Occurence	204
+Event	215	felt	Occurence	1121
+Event	92	killed	Occurence	455
+Event	307	killed	Occurence	1563
+Event	305	tsunami	Occurence	1550
+Event	76	struck	Occurence	368
+Event	73	quake	Occurence	355
+Event	84	Tuesday	Occurence	412
+Event	95	trapped	Occurence	469
+Event	213	quake	Occurence	1111
+Event	293	2004	Occurence	1495
+Event	101	collapsed	Occurence	504
+Event	70	injured	Occurence	340
+Event	56	landslides	Occurence	265
+Relation	84	76	SuperSub	true	Tuesday	struck
+Relation	84	73	SuperSub	true	Tuesday	quake
+Relation	84	70	SuperSub	true	Tuesday	injured
+Relation	84	65	SuperSub	true	Tuesday	killed
+Relation	84	56	SuperSub	true	Tuesday	landslides
+Relation	84	52	SuperSub	true	Tuesday	flattening
+Relation	84	47	SuperSub	true	Tuesday	hit
+Relation	84	92	SuperSub	true	Tuesday	killed
+Relation	84	95	SuperSub	true	Tuesday	trapped
+Relation	84	101	SuperSub	true	Tuesday	collapsed
+Relation	293	305	SuperSub	true	2004	tsunami
+Relation	293	307	SuperSub	true	2004	killed
+Relation	65	73	SubSuper	true	killed	quake
+Relation	70	73	SubSuper	true	injured	quake
+Relation	92	101	SubSuper	true	killed	collapsed
+Relation	95	101	SubSuper	true	trapped	collapsed
+Relation	305	307	SuperSub	true	tsunami	killed
+Relation	84	213	SuperSub	true	Tuesday	quake
+Relation	84	215	SuperSub	true	Tuesday	felt
+Relation	213	215	SuperSub	true	quake	felt

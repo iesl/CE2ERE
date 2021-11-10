@@ -1,0 +1,20 @@
+Text	http://www. ktva. com/home/outbound-xml-feeds/Overnight-Fire-Destroys-Historic-Mat-Maid-Building-165301256. html Overnight Fire Destroys Historic Matanuska Maid Building No injuries reported Story Created:Aug 7, 2012 at 9:56 AM AKDT ALASKA-Shortly after 3:30 Tuesday morning someone called 911 to and reported a fire at the Matanuska Maid building in downtown Palmer. Palmer Fire & Rescue, along with the Mat-Su Central Fire Department, responded. Palmer Fire & Rescue Chief John McNutt saw flames emerging from under the building's eaves when he arrived, and soon the entire roof was engulfed in flames. A total of 31 fire apparatus arrived to fight the fire, and it was extinguished by 6:40 a.m. The building is a total loss according to the City of Palmer. The state's Fire Marshal's office is assisting in the investigation of the cause of the fire, and anyone with knowledge of the fire is asked to call Palmer Police Sergeant Shayne La Croix at 907-745-4811.
+Event	195	call	Occurence	904
+Event	177	investigation	Occurence	814
+Event	38	Destroys	Occurence	128
+Event	183	fire	Occurence	848
+Event	141	fire	Occurence	655
+Event	69	called	Occurence	283
+Event	146	extinguished	Occurence	672
+Event	75	fire	Occurence	312
+Event	139	fight	Occurence	645
+Event	37	Fire	Occurence	123
+Event	180	cause	Occurence	835
+Relation	37	38	SuperSub	true	Fire	Destroys
+Relation	69	75	SubSuper	true	called	fire
+Relation	139	141	SuperSub	true	fight	fire
+Relation	141	146	SuperSub	true	fire	extinguished
+Relation	139	146	SubSuper	true	fight	extinguished
+Relation	177	183	SubSuper	true	investigation	fire
+Relation	177	180	SubSuper	true	investigation	cause
+Relation	177	195	SuperSub	true	investigation	call

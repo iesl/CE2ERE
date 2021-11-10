@@ -1,0 +1,18 @@
+Text	https :// law. marquette. edu/national-sports-law-institute/volume-7-1 Jim O'Brien was terminated from his position as head men's basketball coach at Ohio State University following the disclosure that he loaned a recruit's mother money. O'Brien sued, claiming he was terminated without cause, and both parties filed motions for summary judgment. The court of claims denied the motions because there was a factual dispute concerning what constituted a material breach under the employment contract.
+Event	52	sued	Occurence	246
+Event	42	disclosure	Occurence	186
+Event	27	terminated	Occurence	87
+Event	88	breach	Occurence	461
+Event	82	dispute	Occurence	414
+Event	57	terminated	Occurence	268
+Event	45	loaned	Occurence	205
+Event	68	judgment	Occurence	337
+Event	74	denied	Occurence	367
+Event	64	filed	Occurence	311
+Relation	27	45	SubSuper	true	terminated	loaned
+Relation	27	42	SubSuper	true	terminated	disclosure
+Relation	52	57	SubSuper	true	sued	terminated
+Relation	57	64	SuperSub	true	terminated	filed
+Relation	64	68	SuperSub	true	filed	judgment
+Relation	74	82	SubSuper	true	denied	dispute
+Relation	82	88	SubSuper	true	dispute	breach

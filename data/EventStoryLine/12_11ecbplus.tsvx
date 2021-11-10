@@ -1,0 +1,22 @@
+Text	http://www. indianexpress. com/news/ins-sukanya-foils-piracy-attempt-in-gulf-of-eden/874560/INS Sukanya foils piracy attempt in Gulf of Eden Sat Nov 12 2011, 01:19 hrs Warship INS Sukanya on Thursday foiled a piracy attempt in the Gulf of Aden between Somalia and Yemen. The ship was escorting a group of five merchant vessels through the Internationally Recognised Transit Corridor ( IRTC ) when the bid occurred. This is the fifth anti-piracy operation carried out by the warship after it was sent for patrol missions to the Gulf of Aden in September. The course of INS Sukanya was altered to intercept boats targeting the merchant vessels. "The incident occurred around 9. 25 am when five boats were seen approaching the vessels... Seeing the warship headed in their direction, the skiffs tried to escape. While two of them managed to flee, boarding-and-search operations were carried out on the other three, " a defence spokesperson said. Six AK 47 rifles, 12 magazines and 300 rounds of ammunition were seized from the boats. They had 26 crewmen aboard, all Somalian nationals. "We also managed to find grapnels, ladders and rope-handling gloves, which are proof that those caught were pirates. "
+Event	59	attempt	Occurence	216
+Event	55	Thursday	Occurence	191
+Event	92	occurred	Occurence	405
+Event	73	escorting	Occurence	284
+Event	35	foils	Occurence	104
+Event	37	attempt	Occurence	117
+Event	56	foiled	Occurence	200
+Event	91	bid	Occurence	401
+Relation	55	56	SuperSub	true	Thursday	foiled
+Relation	55	59	SuperSub	true	Thursday	attempt
+Relation	55	73	SuperSub	true	Thursday	escorting
+Relation	55	91	SuperSub	true	Thursday	bid
+Relation	55	92	SuperSub	true	Thursday	occurred
+Relation	55	35	SuperSub	true	Thursday	foils
+Relation	55	37	SuperSub	true	Thursday	attempt
+Relation	35	91	SubSuper	true	foils	bid
+Relation	56	91	SubSuper	true	foiled	bid
+Relation	56	59	SubSuper	true	foiled	attempt
+Relation	35	37	SubSuper	true	foils	attempt
+Relation	56	73	SubSuper	true	foiled	escorting
+Relation	35	73	SubSuper	true	foils	escorting

@@ -1,0 +1,57 @@
+Text	http://newsinfo. inquirer. net/breakingnews/world/view/20100505-268325/Deadly-fire-bomb-hits-bank-during-Greek-riots Deadly fire-bomb hits bank during Greek riots First Posted 23:37:00 05/05/2010 A fire-bomb attack on a bank in Greece killed at least three people Wednesday as police fought pitched battles with striking protestors furious at brutal budget cuts designed to avert national bankruptcy. Hooded youths hurled petrol bombs at stores and businesses in the center of the capital Athens and demonstrators tried to storm parliament during the general strike, as the rioting spread to the northern city of Thessaloniki. Police said two women and one man died at a branch of the Marfin bank which caught fire after rioters broke a window and threw Molotov cocktails inside. Around 20 more people had to be ushered to safety. "Nobody has the right to violence and particularly violence that leads to murder, " Prime Minister George Papandreou told parliament as he condemned "a raw murderous act". At least two other buildings, one used by tax officials, caught fire in other fire-bomb attacks on the margins of the protests. Athens underground stations were shuttered and the international airport deserted as tens of thousands of union members rallied on the eve of a vote in parliament on the planned cuts and tax hikes. The general strike was the first major test of the Socialist government's resolve to push through unprecedented measures since agreeing a ? 110-billion ( $143-billion ) EU and IMF debt bailout at the weekend. Papandreou's insistence that the measures are vital for the nation's survival failed to dissuade unions from paralyzing public services. After rallying in two separate demonstrations in central Athens, unionists marched on parliament where a vote on the measures will be held Thursday. "They're taking everything from me, I don't know how I'm going to get by, " said 61-year-old Anargyros Bizianis, a municipal worker in the Athens suburb of Piraeus who earns ? 900 a month. As the protestors tried to break through a police line in front of parliament, they first hurled stones and bottles of water, prompting officers to respond with tear gas. Full-scale clashes then erupted, with riot police trying to disperse the crowds with baton-charges. During the unrest, one protestor threw a petrol bomb. Youths also went on the rampage in other parts of the capital, with several dozen youths hurling petrol bombs at stores, smashing shop windows and bus shelters with iron bars. Athens police chiefs mobilized all their forces, including those not on active duty, by declaring a general state of alert. The protestors in Thessaloniki targeted stores and banks in the city center before they were dispersed by the anti-riot police. A group of about 200 communists had stormed the Athens Acropolis on Tuesday, unfurling banners reading "Peoples of Europe, Rise Up. " "The Greek people have been called to make sacrifices while the rich pay nothing, " said Giannis Panagopoulos, head of the GSEE private sector union. A government official downplayed the unrest saying that "for years there's been strikes and protests in this country without much consequence. " But markets reacted with alarm as Greek stocks closed down 3. 9 percent. Pushed to the brink of default, the government agreed at the weekend to slash spending and jack up taxes in return for 110 billion euros in loans over three years from eurozone countries and the International Monetary Fund. Among the major measures, the government is to cut 13th and 14th month bonus pay for civil servants and retirees; require three years more for pension contributions; and raise the retirement age for women to 65. After months of hesitation, eurozone countries and the IMF agreed to lend Greece billions at below market rates after concerns the Athens crisis could trigger a knock-on effect elsewhere. Fighting accusations of holding up the bailout, German Chancellor Angela Merkel said the crisis underlined the need for an overhaul of EU fiscal rules. "The future of Europe and the future of Germany within Europe is at stake, " she told a debate on Berlin's decision to lend ? 22. 4 billion to Greece.
+Event	137	died	Occurence	661
+Event	122	spread	Occurence	582
+Event	77	battles	Occurence	299
+Event	224	protests	Occurence	1121
+Event	44	riots	Occurence	157
+Event	154	threw	Occurence	748
+Event	88	avert	Occurence	374
+Event	81	furious	Occurence	332
+Event	112	storm	Occurence	523
+Event	86	designed	Occurence	362
+Event	67	killed	Occurence	235
+Event	40	hits	Occurence	134
+Event	85	cuts	Occurence	357
+Event	94	hurled	Occurence	415
+Event	150	broke	Occurence	729
+Event	61	attack	Occurence	208
+Event	75	fought	Occurence	284
+Event	79	striking	Occurence	312
+Event	121	rioting	Occurence	574
+Event	117	strike	Occurence	559
+Event	72	Wednesday	Occurence	264
+Event	218	attacks	Occurence	1091
+Event	90	bankruptcy	Occurence	389
+Relation	72	61	SuperSub	true	Wednesday	attack
+Relation	72	67	SuperSub	true	Wednesday	killed
+Relation	72	75	SuperSub	true	Wednesday	fought
+Relation	72	77	SuperSub	true	Wednesday	battles
+Relation	72	79	SuperSub	true	Wednesday	striking
+Relation	72	85	SuperSub	true	Wednesday	cuts
+Relation	72	94	SuperSub	true	Wednesday	hurled
+Relation	72	112	SuperSub	true	Wednesday	storm
+Relation	72	117	SuperSub	true	Wednesday	strike
+Relation	72	121	SuperSub	true	Wednesday	rioting
+Relation	72	122	SuperSub	true	Wednesday	spread
+Relation	72	137	SuperSub	true	Wednesday	died
+Relation	72	150	SuperSub	true	Wednesday	broke
+Relation	72	154	SuperSub	true	Wednesday	threw
+Relation	72	218	SuperSub	true	Wednesday	attacks
+Relation	72	224	SuperSub	true	Wednesday	protests
+Relation	40	44	SubSuper	true	hits	riots
+Relation	61	67	SuperSub	true	attack	killed
+Relation	44	61	SuperSub	true	riots	attack
+Relation	44	85	SubSuper	true	riots	cuts
+Relation	75	77	SubSuper	true	fought	battles
+Relation	79	85	SubSuper	true	striking	cuts
+Relation	81	85	SubSuper	true	furious	cuts
+Relation	85	88	SuperSub	true	cuts	avert
+Relation	94	121	SubSuper	true	hurled	rioting
+Relation	85	121	SuperSub	true	cuts	rioting
+Relation	112	121	SubSuper	true	storm	rioting
+Relation	117	121	SuperSub	true	strike	rioting
+Relation	85	117	SuperSub	true	cuts	strike
+Relation	218	224	SubSuper	true	attacks	protests
+Relation	85	224	SuperSub	true	cuts	protests
+Relation	72	86	SuperSub	true	Wednesday	designed
+Relation	72	90	SuperSub	true	Wednesday	bankruptcy

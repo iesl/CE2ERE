@@ -285,7 +285,7 @@ class Vector_BiLSTM_MLP(Module):
         output_B = self.MLP(output_B)
         output_C = self.MLP(output_C)
 
-        if self.data_type == "hieve":
+        if self.data_type == "hieve" or self.data_type == "esl":
             output_A1 = self.FF1_MLP_hieve(output_A) #[batch_size, mlp_output_dim]; [64, 32]
             output_B1 = self.FF1_MLP_hieve(output_B)
             output_C1 = self.FF1_MLP_hieve(output_C)
@@ -430,7 +430,7 @@ class Box_BiLSTM_MLP(Module):
         pairAC = self._get_pairwise_representation(output_A, output_C)
 
         # projection layers
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             # event word
             output_A = self.MLP_hieve(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
             output_B = self.MLP_hieve(output_B).unsqueeze(1)

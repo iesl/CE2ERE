@@ -118,7 +118,10 @@ class Trainer:
                 logger.info("Training start...")
                 logger.info("======== Epoch {:} / {:} ========".format(epoch, self.epochs))
                 loss_vals = []
-                for step, batch in enumerate(tqdm(self.train_dataloader)):
+                for tmp in iter(self.train_dataloader):
+                    tmp = tmp
+                # for step, batch in enumerate(tqdm(self.train_dataloader)):
+                for step, batch in enumerate(self.train_dataloader):
                     device = self.device
                     if self.model_type == "box":
                         xy_rel_id = torch.stack(batch[12], dim=-1).to(device) # [batch_size, 2]
@@ -174,7 +177,7 @@ class Trainer:
                         batch_size = xy_rel_id.size(0)
                         alpha, beta, gamma = self.model(batch, device) # [batch_size, 8]
 
-                        if self.data_type == "hieve":
+                        if self.data_type == "hieve" or self.data_type == "esl":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["hieve"](alpha, xy_rel_id) + self.loss_anno_dict["hieve"](beta, yz_rel_id) + self.loss_anno_dict["hieve"](gamma, xz_rel_id))
                         elif self.data_type == "matres":
                             loss = self.lambda_dict["lambda_anno"] * (self.loss_anno_dict["matres"](alpha, xy_rel_id) + self.loss_anno_dict["matres"](beta, yz_rel_id) + self.loss_anno_dict["matres"](gamma, xz_rel_id))
@@ -219,7 +222,7 @@ class Trainer:
     def evaluation(self, epoch: Optional[int] = -1):
         valid_metrics, test_metrics = {}, {}
         cv_valid_metrics, cv_test_metrics = {}, {} # constraint violation dict
-        if self.data_type == "hieve" or self.data_type == "joint":
+        if self.data_type == "hieve" or self.data_type == "esl" or self.data_type == "joint":
             valid_metric = self.evaluator.evaluate("hieve", "valid")
             valid_metrics.update(valid_metric)
 
@@ -249,10 +252,12 @@ class Trainer:
             logger.info("cv_test_metrics: {0}".format(cv_test_metrics))
             wandb.log(test_metrics, commit=False)
 
-        if self.data_type == "hieve":   # single task
-            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
+        if self.data_type == "hieve" or self.data_type == "esl":   # single task
+            data_type = "hieve"
+            f1_score = valid_metrics[f"[valid-{data_type}] F1 Score"]
         elif self.data_type == "matres":
-            f1_score = valid_metrics[f"[valid-{self.data_type}] F1 Score"]
+            data_type = "matres"
+            f1_score = valid_metrics[f"[valid-{data_type}] F1 Score"]
         else:                           # joint task
             f1_score = valid_metrics[f"[valid-hieve] F1 Score"] + valid_metrics[f"[valid-matres] F1 Score"]
 
@@ -386,7 +391,7 @@ class ThresholdEvaluator:
                 elif self.model_type == "vector":
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA = self.model(batch, device)  # [batch_size, # of datasets]
                 if vol_AB.shape[-1] == 2:
-                    if data_type == "hieve":
+                    if data_type == "hieve" or data_type == "esl":
                         vol_AB, vol_BA = vol_AB[:, 0][flag == 0], vol_BA[:, 0][flag == 0]  # [batch_size]
                         vol_BC, vol_CB = vol_BC[:, 0][flag == 0], vol_CB[:, 0][flag == 0]
                         vol_AC, vol_CA = vol_AC[:, 0][flag == 0], vol_CA[:, 0][flag == 0]
@@ -405,7 +410,7 @@ class ThresholdEvaluator:
                     vol_BC, vol_CB = vol_BC.squeeze(1), vol_CB.squeeze(1)
                     vol_AC, vol_CA = vol_AC.squeeze(1), vol_CA.squeeze(1)
 
-                if data_type == "hieve":
+                if data_type == "hieve" or data_type == "esl":
                     threshold = self.hieve_threshold
                 if data_type == "matres":
                     threshold = self.matres_threshold
@@ -462,7 +467,7 @@ class ThresholdEvaluator:
                     vol_AB, vol_BA, vol_BC, vol_CB, vol_AC, vol_CA = self.model(batch, device)  # [batch_size, # of datasets]
 
                 if vol_AB.shape[-1] == 2:
-                    if data_type == "hieve":
+                    if data_type == "hieve" or data_type == "esl":
                         h_vol_A_B, h_vol_B_A = vol_AB[:, 0], vol_BA[:, 0] # [batch_size]
                         h_vol_B_C, h_vol_C_B = vol_BC[:, 0], vol_CB[:, 0]
                         h_vol_A_C, h_vol_C_A = vol_AC[:, 0], vol_CA[:, 0]
@@ -553,7 +558,7 @@ class VectorBiLSTMEvaluator:
                     beta_indices = torch.max(beta, 1).indices
                     gamma_indices = torch.max(gamma, 1).indices
                 else:
-                    if data_type == "hieve":
+                    if data_type == "hieve" or data_type == "esl":
                         pred = torch.max(alpha[:, 0:4], 1).indices.cpu().numpy() # [16, 4]
                         alpha_indices = torch.max(alpha[:, 0:4], 1).indices
                         beta_indices = torch.max(beta[:, 0:4], 1).indices

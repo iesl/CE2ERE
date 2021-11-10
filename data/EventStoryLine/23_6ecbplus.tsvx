@@ -1,0 +1,42 @@
+Text	http://www. theaustralian. com. au/news/world/australian-english-climbers-killed-in-new-zealand/story-e6frg6so-1226720045327 Australian, English climbers killed in New Zealand SEPTEMBER 16, 2013 11:12AM ONE Australian and one English climber have fallen to their deaths in New Zealand, police confirmed today. Police Inspector Dave Gaskin said the two incidents on consecutive days in the Aoraki-Mt. Cook National Park were not related and were not due to bad weather. He said they come as a reminder that climbers need to use extreme caution. On Friday, 36-year-old Duncan Rait died after slipping and falling about 60m from a ridge near the Tasman Glacier. The New Zealand-born Australian was planning to do some ski touring. He'd been dropped off by helicopter with a group and was walking to a hut when he fell, sliding down a steep slope and over a cliff. Gaskin said that other climbers attempted to rescue Rait by taking him down the glacier, but that he died on the way down. On Saturday, 32-year-old Englishman Robert Buckley fell about 600m while climbing to a small hut on Mount Sefton with three companions. Gaskin said Buckley was wearing crampons but was inexperienced.
+Event	220	fell	Occurence	1035
+Event	130	falling	Occurence	603
+Event	172	fell	Occurence	810
+Event	203	died	Occurence	962
+Event	117	Friday	Occurence	547
+Event	194	taking	Occurence	921
+Event	61	deaths	Occurence	263
+Event	191	rescue	Occurence	906
+Event	174	sliding	Occurence	816
+Event	210	Saturday	Occurence	987
+Event	224	climbing	Occurence	1057
+Event	128	slipping	Occurence	590
+Event	68	today	Occurence	303
+Event	58	fallen	Occurence	247
+Event	126	died	Occurence	579
+Event	166	walking	Occurence	785
+Event	40	killed	Occurence	154
+Relation	68	58	SubSuper	true	today	fallen
+Relation	68	61	SubSuper	true	today	deaths
+Relation	117	126	SuperSub	true	Friday	died
+Relation	117	128	SuperSub	true	Friday	slipping
+Relation	117	130	SuperSub	true	Friday	falling
+Relation	117	166	SuperSub	true	Friday	walking
+Relation	117	172	SuperSub	true	Friday	fell
+Relation	117	174	SuperSub	true	Friday	sliding
+Relation	117	191	SuperSub	true	Friday	rescue
+Relation	117	194	SuperSub	true	Friday	taking
+Relation	117	203	SuperSub	true	Friday	died
+Relation	210	220	SuperSub	true	Saturday	fell
+Relation	210	224	SuperSub	true	Saturday	climbing
+Relation	40	58	SubSuper	true	killed	fallen
+Relation	58	61	SuperSub	true	fallen	deaths
+Relation	126	130	SubSuper	true	died	falling
+Relation	128	130	SuperSub	true	slipping	falling
+Relation	166	172	SuperSub	true	walking	fell
+Relation	172	174	SuperSub	true	fell	sliding
+Relation	172	191	SuperSub	true	fell	rescue
+Relation	191	194	SubSuper	true	rescue	taking
+Relation	220	224	SubSuper	true	fell	climbing
+Relation	194	203	SuperSub	true	taking	died
+Relation	166	174	SuperSub	true	walking	sliding

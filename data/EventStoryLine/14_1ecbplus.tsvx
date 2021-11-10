@@ -1,0 +1,14 @@
+Text	http://www. bbc. co. uk/news/uk-england-somerset-23395104 21 July 2013 Last updated at 11:11 GMT Waitrose fire in Wellington town centre tackled Crews from Devon and Somerset Fire and Rescue have tackled a blaze at a supermarket in a Somerset town. The fire service was called at 06:00 BST to the Waitrose store in High Street, Wellington, on Sunday. Half the roof at the entrance of the building has collapsed but the main building is in intact with only smoke damage, fire crews said. Matt Goodman, from the fire service, said:"It would appear the fire started on the outside of the building. " "It then quickly spread to the roof so there is a significant amount of damage to the roof, but thankfully due to the early actions of the Wellington crew we could get a large weight of response to the scene. "We've been able to prevent it spreading to other areas of the building, so the main store on the inside has got a reasonably small amount of smoke damage. " Engineers were called to switch off the electricity supply to the building. A spokesman for Waitrose said:"Luckily no-one has been hurt and we are very grateful to the fire service and police for their prompt and professional help. " An investigation into the cause of the fire has begun.
+Event	80	Sunday	Occurence	343
+Event	48	tackled	Occurence	196
+Event	50	blaze	Occurence	206
+Event	38	tackled	Occurence	137
+Event	33	fire	Occurence	106
+Event	63	called	Occurence	270
+Relation	80	33	SuperSub	true	Sunday	fire
+Relation	80	38	SuperSub	true	Sunday	tackled
+Relation	80	48	SuperSub	true	Sunday	tackled
+Relation	80	50	SuperSub	true	Sunday	blaze
+Relation	33	38	SuperSub	true	fire	tackled
+Relation	48	50	SubSuper	true	tackled	blaze
+Relation	50	63	SubSuper	true	blaze	called

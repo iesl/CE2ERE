@@ -1,0 +1,46 @@
+Text	http://druzifer. livejournal. com/208067. html 12 January 2010 @ 09:29 pm FALLOUT CONTINUES AFTER BRAZEN ESCAPE The Texas Department of Criminal Justice has made sweeping leadership changes at a Huntsville prison where an inmate managed to get a gun that he later used to escape, the agency announced Tuesday. The Nov. 30 escape by Arcade Joseph Comeaux Jr., a convicted rapist recaptured last month after eight days on the run in Baytown and Houston, has led to unprecedented fallout at the prison unit where he was housed, with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident, said TDCJ Inspector General John Moriarty. Comeaux, 49, escaped from a prison van in Baytown after he pulled a gun on two TDCJ officers driving him to another prison in Beaumont. He was at large until Dec. 7, when he was found shoeless, wet and hungry at a north Houston business, where he asked to use the phone. So far, 11 Estelle unit employees have been recommended for termination or faced consequences related to Comeaux's escape. Four of those elected to retire instead of facing disciplinary action, including the two officers who drove Comeaux in the van on the day he escaped. Whitmire questioned why several prisons, including the Estelle unit, stopped searching visitors two months before Comeaux's escape and moved to random pat-downs. Since Comeaux's jailbreak, all visitors and employees at the Estelle prison unit are again subject to mandatory pat-downs, Lyons said.
+Event	220	disciplinary	Occurence	1131
+Event	257	escape	Occurence	1355
+Event	66	escape	Occurence	322
+Event	221	action	Occurence	1144
+Event	122	incident	Occurence	634
+Event	77	recaptured	Occurence	378
+Event	26	ESCAPE	Occurence	105
+Event	95	fallout	Occurence	477
+Event	60	Tuesday	Occurence	301
+Event	22	FALLOUT	Occurence	74
+Event	251	searching	Occurence	1308
+Event	114	termination	Occurence	579
+Event	37	changes	Occurence	182
+Event	205	consequences	Occurence	1039
+Event	209	escape	Occurence	1073
+Event	151	driving	Occurence	780
+Event	216	retire	Occurence	1106
+Event	144	pulled	Occurence	746
+Event	53	used	Occurence	264
+Event	135	escaped	Occurence	700
+Event	75	convicted	Occurence	361
+Event	117	action	Occurence	607
+Event	55	escape	Occurence	272
+Event	240	questioned	Occurence	1240
+Event	202	termination	Occurence	1018
+Relation	66	77	SuperSub	true	escape	recaptured
+Relation	66	95	SuperSub	true	escape	fallout
+Relation	114	122	SubSuper	true	termination	incident
+Relation	117	122	SubSuper	true	action	incident
+Relation	135	144	SubSuper	true	escaped	pulled
+Relation	135	151	SubSuper	true	escaped	driving
+Relation	202	209	SubSuper	true	termination	escape
+Relation	205	209	SubSuper	true	consequences	escape
+Relation	209	216	SuperSub	true	escape	retire
+Relation	209	221	SuperSub	true	escape	action
+Relation	240	257	SubSuper	true	questioned	escape
+Relation	251	257	SuperSub	true	searching	escape
+Relation	37	55	SubSuper	true	changes	escape
+Relation	22	26	SubSuper	true	FALLOUT	ESCAPE
+Relation	60	22	SuperSub	true	Tuesday	FALLOUT
+Relation	60	37	SuperSub	true	Tuesday	changes
+Relation	60	53	SubSuper	true	Tuesday	used
+Relation	60	55	SubSuper	true	Tuesday	escape
+Relation	220	221	SuperSub	true	disciplinary	action
+Relation	75	114	SuperSub	true	convicted	termination

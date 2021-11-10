@@ -1,0 +1,35 @@
+Text	http://www. reuters. com/article/2011/11/10/us-southsudan-bombing-idUSTRE7A94OI20111110 South Sudan accuses Sudan of air strike on refugee camp Thu Nov 10, 2011 3:00pm EST A refugee camp in South Sudan's Unity state was bombed Thursday, South Sudan officials and witnesses said, threatening to raise tensions with Sudan in the violence-plagued border region. Taban Deng, the governor of Unity state, accused Sudan of carrying out the attack. "These people ( Khartoum ) should be taken to book. They should adhere to international laws and regulations, " he told reporters in Bentiu. Sudan's armed forces denied they carried out the strike. In a statement before the bombing, South Sudan's president Salva Kiir talked of Sudan's "pending invasion" of its neighbor. Violence along the poorly defined border since South Sudan's independence in July has strained ties between the two former civil war foes. They have accused one another of backing rebel groups on their sides of the border. A Reuters correspondent heard a large explosion in the Yida refugee camp, then saw a crater about two meters ( 6. 6 feet ) wide, an unexploded bomb wedged in the side of a school building and a white aircraft flying north. Witnesses said there were three further explosions at 3 p.m. ( 1200 GMT ). Yida is a camp of about 20, 000 refugees from the Nuba mountains region of South Kordofan, a state north of the border where rebels have been fighting Sudan's army since June. Khartoum reported fresh clashes in the state Thursday. There were no immediate reports of any casualties at the camp, less than 25 km ( 15 miles ) from the border with Sudan. A spokesman for the Enough Project, an activist group that works to end genocide, said the group confirmed there were no dead or wounded. "The refugees need to be safe and need to be protected. They ran away from war. They should not be pursued inside the territory of South Sudan, " Deng, the governor, said. Al-Sawarmi Khalid, spokesman for Sudan's armed forces, said Sudan had not bombed anywhere in South Sudan's territory. "South Sudan is a state in the United Nations. We respect international law, and it's impossible that we would do that, " he said. Khalid said Sudanese forces fought rebels in South Kordofan about five kilometers south of the town of Taludi Thursday, killing dozens and destroying a tank and other military vehicles. Fighting has also broken out in Sudan's Blue Nile state this year. The two states are home to tens of thousands of fighters who sided with the south during the war but were left in Sudan when South Sudan seceded, analysts say. South Sudan split off into a separate country in July after voting overwhelmingly for secession in a January referendum, the culmination of a 2005 peace deal that ended decades of war between north and south. VOLATILE BORDER Fire crackled in the dry grass around the crater about 100 meters away from an aid agency compound in Yida camp. "They ( Khartoum ) don't want any life in the Nuba mountains, and now they are expanding the war to the South Sudan republic, " said Yousif Ismail, a refugee from the Nuba mountains, as he stood by the hole. Last week, Khartoum submitted its second complaint to the U. N. Security Council, accusing South Sudan of supplying anti-aircraft and anti-tank missiles, ammunition, landmines and mortars to insurgents in South Kordofan and Blue Nile states. Kiir denied those claims in a statement Thursday, calling them "smoke screens to mask Khartoum's own activities in support of the armed dissident groups that are fighting its proxy war against the Republic of South Sudan. " The accusations were being used to justify Sudan's "pending invasion of the South, " Kiir said. The two countries have yet to agree on how much the new nation will pay to use Sudan's oil pipelines and other facilities, which South Sudan depends on to export crude. They also dispute control of the Abyei region. Some 2 million people died in the north-south civil war, waged for all but a few years since 1955 over religion, ideology, ethnicity and oil.
+Event	195	heard	Occurence	1011
+Event	130	strike	Occurence	632
+Event	206	saw	Occurence	1066
+Event	235	flying	Occurence	1196
+Event	66	raise	Occurence	294
+Event	55	Thursday	Occurence	227
+Event	221	unexploded	Occurence	1119
+Event	307	casualties	Occurence	1555
+Event	223	wedged	Occurence	1135
+Event	67	tensions	Occurence	300
+Event	28	accuses	Occurence	100
+Event	198	explosion	Occurence	1025
+Event	64	threatening	Occurence	279
+Event	54	bombed	Occurence	220
+Relation	55	28	SuperSub	true	Thursday	accuses
+Relation	55	54	SuperSub	true	Thursday	bombed
+Relation	55	64	SuperSub	true	Thursday	threatening
+Relation	55	66	SuperSub	true	Thursday	raise
+Relation	55	67	SuperSub	true	Thursday	tensions
+Relation	55	130	SuperSub	true	Thursday	strike
+Relation	55	195	SuperSub	true	Thursday	heard
+Relation	55	198	SuperSub	true	Thursday	explosion
+Relation	55	221	SuperSub	true	Thursday	unexploded
+Relation	55	206	SuperSub	true	Thursday	saw
+Relation	55	221	SuperSub	true	Thursday	unexploded
+Relation	55	223	SuperSub	true	Thursday	wedged
+Relation	55	235	SuperSub	true	Thursday	flying
+Relation	55	307	SuperSub	true	Thursday	casualties
+Relation	54	67	SuperSub	true	bombed	tensions
+Relation	54	64	SuperSub	true	bombed	threatening
+Relation	130	198	SuperSub	true	strike	explosion
+Relation	54	223	SuperSub	true	bombed	wedged
+Relation	54	198	SuperSub	true	bombed	explosion
+Relation	54	307	SuperSub	true	bombed	casualties

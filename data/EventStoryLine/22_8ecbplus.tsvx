@@ -1,0 +1,22 @@
+Text	http://philadelphia. xcbslocal. com/2010/09/10/3-shot-at-kraft-plant-in-ne-phila/2 Dead, 1 Wounded in Shooting at NE Phila. Kraft Plant September 10, 2010 10:14 AM Police say two people have been killed and another wounded in a shooting at the Kraft Foods plant in Northeast Philadelphia. The alleged shooter is in police custody. KYW's Pat Loeb reports that the shooting took place just after 8:30pm Thursday night inside the old Nabisco factory, along the 12000 block of Roosevelt Boulevard, at Woodhaven Road. Authorities say the incident began after the fifteen-year employee, 43-year-old Yvonne Hiller, was suspended. Police commissioner Charles Ramsey says she was escorted out of the building and was outside for nine minutes before coming back:" She drove her car through a barrier and entered the premises. She had a. 357 magnum. Made her way to the third-floor mixing room, where she encountered at least three of the employees. Two, she shot and killed there in the room. A third was also shot. " The third victim, identified as Brian Dalton, was rushed to Aria Health's Torresdale campus with a gunshot wound. He was later transferred to Jefferson and listed in stable condition. Officers responded to 911 calls from other employees inside the building, arriving with SWAT teams and other personnel who were trained in an " active shooter " situation, according to Commissioner Ramsey. He says most of the other 100 workers inside were able to get out safely. Seven employees were trapped near the shooter, but cops say they were able to free them, disarm the woman, and take her into custody. KYW's Paul Kurtz reports that Commissioner Ramsey credits a special training program for preventing even more bloodshed last night. The commissioner says he's put many officers through what's called " active shooter " training for first-responding officers:" We ' ve learned from Columbine and other places that you can ' t wait, you can ' t just sit there and wait for SWAT. You ' ve got to at least make entry and try to get as many people out as possible, isolate the shooter, and then hopefully SWAT arrives in enough time to take care of the situation. They did an excellent job, the 7th and 8th Districts in particular. Those officers did an outstanding job. " And it turns out that at least seven of the officers who rushed to the Kraft factory had " active shooter " training. Ramsey says he plans to expand the program. Hiller is expected to be arraigned on two murder charges and one attempted murder charge later today. Kraft Foods issued a statement early this morning announcing that the Northeast facility is closed until further notice. The statement expresses condolences for the families of the dead and wounded employees, saying, " This is a tragic loss for all of us. " It states that Kraft is working closely with the authorities as they investigate and will be providing counseling services for employees at the facility.
+Event	209	shot	Occurence	948
+Event	211	killed	Occurence	957
+Event	66	shooting	Occurence	228
+Event	221	shot	Occurence	1000
+Event	92	shooting	Occurence	363
+Event	141	suspended	Occurence	612
+Event	39	Shooting	Occurence	102
+Event	60	killed	Occurence	196
+Event	123	incident	Occurence	533
+Event	34	Dead	Occurence	83
+Event	37	Wounded	Occurence	91
+Event	63	wounded	Occurence	215
+Relation	34	39	SubSuper	true	Dead	Shooting
+Relation	37	39	SubSuper	true	Wounded	Shooting
+Relation	60	66	SubSuper	true	killed	shooting
+Relation	63	66	SubSuper	true	wounded	shooting
+Relation	123	141	SubSuper	true	incident	suspended
+Relation	92	141	SubSuper	true	shooting	suspended
+Relation	141	209	SuperSub	true	suspended	shot
+Relation	141	221	SuperSub	true	suspended	shot
+Relation	209	211	SuperSub	true	shot	killed

@@ -1,0 +1,10 @@
+Text	http://ktla. com/2013/05/03/lohan-may-miss-rehab-deadline-dad-says/Lohan Checks into Betty Ford, Rehires Attorney After she abruptly left a rehab facility in Newport Beach on Thursday, Lindsay Lohan has checked into the Betty Ford Center in Rancho Mirage. The actress, 26, checked in late Thursday night, TMZ reports, barely making the deadline and dodging an arrest warrant. TMZ also reports that Lohan has re-hired attorney Shawn Holley. Lohan had checked into Morningside Recovery Center Thursday morning, but then left because " she was not happy with the place, " her father said.
+Event	80	deadline	Occurence	336
+Event	48	Thursday	Occurence	175
+Event	112	left	Occurence	518
+Event	118	happy	Occurence	545
+Event	84	arrest	Occurence	360
+Event	35	Rehires	Occurence	97
+Relation	48	35	SuperSub	true	Thursday	Rehires
+Relation	112	118	SubSuper	true	left	happy
+Relation	80	84	SuperSub	true	deadline	arrest

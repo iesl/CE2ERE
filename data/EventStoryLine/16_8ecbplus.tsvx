@@ -1,0 +1,21 @@
+Text	http://www. streetgangs. com/news/062405-sheriffs-deputy Sheriff's Deputy Shot and Killed June 24, 2005 A 35-year-old sheriff's deputy working with an anti-gang unit was killed Friday when he knocked on the door of a home and someone shot him in the head, authorities said. Deputy Jerry Ortiz had gone to the home to speak to a woman there as part of a gang investigation when he was attacked, Undersheriff Larry Waldie told reporters Friday night. Ortiz probably died instantly, Waldie said. " Someone came out either nearby or from the residence and put a bullet through his head, " Waldie said. Los Angeles County Sheriff Lee Baca, who was out of state attending a convention, made plans to return to Southern California immediately. The deputy, who was wed about three weeks ago, is survived by his wife and two sons, ages 16 and 6, Waldie said. He was a 15-year veteran of the department and had been a member of its anti-gang unit for the past five years. Authorities said they believe they know the identity of the shooter, although the person was not immediately taken into custody. Deputies cordoned off streets in the neighborhood and were searching for the suspect Friday night. A passer-by who found the wounded deputy shortly after 3 p.m. called the Lakewood sheriff's station to report the shooting, said sheriff's Sgt. Vanette Christiansen. " Our Lakewood units responded out and in fact we found a deputy who works our gang enforcement team who had gunshot wounds, " she said. Another deputy fell and suffered a minor injury responding to the crime scene.
+Event	104	died	Occurence	464
+Event	48	Friday	Occurence	177
+Event	47	killed	Occurence	170
+Event	22	Shot	Occurence	74
+Event	39	working	Occurence	135
+Event	60	shot	Occurence	234
+Event	24	Killed	Occurence	83
+Event	51	knocked	Occurence	192
+Relation	48	60	SuperSub	true	Friday	shot
+Relation	48	22	SuperSub	true	Friday	Shot
+Relation	48	24	SuperSub	true	Friday	Killed
+Relation	48	39	NoRel	true	Friday	working
+Relation	48	47	SuperSub	true	Friday	killed
+Relation	48	51	SuperSub	true	Friday	knocked
+Relation	48	104	SuperSub	true	Friday	died
+Relation	22	24	SuperSub	true	Shot	Killed
+Relation	39	47	SuperSub	true	working	killed
+Relation	47	51	SubSuper	true	killed	knocked
+Relation	47	60	SubSuper	true	killed	shot
+Relation	60	104	SuperSub	true	shot	died

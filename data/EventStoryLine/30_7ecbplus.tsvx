@@ -1,0 +1,10 @@
+Text	http://kim. wits. ac. za/index. php ? module=news&action=viewstory&id=gen11Srv0Nme53_84584_1313485720 BRIEF UNPLANNED SEACOM CABLE INTERNET OUTAGE 16 August 2011 ( Tue, 16 Aug 2011 ) This morning one of the Wits Internet Service providers, SEACOM, experienced an outage affecting International Internet browsing. The service is now back online. TENET will continue to monitor and ensure that it is stable however, but from the looks of things traffic should now be flowing normally again. According to information from SEACOM the outage was caused by a terrestrial break in the fibre in Egypt on the SMW4 cable system. Once we have official confirmation/an incident report we will send more information. Always at your service.
+Event	52	outage	Occurence	263
+Event	27	OUTAGE	Occurence	140
+Event	69	monitor	Occurence	368
+Event	53	affecting	Occurence	270
+Event	71	ensure	Occurence	380
+Relation	27	53	SuperSub	true	OUTAGE	affecting
+Relation	52	53	SuperSub	true	outage	affecting
+Relation	52	69	SuperSub	true	outage	monitor
+Relation	52	71	SuperSub	true	outage	ensure

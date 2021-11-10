@@ -1,0 +1,16 @@
+Text	http://www. thesun. co. uk/sol/homepage/news/4961313/Man-held-after-sister-and-mum-are-both-murdered-in-Cumbria. html Man held after sis and mum murdered Published:09th June 2013 A MAN was last night being quizzed by cops over the double murders of his mum and sister. Unemployed John Jenkin, 23, was arrested yesterday moments after armed cops arrived following a 999 call.
+Event	50	murdered	Occurence	145
+Event	83	yesterday	Occurence	310
+Event	62	quizzed	Occurence	206
+Event	82	arrested	Occurence	301
+Event	68	murders	Occurence	238
+Event	45	held	Occurence	122
+Event	88	arrived	Occurence	345
+Relation	83	82	SuperSub	true	yesterday	arrested
+Relation	83	88	SuperSub	true	yesterday	arrived
+Relation	45	50	SubSuper	true	held	murdered
+Relation	68	82	SuperSub	true	murders	arrested
+Relation	62	68	SubSuper	true	quizzed	murders
+Relation	62	82	SubSuper	true	quizzed	arrested
+Relation	82	88	SubSuper	true	arrested	arrived
+Relation	68	88	SuperSub	true	murders	arrived

@@ -68,6 +68,8 @@ def tokenized_to_origin_span(doc_content: str, tokenized_sntc: List[str]) -> Lis
     pointer = 0
     for sntc in tokenized_sntc:
         while True:
+            if sntc == '':
+                sntc = ' '
             if sntc[0] == doc_content[pointer]:
                 start = pointer
                 end = start + len(sntc) - 1
@@ -147,6 +149,9 @@ def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional
 def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
     doc_content = data_dict["doc_content"]
     data_dict["sentences"] = []
+    doc_id = None
+    # max_sntc_len = 0
+    # max_sntc = ""
 
     tokenized_sntc = sent_tokenize(doc_content) # split document into sentences
     sntc_span = tokenized_to_origin_span(doc_content, tokenized_sntc)
@@ -161,6 +166,12 @@ def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
         spacy_tokens = nlp(sntc_dict["content"])
         sntc_dict["tokens"] = []
         sntc_dict["pos"] = []
+
+        # sntc_len = len(sntc)
+        # if sntc_len > max_sntc_len:
+        #     doc_id = data_dict["doc_id"]
+        #     max_sntc_len = sntc_len
+        #     max_sntc = sntc
 
         # spaCy-tokenized tokens & Part-Of-Speech Tagging
         for token in spacy_tokens:
@@ -187,6 +198,9 @@ def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
                 sntc_dict["roberta_subword_pos"].append(sntc_dict["pos"][token_id])
 
         data_dict["sentences"].append(sntc_dict)
+        # print(f"doc id: {doc_id}")
+        # print(f"Max sntc len: {max_sntc_len}")
+        # print(max_sntc)
     return data_dict
 
 

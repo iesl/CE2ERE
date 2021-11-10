@@ -1,0 +1,29 @@
+Text	http://news4allz. blogspot. nl/2010/09/kraft-shooting-yvonne-hiller-charged. html 11/09/2010 Kraft Shooting:Yvonne Hiller Charged With Two Counts Of Murder A Kraft Foods plant worker who had been suspended for feuding with colleagues, then escorted from the building, returned minutes later with a handgun, found her foes in a break room and executed two of them with a single bullet each and critically wounded a third, police said Friday. Yvonne Hiller, 43, had gotten into an argument Thursday evening with her co-workers at the northeast Philadelphia plant, police said. After she was disciplined, she went to her vehicle, made several phone calls, and then grabbed a. 357 Magnum and used it to force her way past security guards at the front gate. About 100 people were at work at the plant, which makes Nabisco cookies and crackers. Hiller walked to the third-floor mixing area and found four people in the break room. She had no quarrels with one woman and told her to leave. She then opened fire on the others, Philadelphia Homicide Capt. James Clark said. "She believed they were spraying chemicals at her, saying things behind her back, " Clark said. After leaving the break room, Hiller went down a hallway and fired shots at the supervisor who had suspended her and at a mechanic who was using a walkie-talkie to alert police and co-workers to her whereabouts, police said. She missed both. Hiller finally went to a second-floor office and called police to tell them what she had done, authorities said. Seven other workers were hiding in a closet nearby. Cpl. Janice Leader, a 911 dispatcher, told reporters Friday that Hiller called 911, saying "I'm the one you're looking for" and reporting that she had been harassed at work. Keeping her on the line, Leader said she told Hiller to put the gun down and place her hands on her head so officers wouldn't take any aggressive action against her.
+Event	52	feuding	Occurence	210
+Event	41	Murder	Occurence	149
+Event	94	Friday	Occurence	433
+Event	50	suspended	Occurence	196
+Event	62	returned	Occurence	268
+Event	77	executed	Occurence	342
+Event	69	found	Occurence	307
+Event	32	Shooting	Occurence	99
+Event	57	escorted	Occurence	240
+Event	36	Charged	Occurence	122
+Event	88	wounded	Occurence	404
+Relation	94	36	SuperSub	true	Friday	Charged
+Relation	94	41	SubSuper	true	Friday	Murder
+Relation	94	50	SubSuper	true	Friday	suspended
+Relation	94	52	SubSuper	true	Friday	feuding
+Relation	94	57	SubSuper	true	Friday	escorted
+Relation	94	62	SubSuper	true	Friday	returned
+Relation	94	69	SubSuper	true	Friday	found
+Relation	94	77	SubSuper	true	Friday	executed
+Relation	94	88	SubSuper	true	Friday	wounded
+Relation	32	41	SuperSub	true	Shooting	Murder
+Relation	36	41	SubSuper	true	Charged	Murder
+Relation	50	52	SubSuper	true	suspended	feuding
+Relation	52	57	SuperSub	true	feuding	escorted
+Relation	57	62	SuperSub	true	escorted	returned
+Relation	62	77	SuperSub	true	returned	executed
+Relation	62	88	SuperSub	true	returned	wounded
+Relation	52	77	SuperSub	true	feuding	executed

@@ -1,0 +1,13 @@
+Text	http://www. bbc. co. uk/news/world-europe-24021843 9 September 2013 Last updated at 14:39 GMT France jewels thefts:Robbers ram 4x4 into Paris shop French police are investigating a daring jewellery robbery in Paris-the latest in a series of high-profile thefts in France this summer. In the early hours of Monday, thieves rammed a 4x4 vehicle through the windows of an upmarket jewellery store near the prestigious Place Vendome. They made off with 2m euros ( £1. 7m; $2. 6m ) in gems and watches. In July, a masked jewel thief stole £88m worth of precious stones from the Carlton Hotel in Cannes. After Monday's robbery, the thieves set fire to the 4x4 vehicle in an adjacent side street and made off in a second car. Many of the most famous names in jewellery have their flagship stores in the Place Vendome, and this is a further embarrassment to the French authorities who have seen a spate of robberies in recent weeks, says the BBC's Christian Fraser in Paris. Inevitably, the finger will again be pointed at the Pink Panther gang, a loosely aligned network of criminals who are believed to have carried out 300 similar robberies across the world since 1999, our correspondent says. The international police agency Interpol has recently begun co-ordinating its efforts to track down the gangs' members, many of them from the former Yugoslavia. In 2007, the gang drove two cars through the window of a jewellery store in Dubai, and in less than a minute had escaped with 11m euros of jewellery.
+Event	47	robbery	Occurence	198
+Event	32	thefts	Occurence	108
+Event	60	thefts	Occurence	254
+Event	35	ram	Occurence	123
+Event	74	rammed	Occurence	322
+Event	43	investigating	Occurence	165
+Relation	32	35	SubSuper	true	thefts	ram
+Relation	43	47	SubSuper	true	investigating	robbery
+Relation	47	74	SubSuper	true	robbery	rammed
+Relation	60	74	SubSuper	true	thefts	rammed
+Relation	32	35	SuperSub	true	thefts	ram
+Relation	43	60	SubSuper	true	investigating	thefts

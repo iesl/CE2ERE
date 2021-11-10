@@ -1,0 +1,25 @@
+Text	http://timesofindia. indiatimes. com/speednewsshow/14743366. cms Wladimir Klitschko stopped Tony Thompson in the sixth round to keep a comfortable hold on his WBA, IBF and WBO heavyweight title belts on Saturday. Klitschko put Thompson on the canvas with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American southpaw never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight at 2:56.
+Event	18	stopped	Occurence	84
+Event	81	dropped	Occurence	402
+Event	41	Saturday	Occurence	203
+Event	86	sixth	Occurence	432
+Event	76	recovered	Occurence	368
+Event	99	stopping	Occurence	508
+Event	60	round	Occurence	298
+Event	97	count	Occurence	495
+Event	24	round	Occurence	119
+Event	101	fight	Occurence	521
+Relation	41	18	SuperSub	true	Saturday	stopped
+Relation	41	24	SuperSub	true	Saturday	round
+Relation	41	60	SuperSub	true	Saturday	round
+Relation	41	76	SuperSub	true	Saturday	recovered
+Relation	41	81	SuperSub	true	Saturday	dropped
+Relation	41	86	SuperSub	true	Saturday	sixth
+Relation	41	97	SuperSub	true	Saturday	count
+Relation	41	101	SuperSub	true	Saturday	fight
+Relation	81	97	SuperSub	true	dropped	count
+Relation	97	99	SuperSub	true	count	stopping
+Relation	81	101	SubSuper	true	dropped	fight
+Relation	18	101	SubSuper	true	stopped	fight
+Relation	86	97	SuperSub	true	sixth	count
+Relation	81	99	SuperSub	true	dropped	stopping

@@ -1,0 +1,7 @@
+Text	http://www. thehollywoodgossip. com/2013/05/lindsay-lohan-checks-into-rehab-in-newport-beach-investigation-p/Lindsay Lohan Checks Into Rehab in Newport Beach; Investigation of Facility Pending May 2, 2013 1:35 pm. Lindsay Lohan has checked into rehab in Newport Beach, Calif., and will remain there for the time being, pending an investigation of the facility she chose. This despite the fact that, at the 11th hour, Lohan bailed on rehab in a New York facility that was approved by prosecutors and a judge and flew to L. A.
+Event	86	chose	Occurence	364
+Event	81	investigation	Occurence	330
+Event	100	bailed	Occurence	423
+Event	117	flew	Occurence	511
+Relation	81	86	SubSuper	true	investigation	chose
+Relation	100	117	SuperSub	true	bailed	flew

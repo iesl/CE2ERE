@@ -1,0 +1,39 @@
+Text	http://www. nydailynews. com/new-york/brooklyn/thugs-accused-killing-mom-12-crossfire-trial-article-1. 1313430 Gangbangers who allegedly killed mom of 12 in crossfire begin trial Zurana Horton was killed when the accused thugs Andrew Lopez, 20 and Jonathan Carrasquillo, 24, were spraying bullets from a rooftop in Brownsville, Brooklyn and one richocheted off a wall. THURSDAY, APRIL 11, 2013, 12:12 AM Two accused gangbangers went on trial Wednesday for tragically killing a mother of 12 as they were spraying bullets from a Brooklyn rooftop. "Zurana Horton became a victim of the senseless gang violence that plagues Brooklyn, " prosecutor Seth Goldman said at the start of the murder trial of half-brothers Andrew Lopez, 20, and Jonathan Carrasquillo, 24. The 34-year-old mother was struck in the chest from a bullet that ricocheted off a fence in her Brownsville neighborhood in Oct. 2011, authorities said. Lopez was allegedly targeting members of the Young Goon gang, who had a seven-year beef with the 8 Block crew he belonged to.
+Event	98	trial	Occurence	436
+Event	110	spraying	Occurence	503
+Event	94	accused	Occurence	408
+Event	50	killed	Occurence	197
+Event	66	spraying	Occurence	280
+Event	142	trial	Occurence	688
+Event	193	targeting	Occurence	933
+Event	174	ricocheted	Occurence	826
+Event	77	richocheted	Occurence	345
+Event	39	killed	Occurence	137
+Event	141	murder	Occurence	681
+Event	44	crossfire	Occurence	157
+Event	99	Wednesday	Occurence	442
+Event	53	accused	Occurence	213
+Event	46	trial	Occurence	173
+Event	207	beef	Occurence	996
+Event	166	struck	Occurence	787
+Event	102	killing	Occurence	467
+Relation	99	46	SubSuper	true	Wednesday	trial
+Relation	99	94	SubSuper	true	Wednesday	accused
+Relation	99	98	SubSuper	true	Wednesday	trial
+Relation	99	102	SubSuper	true	Wednesday	killing
+Relation	99	110	SubSuper	true	Wednesday	spraying
+Relation	99	142	SubSuper	true	Wednesday	trial
+Relation	39	44	SubSuper	true	killed	crossfire
+Relation	39	46	SuperSub	true	killed	trial
+Relation	50	53	SuperSub	true	killed	accused
+Relation	50	77	SubSuper	true	killed	richocheted
+Relation	66	77	SuperSub	true	spraying	richocheted
+Relation	94	98	SuperSub	true	accused	trial
+Relation	98	102	SubSuper	true	trial	killing
+Relation	102	110	SubSuper	true	killing	spraying
+Relation	166	174	SubSuper	true	struck	ricocheted
+Relation	102	166	SubSuper	true	killing	struck
+Relation	50	166	SubSuper	true	killed	struck
+Relation	39	166	SubSuper	true	killed	struck
+Relation	193	207	SubSuper	true	targeting	beef
+Relation	141	142	SuperSub	true	murder	trial

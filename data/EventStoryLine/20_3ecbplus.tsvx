@@ -1,0 +1,32 @@
+Text	http://usatoday30. usatoday. com/news/world/2005-11-27-iran-quake_x. htm Posted 11/27/2005 7:21 AM Updated 11/27/2005 3:41 PM Strong earthquake jolts southern Iran, felt in Oman An earthquake measuring at least magnitude-5. 9 shook a sparsely populated area of southern Iran on Sunday, flattening seven villages and killing 10 people, officials said. The temblor was felt as far away as Oman and the United Arab Emirates. Heidar Alishvandi, the governor of Qeshm, was quoted by state-run television as saying rescue teams were deployed to the affected area and people in the wrecked villages moved quickly to safely. Another provincial official, Ghasem Karami, told The Associated Press that high casualties were not expected because the area was not heavily developed. Tehran's seismologic center said the quake measured magnitude-5. 9, but the U. S. Geological Survey in Golden, Colo., said it was a magnitude-6. 1 temblor. A magnitude-6. 0 quake can cause severe damage. Iran's seismologic center said the epicenter was in the waters of the Persian Gulf between the port city of Bandar Abbas and Qeshm Island. The USGS said the quake was 35 miles southwest of Bandar Abbas. Masoud Dalman, head of Hormozgan province's emergency affairs, said several buildings on Qeshm Island were damaged. The island, which has about 200, 000 residents, is about 940 miles south of Tehran, the capital. Shahram Alamdari, head of the rescue unit for the Iranian Red Crescent, said two helicopters were evacuating injured from Qeshm to Bandar Abbas, a city of 500, 000 people that also was jolted by the quake. Iranian television ran video from Qeshm showing minor damages to some buildings and a few injured being taken to hospitals. The report said the villages of Karavan and Kousheh were worst hit, but no footage was shown from those sites. The quake cut telephone links between Qeshm Island and the mainland, the report said. In Oman and the United Arab Emirates, buildings were evacuated and people fled into the streets. "Power and water supplies were not affected, " said Alireza Khorshidzadeh, a local journalist. "People poured into the streets, fearing aftershocks. " In Dubai, one of the seven emirates of the UAE, several buildings in the skyscraper-lined central business district were evacuated. They included the twin Emirates Towers, the highest buildings on the main street, where many international corporations and Dubai government institutions have offices. "It lasted around 30 seconds or so — you could feel the building moving and the coffee cups shaking, " said public relations executive Bina Mathews. Iran is located on a number of seismic fault lines and, on average, experiences at least one slight quake every day. The last major quake to hit southern Iran was in February, when a magnitude-6. 4 temblor rocked Zarand, a town of about 15, 000 people in Kerman province 602 miles southeast of Tehran. It killed 612 people and injured more than 1, 400, leveling several villages and leaving thousands of people homeless.
+Event	171	measured	Occurence	813
+Event	49	earthquake	Occurence	133
+Event	50	jolts	Occurence	144
+Event	170	quake	Occurence	807
+Event	270	damaged	Occurence	1284
+Event	76	Sunday	Occurence	278
+Event	67	shook	Occurence	226
+Event	82	killing	Occurence	316
+Event	213	damage	Occurence	966
+Event	78	flattening	Occurence	286
+Event	244	quake	Occurence	1131
+Event	58	earthquake	Occurence	181
+Event	54	felt	Occurence	165
+Relation	76	49	SuperSub	true	Sunday	earthquake
+Relation	76	50	SuperSub	true	Sunday	jolts
+Relation	76	54	SuperSub	true	Sunday	felt
+Relation	76	58	SuperSub	true	Sunday	earthquake
+Relation	76	67	SuperSub	true	Sunday	shook
+Relation	76	78	SuperSub	true	Sunday	flattening
+Relation	76	82	SuperSub	true	Sunday	killing
+Relation	76	170	SuperSub	true	Sunday	quake
+Relation	76	213	SuperSub	true	Sunday	damage
+Relation	76	244	SuperSub	true	Sunday	quake
+Relation	76	270	SuperSub	true	Sunday	damaged
+Relation	49	54	SuperSub	true	earthquake	felt
+Relation	58	67	SuperSub	true	earthquake	shook
+Relation	58	78	SuperSub	true	earthquake	flattening
+Relation	58	82	SuperSub	true	earthquake	killing
+Relation	244	270	SuperSub	true	quake	damaged
+Relation	76	171	SuperSub	true	Sunday	measured
+Relation	49	50	SuperSub	true	earthquake	jolts

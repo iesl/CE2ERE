@@ -1,0 +1,33 @@
+Text	http://www. usmagazine. com/celebrity-news/news/lindsay-lohan-checks-into-betty-ford-clinic-rehires-attorney-shawn-holley-201335 Lindsay Lohan Checks Into Betty Ford Clinic, Rehires Attorney Shawn Holley MAY 3, 2013 AT 1:10PM The 26-year troubled starlet narrowly avoided jail time by checking into a second rehab center following her quick exit from Morningside Recovery in Newport Beach, Calif. on Thursday, May 2. Santa Monica Chief Deputy City Attorney Terry White confirmed to the The Associated Press that Lohan has checked into an approved rehab facility. A source tells The Associated Press that the Liz & Dick star is now receiving treatment at the Betty Ford Center in Rancho Mirage, Calif. where she has spent time before. Lohan caused a stir on Thursday after she checked out of Morningside Recovery after only a few minutes, risking jail time with a probation violation. Now that Lohan is back at Betty Ford Center, she has also decided to rehire her former attorney Shawn Holley, who had been at her side during many of her courtroom appearances. During Lohan's stay at the famed Betty Ford Center in 2010, Lohan was accused of attacking a female staffer, but she was not charged.
+Event	173	risking	Occurence	838
+Event	178	probation	Occurence	863
+Event	150	spent	Occurence	715
+Event	194	decided	Occurence	942
+Event	232	attacking	Occurence	1142
+Event	134	receiving	Occurence	631
+Event	157	stir	Occurence	749
+Event	218	stay	Occurence	1076
+Event	159	Thursday	Occurence	757
+Event	179	violation	Occurence	873
+Event	135	treatment	Occurence	641
+Event	230	accused	Occurence	1131
+Event	226	2010	Occurence	1115
+Event	241	charged	Occurence	1186
+Event	133	now	Occurence	627
+Event	196	rehire	Occurence	953
+Relation	133	134	SuperSub	true	now	receiving
+Relation	133	135	SuperSub	true	now	treatment
+Relation	133	150	SubSuper	true	now	spent
+Relation	159	157	SuperSub	true	Thursday	stir
+Relation	159	173	SuperSub	true	Thursday	risking
+Relation	159	178	SubSuper	true	Thursday	probation
+Relation	159	179	SubSuper	true	Thursday	violation
+Relation	159	194	SuperSub	true	Thursday	decided
+Relation	159	196	SuperSub	true	Thursday	rehire
+Relation	226	218	SuperSub	true	2010	stay
+Relation	226	230	SuperSub	true	2010	accused
+Relation	226	232	SuperSub	true	2010	attacking
+Relation	226	241	SuperSub	true	2010	charged
+Relation	230	232	SubSuper	true	accused	attacking
+Relation	133	226	SubSuper	true	now	2010
+Relation	194	196	SuperSub	true	decided	rehire

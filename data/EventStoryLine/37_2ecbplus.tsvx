@@ -1,0 +1,16 @@
+Text	http://www. presstv. com/detail/2013/07/02/311886/strong-earthquake-hits-indonesia/6. 1-magnitude quake strikes Indonesia's Aceh province Tue Jul 2, 2013 1:28PM GMT A powerful 6. 1-magnitude earthquake strikes the northern Indonesian province of Aceh, killing at least three people and injuring dozens more across the affected region. According to the US Geological Survey, the quake hit at a depth of 10 kilometers ( 6 miles ) in the Northern Province of Aceh. The epicenter was situated 55 kilometers ( 34 miles ) west of the town of Bireun on the western tip of Sumatra Island. Eyewitnesses and local residents say many homes and properties have collapsed or been damaged. "I see many houses were damaged and their roofs fell onto some people, " said Bensu Elianita, a 22 year-old resident in Bukit Sama village in Central Aceh district, adding, "Many people were injured but it is difficult to evacuate them due to traffic jams. " On April 20, a 6. 4-magnitude earthquake jolted Indonesia's Maluku, but caused no casualties or material damage. On April 6, an earthquake measuring 7. 2 on the Richter scale struck eastern Indonesia's mountainous West Papua province. Indonesia is vulnerable to earthquakes since it is located on the Pacific Ring of Fire, a region known for its seismic and volcanic activity caused by friction between shifting tectonic plates. Last year, a 6. 4-magnitude quake rocked the west coast of Sumatra Island, killing at least one person. An 8. 7-magnitude earthquake also hit off the city of Banda Aceh in Sumatra Island in May 2012, triggering regional tsunami alerts. A strong quake off the shores of Indonesia triggered a tsunami that killed 230, 000 people in 13 countries around the Indian Ocean in 2004.
+Event	338	killed	Occurence	1668
+Event	86	quake	Occurence	378
+Event	183	injured	Occurence	867
+Event	336	tsunami	Occurence	1655
+Event	149	damaged	Occurence	700
+Event	139	collapsed	Occurence	649
+Event	351	2004	Occurence	1734
+Event	328	quake	Occurence	1609
+Relation	351	328	SuperSub	true	2004	quake
+Relation	351	336	SuperSub	true	2004	tsunami
+Relation	351	338	SuperSub	true	2004	killed
+Relation	86	139	SuperSub	true	quake	collapsed
+Relation	328	336	SuperSub	true	quake	tsunami
+Relation	336	338	SuperSub	true	tsunami	killed
+Relation	149	183	SuperSub	true	damaged	injured

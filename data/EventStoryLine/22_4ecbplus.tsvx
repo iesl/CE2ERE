@@ -1,0 +1,6 @@
+Text	http://www. dakotavoice. com/2010/09/very-spiritual-muslim-woman-shoots-co-workers/' Very Spiritual ' Muslim Woman Shoots Co-workers on September 10th, 2010 According to reports, a Muslim woman named Yvonne Hiller shot and killed two co-workers at a Kraft plant in Philadelphia.
+Event	56	killed	Occurence	223
+Event	54	shot	Occurence	214
+Event	35	Shoots	Occurence	115
+Relation	54	56	SuperSub	true	shot	killed
+Relation	35	56	SuperSub	true	Shoots	killed

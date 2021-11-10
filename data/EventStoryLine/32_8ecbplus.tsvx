@@ -1,0 +1,53 @@
+Text	http://www. itv. com/news/wales/story/2013-06-10/aberdare-woman-found-dead/Brother double-murder charge John Jenkin, 23 and from Cumbria, has been charged with the murder of his mother and sister. Kathryn Jenkin, 20 and from Aberdare, and her mother Alice McMeekin, 58, were found on Saturday. Brother charged after Aberdare woman found dead The brother of a woman from Aberdare found dead in Cumbria on Saturday has been charged with her murder. 23-year-old John Jenkin, of Millom, has been charged with the murder of his 58-year-old mother, Alice McMeekin, and sister, Kathryn Jenkin, 20, who is from Aberdare. On Saturday 8 June 2013, at 8:39am police were called to a property in Newton Street where Mrs McMeekin and Miss Jenkin were tragically found dead with head injuries. The family dog was also found dead. John Jenkin was arrested on suspicion of murder shortly afterwards. He will appear at Furness District Magistrates court this morning. John Jenkin is related to the victims, he is the son of Alice McMeekin and the brother of Kathryn Jenkin.-CUMBRIA POLICE
+Event	92	dead	Occurence	385
+Event	194	murder	Occurence	857
+Event	174	dead	Occurence	755
+Event	73	found	Occurence	275
+Event	99	charged	Occurence	422
+Event	120	murder	Occurence	509
+Event	35	charge	Occurence	97
+Event	192	suspicion	Occurence	844
+Event	102	murder	Occurence	439
+Event	49	murder	Occurence	164
+Event	184	found	Occurence	804
+Event	190	arrested	Occurence	832
+Event	185	dead	Occurence	810
+Event	75	Saturday	Occurence	284
+Event	46	charged	Occurence	147
+Event	78	charged	Occurence	302
+Event	117	charged	Occurence	492
+Event	177	injuries	Occurence	770
+Event	83	dead	Occurence	337
+Event	82	found	Occurence	331
+Event	200	appear	Occurence	892
+Event	91	found	Occurence	379
+Relation	75	73	SuperSub	true	Saturday	found
+Relation	75	49	SuperSub	true	Saturday	murder
+Relation	75	83	SuperSub	true	Saturday	dead
+Relation	75	92	SuperSub	true	Saturday	dead
+Relation	75	99	SuperSub	true	Saturday	charged
+Relation	75	102	SuperSub	true	Saturday	murder
+Relation	75	120	SuperSub	true	Saturday	murder
+Relation	75	117	SuperSub	true	Saturday	charged
+Relation	75	190	SuperSub	true	Saturday	arrested
+Relation	75	192	SuperSub	true	Saturday	suspicion
+Relation	75	194	SuperSub	true	Saturday	murder
+Relation	46	49	SubSuper	true	charged	murder
+Relation	35	49	SubSuper	true	charge	murder
+Relation	78	83	SubSuper	true	charged	dead
+Relation	92	99	SubSuper	true	dead	charged
+Relation	99	102	SubSuper	true	charged	murder
+Relation	117	120	SubSuper	true	charged	murder
+Relation	174	177	SubSuper	true	dead	injuries
+Relation	177	185	SuperSub	true	injuries	dead
+Relation	190	194	SubSuper	true	arrested	murder
+Relation	190	200	SuperSub	true	arrested	appear
+Relation	75	35	SuperSub	true	Saturday	charge
+Relation	75	46	SuperSub	true	Saturday	charged
+Relation	75	82	SuperSub	true	Saturday	found
+Relation	75	91	SuperSub	true	Saturday	found
+Relation	75	184	SuperSub	true	Saturday	found
+Relation	75	185	SuperSub	true	Saturday	dead
+Relation	190	192	SubSuper	true	arrested	suspicion
+Relation	184	185	SubSuper	true	found	dead
+Relation	91	99	SuperSub	true	found	charged

@@ -1,0 +1,15 @@
+Text	http://articles. latimes. com/2013/may/03/local/la-me-0504-lohan-rehab-20130504 Lindsay Lohan checks into Betty Ford Center May 03, 2013 After skipping out on entering a Newport Beach rehabilitation facility and facing the prospect of arrest for violating her probation, Lindsay Lohan has checked into the Betty Ford Center to begin a 90-day court-mandated stay in her reckless driving conviction. Lohan was previously at Betty Ford from September 2010 to January 2011 after a probation violation in a prior drunk driving case. Her latest stay at Betty Ford comes after Lohan rear-ended a truck with her Porsche on Pacific Coast Highway on June 8, and then lied to police, telling them she was not driving.
+Event	80	stay	Occurence	357
+Event	108	case	Occurence	522
+Event	112	stay	Occurence	539
+Event	102	violation	Occurence	487
+Event	137	lied	Occurence	657
+Event	146	driving	Occurence	698
+Event	58	violating	Occurence	246
+Event	56	arrest	Occurence	235
+Event	85	conviction	Occurence	386
+Relation	56	58	SubSuper	true	arrest	violating
+Relation	80	85	SubSuper	true	stay	conviction
+Relation	102	108	SubSuper	true	violation	case
+Relation	112	137	SubSuper	true	stay	lied
+Relation	137	146	SubSuper	true	lied	driving

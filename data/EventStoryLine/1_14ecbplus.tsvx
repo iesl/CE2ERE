@@ -1,0 +1,7 @@
+Text	http://www. people. com/people/article/0, , 20697025, 00. html Lindsay Lohan Checks Into Betty Ford Rehab-Where She 'Knows Everyone' UPDATED 05/03/2013 at 11:00 AM EDT Originally published 05/03/2013 at 10:20 AM EDT Lindsay Lohan checked into the Betty Ford Clinic in Rancho Mirage, Calif., on Thursday night, for what is to be a three-month stay, her rep confirms to PEOPLE. "And she showed up [ at Morningside Recovery ] in the morning and hated it. She is interested in going back to Betty Ford because she knows everyone there. " Lohan, who has been in rehab a total of five times before this, was previously in Betty Ford in 2010. Prior to this check-in to Betty Ford, which was first reported by TMZ. com, California prosecutors had said late Thursday that the troubled actress, 26, would be arrested if she continued to flout a court order to enter a rehab facility.
+Event	143	was	Occurence	598
+Event	190	flout	Occurence	827
+Event	185	arrested	Occurence	798
+Event	149	2010	Occurence	630
+Relation	185	190	SubSuper	true	arrested	flout
+Relation	149	143	SuperSub	true	2010	was

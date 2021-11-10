@@ -1,0 +1,27 @@
+Text	http://www. theguardian. com/world/2013/sep/16/british-climber-dies-new-zealand-buckley British climber dies in New Zealand fall Robert Buckley the second climber to die in the Aoraki-Mount Cook national park at the weekend Monday 16 September 2013 03. 31 BST A British climber has fallen to his death in New Zealand. Robert Buckley, 32, fell about 2, 000 feet while climbing to a small hut on Mount Sefton in the Aoraki-Mount Cook national park on Saturday, police said. Buckley, who had been living and working in Christchurch, was one of four men who were trying to climb to the Sefton Bivvy from Mount Cook Village, according to New Zealand media reports. They were within 80m of their destination when Buckley slipped. His companions raised the alarm, but then got stuck. A rescue helicopter found Buckley and the others but they could not be rescued until the next morning. Buckley's body was recovered later in the day. Police said in a statement it appeared the group was insufficiently equipped and experienced for the climb. The three other climbers were released after an examination by medical staff. The day before Buckley's death another climber, 36-year-old Duncan Rait, died after slipping and falling about 200 feet from a ridge in the same national park. The New Zealand-born man, who lived in Australia, had been been dropped off by helicopter and was walking to a hut when he fell in the Tasman Glacier area. Police spokesman Dave Gaskin said the deaths were a reminder that climbers needed to use extreme caution. 'I cant speak for the first death, but in this case it looks like to be a lack of experience, " Gaskin told the Timaru Herald. A Foreign Office spokeswoman said:"We are aware of the death of a British man in New Zealand. We are providing consular assistance at this time.
+Event	80	fell	Occurence	338
+Event	104	Saturday	Occurence	449
+Event	70	death	Occurence	296
+Event	67	fallen	Occurence	282
+Event	243	died	Occurence	1186
+Event	247	falling	Occurence	1210
+Event	32	dies	Occurence	104
+Event	36	fall	Occurence	124
+Event	87	climbing	Occurence	367
+Event	245	slipping	Occurence	1197
+Event	43	die	Occurence	166
+Relation	104	32	SuperSub	true	Saturday	dies
+Relation	104	36	SuperSub	true	Saturday	fall
+Relation	104	43	SuperSub	true	Saturday	die
+Relation	104	67	SuperSub	true	Saturday	fallen
+Relation	104	70	SuperSub	true	Saturday	death
+Relation	104	80	SuperSub	true	Saturday	fell
+Relation	104	87	SuperSub	true	Saturday	climbing
+Relation	104	243	SuperSub	true	Saturday	died
+Relation	32	36	SubSuper	true	dies	fall
+Relation	43	67	SubSuper	true	die	fallen
+Relation	67	70	SuperSub	true	fallen	death
+Relation	80	87	SubSuper	true	fell	climbing
+Relation	243	245	SubSuper	true	died	slipping
+Relation	243	247	SubSuper	true	died	falling
+Relation	245	247	SuperSub	true	slipping	falling

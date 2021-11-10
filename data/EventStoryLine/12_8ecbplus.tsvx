@@ -1,0 +1,34 @@
+Text	http://www. bharatwaves. co. in/news/Indian-Navy-foils-another-piracy-attempt-- 26046. html A five-boat pirate attack on merchant vessels transiting the Gulf of Aden was foiled by an Indian warship that was on escort duty, capturing 26 Somani brigands on three of the skiffs and confiscating their weapons, a naval officer said here Friday. Patrol vessel INS Sukanya was escorting the five merchant vessels through the Internationally Recognised Transit Corridor in the Gulf of Aden Thursday morning when the warship's crew noticed the five-boat pirate formation approaching the cargo ship group. "The warship immediately altered towards the suspicious vessels and challenged them, " the officer said, adding the pirate skiffs then reversed course and tried to flee the area. "While two of the skiffs and its crew managed to get away, Sukanya successfully intercepted the remaining three skiffs and carried out well-practiced and professionally executed boarding-and-search action. "The three boats had a total of 26 Somali crew on board. During the operation, six AK-47 rifles, 12 magazines and about 300 rounds of ammunition were found and confiscated, " the officer said. In addition, the naval boarding party also found a host of other equipment such as grapnels, ladders and rope-handling gloves, all of which confirmed their intent to attack and hijack the merchant vessels, he said. This anti-piracy action by INS Sukanya was the fifth successful operation by its crew during its current patrol mission in the Gulf of Aden since September this year. INS Sukanya has seized a total of 14 AK-47 rifles, 31 magazines and 923 rounds of ammunition during the five operations it carried out there, the officer said.
+Event	105	noticed	Occurence	524
+Event	280	operation	Occurence	1454
+Event	112	approaching	Occurence	563
+Event	287	patrol	Occurence	1495
+Event	83	escorting	Occurence	371
+Event	288	mission	Occurence	1502
+Event	76	Friday	Occurence	333
+Event	67	confiscating	Occurence	279
+Event	272	action	Occurence	1407
+Event	46	foiled	Occurence	170
+Event	57	capturing	Occurence	223
+Event	36	attack	Occurence	111
+Event	40	transiting	Occurence	138
+Relation	36	40	SubSuper	true	attack	transiting
+Relation	46	57	SuperSub	true	foiled	capturing
+Relation	46	67	SuperSub	true	foiled	confiscating
+Relation	83	105	SuperSub	true	escorting	noticed
+Relation	83	112	SuperSub	true	escorting	approaching
+Relation	46	83	SubSuper	true	foiled	escorting
+Relation	272	280	SubSuper	true	action	operation
+Relation	280	288	SubSuper	true	operation	mission
+Relation	76	36	SubSuper	true	Friday	attack
+Relation	76	40	SubSuper	true	Friday	transiting
+Relation	76	46	SubSuper	true	Friday	foiled
+Relation	76	57	SubSuper	true	Friday	capturing
+Relation	76	67	SubSuper	true	Friday	confiscating
+Relation	76	112	SubSuper	true	Friday	approaching
+Relation	76	105	SubSuper	true	Friday	noticed
+Relation	76	83	SubSuper	true	Friday	escorting
+Relation	76	288	NoRel	true	Friday	mission
+Relation	76	287	NoRel	true	Friday	patrol
+Relation	76	280	SubSuper	true	Friday	operation
+Relation	76	272	SubSuper	true	Friday	action

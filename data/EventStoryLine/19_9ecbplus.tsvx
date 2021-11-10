@@ -1,0 +1,31 @@
+Text	http://pix11. com/2013/03/12/brooklyn-vigil-for-slain-teen-killed-by-nypd-snowballs-into-full-blown-riot/#axzz2gqbg2R2N Brooklyn vigil for slain teen killed by NYPD snowballs into full blown riot A candle light vigil turned violent Monday night in East Flatbush, Brooklyn. Dozens gathered to remember 16-year-old Kimani Gray. NYPD officers shot and killed the teen late Saturday night. What started as a march, soon turned into a riot. Video posted on Youtube from OccupyBloomberg's Ustream showed angry people screaming at the NYPD. According to reports from the scene, people vandalized property, looted and threw bottles at police. The NYPD said one person was arrested for disorderly conduct. Overnight and into early Tuesday morning, police barricaded Snyder Avenue in front of the 67th precinct in East Flatbush. Police still wearing helmets, guarded the block. " Tonight, we saw an explosion of anger from the youth in my community. We have talked about this anger for years, but still the resources have not come to address it, " said Brooklyn Councilman Jumaane Williams in a press release following the riot. " We have talked about the corrosive relationship between our community and the NYPD, but still the Mayor and the Commissioner have failed to address the root causes of this tension. Tonight, we saw that tension turn in a destructive manner. I cannot and will not condone the damage caused to property or to person. " According to police, Kimani Gray had a. 38 caliber Rohm's Industry revolver and he allegedly pointed it at the plain clothes officers Saturday night when they approached a group on East 52nd street in East Flatbush. The officers fired their weapons and the teenager was pronounced dead at Kings County Hospital. The gun was found at the scene, said the NYPD.
+Event	96	march	Occurence	404
+Event	47	killed	Occurence	150
+Event	72	remember	Occurence	292
+Event	83	shot	Occurence	340
+Event	102	riot	Occurence	430
+Event	60	violent	Occurence	224
+Event	45	slain	Occurence	139
+Event	70	gathered	Occurence	280
+Event	58	vigil	Occurence	211
+Event	54	riot	Occurence	191
+Event	85	killed	Occurence	349
+Event	43	vigil	Occurence	129
+Relation	43	45	SubSuper	true	vigil	slain
+Relation	43	47	SubSuper	true	vigil	killed
+Relation	47	54	SubSuper	true	killed	riot
+Relation	70	72	SubSuper	true	gathered	remember
+Relation	83	85	SuperSub	true	shot	killed
+Relation	85	96	SuperSub	true	killed	march
+Relation	83	96	SuperSub	true	shot	march
+Relation	83	102	SuperSub	true	shot	riot
+Relation	85	102	SuperSub	true	killed	riot
+Relation	45	58	SuperSub	true	slain	vigil
+Relation	47	58	SuperSub	true	killed	vigil
+Relation	45	70	SuperSub	true	slain	gathered
+Relation	47	70	SuperSub	true	killed	gathered
+Relation	45	72	SuperSub	true	slain	remember
+Relation	47	72	SuperSub	true	killed	remember
+Relation	45	60	SuperSub	true	slain	violent
+Relation	47	60	SuperSub	true	killed	violent
+Relation	96	102	SuperSub	true	march	riot

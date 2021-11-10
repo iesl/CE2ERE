@@ -1,0 +1,29 @@
+Text	http://www. news. com. au/newstest2/archive-old-assets/three-dead-after-fire-bomb-hits-bank-during-greek-riots/story-e6frfkyi-1225862790476 Three dead after fire-bomb hits bank during Greek riots A FIRE-BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy. Hooded youths hurled petrol bombs at stores and businesses in the Greek capital, setting the bank and two government buildings ablaze. Protesters also tried to storm the Greek Parliament and the rioting spread to Greece's second city, Thessaloniki. Police said at least three people, a man and two women, were killed in the fire-bomb attack. Firefighters said as many as 20 people had been inside the bank. It was unclear if the dead were customers or bank employees. Two buildings, one used by tax officials and another by regional authorities, also caught fire. Greek President Carolos Papoulias condemned the violence, saying the debt-hit country had "reached the edge of the abyss". "Our country has reached the edge of the abyss. It is the responsibility of us all to not take the step into the void. "What is at stake in coming days is to keep social cohesion and social peace. " Greek Prime Minister George Papandreou said the firebombing was a "raw murderous act". Athens underground stations were shuttered and the international airport deserted as tens of thousands of union members rallied on the eve of a vote in parliament on the planned cuts and tax hikes. The general strike was the first major test of the Socialist government's resolve to push through unprecedented measures since agreeing a ����110 billion ( $158 billion ) EU and IMF debt bailout over the weekend. Prime Minister George Papandreou's insistence that the measures are vital for the nation's survival failed to dissuade unions from paralysing public transport, grounding air traffic and preventing ferries from leaving docks. After rallying in two separate demonstrations in central Athens, members of the main unions began converging on parliament, where the Government was preparing for the measures to be voted on Thursday.
+Event	79	striking	Occurence	305
+Event	81	furious	Occurence	325
+Event	119	storm	Occurence	556
+Event	52	hits	Occurence	167
+Event	94	hurled	Occurence	410
+Event	47	dead	Occurence	146
+Event	148	killed	Occurence	706
+Event	125	rioting	Occurence	591
+Event	77	battles	Occurence	292
+Event	75	fought	Occurence	277
+Event	154	attack	Occurence	730
+Event	88	avoid	Occurence	369
+Event	56	riots	Occurence	190
+Event	85	cuts	Occurence	352
+Relation	47	52	SubSuper	true	dead	hits
+Relation	52	56	SubSuper	true	hits	riots
+Relation	75	77	SubSuper	true	fought	battles
+Relation	77	79	SubSuper	true	battles	striking
+Relation	79	81	SubSuper	true	striking	furious
+Relation	81	85	SubSuper	true	furious	cuts
+Relation	85	88	SuperSub	true	cuts	avoid
+Relation	77	94	SuperSub	true	battles	hurled
+Relation	119	125	SubSuper	true	storm	rioting
+Relation	148	154	SubSuper	true	killed	attack
+Relation	125	154	SuperSub	true	rioting	attack
+Relation	75	85	SubSuper	true	fought	cuts
+Relation	47	56	SubSuper	true	dead	riots
+Relation	85	88	SubSuper	true	cuts	avoid

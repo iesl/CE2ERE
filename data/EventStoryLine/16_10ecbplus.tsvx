@@ -1,0 +1,53 @@
+Text	http://www. presstelegram. com/technology/20070503/judge-sentences-orozco-to-death Judge sentences Orozco to death POSTED:05/02/07, 9:00 PM PDT | A Norwalk Superior Court judge on Thursday upheld a jury's recommendation that convicted cop killer Jose Luis Orozco die for his crimes. Judge Philip Hickok told a packed courtroom that he weighed all the aggravating factors and mitigating circumstances in the ambush slaying of Los Angeles County Sheriff's Deputy Jerry Ortiz in June 2005, and he concluded that the case "absolutely warrants death instead of life without parole. " Orozco was convicted March 20 of first-degree murder for the slaying of Ortiz, a 15-year veteran and member of the anti-gang detail at the Sheriff's Lakewood Station. A jury recommended on April 3 that Orozco be executed. Wearing the orange Los Angeles County Jail-issued jumpsuit and with his handcuffed wrists chained to his waist, Orozco smiled as he was led from the courtroom for the last time and turned to make an obscene gesture at a photographer. In denying an automatic motion by the defense to reduce the jury's recommendation from death to life in prison without the possibility of parole, Hickok called the slaying of the newlywed deputy and father of two "a cold-blooded, vicious murder. " `Colossal' factors Hickok said the aggravating factors in the case were "colossal. " He noted the 29-year-old gang member not only killed the deputy while hiding outside of the lawman's view behind a door, Orozco also allegedly tried to kill another man just a few days earlier by shooting that individual in the back twice, and had bragged about killing the officer. He had also boasted prior to Ortiz's killing that he wanted to kill a cop, that he wanted to make a name for his gang, the judge added. "The murder was committed without regard in front of two extremely impressionable and young girls, " Hickok said, referring to the star witnesses in the case, two sisters-8-and 10-year-old girls-who described the shooting for the jury. " ( Orozco ) arranged to have witnesses, including those two very young girls, killed so that they would not testify, " Hickok said. Dozens of deputies-many in uniform-packed the court for Thursday's sentencing, just as they had every day of the trial. In the center of the gallery was the slain deputy's wife, Chela Ortiz, who linked hands with her mother-in-law, Rosa Ortiz, and her husband's siblings. Chela spoke briefly before Hickok made the final ruling, addressing her husband's killer directly as she read from a letter written by her stepson, Jeremy Ortiz, and then made her own statement. "Why did you do it ? Why did you have to stand behind a door like a coward ? " the young widow read from the teen's letter. Chela Ortiz, who married the deputy three weeks before he was murdered, told Orozco in a firm voice, "I want you to know you did not break our family, " as her family began to cry. "Our Jerry is in heaven, we will see him again... his memory will live on, " she said amid the sounds of soft sobs and sniffles. "And you will always be remembered as a coward. " The 35-year-old deputy was killed on June 24, while investigating an attack in which Orozco shot a man in the back while doing yard work at a Hawaiian Gardens home four days earlier. Along with murder, Orozco was convicted of one count of attempted murder involving the earlier shooting and two counts of possession of a firearm by a felon. Jurors also found true the special circumstance allegations of murder of a peace officer, murder while lying in wait and murder to avoid arrest, along with the allegations that he personally discharged a handgun and committed the crimes for the benefit of a criminal street gang. In addition to asking the judge to reduce the sentence Thursday, Orozco's attorneys made a motion for a new trial, arguing that the DA was wrongly allowed to bring in overwhelmingly prejudicial material about Orozco's gang ties. The attorneys also argued that the defense was hamstrung when the judge refused to let them bring in the Rev. Gregory Boyle to testify on his gang experience in the penalty phase of the trial. They said the judge also refused to let them add jury instructions about others who could be guilty of aiding and abetting Orozco. Prosecutors pointed out all those arguments had been made during the guilt or penalty phase of the trial, and the judge had already ruled in the matters. Hickok agreed and denied both motions. `Tragic situation' Outside court, Defense Attorney Stanley Perlo said his client stands little chance at winning an appeal in the state Supreme Court, which he described as "very pro death. " In the Ninth District Court of Appeals, there is a chance they will see that the defense was denied a key witness in the penalty phase of the trial, he said. Neither Perlo nor his co-counsel, Robin Yanes, ever claimed their client's innocence. Their client had committed the crimes, both attorneys said Thursday. Rather, they argued that the defendant's lifetime of gang membership and drug abuse were mitigating factors that could not be ignored and that should have spared him death. They added that many of the people called to testify against their client were equally responsible for the deputy's slaying and yet were not prosecuted. "It's a tragic situation with nothing but a sad ending. What else could it be ? " Yanes said. Asked about the pending appeal, Deputy District Attorney Phil Stirling said such cases can never be predicted, but added that he and Lowell Anger-the lead DA on the case-were confident the conviction and sentence would stand. After the sentencing, Stirling called Orozco a "predator. " "He is a killer. He murdered Deputy Sheriff Jerry Ortiz, in addition to attempting to murder at least three other people that we know of, " Stirling said. Orozco's death sentence will be automatically appealed to the California Supreme Court and he was ordered to be transferred within 10 days from county jail to San Quentin State Prison, where he will await his appeal on death row. "He'll probably live a much longer, healthier life on death row than he would have on the streets, " Perlo said.
+Event	104	case	Occurence	513
+Event	50	upheld	Occurence	189
+Event	25	sentences	Occurence	89
+Event	106	warrants	Occurence	530
+Event	1114	called	Occurence	5656
+Event	1158	appealed	Occurence	5886
+Event	1153	death	Occurence	5849
+Event	107	death	Occurence	539
+Event	110	life	Occurence	556
+Event	49	Thursday	Occurence	180
+Event	112	parole	Occurence	569
+Event	86	slaying	Occurence	414
+Event	1154	sentence	Occurence	5855
+Event	1111	sentencing	Occurence	5635
+Event	28	death	Occurence	109
+Event	101	concluded	Occurence	494
+Event	61	die	Occurence	263
+Event	1170	transferred	Occurence	5952
+Event	53	recommendation	Occurence	205
+Event	75	weighed	Occurence	335
+Event	1186	await	Occurence	6039
+Event	1167	ordered	Occurence	5938
+Event	1188	appeal	Occurence	6049
+Event	64	crimes	Occurence	275
+Relation	49	61	SubSuper	true	Thursday	die
+Relation	49	50	SuperSub	true	Thursday	upheld
+Relation	49	53	NoRel	true	Thursday	recommendation
+Relation	49	64	SubSuper	true	Thursday	crimes
+Relation	25	64	SubSuper	true	sentences	crimes
+Relation	28	64	SubSuper	true	death	crimes
+Relation	61	64	SubSuper	true	die	crimes
+Relation	53	61	SuperSub	true	recommendation	die
+Relation	75	107	SuperSub	true	weighed	death
+Relation	75	110	SuperSub	true	weighed	life
+Relation	75	112	SuperSub	true	weighed	parole
+Relation	86	107	SuperSub	true	slaying	death
+Relation	86	110	SuperSub	true	slaying	life
+Relation	86	112	SuperSub	true	slaying	parole
+Relation	104	107	SuperSub	true	case	death
+Relation	104	110	SuperSub	true	case	life
+Relation	104	112	SuperSub	true	case	parole
+Relation	1153	1158	SuperSub	true	death	appealed
+Relation	1170	1186	SuperSub	true	transferred	await
+Relation	1186	1188	SubSuper	true	await	appeal
+Relation	49	75	SuperSub	true	Thursday	weighed
+Relation	49	101	SuperSub	true	Thursday	concluded
+Relation	49	106	SuperSub	true	Thursday	warrants
+Relation	49	1111	SuperSub	true	Thursday	sentencing
+Relation	49	1114	SuperSub	true	Thursday	called
+Relation	49	1154	SuperSub	true	Thursday	sentence
+Relation	49	1167	SuperSub	true	Thursday	ordered
+Relation	25	28	SuperSub	true	sentences	death

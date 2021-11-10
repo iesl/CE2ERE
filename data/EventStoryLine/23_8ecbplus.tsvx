@@ -1,0 +1,14 @@
+Text	http://news. msn. co. nz/nationalnews/8723460/climber-falls-on-aoraki-mount-cook Second man dies in Mt Cook National Park 14:25 Sun Sep 15 2013 A second man has fallen to his death in Aoraki Mount Cook National Park. The man aged in his early 30s fell about 600m while climbing near the Mount Sefton Bivvy on Saturday afternoon. Rescue personnel were not able to reach him or his three companions, who were all from overseas, due to low light levels on Saturday, Mid-South Canterbury Area Commander Inspector Dave Gaskin said. "They managed to have a look at him and it was pretty clear that there was no signs of life and they've flown in today to retrieve the body, " he told NZ Newswire on Sunday. The other three men were rescued by about 10am on Sunday morning. "We haven't been in a position to speak to the survivors at this stage, but it appears as if their equipment and preparation was limited, " Insp Gaskin said. It was the second death in the park in two days. A 36-year-old man died about 11am on Friday after he slipped and fell about 200m down a steep icy gully. The man, a New Zealander living in Melbourne, was planning to go ski touring. Two deaths so close together was unusual for the time of year, Insp Gaskin said. "We don't normally get too many climbing accidents at this time of year, it's still basically winter conditions here, so there's very little climbing done. " The climbing season generally starts about late October/early November. Mr Gaskin urged people not to go into situations unprepared. "This is an extremely dangerous area and if you're going to climb or come into this area and go up high in the mountains, you've got to make sure that you know what you're doing and you've got all the appropriate equipment. "
+Event	228	fell	Occurence	1039
+Event	65	fell	Occurence	247
+Event	50	death	Occurence	175
+Event	47	fallen	Occurence	161
+Event	30	dies	Occurence	92
+Event	69	climbing	Occurence	269
+Event	226	slipped	Occurence	1027
+Event	219	died	Occurence	992
+Relation	30	47	SubSuper	true	dies	fallen
+Relation	47	50	SuperSub	true	fallen	death
+Relation	65	69	SubSuper	true	fell	climbing
+Relation	219	228	SubSuper	true	died	fell
+Relation	226	228	SuperSub	true	slipped	fell

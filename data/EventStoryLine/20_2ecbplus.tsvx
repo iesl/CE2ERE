@@ -1,0 +1,55 @@
+Text	http://www. payvand. com/news/05/nov/1266. html 11/28/05   Aftershocks jolt Iran's Qeshm island, death toll rises to 10 The sixth aftershock shook this southern Iranian island in the Persian Gulf on Monday as death toll from a strong earthquake a day before rose to 10. The new death toll came after the bodies of two more victims were found in the village of Ziranag which is one of the 12 worst-hit villages in the quake, Qeshm Governor Heydar Alishvandi said. He said search was going on for several people who were reported to be missing. As many as 80 people were also wounded. Alishvandi said some of the injured were transferred by helicopter to the provincial capital of Bandar Abbas on the coast, including several who were in critical condition. The governor stated that as many as 2, 000 people in rural regions needed accommodation, half of whom had been given temporary housing. He cited tents, blankets, canned food and drinking water as the most needed items. Alishvandi said the first truck of public aid donations, including tents, blankets, canned food and water tanks were sent to the affected regions Monday morning. Meanwhile, the head of the Interior Ministry's Natural Disasters Headquarters, Abbas Jazayeri, said that the situation on the Qeshm island was under control. He said relief workers had completed the shipment of urgent needs including foodstuff, tents and blankets to all affected villages. But residents at the village of Gavarzin complained that relief operations were slow. Speaking to IRNA, they said they had not received aid almost a day after the quake. "Houses in the village of Gavarzin have been destroyed 100 percent and we have now no refuge to take, " Jassem Chabok said, adding all their furniture had been buried under rubble. A series of aftershocks have hit the island since it was first rocked by a magnitude-5. 9 earthquake early Sunday afternoon. The seismological bases of Tehran University registered a quake measuring 3. 8 on the Richter scale at 09:10 hours ( 0440 GMT ) on Monday. The earthquake knocked down power in rural areas, sinking them into darkness. Local officials were struggling Monday to restore electricity. Flights from and into the International Qeshm Airport were resumed Monday morning. The airport received minor damage in the quake. The tremor also damaged hospitals on the island, including one which was reported to have stopped providing medical service. The worst hit villages sustained between 40 and 80 percent damage. A team of experts from the governorate of the Hormuzgan province arrived in the affected areas Monday to assess damage to infrastructure. The head of the team, Alireza Safa, estimated that between 50 and 70 percent of the industrial structure in the 12 worst-hit villages might have been destroyed. Qeshm, a 1, 500-square-kilometer island off the coast southwest of Bandar Abbas and 1, 500 kilometers south of Tehran, has a population of more than 100, 000. Iranians are still haunted by harrowing images of the world's worst disaster in December 2003, in which more than 31, 000 people were killed in the ancient city of Bam. The country is prone to earthquakes and tremors of lower magnitude are usual occurrences.
+Event	66	death	Occurence	278
+Event	38	aftershock	Occurence	130
+Event	25	Aftershocks	Occurence	59
+Event	95	quake	Occurence	417
+Event	463	service	Occurence	2430
+Event	60	rose	Occurence	258
+Event	348	aftershocks	Occurence	1790
+Event	379	measuring	Occurence	1967
+Event	49	Monday	Occurence	199
+Event	408	sinking	Occurence	2092
+Event	378	quake	Occurence	1961
+Event	461	providing	Occurence	2412
+Event	357	rocked	Occurence	1841
+Event	39	shook	Occurence	141
+Event	447	damaged	Occurence	2330
+Event	376	registered	Occurence	1948
+Event	33	rises	Occurence	108
+Event	397	Monday	Occurence	2034
+Event	56	earthquake	Occurence	234
+Event	31	death	Occurence	97
+Event	400	earthquake	Occurence	2046
+Event	445	tremor	Occurence	2318
+Event	126	wounded	Occurence	574
+Event	51	death	Occurence	209
+Event	365	earthquake	Occurence	1868
+Relation	49	31	SuperSub	true	Monday	death
+Relation	49	33	SuperSub	true	Monday	rises
+Relation	49	38	SuperSub	true	Monday	aftershock
+Relation	49	39	SuperSub	true	Monday	shook
+Relation	49	51	SuperSub	true	Monday	death
+Relation	49	60	SuperSub	true	Monday	rose
+Relation	49	66	SuperSub	true	Monday	death
+Relation	397	376	SuperSub	true	Monday	registered
+Relation	397	378	SuperSub	true	Monday	quake
+Relation	397	400	SuperSub	true	Monday	earthquake
+Relation	397	408	SuperSub	true	Monday	sinking
+Relation	397	445	SuperSub	true	Monday	tremor
+Relation	397	447	SuperSub	true	Monday	damaged
+Relation	25	31	SuperSub	true	Aftershocks	death
+Relation	25	33	SuperSub	true	Aftershocks	rises
+Relation	38	51	SuperSub	true	aftershock	death
+Relation	51	56	SubSuper	true	death	earthquake
+Relation	38	60	SuperSub	true	aftershock	rose
+Relation	66	95	SubSuper	true	death	quake
+Relation	95	126	SuperSub	true	quake	wounded
+Relation	357	365	SubSuper	true	rocked	earthquake
+Relation	376	378	SubSuper	true	registered	quake
+Relation	400	408	SuperSub	true	earthquake	sinking
+Relation	445	447	SuperSub	true	tremor	damaged
+Relation	445	461	SuperSub	true	tremor	providing
+Relation	445	463	SuperSub	true	tremor	service
+Relation	38	56	SubSuper	true	aftershock	earthquake
+Relation	378	379	SuperSub	true	quake	measuring
+Relation	348	365	SubSuper	true	aftershocks	earthquake

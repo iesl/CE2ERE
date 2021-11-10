@@ -1,0 +1,42 @@
+Text	http://www. sunstar. com. ph/breaking-news/2013/07/02/magnitude-61-quake-hits-indonesia-1-dead-290335 Magnitude-6. 1 quake hits Indonesia; 1 dead Tuesday, July 2, 2013 A strong earthquake struck Indonesia's Aceh province on Tuesday, killing at least one person and leaving two others missing. Many houses were damaged and dozens of villagers were injured. The magnitude-6. 1 quake struck at a depth of just 10 kilometers ( six miles ) and its epicenter was located 55 kilometers ( 34 miles ) west of the town of Bireun on the western tip of Sumatra island, the US Geological Survey said. The worst-hit area was the district of Bener Meriah, where the quake caused a landslide that killed a man and left his wife and a young boy missing, said Fauzi, an official of the local disaster agency. "Dozens of people were injured and are being treated at three hospitals, " said Fauzi, who like many Indonesians uses a single name. He said at least 22 houses were badly damaged in the district. At least five people were reportedly injured and 10 houses were damaged in Takengon, the capital of Central Aceh district, said Sutopo Purwo Nugroho of the National Disaster Mitigation Agency. "I see many houses were damaged and their roofs fell onto some people, " said Bensu Elianita, a 22-year-old resident in Bukit Sama village in Central Aceh district. "Many people were injured, but it is difficult to evacuate them due to traffic jams. " She said people in the village ran out from their houses in panic and screamed for help. At least two homes were totally flattened, she said, adding that the quake also caused a blackout in the village. The quake also caused panic among officials attending a meeting of the Asia Pacific Economic Cooperation in Medan, the capital of neighboring North Sumatra province. The officials were escorted from the second-floor meeting room by security officers. Indonesia is prone to seismic upheaval due to its location on the Pacific Ring of Fire, an arc of volcanoes and fault lines encircling the Pacific Ocean. In 2004, a huge earthquake off Aceh triggered a tsunami that killed 230, 000 people across Asia.
+Event	79	damaged	Occurence	310
+Event	48	dead	Occurence	141
+Event	94	struck	Occurence	381
+Event	110	located	Occurence	457
+Event	74	missing	Occurence	284
+Event	257	damaged	Occurence	1204
+Event	422	earthquake	Occurence	2056
+Event	427	tsunami	Occurence	2088
+Event	65	killing	Occurence	233
+Event	429	killed	Occurence	2101
+Event	44	hits	Occurence	123
+Event	311	ran	Occurence	1463
+Event	57	earthquake	Occurence	177
+Event	418	2004	Occurence	2043
+Event	58	struck	Occurence	188
+Event	63	Tuesday	Occurence	224
+Event	85	injured	Occurence	347
+Event	290	injured	Occurence	1363
+Relation	63	44	SuperSub	true	Tuesday	hits
+Relation	63	48	SuperSub	true	Tuesday	dead
+Relation	63	57	SuperSub	true	Tuesday	earthquake
+Relation	63	58	SuperSub	true	Tuesday	struck
+Relation	63	74	SuperSub	true	Tuesday	missing
+Relation	63	79	SuperSub	true	Tuesday	damaged
+Relation	63	85	SuperSub	true	Tuesday	injured
+Relation	63	94	SuperSub	true	Tuesday	struck
+Relation	63	110	SuperSub	true	Tuesday	located
+Relation	63	257	SuperSub	true	Tuesday	damaged
+Relation	63	290	SuperSub	true	Tuesday	injured
+Relation	63	311	SuperSub	true	Tuesday	ran
+Relation	418	422	SuperSub	true	2004	earthquake
+Relation	418	427	SuperSub	true	2004	tsunami
+Relation	418	429	SuperSub	true	2004	killed
+Relation	57	65	SuperSub	true	earthquake	killing
+Relation	427	429	SuperSub	true	tsunami	killed
+Relation	57	74	SuperSub	true	earthquake	missing
+Relation	57	79	SuperSub	true	earthquake	damaged
+Relation	57	85	SuperSub	true	earthquake	injured
+Relation	422	427	SuperSub	true	earthquake	tsunami
+Relation	63	44	SuperSub	true	Tuesday	hits
+Relation	63	48	SuperSub	true	Tuesday	dead

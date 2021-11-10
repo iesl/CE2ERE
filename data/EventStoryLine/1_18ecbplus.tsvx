@@ -1,0 +1,15 @@
+Text	http://www. usatoday. com/story/life/people/2013/05/02/will-hysterical-lindsay-lohan-make-it-to-rehab/2128651/Lindsay Lohan checks into unapproved rehab 12:52 p.m. EDT May 2, 2013 She checked in today. Lohan lawyer Mark Heller told L. A. Superior Court Judge James R. Dabney that Lohan had checked into a rehab, but prosecutors have not signed off on the facility, reports AP. She hopped on a private jet Wednesday night, headed for Morningside Recovery in Newport Beach, Calif., a facility that does allow smoking. CNN says Lohan's lawyer, Mark Heller, made the arrangements for Lohan to check into Morningside, but prosecutors have not approved that facility.
+Event	138	arrangements	Occurence	563
+Event	110	headed	Occurence	422
+Event	136	made	Occurence	554
+Event	150	approved	Occurence	638
+Event	62	today	Occurence	195
+Event	45	unapproved	Occurence	136
+Event	126	smoking	Occurence	507
+Event	102	hopped	Occurence	381
+Relation	62	136	SubSuper	true	today	made
+Relation	62	138	SubSuper	true	today	arrangements
+Relation	62	150	SuperSub	true	today	approved
+Relation	102	110	SuperSub	true	hopped	headed
+Relation	110	126	SubSuper	true	headed	smoking
+Relation	62	45	SuperSub	true	today	unapproved

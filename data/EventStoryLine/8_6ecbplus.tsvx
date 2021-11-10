@@ -1,0 +1,30 @@
+Text	http://libcom. org/news/war-zone-athens-three-people-dead-many-buildings-burning-general-strike-march-turns-battle-War-Zone Athens:three people dead, many buildings burning as general strike march turns into a battle May 5 2010 15:14 Three people have suffocated to death as a result of a fire in Marfin Bank during ongoing battles between anti-measure protesters and police in Athens. The Athens protest march marking the zenith of the general strike called for the 5th of May was attended by an approximate 200, 000 ( 20, 000 which is the foreign broadcast number referring to the PAME march alone ), although because of lack of media coverage due to the media participation in the general strike no concrete estimates can be made. After the PAME ( Communist Party union ) protesters left Syntagma square, the first lines of the main march started arriving before the Parliament with the first clashes erupting at the end of Stadiou street. The march then walked on the Unknown Soldier grounds leading the Presidential Guard to retreat, and attempted to storm the Parliament but was pushed back by riot police forces which today demonstrated a particularly staunch attitude and resolve against the demonstrators. Soon battles erupted around the Parliament with protesters throwing Molotov cocktails and rocks, with one riot police armored van torched, and the police responding by extended use of tear gas that soon made Athens' atmosphere unbearably acrid. As more blocks reached Syntagma square, the battles spread across the city center and lasted for more than five hours. During the clashes several state buildings were set ablaze including the County Headquarters of Attika. At the time of writing the Ministry of Finance is reported to be on fire, and vital tax documents as destroyed by the raging fire. However the strange thing is that it is the fourth floor of the building that is burning, at a height inapproachable to petrol bombs. The building is in danger of total collapse. According to news reports that began at 14:00 Greek time after, under pressure by the events, most radio and TV stations decided to break their strike, claim that the fire at Marfin Bank's Stadiou street branch that has led to the death of three workers ( one a pregnant woman ) was started by protesters. However this remains an unsubstantiated claim. A similar case three decades ago had originally put the blame for the fire at Kappa-Marousi building on Panepistimiou street, leading to the death of several people inside, to anarchists, while its was later proved the fire was caused by tear gas fired by the police. After the tragic death of the three workers made the round of Athens, new clashes started to spread in the Greek capital, with a large crowd gathered outside the burned bank when Marfin's boss tried to visit the site. Clashes broke out between the crowd and police when the former attacked the bank magnate accusing him of forcing the dead workers to scab on a general strike and locking them in the building despite them demanding to evacuate it since 12:00. In Parliament the Communist Party of Greece has accused the government for the deaths, claiming it was a result of agents provocateur fascist groups. The claims of the Communist Party are based on the fact that 50 fascists tried to enter the PAME demo bearing the flags of the union earlier in the morning. The fascists were spotted, chased and sought refuge behind riot police lines. Accusing the extreme-right as being behind the deaths, the Coalition of Radical Left has declared in Parliament that the government cannot pretend to be in grief for the loss of life, as it has been attacking human life by all means possible. Meanwhile, extended clashes broke out in Salonika where approximately 50, 000 people marched destroying dozens of banks and corporate shops in Greece's second largest city. Clashes with the police continued for several hours. According to news broadcasts anarchist have occupied the Labour Center of the city. In Patras, around 20, 000 protesters were joined by tractor drivers and garbage truck drivers on their vehicles, as flaming barricades were erected along central streets of the city and clashes developed between protestors and the police. In Ioannina the protesters attacked banks and corporate shops leading to extended use of chemicals by the police. In Heraklion, 10, 000 people are reported as marching against the measures. In Corfu, protesters taking part in the anti-measures march occupied the County Headquarters. Protesters have occupied the Administrative Headquarters of Naxos and the City Hall of Naoussa. As a result of the Athens riots, the police have cordoned off the entire center of the city, erecting check points of entry and exit, while all police work permits have been recalled. At the time of writing battles continue to rage in the inner city, while news broadcasts claim the police is mobilising its forces to storm an anarchist squat in Exarcheia.
+Event	904	battles	Occurence	4838
+Event	50	burning	Occurence	165
+Event	151	strike	Occurence	692
+Event	70	death	Occurence	266
+Event	527	gathered	Occurence	2755
+Event	103	strike	Occurence	445
+Event	425	death	Occurence	2224
+Event	82	battles	Occurence	324
+Event	132	march	Occurence	588
+Event	413	fire	Occurence	2160
+Event	502	death	Occurence	2631
+Event	46	dead	Occurence	144
+Event	68	suffocated	Occurence	252
+Event	96	march	Occurence	405
+Event	58	battle	Occurence	210
+Event	514	clashes	Occurence	2688
+Relation	46	50	SubSuper	true	dead	burning
+Relation	50	58	SubSuper	true	burning	battle
+Relation	82	96	SubSuper	true	battles	march
+Relation	96	103	SubSuper	true	march	strike
+Relation	132	151	SubSuper	true	march	strike
+Relation	413	425	SuperSub	true	fire	death
+Relation	413	502	SuperSub	true	fire	death
+Relation	502	514	SuperSub	true	death	clashes
+Relation	514	527	SubSuper	true	clashes	gathered
+Relation	96	904	SuperSub	true	march	battles
+Relation	502	527	SuperSub	true	death	gathered
+Relation	68	70	SuperSub	true	suffocated	death
+Relation	103	132	SuperSub	true	strike	march

@@ -1,0 +1,43 @@
+Text	http://www. newsandstar. co. uk/news/provisional-trial-date-set-for-cumbria-double-murder-accused-1. 1062470 PROVISIONAL TRIAL DATE SET FOR CUMBRIA DOUBLE MURDER ACCUSED Published at 12:45, Wednesday, 12 June 2013 A provisional trial date has been set in the case of a son accused of killing his mother, sister and pet dog. A preliminary hearing for John Jenkin, 23, charged with the murders of his mum Alice McMeekin, 58, and sister Katie Jenkin, 20, took place at Preston Crown Court this morning. Jenkin was due to appear via videolink from HMP Preston but did not do so as he was considered a risk to his own safety and that of other people, said crown prosecutor Susan Carter. The case was heard in his absence and a provisional trial date was set for October 28, with a duration of three days. The bodies of Ms McMeekin and Miss Jenkin were found in their house in Newton Street, Millom, at about 8. 40am on Saturday. The family's border collie, named Fenn, was found dead in the backyard of the house. Jenkin, who was arrested at Millom Pier at around 9. 35am, is also facing a charge of causing unnecessary suffering to an animal in relation to the dog's death. No application was made for bail and no plea was entered. A plea and case management hearing will be held on September 6. Judge Anthony Russell QC asked for psychiatric reports to be completed on Jenkin before the next hearing.
+Event	130	do	Occurence	568
+Event	92	murders	Occurence	384
+Event	160	absence	Occurence	708
+Event	137	risk	Occurence	597
+Event	69	accused	Occurence	273
+Event	71	killing	Occurence	284
+Event	274	hearing	Occurence	1255
+Event	216	dead	Occurence	974
+Event	62	set	Occurence	248
+Event	242	charge	Occurence	1085
+Event	255	death	Occurence	1163
+Event	246	suffering	Occurence	1115
+Event	89	charged	Occurence	367
+Event	228	arrested	Occurence	1025
+Event	215	found	Occurence	968
+Event	204	Saturday	Occurence	914
+Event	164	trial	Occurence	734
+Event	82	hearing	Occurence	338
+Event	58	trial	Occurence	228
+Relation	58	69	SubSuper	true	trial	accused
+Relation	69	71	SubSuper	true	accused	killing
+Relation	82	89	SubSuper	true	hearing	charged
+Relation	89	92	SubSuper	true	charged	murders
+Relation	130	137	SubSuper	true	do	risk
+Relation	137	160	SuperSub	true	risk	absence
+Relation	82	164	SuperSub	true	hearing	trial
+Relation	62	164	SuperSub	true	set	trial
+Relation	71	216	SuperSub	true	killing	dead
+Relation	71	228	SuperSub	true	killing	arrested
+Relation	92	228	SuperSub	true	murders	arrested
+Relation	242	246	SubSuper	true	charge	suffering
+Relation	246	255	SuperSub	true	suffering	death
+Relation	242	274	SuperSub	true	charge	hearing
+Relation	89	274	SuperSub	true	charged	hearing
+Relation	69	274	SuperSub	true	accused	hearing
+Relation	204	71	SuperSub	true	Saturday	killing
+Relation	204	92	SuperSub	true	Saturday	murders
+Relation	204	215	SuperSub	true	Saturday	found
+Relation	204	216	SuperSub	true	Saturday	dead
+Relation	204	255	SuperSub	true	Saturday	death
+Relation	204	246	SuperSub	true	Saturday	suffering
+Relation	82	92	SubSuper	true	hearing	murders

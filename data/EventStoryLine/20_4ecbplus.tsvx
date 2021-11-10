@@ -1,0 +1,41 @@
+Text	http://www. terradaily. com/news/disaster-management-05zzzzzc. html Iran Villagers Shelter In Tents After Killer Quake Nov 28, 2005 Iranian rescue workers handed out blankets, food and water Monday to survivors of a powerful earthquake on a Gulf island that killed 10 people and forced villagers to spend the night in tents. Power was restored to the afflicted villages on the Gulf island of Qeshm after a blackout caused by the quake, which struck on Sunday with a force of about 6. 0 on the Richter scale. "We have distributed the needed tents, blankets, fresh water and food to survivors, " the governor-general of Hormouzgan province, Abdolreza Sheikholeslami, told state television. He said 30 of the 80 wounded remained in hospital after the tremor, which destroyed or damaged an estimated 1, 500 mudbrick houses in about 15 villages on the island and was felt across the Gulf in the United Arab Emirates. "Most of the buildings in the villages are not safe to live in any more. However, by nightfall all those who need tents will be provided with one, " the head of the provincial natural disaster service, Massoud Dalman, told the television. Qeshm island governor Heydar Alishbandi told AFP that a total of 10 people had been killed and that the death toll was not expected to rise further. "Around 1, 000 people are housed temporarily in tents and another 2, 000 are waiting to be housed, " he said, adding that the weather was warm with temperatures of about 28 degrees Celsius ( 82 degrees Fahrenheit ). "We are not facing shortages and the relief operations are going smoothly. " Some panicked residents of the island, which is situated off the coast from the large port city of Bandar Abbas and is home to about 100, 000 people, slept outside after a second quake jolted the area several hours later. The rocky and barren island was hit almost two years after the southeastern city of Bam-- situated 300 kilometers ( 190 miles ) to the north-- was destroyed in a quake that killed tens of thousands of people. State news agency IRNA quoted the head of Qeshm's free-trade zone, Ali Rezapour, as saying the quake caused damage estimated at around 54 million dollars, with 50 schools and about 1, 500 houses rendered unsafe. Qeshm, located 1, 150 kilometers ( 700 miles ) southeast of Tehran, has a busy commercial and fishing port and is also a popular weekend sunshine getaway for Iranian tourists. Airport chief Ali Naghavi was quoted by IRNA as saying that operations had resumed after being halted on Sunday. The island's main town, also called Qeshm, was undamaged. The most affected villages were identified as Gabardin, Tonban, Karvan, Tourian and Khaldin-- all situated in the less densely populated west of the island. Iran sits astride several major faults in the earth's crust, and is prone to frequent earthquakes. In February, a quake measuring 6. 4 on the Richter scale hit the southern town of Zarand, killing 612 people and wounding around 1, 400. In December 2003, the southeastern city of Bam was razed by a 6. 7 degree quake that left more than 31, 000 people dead. Mehdi Zareh, the head of Iran's Seismic Research Center, said there was no tsunami risk from the latest quake. "Because the Persian Gulf is not very deep, a tsunami is not expected, " he told the student news agency ISNA.
+Event	171	felt	Occurence	862
+Event	89	struck	Occurence	442
+Event	48	earthquake	Occurence	225
+Event	86	quake	Occurence	429
+Event	42	Monday	Occurence	191
+Event	61	spend	Occurence	299
+Event	22	Shelter	Occurence	83
+Event	27	Quake	Occurence	113
+Event	144	remained	Occurence	717
+Event	152	destroyed	Occurence	762
+Event	69	restored	Occurence	335
+Event	82	blackout	Occurence	406
+Event	149	tremor	Occurence	748
+Event	154	damaged	Occurence	775
+Event	58	forced	Occurence	279
+Event	54	killed	Occurence	258
+Event	91	Sunday	Occurence	452
+Relation	42	22	SuperSub	true	Monday	Shelter
+Relation	42	48	SubSuper	true	Monday	earthquake
+Relation	42	54	SubSuper	true	Monday	killed
+Relation	42	69	SuperSub	true	Monday	restored
+Relation	91	82	SuperSub	true	Sunday	blackout
+Relation	91	86	SuperSub	true	Sunday	quake
+Relation	91	89	SuperSub	true	Sunday	struck
+Relation	91	149	SuperSub	true	Sunday	tremor
+Relation	42	61	NoRel	true	Monday	spend
+Relation	91	152	SuperSub	true	Sunday	destroyed
+Relation	91	154	SuperSub	true	Sunday	damaged
+Relation	171	171	SuperSub	true	felt	felt
+Relation	22	27	SubSuper	true	Shelter	Quake
+Relation	48	54	SuperSub	true	earthquake	killed
+Relation	48	61	SuperSub	true	earthquake	spend
+Relation	82	86	SuperSub	true	blackout	quake
+Relation	149	152	SuperSub	true	tremor	destroyed
+Relation	149	154	SuperSub	true	tremor	damaged
+Relation	144	149	SubSuper	true	remained	tremor
+Relation	149	171	SuperSub	true	tremor	felt
+Relation	86	89	SuperSub	true	quake	struck
+Relation	48	58	SuperSub	true	earthquake	forced
+Relation	82	86	SubSuper	true	blackout	quake

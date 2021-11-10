@@ -1,0 +1,16 @@
+Text	http://www. duianswer. com/blog/san-diego-chargers-defensive-tackle-faces-dui-charges. cfm San Diego Chargers Defensive Tackle Faces DUI Charges Jamal Williams, the defensive tackle for the San Diego Chargers was arrested on suspicion of drunk driving early morning on Sunday, February 1, 2009. He is the second Chargers ' player within the last month to be arrested for DUI. Williams was initially pulled over for speeding on a freeway outside downtown. He submitted to a blood-alcohol test, but it will take a few weeks for the results to be completed. Williams was taken to a county jail where he later was released on bail. Williams is an 11-year veteran and recipient of the Chargers ' Most Valuable Player Award this season. According to the City Attorney's office, Williams ' case had not been submitted as of Tuesday, February 3, 2009. The team's general manager, A. J. Smith said that " we ' ll continue to monitor the situation and let the legal process run its course. " He went on to say, " the Chargers have always been leaders and positive contributors to our community. We take our stature in the community very seriously. Through the Chargers and the NFL, our players receive one of the most comprehensive education and support programs in sports to help them deal with issues that affect all segments of society. " Vincent Jackson, the Chargers receiver, was also recently arrested on allegations of DUI. His DUI arrest occurred five days before San Diego's playoff loss at Pittsburgh. Jackson's court date is set for February 17, 2009. When he was arrested, he was on probation for a previous DUI arrest, according to the California Highway Patrol.
+Event	79	arrested	Occurence	358
+Event	81	DUI	Occurence	371
+Event	121	taken	Occurence	568
+Event	130	released	Occurence	610
+Event	287	arrested	Occurence	1390
+Event	50	arrested	Occurence	213
+Event	291	DUI	Occurence	1417
+Event	37	Charges	Occurence	137
+Relation	37	50	SubSuper	true	Charges	arrested
+Relation	79	81	SubSuper	true	arrested	DUI
+Relation	37	79	SubSuper	true	Charges	arrested
+Relation	79	121	SuperSub	true	arrested	taken
+Relation	50	121	SuperSub	true	arrested	taken
+Relation	121	130	SuperSub	true	taken	released
+Relation	287	291	SubSuper	true	arrested	DUI

@@ -1,0 +1,9 @@
+Text	http://articles. ktuu. com/2012-08-07/fire-crews_33105272 Matanuska Maid Dairy Building Burns Down August 07, 2012 The old Matanuska Maid dairy building in Palmer was nearly destroyed by a fire early Tuesday morning, according to Palmer officials. John Owen, the city's public safety director, says dispatchers got a call shortly after 3:30 a.m. Tuesday that the vacated building was on fire. Crews arrived to find flames completely engulfing the structure. Crews from both Palmer Fire and the Mat-Su Central Fire Department responded to the blaze, using at least two ladder trucks as well as "a number" of other apparatus. The fire was extinguished by 7 a.m., after fire crews attacked it from all sides. Owen says the building will likely be a total loss. No one was believed to be inside the building, and the fire marshal had been called to investigate.
+Event	42	destroyed	Occurence	174
+Event	144	attacked	Occurence	678
+Event	131	fire	Occurence	628
+Event	45	fire	Occurence	189
+Event	133	extinguished	Occurence	637
+Relation	42	45	SubSuper	true	destroyed	fire
+Relation	131	133	SuperSub	true	fire	extinguished
+Relation	133	144	SubSuper	true	extinguished	attacked

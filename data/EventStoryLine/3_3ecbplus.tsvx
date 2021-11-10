@@ -1,0 +1,42 @@
+Text	http://www. nowpublic. com/world/arcade-joseph-comeaux-jr-texas-child-molester-escaped-and-armed Arcade Joseph Comeaux Jr:Texas Child Molester Escaped and Armed November 30, 2009 at 02:22 pm Texas inmate Arcade Joseph Comeaux Jr. escaped when he was being transported to a prison in Beaumont from Huntsville. Arcade Joseph Comeaux Jr. is a convicted sex offender serving a life sentence. Comeaux escaped with a 12-gauge shotgun and 2 semiautomatic pistols. He initially was imprisoned on February 1979 on three 10-year sentences for rape of a child, aggravated rape of a child, and burglary of a building with the intent to commit theft. His supervision was revoked and he returned to prison in May 1984 with a new charge of indecency with a child, given a new 20 year sentence. Between 1991 and 1998, Comeaux was in and out of prison on parole violations until he finally returned to prison in June 1999 to serve a life sentence for aggravated sexual assault.
+Event	127	burglary	Occurence	582
+Event	104	imprisoned	Occurence	474
+Event	181	violations	Occurence	845
+Event	160	given	Occurence	749
+Event	139	supervision	Occurence	642
+Event	195	sentence	Occurence	921
+Event	86	sentence	Occurence	378
+Event	40	Escaped	Occurence	143
+Event	59	escaped	Occurence	230
+Event	185	returned	Occurence	873
+Event	170	1998	Occurence	796
+Event	42	Armed	Occurence	155
+Event	144	returned	Occurence	673
+Event	141	revoked	Occurence	658
+Event	155	indecency	Occurence	725
+Event	168	1991	Occurence	787
+Event	89	escaped	Occurence	396
+Event	113	sentences	Occurence	519
+Event	199	assault	Occurence	952
+Event	165	sentence	Occurence	769
+Event	153	charge	Occurence	715
+Event	64	transported	Occurence	256
+Relation	59	64	SubSuper	true	escaped	transported
+Relation	40	42	SubSuper	true	Escaped	Armed
+Relation	86	89	SuperSub	true	sentence	escaped
+Relation	104	113	SubSuper	true	imprisoned	sentences
+Relation	89	104	SubSuper	true	escaped	imprisoned
+Relation	141	144	SuperSub	true	revoked	returned
+Relation	144	153	SubSuper	true	returned	charge
+Relation	141	153	SubSuper	true	revoked	charge
+Relation	155	165	SuperSub	true	indecency	sentence
+Relation	153	165	SuperSub	true	charge	sentence
+Relation	185	195	SubSuper	true	returned	sentence
+Relation	141	160	SubSuper	true	revoked	given
+Relation	141	165	SubSuper	true	revoked	sentence
+Relation	168	181	SubSuper	true	1991	violations
+Relation	170	181	SuperSub	true	1998	violations
+Relation	195	199	SubSuper	true	sentence	assault
+Relation	104	127	SubSuper	true	imprisoned	burglary
+Relation	139	141	SuperSub	true	supervision	revoked
+Relation	113	127	SubSuper	true	sentences	burglary

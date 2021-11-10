@@ -1,0 +1,23 @@
+Text	http://www. nbcphiladelphia. com/news/local/3-Shot-in-Nabisco-Factory-102589659. html Suspended Worker Kills 2 Women in Kraft Factory Shooting:Police The woman accused had just been escorted from the building 10 minutes earlier Friday, Sep 10, 2010 | Updated 9:28 AM EDT Minutes after a woman was suspended and escorted from her job at the Kraft Foods plant in Northeast Philadelphia, she returned with a. 357 Magnum and opened fire, killing two women and critically injuring a third co-worker before being taken into custody, police said. The shootings happened shortly after 8:30 p.m. Thursday. About 10 minutes after the Yvonne Hiller was escorted out, she returned in a car and drove through a security barrier before re-entering the building on foot, Lt. Frank Vanore said. She walked inside, firing a shot at an employee who had followed her in and had yelled, "Hide, she's got a gun ! '' Vanore said. That shot missed. Hiller, 43, then shot the three victims, according to police-- the women were shot on the third floor and the man she confronted on the stairs as she went down to the second floor where she barricaded herself into an office. Officers freed seven people who had locked themselves in an office next to the shooter, said Vanore. Investigators didn't say why Hiller, a 15-year employee, was suspended. One witness told NBC Philadelphia that she has a history of run-ins with co-workers and management. Dough mixer Andy Ryan, who has worked at the plant for nearly 30 years, said he was on the third floor when the sound of the shots echoed through the building. "I heard the gunfire, and I ran, '' he told The Associated Press, his apron still on. "As I was running down the steps they were yelling, 'Oh, my God, there's three people shot ! ''' "This is a sad day for the Kraft Foods family, '' the company said in a statement. "Our thoughts and prayers go out to their families. The loss of a loved one is a great sorrow. '' Kraft said the plant would be closed until further notice and the company would provide employees with counseling.
+Event	206	shot	Occurence	943
+Event	228	confronted	Occurence	1044
+Event	117	shootings	Occurence	544
+Event	96	killing	Occurence	434
+Event	72	escorted	Occurence	311
+Event	70	suspended	Occurence	297
+Event	86	returned	Occurence	389
+Event	30	Kills	Occurence	103
+Event	28	Suspended	Occurence	86
+Event	36	Shooting	Occurence	134
+Event	219	shot	Occurence	1004
+Relation	28	30	SuperSub	true	Suspended	Kills
+Relation	30	36	SubSuper	true	Kills	Shooting
+Relation	70	72	SuperSub	true	suspended	escorted
+Relation	72	86	SuperSub	true	escorted	returned
+Relation	70	117	SuperSub	true	suspended	shootings
+Relation	70	206	SuperSub	true	suspended	shot
+Relation	70	219	SuperSub	true	suspended	shot
+Relation	70	228	SuperSub	true	suspended	confronted
+Relation	70	86	SuperSub	true	suspended	returned
+Relation	70	96	SuperSub	true	suspended	killing
+Relation	86	96	SuperSub	true	returned	killing

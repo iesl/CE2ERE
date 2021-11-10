@@ -1,0 +1,13 @@
+Text	http://eatdrinkandsleepfootball. com/blog/2009/02/chargers_jamal_williams_arrested_for_dui. html Chargers Jamal Williams arrested for DUI In the steeped NFL tradition of drinking and driving, Chargers NT Jamal Williams is doing his part to uphold the tradition. Of course, football is the ultimate team game and fellow Charger Vincent Jackson was arrested last month for DUI as well. Although results are pending for the blood-alcohol test that Williams took, he has been booked and later released on bail. While I make fun of a topic that definitely isn't funny, I still don't understand how these players with their multi-million dollar salaries don't hire drivers or car services.
+Event	100	released	Occurence	489
+Event	72	arrested	Occurence	347
+Event	92	took	Occurence	454
+Event	76	DUI	Occurence	371
+Event	31	arrested	Occurence	121
+Event	97	booked	Occurence	472
+Event	33	DUI	Occurence	134
+Relation	31	33	SuperSub	true	arrested	DUI
+Relation	72	76	SubSuper	true	arrested	DUI
+Relation	72	92	SuperSub	true	arrested	took
+Relation	72	97	SuperSub	true	arrested	booked
+Relation	97	100	SuperSub	true	booked	released

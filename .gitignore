@@ -6,6 +6,7 @@
 /src/__pycache__
 /log
 *.pt
+*.yaml
 wandb/
 /test
 log/

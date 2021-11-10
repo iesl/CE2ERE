@@ -1,0 +1,9 @@
+Text	http://www. utsandiego. com/news/2009/Feb/02/bn02jamal225516-no-headline/Chargers lineman Jamal Williams faces DUI charges 10:55 P. M. FEB. 2, 2009 Chargers defensive lineman Jamal Williams was arrested early Sunday on suspicion of drunken driving after he was speeding down state Route 94, the California Highway Patrol said. Williams, 32, was going west in his 2008 Bentley about 1:30 a.m., CHP Officer Brian Pennings said. He said he did not know how fast Williams was going. A CHP officer pulled Williams over near Home Avenue east of downtown, in the Ridgeview/Webster area. Pennings said Williams gave a blood sample for a blood-alcohol test, but the results are not yet known. Williams was booked into county jail and later was released on bail. Another Charger, receiver Vincent Jackson, was arrested early Jan. 6 on suspicion of driving under the influence on state Route 52 near Interstate 805. Jackson said in a statement at the time that he looked forward to proving his innocence.
+Event	50	arrested	Occurence	194
+Event	61	speeding	Occurence	261
+Event	174	arrested	Occurence	800
+Event	31	charges	Occurence	115
+Event	207	proving	Occurence	971
+Relation	31	50	SubSuper	true	charges	arrested
+Relation	50	61	SubSuper	true	arrested	speeding
+Relation	174	207	SuperSub	true	arrested	proving

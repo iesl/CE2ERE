@@ -1,0 +1,40 @@
+Text	http://www. egyptindependent. com/news/cable-cuts-partially-block-internet-mobile-services-some-areas Cable cuts partially block internet, mobile services in some areas On Tue, 16/08/2011-13:42 An undersea telecommunications cable cut on Tuesday partially blocked internet and mobile services in Alexandria and some other governorates. The cable cut happened around the same time that a different cable, owned by Telecom Egypt, was cut that also affected services, Egyptian authorities said. Mahmoud al-Goweiny, a member of the National Telecommunications Regulatory Authority's board of directors, told Al-Masry Al-Youm that this particular undersea cable has frequently malfunctioned since late 2007. Ahmed Osama, deputy executive director of Telecom Egypt, said the cable passes through Egypt from Europe and reaches Asia. Osama said the cut's effect in Egypt was limited, and there haven't been clear reports about a cause. "Some internet users suffered problems with internet and mobile services, Osama noted. Osama attributed these problems to the Telecom Egypt cable cut, which affected Etisalat Egypt and LINKdotNET, two of Egypt's largest internet services providers. No further details were reported about the effects of the cuts.
+Event	59	Tuesday	Occurence	238
+Event	206	affected	Occurence	1085
+Event	65	services	Occurence	284
+Event	178	cause	Occurence	921
+Event	92	cut	Occurence	432
+Event	61	blocked	Occurence	256
+Event	183	suffered	Occurence	949
+Event	184	problems	Occurence	958
+Event	95	affected	Occurence	446
+Event	164	effect	Occurence	847
+Event	31	cuts	Occurence	108
+Event	57	cut	Occurence	231
+Event	75	cut	Occurence	346
+Event	33	block	Occurence	123
+Event	168	limited	Occurence	867
+Event	163	cut's	Occurence	841
+Relation	59	31	SuperSub	true	Tuesday	cuts
+Relation	59	33	SuperSub	true	Tuesday	block
+Relation	59	57	SuperSub	true	Tuesday	cut
+Relation	59	61	SuperSub	true	Tuesday	blocked
+Relation	59	65	NoRel	true	Tuesday	services
+Relation	59	75	SuperSub	true	Tuesday	cut
+Relation	59	92	SuperSub	true	Tuesday	cut
+Relation	59	95	SuperSub	true	Tuesday	affected
+Relation	59	163	SuperSub	true	Tuesday	cut's
+Relation	59	164	SuperSub	true	Tuesday	effect
+Relation	59	168	SuperSub	true	Tuesday	limited
+Relation	59	183	SuperSub	true	Tuesday	suffered
+Relation	59	184	SuperSub	true	Tuesday	problems
+Relation	59	206	SuperSub	true	Tuesday	affected
+Relation	31	33	SuperSub	true	cuts	block
+Relation	57	61	SuperSub	true	cut	blocked
+Relation	92	95	SuperSub	true	cut	affected
+Relation	75	95	SuperSub	true	cut	affected
+Relation	75	178	SubSuper	true	cut	cause
+Relation	164	184	SuperSub	true	effect	problems
+Relation	75	184	SuperSub	true	cut	problems
+Relation	92	184	SuperSub	true	cut	problems
+Relation	92	178	SubSuper	true	cut	cause

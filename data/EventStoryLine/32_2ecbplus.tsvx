@@ -1,0 +1,50 @@
+Text	http://www. dailymail. co. uk/news/article-2338439/Cumbria-double-murder-Son-suspected-killing-mother-sister-begged-stay-locked-mental-hospital. html Son suspected of killing mother and sister 'had begged to stay locked up in mental hospital' John Jenkin, 23, released from secure mental hospital against his wishes His sister Katie Jenkin, 20, and mother Alice McMeekin, 58, were found dead in a home in Millom, Cumbria Relative said he had history of mental health problems Police not searching for any other suspects in connection with double murders PUBLISHED:16:05 GMT, 9 June 2013 | UPDATED:06:55 GMT, 10 June 2013 A man said to have been released from a secure mental hospital against his wishes was yesterday being questioned over the murders of his mother and sister. John Jenkin, 23, had been sectioned after an apparent suicide attempt in the week before the double murder. According to a relative, he had a history of mental health problems and had pleaded in vain to be kept locked up because he feared harming himself or someone else. Police were called to the family's terraced house in Millom, Cumbria, at 8. 40am on Saturday and found the bodies of Alice McMeekin, 58, and her university student daughter Katie Jenkin, 20. The family's new pet collie, Fenn, was also killed. Jenkin, who was described as a Goth, was arrested nearby on suspicion of murder. He was said to have doted on his mother and younger sister, but the heavy metal fan was also obsessed with the occult. Cumbria police have not revealed how the women died, although no gun was used in the murders. Friends and neighbours were shocked by the murders of the animal-loving divorced mother-of-two and her daughter, who was studying in South Wales and was on a weekend visit home. Yesterday a neighbour recalled seeing the suspect in the street at 3am on Saturday and also hearing screams coming from the pebble-dashed house. 'I was coming back home at 3am with my girlfriend and I was walking up the back street and he was walking around and I looked at his face and it was like looking into space, there was nothing there, ' he said. 'Then I went home and I heard a lot of screams. It sounded like the screams of a dog. I went into my backyard and I heard these piercing screams I will never forget. ' He did not contact the police, but more noise was heard at around 8am. 'It sounded like someone telling a dog to shut up ,'said the neighbour. Police were called and found the bodies. Jenkin, who is unemployed, spent much of his time on his computer and listening to music. According to a relative, he had suffered mental health problems for some time. 'He's had a very dark past, but I don't want people to think he is some kind of monster, I just feel sorry for him ,'she said. The relative said he was sectioned under the Mental Health Act for attempting to slit his wrists and then allowed home again in the days before the tragedy. She said he had told health workers that he feared he would harm himself or someone else if he did not stay in a secure psychiatric unit. 'John begged people for help, but he didn't get it ,'she said. Friends said John Jenkin was close to his family. One friend, who asked not to be named, said:'He idolised his mum and his sister. His little sister was his world, and his mum was too. They all looked after each other. He was a good kid, never one of those to go out and get into trouble. ' Mrs McMeekin was brought up in Millom and was the daughter of a greengrocer. She moved to Merthyr Tydfil, South Wales, four years ago 'to give her kids a better life', but returned to her home town with John 12 weeks ago. She worked for the prison service and 'would do anything for anybody', according to the friend. Katie, who was in a steady relationship with a boyfriend, stayed in Wales to continue her media studies course. 'She was a happy, beautiful girl with the world in front of her ,'said the friend. She recalled chatting on Friday to Mrs McMeekin, who was looking forward to her daughter's visit.
+Event	323	died	Occurence	1539
+Event	606	allowed	Occurence	2873
+Event	288	murder	Occurence	1365
+Event	224	called	Occurence	1061
+Event	592	sectioned	Occurence	2792
+Event	338	shocked	Occurence	1614
+Event	49	killing	Occurence	167
+Event	367	weekend	Occurence	1744
+Event	601	slit	Occurence	2848
+Event	283	arrested	Occurence	1333
+Event	67	released	Occurence	260
+Event	205	pleaded	Occurence	961
+Event	74	wishes	Occurence	309
+Event	628	harm	Occurence	2984
+Event	341	murders	Occurence	1629
+Event	242	found	Occurence	1146
+Event	359	studying	Occurence	1707
+Event	329	used	Occurence	1565
+Event	637	stay	Occurence	3027
+Event	614	tragedy	Occurence	2915
+Event	368	visit	Occurence	1752
+Event	215	feared	Occurence	1009
+Event	240	Saturday	Occurence	1133
+Event	271	killed	Occurence	1284
+Event	90	found	Occurence	381
+Event	332	murders	Occurence	1577
+Event	91	dead	Occurence	387
+Relation	240	271	SuperSub	true	Saturday	killed
+Relation	240	288	SuperSub	true	Saturday	murder
+Relation	240	323	SuperSub	true	Saturday	died
+Relation	240	329	SuperSub	true	Saturday	used
+Relation	224	242	SuperSub	true	called	found
+Relation	283	288	SubSuper	true	arrested	murder
+Relation	338	341	SubSuper	true	shocked	murders
+Relation	592	601	SubSuper	true	sectioned	slit
+Relation	606	614	SuperSub	true	allowed	tragedy
+Relation	628	637	SubSuper	true	harm	stay
+Relation	240	332	SuperSub	true	Saturday	murders
+Relation	240	341	SuperSub	true	Saturday	murders
+Relation	240	90	SuperSub	true	Saturday	found
+Relation	240	91	SuperSub	true	Saturday	dead
+Relation	240	49	SuperSub	true	Saturday	killing
+Relation	367	368	SuperSub	true	weekend	visit
+Relation	367	359	NoRel	true	weekend	studying
+Relation	367	341	NoRel	true	weekend	murders
+Relation	367	338	NoRel	true	weekend	shocked
+Relation	205	215	SubSuper	true	pleaded	feared
+Relation	90	91	SubSuper	true	found	dead
+Relation	67	74	SuperSub	true	released	wishes

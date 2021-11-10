@@ -1,0 +1,19 @@
+Text	http://www. democraticunderground. com/discuss/duboard. php ? az=view_all&address=102x1949657 'Several die' in south Iran quake Novemer 27, 2005 A powerful earthquake has hit southern Iran, destroying several villages and killing at least three people and injuring others, according to reports. The 5. 9-magnitude quake struck Qeshm island, home to 120, 000 people, and the city of Bandar Abbas, state media said. The governor of Qeshm island told the AFP news agency four villages had been destroyed and three people killed. The quake, which struck at 1353 ( 1023 GMT ), was felt in the neighbouring Gulf states of Oman and the UAE.
+Event	34	hit	Occurence	171
+Event	98	destroyed	Occurence	491
+Event	48	injuring	Occurence	256
+Event	38	destroying	Occurence	190
+Event	42	killing	Occurence	222
+Event	61	quake	Occurence	314
+Event	25	quake	Occurence	122
+Event	32	earthquake	Occurence	156
+Event	21	die'	Occurence	103
+Event	102	killed	Occurence	518
+Relation	21	25	SubSuper	true	die'	quake
+Relation	32	38	SuperSub	true	earthquake	destroying
+Relation	32	42	SuperSub	true	earthquake	killing
+Relation	32	48	SuperSub	true	earthquake	injuring
+Relation	61	98	SuperSub	true	quake	destroyed
+Relation	61	102	SuperSub	true	quake	killed
+Relation	34	42	SuperSub	true	hit	killing
+Relation	34	48	SuperSub	true	hit	injuring

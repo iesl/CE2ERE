@@ -1,0 +1,32 @@
+Text	http://gothamist. com/2013/03/11/dozens_riot_over_nypds_fatal_shooti. php Dozens "Riot" Over NYPD's Fatal Shooting Of Brooklyn Teen Yesterday, the police explained that officers shot and killed a 16-year-old Kimani Gray in Brooklyn because he allegedly pointed a gun at the cops. However, his relatives are skeptical of the police account—his sister Mahnefah Gray said, "He has common sense... They killed my little brother for no reason. " Tonight, a crowd gathered to mourn his death—and protest police treatment. Police said two Brooklyn South Anti Crime plainclothes officers had been on patrol when they noticed young males near 473 East 52nd Street. According to the NYPD's statement, the cops noticed one "break away from the group upon noticing the police. The male... adjusted his waistband and continued to act in a suspicious manner. The officers exited their unmarked auto and attempted to engage the suspect, who turned on them, and pointed a. 38 caliber revolver at the officers. Both officers fired at the suspect, striking him about the body. " A witness told the Daily News "The cops, they just jumped out of the car so fast ,. They started shooting him and he went down, he was bleeding, holding his side, screaming, 'stop, stop. '" Another witness described the scene to PIX11, "He was running for his life, telling the cops, 'Stop. ' They really are, seriously, walking around, shooting little kids. " Tonight, a large crowd gathered to remember Gray, and it apparently became unruly as the crowd walked between the shooting location and the 67th Precinct at Snyder Avenue near Nostrand—there were reports that bottles were thrown at police officers. NBC New York estimated the crowd at 70, and the Post says a crowd looted a Rite Aid. The manager said, "They poured in here like 40 or 50 of them. They pulled the registers off the counters, they flipped over everything. They punched me in the face. Several of them did, not just one [ person. ] It was insane. " City Council Member Jumaane Williams lamented that a "peaceful vigil that devolved into a riot. The youth in this community have no outlets for their anger, no community center. " NYPD spokesman Paul Browne had said yesterday, "After the anti-crime sergeant and police officer told the suspect to show his hands, which was heard by witnesses, Gray produced a revolver and pointed it at the officers, who fired a total of 11 rounds, striking Gray several times. " Police sources also told the News that "Gray has four prior arrests, including charges of grand larceny, possession of stolen property and inciting a riot. " Still, Gray's sister Mahnefah Gray said that a witness told her that Kimani was adjusting for his belt and that even if he had a gun, he wouldn't point it at the police. At this point ( 10:30 p.m. ), the police said that the crowd has dispersed and that there was one arrest, with no injuries to police or civilians ( the Post says three people were injured ).
+Event	107	death—and	Occurence	480
+Event	108	protest	Occurence	490
+Event	105	mourn	Occurence	470
+Event	110	treatment	Occurence	505
+Event	37	Yesterday	Occurence	132
+Event	103	gathered	Occurence	458
+Event	29	"Riot"	Occurence	81
+Event	44	shot	Occurence	178
+Event	99	Tonight	Occurence	441
+Event	60	pointed	Occurence	253
+Event	46	killed	Occurence	187
+Event	90	killed	Occurence	399
+Event	33	Shooting	Occurence	106
+Relation	44	46	SuperSub	true	shot	killed
+Relation	44	60	SubSuper	true	shot	pointed
+Relation	46	60	SubSuper	true	killed	pointed
+Relation	60	90	SuperSub	true	pointed	killed
+Relation	103	105	SuperSub	true	gathered	mourn
+Relation	105	107	SubSuper	true	mourn	death—and
+Relation	108	110	SubSuper	true	protest	treatment
+Relation	29	33	SubSuper	true	"Riot"	Shooting
+Relation	103	108	SubSuper	true	gathered	protest
+Relation	99	29	SuperSub	true	Tonight	"Riot"
+Relation	37	44	SubSuper	true	Yesterday	shot
+Relation	37	46	SubSuper	true	Yesterday	killed
+Relation	37	60	SubSuper	true	Yesterday	pointed
+Relation	99	103	SuperSub	true	Tonight	gathered
+Relation	99	105	SuperSub	true	Tonight	mourn
+Relation	99	107	SubSuper	true	Tonight	death—and
+Relation	99	108	SuperSub	true	Tonight	protest
+Relation	99	110	SubSuper	true	Tonight	treatment

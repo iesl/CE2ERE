@@ -1,0 +1,19 @@
+Text	http://www. barenakedislam. com/2010/09/10/charged-with-murder-what-most-of-the-liberal-media-wont-tell-you-about-the-very-spiritual-female-kraft-employee-who-shot-three-co-workers/CHARGED WITH MURDER:What most of the liberal media won't tell you about the "very spiritual' female Kraft employee who shot three co-workers The woman who allegedly shot three co-workers — killing two- at the Kraft Plant Thursday night has been charged with murder, attempted murder, aggravated assault, burglary, and other related charges, says Philadelphia District Attorney Seth Williams. The victims and alleged shooter in the last night's Kraft plant shooting had a history of arguing that dates back several years — the suspect thought her co-workers were spraying chemicals on her and talking behind her back, according to police. Yvonne Hiller, 43, got into an altercation with the two women and a male co-worker Thursday night, was taken to the supervisor's office, suspended and escorted out of the building.. Ten minutes after being taken off the job, Hiller drove her car to the security gate and forced her way in at gunpoint, police say, and headed back up to the third floor armed with her. 357 Magnum, which she has a permit to carry. She went to the employee lounge, saw four of her co-workers — three of with whom she ' d just had the altercation. The fourth person told her to get out of the lounge. She shot the other three, police say. Bryant Dalton, 39, was shot in the neck and is hospitalized in critical condition. Latonya Brown, 36, was shot in the head and Tanya Wilson, 47, was shot in the side. Both women died. Kenneth Dorsey says the woman accused of killing two co-workers and critically injuring a third at the Kraft plant in Northeast Philly is a good person. And so were the two women she's accused of gunning down with a. 357 Magnum, just minutes after she ' d been suspended and escorted from the building. " We talked about her Muslim faith and I wished her happy Ramadan, " Dorsey said. " I never thought in my deepest heart that it would come down to this, " Dorsey said. The reason Hiller was suspended had not been made public Friday afternoon and while some co-workers said she had a history of run-ins with other workers and management, Dorsey said like anyone, they sometimes had their differences, but always got along.
+Event	313	shot	Occurence	1404
+Event	119	assault	Occurence	476
+Event	121	burglary	Occurence	485
+Event	65	CHARGED	Occurence	181
+Event	113	murder	Occurence	439
+Event	86	shot	Occurence	300
+Event	111	charged	Occurence	426
+Event	67	MURDER	Occurence	194
+Event	95	shot	Occurence	346
+Event	101	killing	Occurence	370
+Relation	65	67	SubSuper	true	CHARGED	MURDER
+Relation	67	86	SubSuper	true	MURDER	shot
+Relation	95	101	SuperSub	true	shot	killing
+Relation	111	113	SubSuper	true	charged	murder
+Relation	111	119	SubSuper	true	charged	assault
+Relation	111	121	SubSuper	true	charged	burglary
+Relation	101	313	SubSuper	true	killing	shot
+Relation	95	111	SuperSub	true	shot	charged

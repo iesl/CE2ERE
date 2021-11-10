@@ -1,0 +1,26 @@
+Text	http://news. bbc. co. uk/2/hi/middle_east/4475546. stm Last Updated:Monday, 28 November 2005, 02:24 GMT Ten dead in southern Iran quake A powerful earthquake has hit southern Iran, killing at least 10 people, injuring dozens more and damaging several villages, officials say. The 6. 1-magnitude quake struck Qeshm island, home to 120, 000 people, and the city of Bandar Abbas, state media said. On Qeshm island, between half and two-thirds of homes in five villages had been damaged, officials said. The quake, which struck at 1353 ( 1023 GMT ), was felt in the neighbouring Gulf states of Oman and the UAE. Iran sits in a volatile earthquake region and is regularly struck by damaging quakes. A 6. 7-strength quake killed more than 26, 000 people in the ancient city of Bam in December 2003. 'We panicked' The US Geological Survey put the epicentre of Sunday's quake at about 58km ( 36 miles ) south-west of Bandar Abbas. Heydar Alishbandi, Governor of Qeshm island, said five villages had been badly hit, but the worst-affected areas appeared to be in the less-populated west. Helicopters ferried the injured to hospital but the authorities say the rescue effort is now winding down. Mr Alishbandi told the AFP news agency he was not expecting the death toll to rise. The BBC's Frances Harrison in Tehran says in one incident a number of children suffered broken legs as they rushed to evacuate their school. The initial tremor lasted just over 10 seconds, she says, and there have been at least four aftershocks of around 4. 0. Qeshm is a popular tourist destination in the mouth of the Persian gulf. It has a free trade zone and a commercial and fishing port as well as a sanctuary for the conservation of turtles The main town on Qeshm still has power, water and electricity connections and officials say they are sending relief goods such as tents to those who have lost their homes "We were panicked. I saw an injured person with blood on their clothes being taken to a local hospital, " one woman in Qeshm told AFP. There were reports of people fleeing buildings in the larger city of Bandar Abbas, a major port, but no indications of serious damage. The surrounding area has not been hit by a quake in more than 25 years. A 6. 4-magnitude quake hit the town of Zarand in Iran's Kerman province in February, killing hundreds of people.
+Event	38	dead	Occurence	108
+Event	229	affected	Occurence	1021
+Event	42	quake	Occurence	130
+Event	61	damaging	Occurence	234
+Event	223	hit	Occurence	1002
+Event	303	tremor	Occurence	1423
+Event	132	felt	Occurence	550
+Event	114	damaged	Occurence	475
+Event	120	quake	Occurence	504
+Event	57	injuring	Occurence	209
+Event	45	earthquake	Occurence	147
+Event	75	struck	Occurence	301
+Event	320	aftershocks	Occurence	1503
+Event	74	quake	Occurence	295
+Event	51	killing	Occurence	181
+Relation	38	42	SubSuper	true	dead	quake
+Relation	45	51	SuperSub	true	earthquake	killing
+Relation	45	57	SuperSub	true	earthquake	injuring
+Relation	45	61	SuperSub	true	earthquake	damaging
+Relation	74	114	SuperSub	true	quake	damaged
+Relation	120	132	SuperSub	true	quake	felt
+Relation	120	229	SuperSub	true	quake	affected
+Relation	303	320	SuperSub	true	tremor	aftershocks
+Relation	223	229	SuperSub	true	hit	affected
+Relation	74	75	SuperSub	true	quake	struck

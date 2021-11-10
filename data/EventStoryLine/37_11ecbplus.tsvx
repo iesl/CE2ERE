@@ -1,0 +1,36 @@
+Text	http://english. ahram. org. eg/NewsContent/2/9/75470/World/International/magnitude-quake-strikes-Indonesias-Aceh-USGS. aspx 6. 1-magnitude quake strikes Indonesia's Aceh:USGS A powerful 6. 1-magnitude earthquake struck the Indonesian province of Aceh with no tsunami warning issued AFP, Tuesday 2 Jul 2013 A strong 6. 1-magnitude earthquake struck the northwestern Indonesian province of Aceh on Tuesday, the US Geological Survey said, sending people running into the streets in panic. There were no immediate reports of damage after the quake struck inland at a depth of just 10 kilometres ( 6. 2 miles ), 55 kilometres south of Bireun and 72 kilometres southeast of Reuleuet, said the USGS. People ran out of buildings in panic in the provincial capital Banda Aceh as the quake shook houses for around one minute, an AFP journalist at the scene said. But the USGS estimated there was a low likelihood of casualties or damage. A massive quake struck off Aceh in 2004, sparking a tsunami that killed 170, 000 people in the province on Sumatra and tens of thousands more in countries around the Indian Ocean. Indonesia sits on the Pacific "Ring of Fire" where continental plates collide, causing frequent seismic and volcanic activity.
+Event	100	running	Occurence	451
+Event	116	quake	Occurence	538
+Event	117	struck	Occurence	544
+Event	98	sending	Occurence	436
+Event	113	damage	Occurence	521
+Event	150	ran	Occurence	700
+Event	197	struck	Occurence	944
+Event	201	2004	Occurence	963
+Event	164	quake	Occurence	774
+Event	82	struck	Occurence	341
+Event	165	shook	Occurence	780
+Event	44	strikes	Occurence	145
+Event	207	killed	Occurence	993
+Event	90	Tuesday	Occurence	396
+Event	57	struck	Occurence	212
+Event	205	tsunami	Occurence	980
+Event	196	quake	Occurence	938
+Relation	90	82	SuperSub	true	Tuesday	struck
+Relation	90	100	SuperSub	true	Tuesday	running
+Relation	90	116	SuperSub	true	Tuesday	quake
+Relation	90	117	SuperSub	true	Tuesday	struck
+Relation	90	150	SuperSub	true	Tuesday	ran
+Relation	90	164	SuperSub	true	Tuesday	quake
+Relation	90	165	SuperSub	true	Tuesday	shook
+Relation	201	197	SuperSub	true	2004	struck
+Relation	201	196	SuperSub	true	2004	quake
+Relation	201	205	SuperSub	true	2004	tsunami
+Relation	201	207	SuperSub	true	2004	killed
+Relation	90	98	SuperSub	true	Tuesday	sending
+Relation	150	164	SubSuper	true	ran	quake
+Relation	196	205	SuperSub	true	quake	tsunami
+Relation	205	207	SuperSub	true	tsunami	killed
+Relation	90	57	SuperSub	true	Tuesday	struck
+Relation	90	44	SuperSub	true	Tuesday	strikes
+Relation	113	116	SubSuper	true	damage	quake

@@ -1,0 +1,24 @@
+Text	http://mygaming. co. za/news/news/14642-seacom-cable-problems-may-only-be-resolved-next-week. html SEACOM cable problems may only be resolved next week Initial estimates indicate that the total SEACOM repair time will be around twelve days October 11, 2011 As many SA gamers may have noticed, SEACOM is experiencing downtime again. The cable system went down on Saturday 8 October 2011, and initial feedback suggests that the downtime may last for a few days. SEACOM said that their Mediterranean backhaul service provider is experiencing a service affecting outage between Abu Talat and Marseilles. This is affecting all SEACOM traffic to Europe. TENET CTO Andrew Alston said that they have had confirmation that SEACOM is offline and is unlikely to come back online for a few days. The SEACOM downtime seems to be related to a failure on the Telecom Egypt North ( TE North ) submarine telecommunications cable linking France and Egypt. SEACOM has stated that the total repair time of the current problems they experience will be around twelve days depending on weather conditions. "Initial estimates indicate that the total repair time will be around twelve days depending on weather conditions. This entails gaining the necessary permits and the actual repair time. A repair vessel has been notified of the call-out and mobilization will occur immediately once permits are received, " SEACOM said in an official statement. "The outage initially affected all SEACOM traffic to Europe, however SEACOM was able to restore some services by Saturday afternoon. " "Further restoration has continued throughout the weekend in cooperation with customers and partners and SEACOM will continue to actively work on securing additional capacity for all necessary services over the next day or two. "
+Event	195	problems	Occurence	998
+Event	52	repair	Occurence	201
+Event	94	downtime	Occurence	426
+Event	282	restore	Occurence	1514
+Event	38	problems	Occurence	112
+Event	115	outage	Occurence	559
+Event	42	resolved	Occurence	133
+Event	268	outage	Occurence	1431
+Event	270	affected	Occurence	1448
+Event	73	experiencing	Occurence	303
+Event	190	repair	Occurence	971
+Event	74	downtime	Occurence	316
+Event	124	affecting	Occurence	608
+Relation	38	42	SuperSub	true	problems	resolved
+Relation	38	52	SuperSub	true	problems	repair
+Relation	38	74	SuperSub	true	problems	downtime
+Relation	38	94	SuperSub	true	problems	downtime
+Relation	115	124	SuperSub	true	outage	affecting
+Relation	115	190	SuperSub	true	outage	repair
+Relation	190	195	SubSuper	true	repair	problems
+Relation	268	282	SubSuper	true	outage	restore
+Relation	268	270	SuperSub	true	outage	affected
+Relation	73	74	SubSuper	true	experiencing	downtime

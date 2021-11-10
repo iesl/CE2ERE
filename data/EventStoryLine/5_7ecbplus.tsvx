@@ -1,0 +1,4 @@
+Text	http://nbasource. blogspot. nl/2005_05_01_archive. html MONDAY, MAY 23, 2005 FIRED IN PHILLY ! ! Sixers' Coach Jim O'Brien was fired today and taking over will be former Portland Trailblazers Coach...
+Event	36	fired	Occurence	127
+Event	37	today	Occurence	133
+Relation	37	36	SuperSub	true	today	fired

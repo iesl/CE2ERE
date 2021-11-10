@@ -1,0 +1,43 @@
+Text	http://www. bbc. co. uk/sport/0/boxing/18747023 Wladimir Klitschko defeats Tony Thompson in six rounds 7 July 2012 Last updated at 22:46 GMT Wladimir Klitschko retained his WBA, IBF and WBO heavyweight title belts by stopping American challenger Tony Thompson in the sixth round. The Ukrainian world champion extended his unbeaten run to eight years by overcoming 40-year-old Thompson in Berne, Switzerland on Saturday. Thompson never recovered from a big right hand from Klitschko near the end of the fifth round. And the contest was over when Thompson hit the canvas again in the sixth. It was 36-year-old Klitschko's 58th victory, 51 by KO, for only three defeats-and his 16th in a row. Wladimir and his older brother Vitali have dominated the heavyweight division for so many years that they are now revisiting fighters from the past. Thompson last met Wladimir Klitschko in 2008, when the American's challenge was ended in the 11th round.
+Event	65	extended	Occurence	309
+Event	178	2008	Occurence	879
+Event	189	round	Occurence	937
+Event	174	met	Occurence	853
+Event	183	challenge	Occurence	905
+Event	109	over	Occurence	535
+Event	107	contest	Occurence	523
+Event	112	hit	Occurence	554
+Event	22	defeats	Occurence	67
+Event	85	Saturday	Occurence	410
+Event	40	retained	Occurence	160
+Event	59	round	Occurence	273
+Event	94	hand	Occurence	462
+Event	27	rounds	Occurence	96
+Event	89	recovered	Occurence	435
+Event	118	sixth	Occurence	582
+Event	103	round	Occurence	508
+Event	68	run	Occurence	331
+Event	51	stopping	Occurence	217
+Relation	85	22	SuperSub	true	Saturday	defeats
+Relation	85	27	SuperSub	true	Saturday	rounds
+Relation	85	40	SuperSub	true	Saturday	retained
+Relation	85	51	SuperSub	true	Saturday	stopping
+Relation	85	59	SuperSub	true	Saturday	round
+Relation	85	65	NoRel	true	Saturday	extended
+Relation	85	68	NoRel	true	Saturday	run
+Relation	85	89	SuperSub	true	Saturday	recovered
+Relation	85	94	SuperSub	true	Saturday	hand
+Relation	85	103	SuperSub	true	Saturday	round
+Relation	85	107	SuperSub	true	Saturday	contest
+Relation	85	109	SuperSub	true	Saturday	over
+Relation	85	112	SuperSub	true	Saturday	hit
+Relation	85	118	SuperSub	true	Saturday	sixth
+Relation	178	174	SuperSub	true	2008	met
+Relation	178	183	SuperSub	true	2008	challenge
+Relation	178	189	SuperSub	true	2008	round
+Relation	22	40	SuperSub	true	defeats	retained
+Relation	40	51	SubSuper	true	retained	stopping
+Relation	40	65	SuperSub	true	retained	extended
+Relation	89	94	SubSuper	true	recovered	hand
+Relation	109	112	SubSuper	true	over	hit
+Relation	65	68	SubSuper	true	extended	run

@@ -1,0 +1,22 @@
+Text	http://music. yahoo. com/news/lawyer-lindsay-lohan-checks-rehab-facility-162019483. html Lawyer:Lindsay Lohan checks into rehab facility May 2, 2013 12:50 PM Lindsay Lohan has checked into a rehab facility to comply with her sentence in a misdemeanor driving case, but her arrival there was not without drama. "My client is ensconced in the bosom of that facility right now, " Heller argued after a prosecutor objected to Lohan's choice of rehab facilities. " She's in rehab right now. Nothing bad is going to happen. " White said he was "completely blindsided" by Lohan's placement at Morningside because Heller had previously agreed to send the actress to a different facility that had been vetted.
+Event	119	blindsided"	Occurence	550
+Event	104	now	Occurence	481
+Event	65	arrival	Occurence	273
+Event	94	choice	Occurence	430
+Event	61	case	Occurence	259
+Event	122	placement	Occurence	573
+Event	129	agreed	Occurence	628
+Event	53	comply	Occurence	209
+Event	60	driving	Occurence	251
+Event	70	drama	Occurence	303
+Event	56	sentence	Occurence	225
+Event	102	rehab	Occurence	469
+Event	91	objected	Occurence	410
+Relation	53	56	SubSuper	true	comply	sentence
+Relation	56	61	SubSuper	true	sentence	case
+Relation	65	70	SuperSub	true	arrival	drama
+Relation	91	94	SubSuper	true	objected	choice
+Relation	119	122	SubSuper	true	blindsided"	placement
+Relation	119	129	SubSuper	true	blindsided"	agreed
+Relation	104	102	SuperSub	true	now	rehab
+Relation	60	61	SuperSub	true	driving	case

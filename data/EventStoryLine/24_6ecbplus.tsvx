@@ -1,0 +1,20 @@
+Text	http://news. sky. com/story/1139218/paris-jewellery-stolen-in-casty-shop-raid Paris:Jewellery Stolen In Casty Shop Raid 11:39am UK, Monday 09 September 2013 Four men smash their car into a jewellery store before fleeing in a different vehicle in the latest high-profile heist in France. Jewellery and watches worth £1. 7m have been stolen during a heist in an upmarket central Paris shop. Four men drove a 4x4 through the front window of the store on Rue de Castiglione, before making off with the jewellery and watches. They then set fire to the vehicle before fleeing in another car. Forensic policemen are examining the Casty store in the central first district of the capital, home to numerous jewellery shops. The heist near Place Vendome is the latest to hit France after a spate of high-profile robberies in the southern resort of Cannes. At the end of July, an armed man carried out a robbery at a diamond exhibition at the Carlton Hotel in Cannes, making off with jewellery worth £88m in one of the world's biggest ever heists. And last month thieves made off with £35, 000 of jewellery after cracking two safes at the luxury Grand Hotel du Cap in Saint-Jean-Cap-Ferrat, near Nice. In May, thieves stole £910, 000 worth of jewellery from an employee of Swiss firm Chopard that was due to be loaned to film stars during the Cannes Film Festival and a second theft saw a diamond necklace worth £1. 2m stolen. Paris has also been the scene of high-profile robberies. In December 2008, three men emptied almost the entire stock of gems from the Harry Winston jewellery store. Police said they had recovered 80% of the haul in 2009.
+Event	79	stolen	Occurence	332
+Event	66	heist	Occurence	270
+Event	55	fleeing	Occurence	212
+Event	47	smash	Occurence	166
+Event	92	drove	Occurence	398
+Event	152	heist	Occurence	719
+Event	82	heist	Occurence	348
+Event	73	worth	Occurence	309
+Event	31	Stolen	Occurence	94
+Event	35	Raid	Occurence	115
+Relation	31	35	SuperSub	true	Stolen	Raid
+Relation	47	55	SuperSub	true	smash	fleeing
+Relation	47	66	SuperSub	true	smash	heist
+Relation	55	66	SuperSub	true	fleeing	heist
+Relation	79	82	SuperSub	true	stolen	heist
+Relation	92	152	SuperSub	true	drove	heist
+Relation	79	82	SubSuper	true	stolen	heist
+Relation	73	82	SubSuper	true	worth	heist
+Relation	55	66	SubSuper	true	fleeing	heist

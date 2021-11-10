@@ -1,0 +1,13 @@
+Text	http://www. ontheredcarpet. com/Lindsay-Lohan-checks-into-rehab-to-begin-90-day-stint-- lawyer-says/9087997 Lindsay Lohan checks into rehab to begin 90-day stint, lawyer says 05/02/2013 Lindsay Lohan has checked into a rehab facility to begin a 90-day court-ordered stint, handed down as part of a sentence for a 2012 car crash case. However, it remains unclear whether a judge will accept her placement at the center, whose location was not revealed publicly, the Associated Press reported, quoting her lawyer Mark Heller as saying on May 2 that prosecutors have not approved it yet. One of them told the judge he needed more time to investigate the place and the judge has given him a May 10 deadline, the news wire said.
+Event	81	sentence	Occurence	298
+Event	98	accept	Occurence	383
+Event	86	crash	Occurence	322
+Event	73	stint	Occurence	266
+Event	146	investigate	Occurence	635
+Event	131	approved	Occurence	568
+Event	87	case	Occurence	328
+Relation	73	81	SubSuper	true	stint	sentence
+Relation	81	87	SubSuper	true	sentence	case
+Relation	131	146	SubSuper	true	approved	investigate
+Relation	98	146	SubSuper	true	accept	investigate
+Relation	86	87	SuperSub	true	crash	case

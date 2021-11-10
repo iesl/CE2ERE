@@ -16,7 +16,10 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     => (i, j) indicates the number of samples with true label being i-th class and predicted label being j-th class.
     """
     metrics = {}
-    CM = confusion_matrix(y_true, y_pred)
+    if model_type == "box":
+        CM = confusion_matrix(y_true, y_pred, labels=[(0, 0), (0, 1), (1, 0), (1, 1)])
+    else:
+        CM = confusion_matrix(y_true, y_pred, labels=[0, 1, 2, 3])
     logger.info("confusion_matrix: \n{0}".format(CM))
     if model_type == "box" or model_type == "vector":
         Acc, P, R, F1, _ = CM_metric_box_3class(CM)
@@ -26,7 +29,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics[f"[{eval_type}-{data_type}] Recall"] = R
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-    if data_type == "hieve":
+    if data_type == "hieve" or data_type == "esl":
         if model_type == "box" or model_type == "vector":
             P, R, F1 = CM_metric_box_2class(CM)
         else:

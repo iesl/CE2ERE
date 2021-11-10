@@ -1,0 +1,43 @@
+Text	http://uk. reuters. com/article/2010/05/05/uk-greece-idUKLDE6440NQ20100505 Greek anti-austerity march erupts in violence, 3 dead Wed May 5, 2010 7:12pm BST Three people, one of them a pregnant woman, were killed when Greeks protesting against government austerity measures threw petrol bombs at a bank in Athens on Wednesday. Tens of thousands of striking workers and civil servants took to the streets and masked youths clashed with police in riot gear, who responded with steady rounds of tear gas and flash bombs which clouded the city centre. It was the worst violence to hit Greece since riots in 2008. The violence was a blow to Prime Minister George Papandreou's plans to push through tough budget cuts demanded by the European Union and International Monetary Fund in exchange for a 110 billion euro ( 93. 6 billion pound ) aid package unveiled on Sunday. Police said two women and one man, between 30 and 40 years old, working for a Marfin bank branch choked on smoke after protesters broke the windows of a commercial building on central Stadiou Avenue and tossed in Molotov cocktails. Marfin bank officials told Reuters one of the female victims was pregnant. Firemen had to restrain a distraught elderly woman outside the bank, who wept and cried "my child, my child. " Papandreou expressed shock at the deaths and vowed to bring those responsible to justice. "We are deeply shocked by the unjust death of these three people, our fellow citizens, who were victims of a murderous act, " he told parliament. He also defended his austerity plans, which foresee 30 billion euros in savings mainly from cuts in wages and pensions, and said the government would not abandon its drive to save the country from ruin. "We took these decisions to save the country, " he said. "The alternative would be bankruptcy. " BIGGEST PROTEST Protesters tried to storm parliament but were pushed back by riot police shortly before it started to debate the austerity bill. Opposition conservatives are refusing to support it, but the government, which enjoys a comfortable majority, hopes to pass it by the end of the week. Police put the march, to mark a 24-hour nationwide strike, at roughly 30, 000 people. But witnesses said there were more than 50, 000-- easily the biggest protest since Papandreou took office last October and launched efforts to reform an economy that is uncompetitive and plagued by corruption. Hundreds of black-hooded anarchists roamed the streets, smashing store windows and hacking chunks of marble off buildings to throw at police. Although they were behind the worst of the violence, other protesters joined them in pelting police with bottles, shouting "Thieves ! " Presidential guards, who usually stand immobile in front of the assembly building, left their posts as the clashes worsened. "Our country is on the edge of the abyss, " Greek President Karolos Papoulias said in a statement. "We are all responsible so that it does not take the step into the void. " The marchers had dispersed by late afternoon, leaving streets littered with burnt out garbage containers. Dozens of shop windows were smashed, including a bookstore near the burnt bank. Two other buildings besides the bank were set on fire. Police said 18 people had been injured in the violence and 12 arrested for carrying weapons and resisting authorities. BLOW TO GOVERNMENT The EU and IMF aid was intended to calm markets and give the government time to overhaul the economy and bring down a deficit that totalled 13. 6 percent of national economic output last year. But the euro currency and Greek assets have been pummelled by concern that social unrest could thwart government plans to push through the measures, and on fears that Greece's woes could spread to other euro zone countries such as Portugal and Spain. In past months anti-austerity protests had been fairly peaceful, but Wednesday's violence was similar to that seen in the December 2008 riots, which broke out when police killed a teenager and dragged on for weeks. Wednesday's strike grounded flights, shut shops and brought public transport to a standstill and the main public sector union ADEDY said it was planning more walkout for next week. "The big participation in the strike today and the crowds that flooded the streets of Athens... sent a message to the government:We will not let the EU and the IMF measures pass, " said Ilias Vrettakos, deputy head of the union. Apostolos Kolokythopoulos, a 70-year old pensioner who lives on less than 1, 000 euros a month, said the walkouts were needed to force the government to change course. "I agree with the strikes. If people don't react, don't protest, how will things change ? " he said. Centre-left daily Eleftherotypia warned young Greeks would rise up if nothing was done to give them hope of a future. "If nothing is done, the explosion of the angry and the disappointed will sweep everything away, " the paper said. "Have we forgotten December 2008 and become complacent ? "
+Event	211	tossed	Occurence	1067
+Event	34	dead	Occurence	124
+Event	98	responded	Occurence	459
+Event	360	storm	Occurence	1854
+Event	72	Wednesday	Occurence	315
+Event	55	killed	Occurence	205
+Event	194	choked	Occurence	961
+Event	62	measures	Occurence	264
+Event	374	debate	Occurence	1936
+Event	199	broke	Occurence	994
+Event	29	erupts	Occurence	102
+Event	28	march	Occurence	96
+Event	31	violence	Occurence	112
+Event	90	clashed	Occurence	421
+Event	58	protesting	Occurence	224
+Event	63	threw	Occurence	273
+Event	109	clouded	Occurence	522
+Relation	72	55	SuperSub	true	Wednesday	killed
+Relation	72	58	SuperSub	true	Wednesday	protesting
+Relation	72	63	SuperSub	true	Wednesday	threw
+Relation	72	90	SuperSub	true	Wednesday	clashed
+Relation	72	98	SuperSub	true	Wednesday	responded
+Relation	72	109	SuperSub	true	Wednesday	clouded
+Relation	72	194	SuperSub	true	Wednesday	choked
+Relation	72	199	SuperSub	true	Wednesday	broke
+Relation	72	211	SuperSub	true	Wednesday	tossed
+Relation	72	360	SuperSub	true	Wednesday	storm
+Relation	72	374	SuperSub	true	Wednesday	debate
+Relation	72	28	SuperSub	true	Wednesday	march
+Relation	72	29	SuperSub	true	Wednesday	erupts
+Relation	72	31	SuperSub	true	Wednesday	violence
+Relation	72	34	SuperSub	true	Wednesday	dead
+Relation	28	31	SuperSub	true	march	violence
+Relation	31	34	SuperSub	true	violence	dead
+Relation	55	63	SubSuper	true	killed	threw
+Relation	58	62	SubSuper	true	protesting	measures
+Relation	58	63	SuperSub	true	protesting	threw
+Relation	90	98	SuperSub	true	clashed	responded
+Relation	58	90	SuperSub	true	protesting	clashed
+Relation	194	211	SubSuper	true	choked	tossed
+Relation	199	211	SuperSub	true	broke	tossed
+Relation	55	58	SubSuper	true	killed	protesting

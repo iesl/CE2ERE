@@ -1,0 +1,29 @@
+Text	http://www. vancouverdesi. com/sports/wladimir-klitschko-stops-tony-thompson-in-6th-round-to-retain-world-heavyweight-titles/208622/Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight titles Wladimir Klitschko stopped Tony Thompson in the sixth round to retain his WBA, IBF and WBO heavyweight title belts Saturday night. The 36-year-old champion Klitschko, 58-3 with 51 knockouts, floored Thompson with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight. In 2008, Klitschko stopped Thompson in the 11th round. Thompson, who was the mandatory challenger nominated by the IBF, dropped to 36-3.
+Event	121	recovered	Occurence	536
+Event	48	round	Occurence	178
+Event	50	retain	Occurence	187
+Event	142	count	Occurence	663
+Event	157	round	Occurence	744
+Event	144	stopping	Occurence	676
+Event	62	round	Occurence	273
+Event	149	2008	Occurence	699
+Event	146	fight	Occurence	689
+Event	131	sixth	Occurence	600
+Event	126	dropped	Occurence	570
+Event	64	retain	Occurence	282
+Event	56	stopped	Occurence	238
+Event	93	floored	Occurence	410
+Event	43	stops	Occurence	151
+Relation	149	157	SuperSub	true	2008	round
+Relation	43	50	SuperSub	true	stops	retain
+Relation	56	64	SuperSub	true	stopped	retain
+Relation	43	64	SuperSub	true	stops	retain
+Relation	50	56	SubSuper	true	retain	stopped
+Relation	126	142	SuperSub	true	dropped	count
+Relation	142	144	SuperSub	true	count	stopping
+Relation	146	93	SuperSub	true	fight	floored
+Relation	146	48	SuperSub	true	fight	round
+Relation	146	62	SuperSub	true	fight	round
+Relation	146	131	SuperSub	true	fight	sixth
+Relation	93	121	SuperSub	true	floored	recovered
+Relation	142	146	SubSuper	true	count	fight

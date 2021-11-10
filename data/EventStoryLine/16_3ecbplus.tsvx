@@ -1,0 +1,12 @@
+Text	http://www. odmp. org/officer/17801-deputy-sheriff-jerry-ortiz Deputy Sheriff Jerry Ortiz Los Angeles County Sheriff's Department, California End of Watch:Friday, June 24, 2005 Deputy Jerry Ortiz was shot and killed after knocking on a door during an investigation. Deputy Ortiz had gone to an apartment complex in the city of Hawaiian Gardens to question a woman about a shooting that had taken place the previous day. As he spoke to the woman at the door of the apartment, the suspect in the previous day's shooting appeared and shot him in the head. The man then fled into an apartment three doors away. Deputies found him hiding in a bathtub three hours later. The suspect, who was on parole and had prior arrests for convictions for assault with a deadly weapon, resisting arrest, burglary, as well as for gun and drug crimes, was charged with first degree murder and faces the death penalty. In April 2007 the suspect was found guilty of capital murder and sentenced to death. Six months prior to this incident, Deputy Ortiz's brother-in-law, Corrections Officer Manuel A. Gonzalez, of the California Department of Corrections, was stabbed to death by a gang member inmate at California Institution for Men in Chino. Deputy Ortiz had served with the Los Angeles County Sheriff's Department for 15 years and was assigned to the Anti-Gang Unit. He is survived by his wife, two sons, and mother. He is buried in Calvary Cemetery, Los Angeles, California.
+Event	107	shooting	Occurence	509
+Event	110	shot	Occurence	531
+Event	49	killed	Occurence	209
+Event	47	shot	Occurence	200
+Event	57	investigation	Occurence	251
+Event	51	knocking	Occurence	222
+Relation	47	49	SuperSub	true	shot	killed
+Relation	47	51	SubSuper	true	shot	knocking
+Relation	51	57	SubSuper	true	knocking	investigation
+Relation	51	110	SuperSub	true	knocking	shot
+Relation	57	107	SubSuper	true	investigation	shooting

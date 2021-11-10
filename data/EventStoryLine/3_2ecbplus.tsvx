@@ -1,0 +1,101 @@
+Text	http://abcnews. go. com/US/convicted-child-molester-arcade-joseph-comeaux-jr-loose/story ? id=9208916 Convicted Child Molestor Arcade Joseph Comeaux Jr. On The Lam in Texas Nov. 30, 2009 A convicted child molester who was supposedly confined to a wheelchair overpowered two prison guards today, handcuffed them, stole their weapons and walked off wearing one of their uniforms. Arcade Joseph Comeaux Jr., 49, is serving a life sentence for several charges-including indecency with a child-and was en route from the Estelle Unit in Huntsville, Texas, to the Stiles Unit in Beaumont, Texas, when he escaped just after 9 a.m. Lyons said that Comeaux used a wheelchair in prison-he "claimed it was necessary for his mobility"-and added, "Since he fled on foot, that's obviously in question. " Described as a 6-feet tall and weighing approximately 200 pounds, Lyons warned that Comeaux knows the area where he escaped well and could have family nearby. He initially was imprisoned on February 1979 on three 10-year sentences for rape of a child, aggravated rape of a child, and burglary of a building with the intent to commit theft. His supervision was revoked and he returned to prison in May 1984 with a new charge of indecency with a child, given a new 20 year sentence. Between 1991 and 1998, Comeaux was in and out of prison on parole violations until he finally returned to prison in June 1999 to serve a life sentence for aggravated sexual assault. In 1999, Comeaux stabbed his wife during a visit, using his wheelchair to pin her against a wall while he stabbed her. His wife survived, but another inmate who tried to break up the attack also suffered stab wounds, and Comeaux was convicted of additional assault charges and received two additional life sentences.
+Event	323	stabbed	Occurence	1558
+Event	65	today	Occurence	288
+Event	221	rape	Occurence	1052
+Event	316	pin	Occurence	1526
+Event	358	sentences	Occurence	1758
+Event	339	attack	Occurence	1635
+Event	295	sentence	Occurence	1412
+Event	310	visit	Occurence	1495
+Event	265	sentence	Occurence	1260
+Event	348	convicted	Occurence	1685
+Event	227	burglary	Occurence	1073
+Event	193	escaped	Occurence	905
+Event	285	returned	Occurence	1364
+Event	67	handcuffed	Occurence	295
+Event	244	returned	Occurence	1164
+Event	302	1999	Occurence	1455
+Event	74	walked	Occurence	336
+Event	354	received	Occurence	1729
+Event	236	theft	Occurence	1122
+Event	341	suffered	Occurence	1647
+Event	328	survived	Occurence	1580
+Event	185	warned	Occurence	861
+Event	94	sentence	Occurence	427
+Event	233	intent	Occurence	1105
+Event	61	overpowered	Occurence	258
+Event	268	1991	Occurence	1278
+Event	305	stabbed	Occurence	1469
+Event	141	used	Occurence	647
+Event	76	wearing	Occurence	347
+Event	255	indecency	Occurence	1216
+Event	168	question	Occurence	777
+Event	100	indecency	Occurence	466
+Event	161	fled	Occurence	743
+Event	352	charges	Occurence	1717
+Event	281	violations	Occurence	1336
+Event	270	1998	Occurence	1287
+Event	204	imprisoned	Occurence	965
+Event	213	sentences	Occurence	1010
+Event	129	escaped	Occurence	597
+Event	97	charges	Occurence	448
+Event	292	serve	Occurence	1399
+Event	70	stole	Occurence	312
+Event	241	revoked	Occurence	1149
+Event	253	charge	Occurence	1206
+Event	91	serving	Occurence	412
+Relation	61	67	SubSuper	true	overpowered	handcuffed
+Relation	61	70	SubSuper	true	overpowered	stole
+Relation	74	76	SubSuper	true	walked	wearing
+Relation	61	74	SuperSub	true	overpowered	walked
+Relation	67	74	SuperSub	true	handcuffed	walked
+Relation	70	74	SuperSub	true	stole	walked
+Relation	94	97	SubSuper	true	sentence	charges
+Relation	94	129	SuperSub	true	sentence	escaped
+Relation	129	141	SubSuper	true	escaped	used
+Relation	161	168	SuperSub	true	fled	question
+Relation	141	161	SuperSub	true	used	fled
+Relation	193	204	SubSuper	true	escaped	imprisoned
+Relation	213	236	SubSuper	true	sentences	theft
+Relation	204	213	SubSuper	true	imprisoned	sentences
+Relation	241	244	SuperSub	true	revoked	returned
+Relation	244	253	SubSuper	true	returned	charge
+Relation	244	255	SubSuper	true	returned	indecency
+Relation	244	265	SubSuper	true	returned	sentence
+Relation	281	285	SuperSub	true	violations	returned
+Relation	285	292	SubSuper	true	returned	serve
+Relation	285	295	SubSuper	true	returned	sentence
+Relation	339	341	SuperSub	true	attack	suffered
+Relation	323	358	SuperSub	true	stabbed	sentences
+Relation	65	61	SuperSub	true	today	overpowered
+Relation	65	67	SuperSub	true	today	handcuffed
+Relation	65	70	SuperSub	true	today	stole
+Relation	65	74	SuperSub	true	today	walked
+Relation	65	76	SuperSub	true	today	wearing
+Relation	65	91	SubSuper	true	today	serving
+Relation	65	97	SubSuper	true	today	charges
+Relation	65	161	SuperSub	true	today	fled
+Relation	65	193	SuperSub	true	today	escaped
+Relation	302	305	SuperSub	true	1999	stabbed
+Relation	302	310	SuperSub	true	1999	visit
+Relation	302	316	SuperSub	true	1999	pin
+Relation	302	323	SuperSub	true	1999	stabbed
+Relation	302	328	SuperSub	true	1999	survived
+Relation	302	339	SuperSub	true	1999	attack
+Relation	302	341	SuperSub	true	1999	suffered
+Relation	302	348	SuperSub	true	1999	convicted
+Relation	302	354	SuperSub	true	1999	received
+Relation	348	352	SubSuper	true	convicted	charges
+Relation	65	129	SuperSub	true	today	escaped
+Relation	302	352	SuperSub	true	1999	charges
+Relation	302	358	SuperSub	true	1999	sentences
+Relation	270	281	SuperSub	true	1998	violations
+Relation	268	281	SubSuper	true	1991	violations
+Relation	213	221	SubSuper	true	sentences	rape
+Relation	253	255	SubSuper	true	charge	indecency
+Relation	253	265	SuperSub	true	charge	sentence
+Relation	213	227	SubSuper	true	sentences	burglary
+Relation	91	97	SubSuper	true	serving	charges
+Relation	185	193	SubSuper	true	warned	escaped
+Relation	97	100	SubSuper	true	charges	indecency
+Relation	204	233	SubSuper	true	imprisoned	intent

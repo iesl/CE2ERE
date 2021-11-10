@@ -13,10 +13,14 @@ from natsort import natsorted
 logger = logging.getLogger()
 
 # Padding function
-def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 120):
+def padding(subword_ids: List[int], isPosTag: Optional[bool] = False, max_sent_len: Optional[int] = 150):
     if isPosTag == False:
         one_list = [1] * max_sent_len
-        one_list[0:len(subword_ids)] = subword_ids
+        subword_len = len(subword_ids)
+        if subword_len > max_sent_len:
+            one_list = subword_ids[-max_sent_len:]
+        else:
+            one_list[0:subword_len] = subword_ids
         return torch.tensor(one_list, dtype=torch.long)
     else:
         # one_list = ["None"] * max_sent_len
@@ -61,9 +65,12 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
 
 
 def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict):
-    x_sntc_id = event_dict[x]["sent_id"]
-    y_sntc_id = event_dict[y]["sent_id"]
-    z_sntc_id = event_dict[z]["sent_id"]
+    _x = list(event_dict.keys())[x-1]
+    _y = list(event_dict.keys())[y-1]
+    _z = list(event_dict.keys())[z-1]
+    x_sntc_id = event_dict[_x]["sent_id"]
+    y_sntc_id = event_dict[_y]["sent_id"]
+    z_sntc_id = event_dict[_z]["sent_id"]
 
     # get list of subword ids related to the specific sentence id
     # then padding the list of subword ids
@@ -71,21 +78,30 @@ def append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event
     y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
     z_sntc = padding(sntc_dict[z_sntc_id]["roberta_subword_to_ID"], isPosTag=False)
 
-    x_position = event_dict[x]["roberta_subword_id"]
-    y_position = event_dict[y]["roberta_subword_id"]
-    z_position = event_dict[z]["roberta_subword_id"]
+    x_position = event_dict[_x]["roberta_subword_id"]
+    y_position = event_dict[_y]["roberta_subword_id"]
+    z_position = event_dict[_z]["roberta_subword_id"]
 
     x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
     y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
     z_sntc_pos_tag = sntc_dict[z_sntc_id]["roberta_subword_pos"]
 
     # rel_id: {"SuperSub": 0, "SubSuper": 1, "Coref": 2, "NoRel": 3}
-    xy_rel_id = relation_dict[(x, y)]["relation"]
-    yz_rel_id = relation_dict[(y, z)]["relation"]
-    xz_rel_id = relation_dict[(x, z)]["relation"]
+    if (_x, _y) in relation_dict:
+        xy_rel_id = relation_dict[(_x, _y)]["relation"]
+    else:
+        xy_rel_id = (0, 0) if model_type == "box" else 3
+    if (_y, _z) in relation_dict:
+        yz_rel_id = relation_dict[(_y, _z)]["relation"]
+    else:
+        yz_rel_id = (0, 0) if model_type == "box" else 3
+    if (_x, _z) in relation_dict:
+        xz_rel_id = relation_dict[(_x, _z)]["relation"]
+    else:
+        xz_rel_id = (0, 0) if model_type == "box" else 3
 
     to_append = \
-        str(x), str(y), str(z), \
+        str(_x), str(_y), str(_z), \
         x_sntc, y_sntc, z_sntc, \
         x_position, y_position, z_position, \
         x_sntc_pos_tag, y_sntc_pos_tag, z_sntc_pos_tag, \
@@ -130,22 +146,28 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
 
 
 def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict):
-    x_sntc_id = event_dict[x]["sent_id"]
-    y_sntc_id = event_dict[y]["sent_id"]
+    _x = list(event_dict.keys())[x-1]
+    _y = list(event_dict.keys())[y-1]
+    x_sntc_id = event_dict[_x]["sent_id"]
+    y_sntc_id = event_dict[_y]["sent_id"]
 
     x_sntc = padding(sntc_dict[x_sntc_id]["roberta_subword_to_ID"])
     y_sntc = padding(sntc_dict[y_sntc_id]["roberta_subword_to_ID"])
 
-    x_position = event_dict[x]["roberta_subword_id"]
-    y_position = event_dict[y]["roberta_subword_id"]
+    x_position = event_dict[_x]["roberta_subword_id"]
+    y_position = event_dict[_y]["roberta_subword_id"]
 
     x_sntc_pos_tag = sntc_dict[x_sntc_id]["roberta_subword_pos"]
     y_sntc_pos_tag = sntc_dict[y_sntc_id]["roberta_subword_pos"]
 
-    xy_rel_id = relation_dict[(x, y)]["relation"]
+    # xy_rel_id = relation_dict[(_x, _y)]["relation"]
+    if (_x, _y) in relation_dict:
+        xy_rel_id = relation_dict[(_x, _y)]["relation"]
+    else:
+        xy_rel_id = (0, 0) if model_type == "box" else 3
 
     to_append = \
-        str(x), str(y), str(x), \
+        str(_x), str(_y), str(_x), \
         x_sntc, y_sntc, x_sntc, \
         x_position, y_position, x_position, \
         x_sntc_pos_tag, y_sntc_pos_tag, x_sntc_pos_tag, \
@@ -374,6 +396,87 @@ def hieve_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple
 
     return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 
+def esl_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
+    esl_dir = data_dir / "EventStoryLine/"
+    all_train_set, all_valid_set, all_test_set = [], [], []
+    all_valid_cv_set, all_test_cv_set = [], []
+
+    esl_files = natsorted([f for f in listdir(esl_dir) if isfile(join(esl_dir, f)) and f[-4:] == "tsvx"])
+    train_range, valid_range, test_range = [], [], []
+        
+    keys = list(range(253))
+    random.shuffle(keys)
+    for (i, key) in enumerate(keys):
+        if i <= 51:
+            test_range.append(key)
+        elif i <= 102:
+            valid_range.append(key)
+        else:
+            train_range.append(key)
+
+    esl_train, esl_valid, esl_test = [], [], []
+    for i, file in enumerate(esl_files):
+        if i in train_range:
+            esl_train.append(file)
+        elif i in valid_range:
+            esl_valid.append(file)
+        elif i in test_range:
+            esl_test.append(file)
+
+    start_time = time.time()
+    print("EventStoryLine train files processing...")
+    for i, file in enumerate(tqdm(esl_train)):
+        data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_train)  # data_reader.py
+        train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
+        all_train_set.extend(train_set)
+    print("done!")
+
+    with temp_seed(10):
+        print("EventStoryLine valid files processing...")
+        for i, file in enumerate(tqdm(esl_valid)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
+
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(esl_valid)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_cv_set.extend(cv_valid_set)
+        print("done!")
+
+    with temp_seed(10):
+        print("EventStoryLine test files processing...")
+        for i, file in enumerate(tqdm(esl_test)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
+
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(esl_test)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_cv_set.extend(cv_test_set)
+        print("done!")
+
+    elapsed_time = format_time(time.time() - start_time)
+    logger.info("EventStoryLine Preprocessing took {:}".format(elapsed_time))
+    logger.info(f'EventStoryLine training instance num: {len(all_train_set)}, '
+          f'valid instance num: {len(all_valid_set)}, '
+          f'test instance num: {len(all_test_set)}, '
+          f'cv-valid instance num: {len(all_valid_cv_set)}, '
+          f'cv-test instance num: {len(all_test_cv_set)}, ')
+
+    if args.debug:
+        logger.info("debug mode on")
+        all_train_set = all_train_set[0:100]
+        all_valid_set = all_train_set
+        all_test_set = all_train_set
+        all_valid_cv_set = all_train_set
+        all_test_cv_set = all_train_set
+        logger.info("EventStoryLine length debugging mode: %d".format(len(all_train_set)))
+
+    return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 
 def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
     all_tml_dir_path_dict, all_tml_file_dict, all_txt_file_path = get_matres_files(data_dir)
@@ -431,7 +534,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
 
     # create validation dataloader
     for data_type, valid_set in valid_set_dict.items():
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -441,7 +544,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
 
     # create test dataloader
     for data_type, test_set in test_set_dict.items():
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -452,7 +555,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
     valid_cv_dataloader_dict, test_cv_dataloader_dict = {}, {}
     # create validation constraint violdation dataloader
     for data_type, valid_set in valid_cv_set_dict.items():
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
             valid_dataloader = DataLoader(EventDataset(valid_set), batch_size=2 ** log_batch_size, shuffle=False)
@@ -462,7 +565,7 @@ def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[s
 
     # create test constraint violdation dataloader
     for data_type, test_set in test_cv_set_dict.items():
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)
         elif data_type == "matres":
             test_dataloader = DataLoader(EventDataset(test_set), batch_size=2 ** log_batch_size, shuffle=False)

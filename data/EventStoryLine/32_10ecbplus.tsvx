@@ -1,0 +1,15 @@
+Text	http://www. thewestmorlandgazette. co. uk/news/crime/10473630. print/Millom double murder:Man charged with killing mother and sister 8:56am Monday 10th June 2013 A MAN has been charged with the murder of his mother and sister in Millom. John Jenkin, 23, of Newton Street, Millom was arrested Saturday morning after police found two women dead in a house. The victims have been identified as mother Alice McMeekin, 58, of Newton Street, Millom and her 20-year-old daughter Kathryn Jenkin of Aberdare, South Wales. Police have this morning charged him and he will appear before Furness District Magistrates. He has also been charged with animal cruelty after the family dog was discovered dead.
+Event	121	appear	Occurence	562
+Event	116	charged	Occurence	538
+Event	66	arrested	Occurence	283
+Event	26	charged	Occurence	94
+Event	28	killing	Occurence	107
+Event	46	murder	Occurence	194
+Event	74	dead	Occurence	338
+Event	71	found	Occurence	322
+Event	43	charged	Occurence	177
+Relation	26	28	SubSuper	true	charged	killing
+Relation	43	46	SubSuper	true	charged	murder
+Relation	66	74	SuperSub	true	arrested	dead
+Relation	116	121	SuperSub	true	charged	appear
+Relation	66	71	SubSuper	true	arrested	found

@@ -1,0 +1,23 @@
+Text	http://malialitman. wordpress. com/2012/11/20/arson-in-alaska-a-palin-pattern/Arson in Alaska-A Palin " Pattern " ? November 20, 2012 There is an old saying that " Once is chance; Twice is Coincidence; the Third Time is a Pattern. It was probably " chance " when the Wasilla Bible Church was burned, and arson was suspected. It was determined that an acelerant was placed around the perimeter of the church. No arrests were made in that fire. The interesting part of that blaze reported that it didn ' t harm the larger areas of the church where worship services were held. Instead it was, according to Sarah Palin, the offices where church records were stored, that was destroyed. If there were church records that would reveal something Sarah Palin didn ' t want uncovered, the destruction of those records by fire would solve that problem. When arson was suspected in the burning of the house of Dar Miller it was probably just coincidence. It was probably just coincidence that Sarah Palin is not supportive of people who are homosexual, and it appears Dar was lesbian, and lived with her " partner. " Of course it was not coincidence that Dar Miller was in her home when the fire broke out and was burned so badly she died the next day. It was not coincidence that her dogs died in the fire as they lived with her. It was unusual that the dogs died at the foot of her bed, instead of by the door, trying to get out of the house. It was probably just coincidence that Dar Miller had previously worked at the Mat-Su Regional Hospital as a neo-natal nurse, which is the same hospital where Trig was purportedly born. The curious thing is that there was never an arrest made in that fire either. The suggesting was that Dar Miller had probably been smoking in bed and caught herself and the bed on fire. Who made that suggestion ? Did they know that Dar didn ' t smoke ? ( according to ottoline commenting in this blog ). The fire that burned so hot that it " charred beams and melted pictures on the wall " doesn ' t sound like a fire caused by a cigarette in bed. The troubling " pattern " emerges as there is report of yet another fire in the small community of Palmer Alaska. This time the fire occurred at the Matanuska Maid Creamery. You remember. that dairy was the subject of a thorough investigation by Andrew Halcro. Andrew's suggestion was that Sarah Palin had fraudulently diverted large sums of money to friends and high school buddies. Within a week of the dissolution of the last entity to run the Matanuska Maid Creamery, its building burned to the ground. Arson is likely, given the fact that the building was without electrical or gas connections and the fire broke out at 3:30 AM. All three fires appear to be the result of arson. All three fires occurred in or around the small town of Alaska where Sarah Palin lives. All three fires may have conferred some benefit on Sarah Palin. When the church fire destroyed church records, I suspected foul play, but knew that it was probably just chance. When Dar Miller's home was burned and she was killed by the blaze, I suspected foul play, but knew that it could be merely coincidence. Now that the Dairy has burned, and foul play seems clear, there is an unmistakable pattern. Given the fact that none of these crimes has been " solved, " a pattern is emerging. I wonder how long it will be before the Anchorage Police Department will issue a press release stating that there is not one scintilla of evidence connecting any of the members of the Palin family with these cases of arson ?
+Event	530	Arson	Occurence	2574
+Event	98	arrests	Occurence	411
+Event	548	fire	Occurence	2674
+Event	601	destroyed	Occurence	2924
+Event	460	fire	Occurence	2195
+Event	103	fire	Occurence	437
+Event	67	chance	Occurence	249
+Event	525	burned	Occurence	2552
+Event	511	dissolution	Occurence	2472
+Event	600	fire	Occurence	2919
+Event	78	arson	Occurence	304
+Event	75	burned	Occurence	292
+Event	654	burned	Occurence	3175
+Relation	67	75	SuperSub	true	chance	burned
+Relation	75	78	SubSuper	true	burned	arson
+Relation	98	103	SubSuper	true	arrests	fire
+Relation	460	525	SuperSub	true	fire	burned
+Relation	460	511	SubSuper	true	fire	dissolution
+Relation	511	525	SuperSub	true	dissolution	burned
+Relation	530	548	SuperSub	true	Arson	fire
+Relation	600	601	SubSuper	true	fire	destroyed
+Relation	600	654	SuperSub	true	fire	burned

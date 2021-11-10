@@ -1,0 +1,40 @@
+Text	http://www. nydailynews. com/new-york/brooklyn/gangmember-guilty-slay-mom-12-article-1. 1326009 Gang member guilty in slay of Brooklyn mom of 12 Andrew Lopez, 20 was found guilty in murder of Zurana Horton. Horton was struck by a stray bullet as Lopez targeted rival gang members. He faces up to 75 years to life in prison. WEDNESDAY, APRIL 24, 2013, 10:34 AM A gang member was convicted Tuesday for claiming the life of a mother of 12 when he sprayed 13 bullets from a Brooklyn rooftop in broad daylight. Andrew Lopez, 20, was found guilty of slaying Zurana Horton, 34, and wounding Unique Armstead, 32, and Cheanne McKnight, 11, in October 2011 as he targeted rival gang members. He faces up to 75 years to life in prison when he's sentenced May 7. The gruesome death on a busy Brownsville street was captured in a chilling surveillance tape played at trial. It took the panel just over two hours to convict Lopez, who confessed after the shooting.
+Event	169	sentenced	Occurence	734
+Event	108	sprayed	Occurence	444
+Event	208	shooting	Occurence	941
+Event	48	guilty	Occurence	172
+Event	50	murder	Occurence	182
+Event	175	death	Occurence	764
+Event	95	convicted	Occurence	378
+Event	128	slaying	Occurence	544
+Event	201	convict	Occurence	902
+Event	190	trial	Occurence	854
+Event	36	slay	Occurence	118
+Event	205	confessed	Occurence	921
+Event	158	faces	Occurence	685
+Event	47	found	Occurence	166
+Event	135	wounding	Occurence	575
+Event	34	guilty	Occurence	108
+Event	125	found	Occurence	528
+Event	57	struck	Occurence	218
+Event	96	Tuesday	Occurence	388
+Event	126	guilty	Occurence	534
+Event	64	targeted	Occurence	252
+Relation	96	95	SuperSub	true	Tuesday	convicted
+Relation	96	34	SuperSub	true	Tuesday	guilty
+Relation	96	47	SuperSub	true	Tuesday	found
+Relation	96	48	SuperSub	true	Tuesday	guilty
+Relation	96	108	SubSuper	true	Tuesday	sprayed
+Relation	96	125	SuperSub	true	Tuesday	found
+Relation	96	126	SuperSub	true	Tuesday	guilty
+Relation	34	36	SubSuper	true	guilty	slay
+Relation	48	50	SubSuper	true	guilty	murder
+Relation	57	64	SubSuper	true	struck	targeted
+Relation	126	128	SubSuper	true	guilty	slaying
+Relation	126	135	SubSuper	true	guilty	wounding
+Relation	126	158	SuperSub	true	guilty	faces
+Relation	158	169	SubSuper	true	faces	sentenced
+Relation	175	190	SuperSub	true	death	trial
+Relation	201	208	SubSuper	true	convict	shooting
+Relation	57	64	SuperSub	true	struck	targeted
+Relation	201	205	SubSuper	true	convict	confessed

@@ -1,0 +1,80 @@
+Text	http://www. utsandiego. com/news/2009/dec/07/texas-prisoner-captured-after-week-on-the-run/all/? print Texas prisoner captured after week on the run 7:15 a.m. Dec. 7, 2009 A convicted sex offender who was the subject of a weeklong manhunt after pulling off a daring escape during a prison transfer was captured Monday after authorities received several phone tips, including one from a salesman who recognized the inmate outside his business. A hungry, wet and barefoot Arcade Joseph Comeaux Jr. was caught in northeast Houston, about 25 miles northwest of where he escaped, said Alfredo Perez, a spokesman for the U. S. Marshals Service. Comeaux, 49, was in a wheelchair Nov. 30 when he pulled a gun on two guards and fired it during a transfer from a prison unit in Huntsville to one in Beaumont. The guards, who were unharmed, were forced to drive to the Baytown area, where Comeaux took their weapons, handcuffed them together and ran away. Comeaux was serving a sentence of life in prison for a 1998 aggravated sexual assault conviction in Brazos County, northwest of Houston. He was given two extra life sentences after being convicted of stabbing his wife and another person in 1999 while she visited him in prison.
+Event	169	transfer	Occurence	737
+Event	186	unharmed	Occurence	820
+Event	189	forced	Occurence	835
+Event	92	one	Occurence	375
+Event	243	convicted	Occurence	1132
+Event	128	escaped	Occurence	566
+Event	225	conviction	Occurence	1031
+Event	80	transfer	Occurence	289
+Event	107	wet	Occurence	453
+Event	116	caught	Occurence	500
+Event	41	captured	Occurence	118
+Event	86	received	Occurence	336
+Event	191	drive	Occurence	845
+Event	245	stabbing	Occurence	1145
+Event	203	handcuffed	Occurence	906
+Event	158	pulled	Occurence	688
+Event	76	escape	Occurence	266
+Event	207	ran	Occurence	935
+Event	214	sentence	Occurence	967
+Event	252	1999	Occurence	1185
+Event	255	visited	Occurence	1200
+Event	89	tips	Occurence	359
+Event	83	Monday	Occurence	311
+Event	240	sentences	Occurence	1110
+Event	199	took	Occurence	886
+Event	82	captured	Occurence	302
+Event	165	fired	Occurence	719
+Event	97	recognized	Occurence	399
+Event	70	manhunt	Occurence	231
+Event	236	given	Occurence	1089
+Relation	70	76	SubSuper	true	manhunt	escape
+Relation	76	80	SubSuper	true	escape	transfer
+Relation	70	82	SuperSub	true	manhunt	captured
+Relation	76	82	SuperSub	true	escape	captured
+Relation	82	86	SubSuper	true	captured	received
+Relation	82	89	SubSuper	true	captured	tips
+Relation	82	97	SubSuper	true	captured	recognized
+Relation	82	92	SubSuper	true	captured	one
+Relation	92	97	SubSuper	true	one	recognized
+Relation	86	116	SuperSub	true	received	caught
+Relation	89	116	SuperSub	true	tips	caught
+Relation	92	116	SuperSub	true	one	caught
+Relation	97	116	SuperSub	true	recognized	caught
+Relation	116	128	SubSuper	true	caught	escaped
+Relation	128	158	SubSuper	true	escaped	pulled
+Relation	128	165	SubSuper	true	escaped	fired
+Relation	128	169	SubSuper	true	escaped	transfer
+Relation	128	186	SubSuper	true	escaped	unharmed
+Relation	128	191	SubSuper	true	escaped	drive
+Relation	128	199	SubSuper	true	escaped	took
+Relation	128	203	SubSuper	true	escaped	handcuffed
+Relation	128	207	SubSuper	true	escaped	ran
+Relation	186	207	SuperSub	true	unharmed	ran
+Relation	191	207	SuperSub	true	drive	ran
+Relation	199	207	SuperSub	true	took	ran
+Relation	203	207	SuperSub	true	handcuffed	ran
+Relation	214	225	SubSuper	true	sentence	conviction
+Relation	240	243	SubSuper	true	sentences	convicted
+Relation	158	207	SuperSub	true	pulled	ran
+Relation	165	207	SuperSub	true	fired	ran
+Relation	169	207	SuperSub	true	transfer	ran
+Relation	83	82	SuperSub	true	Monday	captured
+Relation	83	89	SuperSub	true	Monday	tips
+Relation	83	92	SuperSub	true	Monday	one
+Relation	83	97	SuperSub	true	Monday	recognized
+Relation	83	116	SuperSub	true	Monday	caught
+Relation	252	236	SuperSub	true	1999	given
+Relation	252	240	SuperSub	true	1999	sentences
+Relation	252	243	SuperSub	true	1999	convicted
+Relation	252	245	SuperSub	true	1999	stabbing
+Relation	252	255	SuperSub	true	1999	visited
+Relation	83	41	SuperSub	true	Monday	captured
+Relation	83	86	SuperSub	true	Monday	received
+Relation	83	70	SuperSub	true	Monday	manhunt
+Relation	70	80	SubSuper	true	manhunt	transfer
+Relation	107	128	SubSuper	true	wet	escaped
+Relation	243	245	SubSuper	true	convicted	stabbing
+Relation	70	89	SubSuper	true	manhunt	tips
+Relation	189	203	SuperSub	true	forced	handcuffed

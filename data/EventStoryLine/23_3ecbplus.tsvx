@@ -1,0 +1,36 @@
+Text	http://www. telegraph. co. uk/news/worldnews/australiaandthepacific/newzealand/10311656/English-and-Australian-climbers-fall-to-their-deaths-in-New-Zealand-mountains. html English and Australian climbers fall to their deaths in New Zealand mountains One Australian and one English climber have fallen to their deaths in New Zealand. 8:44AM BST 16 Sep 2013 Police Inspector Dave Gaskin said the two incidents on consecutive days in the Aoraki-Mt. Cook National Park were not related and were not due to bad weather. He said they come as a reminder that climbers need to use extreme caution. On Friday, 36-year-old Duncan Rait died after slipping and falling about 200ft from a ridge near the Tasman Glacier. The New Zealand-born Australian was planning to do some ski touring. He ' d been dropped off by helicopter with a group and was walking to a hut when he fell, sliding down a steep slope and over a cliff. Gaskin said that other climbers attempted to rescue Raite by taking him down the glacier, but that he died on the way down. On Saturday, 32-year-old Englishman Robert Buckley, originally from Essex, but living in Christchurch, fell about 2, 000ft while climbing to a small hut on Mount Sefton with three companions. Gaskin said Buckley was wearing crampons but was inexperienced. Police said that Mr Buckley's group appeared to be "insufficiently" equipped and inexperienced for the climb they chose. "They had hired some climbing equipment early that day and had managed to get within 80 meters of the bivvy, " police said. "At this stage... one of the party has slipped on the ice and has fallen some 700 metres to his death. "
+Event	186	fell	Occurence	860
+Event	138	died	Occurence	625
+Event	208	taking	Occurence	972
+Event	217	died	Occurence	1013
+Event	52	fall	Occurence	204
+Event	55	deaths	Occurence	218
+Event	142	falling	Occurence	649
+Event	67	fallen	Occurence	294
+Event	224	Saturday	Occurence	1038
+Event	129	Friday	Occurence	593
+Event	250	climbing	Occurence	1164
+Event	244	fell	Occurence	1138
+Event	70	deaths	Occurence	310
+Event	205	rescue	Occurence	956
+Event	180	walking	Occurence	835
+Event	140	slipping	Occurence	636
+Relation	129	138	SuperSub	true	Friday	died
+Relation	129	140	SuperSub	true	Friday	slipping
+Relation	129	142	SuperSub	true	Friday	falling
+Relation	129	180	SuperSub	true	Friday	walking
+Relation	129	186	SuperSub	true	Friday	fell
+Relation	129	205	SuperSub	true	Friday	rescue
+Relation	129	208	SuperSub	true	Friday	taking
+Relation	129	217	SuperSub	true	Friday	died
+Relation	224	244	SuperSub	true	Saturday	fell
+Relation	224	250	SuperSub	true	Saturday	climbing
+Relation	52	55	SubSuper	true	fall	deaths
+Relation	67	70	SubSuper	true	fallen	deaths
+Relation	138	142	SubSuper	true	died	falling
+Relation	140	142	SuperSub	true	slipping	falling
+Relation	180	186	SuperSub	true	walking	fell
+Relation	205	208	SuperSub	true	rescue	taking
+Relation	244	250	SubSuper	true	fell	climbing
+Relation	67	70	SuperSub	true	fallen	deaths
+Relation	52	55	SuperSub	true	fall	deaths

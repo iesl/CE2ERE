@@ -1,0 +1,26 @@
+Text	http://www. starpulse. com/news/index. php/2013/05/03/lindsay_lohan_check_into_betty_ford_af Lindsay Lohan Check Into Betty Ford After Fleeing Other Rehab Facility May 3rd, 2013 2:00pm EDT After leaving rehab in Newport Beach, Calif., less than an hour after checking in on Thursday, Lindsay Lohan admitted herself to the Betty Ford Center, according to TMZ. com. Her lawyer negotiated with court officials to change the venue of her 90-day treatment, and the actress traveled to nearby Rancho Mirage to register as a patient. The actress spent time at the Betty Ford Center in 2010; however, a member of the staff ended up suing her for assault.
+Event	98	change	Occurence	410
+Event	117	register	Occurence	504
+Event	111	traveled	Occurence	468
+Event	77	admitted	Occurence	298
+Event	143	suing	Occurence	624
+Event	73	Thursday	Occurence	274
+Event	132	2010	Occurence	578
+Event	146	assault	Occurence	638
+Event	106	treatment	Occurence	441
+Event	56	leaving	Occurence	195
+Event	93	negotiated	Occurence	375
+Event	43	Fleeing	Occurence	135
+Relation	73	43	SuperSub	true	Thursday	Fleeing
+Relation	73	77	SuperSub	true	Thursday	admitted
+Relation	73	106	SubSuper	true	Thursday	treatment
+Relation	73	111	SuperSub	true	Thursday	traveled
+Relation	73	117	SuperSub	true	Thursday	register
+Relation	132	143	SuperSub	true	2010	suing
+Relation	132	146	SuperSub	true	2010	assault
+Relation	56	77	SuperSub	true	leaving	admitted
+Relation	93	98	SuperSub	true	negotiated	change
+Relation	111	117	SuperSub	true	traveled	register
+Relation	143	146	SubSuper	true	suing	assault
+Relation	106	117	SuperSub	true	treatment	register
+Relation	73	93	SubSuper	true	Thursday	negotiated
