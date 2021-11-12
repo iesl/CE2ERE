@@ -17,9 +17,9 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     """
     metrics = {}
     if model_type == "box":
-        CM = confusion_matrix(y_true, y_pred, labels=[(0, 0), (0, 1), (1, 0), (1, 1)])
+        CM = confusion_matrix(y_true, y_pred, labels=["00", "01", "10"])
     else:
-        CM = confusion_matrix(y_true, y_pred, labels=[0, 1, 2, 3])
+        CM = confusion_matrix(y_true, y_pred, labels=[0, 1, 2])
     logger.info("confusion_matrix: \n{0}".format(CM))
     if model_type == "box" or model_type == "vector":
         Acc, P, R, F1, _ = CM_metric_box_3class(CM)
