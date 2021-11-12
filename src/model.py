@@ -437,7 +437,10 @@ class Box_BiLSTM_MLP(Module):
             output_C = self.MLP_hieve(output_C).unsqueeze(1)
             if self.loss_type == 1 or self.loss_type == 3:
                 pairAB = self.MLP_pair(pairAB).unsqueeze(1)
-
+            elif self.loss_type == 4:
+                pairAB = self.MLP_h_pair(pairAB).unsqueeze(1)
+                pairBC = self.MLP_h_pair(pairBC).unsqueeze(1)
+                pairAC = self.MLP_h_pair(pairAC).unsqueeze(1)
         elif data_type == "matres":
             # event word
             output_A = self.MLP_matres(output_A).unsqueeze(1)  # [batch_size, 1, 2 * proj_output_dim]
