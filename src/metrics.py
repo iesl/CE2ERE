@@ -29,14 +29,14 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics[f"[{eval_type}-{data_type}] Recall"] = R
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-    # if data_type == "hieve":
-    #     if model_type == "box" or model_type == "vector":
-    #         P, R, F1 = CM_metric_box_2class(CM)
-    #     else:
-    #         P, R, F1 = CM_metric_2class(CM)
-    #     metrics[f"[{eval_type}-{data_type}] Precision (PC-CP)"] = P
-    #     metrics[f"[{eval_type}-{data_type}] Recall (PC-CP)"] = R
-    #     metrics[f"[{eval_type}-{data_type}] F1 Score (PC-CP)"] = F1
+    if data_type == "hieve" or data_type == "esl":
+        if model_type == "box" or model_type == "vector":
+            P, R, F1 = CM_metric_box_2class(CM)
+        else:
+            P, R, F1 = CM_metric_2class(CM)
+        metrics[f"[{eval_type}-{data_type}] Precision (PC-CP)"] = P
+        metrics[f"[{eval_type}-{data_type}] Recall (PC-CP)"] = R
+        metrics[f"[{eval_type}-{data_type}] F1 Score (PC-CP)"] = F1
 
     logger.info("classifiction_report: \n{0}".format(classification_report(y_true, y_pred)))
     return metrics
