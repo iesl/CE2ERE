@@ -59,10 +59,28 @@ def get_f1_score(total_precision: float, total_recall: float) -> float:
 
 def CM_metric_3class(CM):
     all_ = CM.sum()
-    Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
-    P = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2]) / (CM[0][0:3].sum() + CM[1][0:3].sum() + CM[2][0:3].sum() + CM[3][0:3].sum())
-    R = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2]) / (CM[0].sum() + CM[1].sum() + CM[2].sum())
+    rows = CM.shape[0]
+    Acc = 0
+    P_numerator, P_denominator = 0, 0
+    R_numerator, R_denominator = 0, 0
+    for i in range(rows):
+        Acc += CM[i][i]
+        P_denominator += CM[i][:rows-1].sum()
+        if i == rows-1: continue  # NoRel, Vague case
+        P_numerator += CM[i][i]
+        R_numerator += CM[i][i]
+        R_denominator += CM[i].sum()
+
+    Acc /= all_
+    P = P_numerator / P_denominator
+    R = R_numerator / R_denominator
     F1 = 2 * P * R / (P + R)
+
+    # all_ = CM.sum()
+    # Acc = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2] + CM[3][3]) / all_
+    # P = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2]) / (CM[0][0:3].sum() + CM[1][0:3].sum() + CM[2][0:3].sum() + CM[3][0:3].sum())
+    # R = 1.0 * (CM[0][0] + CM[1][1] + CM[2][2]) / (CM[0].sum() + CM[1].sum() + CM[2].sum())
+    # F1 = 2 * P * R / (P + R)
 
     return Acc, P, R, F1, CM
 
