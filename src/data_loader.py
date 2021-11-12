@@ -411,14 +411,15 @@ def esl_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[L
     train_range, valid_range, test_range = [], [], []
         
     keys = list(range(253))
-    random.shuffle(keys)
-    for (i, key) in enumerate(keys):
-        if i <= 51:
-            test_range.append(key)
-        elif i <= 102:
-            valid_range.append(key)
-        else:
-            train_range.append(key)
+    with temp_seed(10):
+        random.shuffle(keys)
+        for (i, key) in enumerate(keys):
+            if i <= 51:
+                test_range.append(key)
+            elif i <= 102:
+                valid_range.append(key)
+            else:
+                train_range.append(key)
 
     esl_train, esl_valid, esl_test = [], [], []
     for i, file in enumerate(esl_files):
