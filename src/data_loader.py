@@ -41,26 +41,26 @@ def get_hieve_train_set(data_dict: Dict[str, Any], downsample: float, model_type
         for y in range(x+1, num_event+1):
             for z in range(y+1, num_event+1):
                 append_hieve_train_dataset(train_set, downsample, model_type, x, y, z, event_dict, sntc_dict, relation_dict)
-                if symm_train and (model_type == "box" or model_type == "vector"):
-                    if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
-                        if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
-                    if relation_dict[(y, z)]["relation"] == (1, 0) or relation_dict[(y, z)]["relation"] == (0, 1):
-                        if (x, z) in relation_dict.keys() and (z, y) in relation_dict.keys() and (x, y) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, x, z, y, event_dict, sntc_dict, relation_dict)
-                    if relation_dict[(x, z)]["relation"] == (1, 0) or relation_dict[(x, z)]["relation"] == (0, 1):
-                        if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
-                elif symm_train and model_type == "bilstm":
-                    if relation_dict[(x, y)]["relation"] == 0 or relation_dict[(x, y)]["relation"] == 1:
-                        if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
-                    if relation_dict[(y, z)]["relation"] == 0 or relation_dict[(y, z)]["relation"] == 1:
-                        if (x, z) in relation_dict.keys() and (z, y) in relation_dict.keys() and (x, y) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, x, z, y, event_dict, sntc_dict, relation_dict)
-                    if relation_dict[(x, z)]["relation"] == 0 or relation_dict[(x, z)]["relation"] == 1:
-                        if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
-                            append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
+                # if symm_train and (model_type == "box" or model_type == "vector"):
+                #     if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
+                #         if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
+                #     if relation_dict[(y, z)]["relation"] == (1, 0) or relation_dict[(y, z)]["relation"] == (0, 1):
+                #         if (x, z) in relation_dict.keys() and (z, y) in relation_dict.keys() and (x, y) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, x, z, y, event_dict, sntc_dict, relation_dict)
+                #     if relation_dict[(x, z)]["relation"] == (1, 0) or relation_dict[(x, z)]["relation"] == (0, 1):
+                #         if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
+                # elif symm_train and model_type == "bilstm":
+                #     if relation_dict[(x, y)]["relation"] == 0 or relation_dict[(x, y)]["relation"] == 1:
+                #         if (y, x) in relation_dict.keys() and (x, z) in relation_dict.keys() and (y, z) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, y, x, z, event_dict, sntc_dict, relation_dict)
+                #     if relation_dict[(y, z)]["relation"] == 0 or relation_dict[(y, z)]["relation"] == 1:
+                #         if (x, z) in relation_dict.keys() and (z, y) in relation_dict.keys() and (x, y) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, x, z, y, event_dict, sntc_dict, relation_dict)
+                #     if relation_dict[(x, z)]["relation"] == 0 or relation_dict[(x, z)]["relation"] == 1:
+                #         if (z, y) in relation_dict.keys() and (y, x) in relation_dict.keys() and (z, x) in relation_dict.keys():
+                #             append_hieve_train_dataset(train_set, downsample, model_type, z, y, x, event_dict, sntc_dict, relation_dict)
     return train_set
 
 
@@ -135,19 +135,25 @@ def get_hieve_valid_test_set(data_dict: Dict[str, Any], downsample: float, model
 
     for x in range(1, num_event+1):
         for y in range(x+1, num_event+1):
-            append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict)
+            _x = list(event_dict.keys())[x - 1]
+            _y = list(event_dict.keys())[y - 1]
+            append_hieve_eval_dataset(final_set, downsample, model_type, _x, _y, event_dict, sntc_dict, relation_dict)
             if symm_eval and (model_type == "box" or model_type == "vector"):
-                if relation_dict[(x, y)]["relation"] == (1, 0) or relation_dict[(x, y)]["relation"] == (0, 1):
-                    append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
+                if (_x, _y) not in relation_dict.keys(): continue
+                else:
+                    if relation_dict[(_x, _y)]["relation"] == (1, 0) or relation_dict[(_x, _y)]["relation"] == (0, 1):
+                        append_hieve_eval_dataset(final_set, downsample, model_type, _y, _x, event_dict, sntc_dict, relation_dict)
             elif symm_eval and (model_type == "bilstm"):
-                if relation_dict[(x, y)]["relation"] == 0 or relation_dict[(x, y)]["relation"] == 1:
-                    append_hieve_eval_dataset(final_set, downsample, model_type, y, x, event_dict, sntc_dict, relation_dict)
+                if (_x, _y) not in relation_dict.keys(): continue
+                else:
+                    if relation_dict[(_x, _y)]["relation"] == 0 or relation_dict[(_x, _y)]["relation"] == 1:
+                        append_hieve_eval_dataset(final_set, downsample, model_type, _y, _x, event_dict, sntc_dict, relation_dict)
     return final_set
 
 
-def append_hieve_eval_dataset(final_set, downsample, model_type, x, y, event_dict, sntc_dict, relation_dict):
-    _x = list(event_dict.keys())[x-1]
-    _y = list(event_dict.keys())[y-1]
+def append_hieve_eval_dataset(final_set, downsample, model_type, _x, _y, event_dict, sntc_dict, relation_dict):
+    # _x = list(event_dict.keys())[x-1]
+    # _y = list(event_dict.keys())[y-1]
     x_sntc_id = event_dict[_x]["sent_id"]
     y_sntc_id = event_dict[_y]["sent_id"]
 
