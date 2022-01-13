@@ -17,7 +17,7 @@ python -m spacy download en_core_web_sm
 Tested with Python 3.8 and PyTorch 1.7.
 
 ### Example Command
-#### Command for BERE over MATRES with all constraints and RoBERTa finetuning
+#### Command for BERE-p over MATRES
 main.py --data_dir=data --model box --data_dir data --data_type matres --downsample 0.02 --epochs 50 --lambda_anno 1 --lambda_trans 0 --learning_rate 1e-05 --log_batch_size 6 --lstm_hidden_size 256 --lstm_input_size 768 --mlp_size 512 --roberta_hidden_size 768 --num_layers 1 --symm_eval 0 --loss_type 4
 
 (BERE - loss_type=0, BERE-p - loss_type=4, BERE-c - loss_type=3
