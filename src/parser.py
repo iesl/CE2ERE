@@ -13,16 +13,7 @@ def build_parser():
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
 
-    parser.add_argument('--embedding_type', type=str, default='roberta-base', choices=["roberta-base", "roberta-large", "longformer-base", "longformer-large"],
-                        help="""
-                        [roberta-base | roberta-large | longformer-base | longformer-large]; 
-                        roberta-base: use Roberta of hidden dimension of 768 to generate word embeddings, 
-                        roberta-large: use Roberta of hidden dimension of 1024 to generate word embeddings, 
-                        longformer-base: use LongformerModel of hidden dimension of 768 to generate word embeddings.
-                        longformer-large: use LongformerModel of hidden dimension of 1024 to generate word embeddings.
-                        """)
-
-    parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector"],
+    parser.add_argument('--model', type=str, default="bilstm", choices=["bilstm", "box", "vector", "box-finetune"],
                         help="[finetune | bilstm | box]; finetune: roberta-base emb with finetuning, bilstm: roberta-base emb w/o finetuning + BiLSTM, box: roberta-base emb w/o finetuning + BiLSTM + Box")
 
     parser.add_argument('--downsample', type=float, default=0.01)
@@ -30,16 +21,24 @@ def build_parser():
     parser.add_argument('--lambda_anno', type=float, default=1)
     parser.add_argument('--lambda_trans', type=float, default=0)
     parser.add_argument('--lambda_cross', type=float, default=0)
+    parser.add_argument('--lambda_symm', type=float, default=0)
     parser.add_argument('--lambda_pair', type=float, default=0)
     parser.add_argument('--lambda_condi', type=float, default=1)
+    parser.add_argument('--lambda_condi_h', type=float, default=1)
+    parser.add_argument('--lambda_condi_m', type=float, default=1)
+    parser.add_argument('--lambda_pair_h', type=float, default=1)
+    parser.add_argument('--lambda_pair_m', type=float, default=1)
+    parser.add_argument('--lambda_trans_h', type=float, default=1)
+    parser.add_argument('--lambda_trans_m', type=float, default=1)
 
     parser.add_argument('--volume_temp', type=float, default=1)
     parser.add_argument('--intersection_temp', type=float, default=0.0001)
 
-    parser.add_argument('--hieve_threshold', type=float, default=-0.301029996,
-                        help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1") # log 0.5
-    parser.add_argument('--matres_threshold', type=float, default=-0.301029996,
-                        help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1") # log 0.5
+    parser.add_argument('--hieve_threshold', type=float, default=-0.301029996, help="log0.5: -0.301029996, log0.25: -0.602059991, log0.1: -1")
+    parser.add_argument('--matres_threshold', type=float, default=-0.301029996)
+
+    parser.add_argument('--threshold1', type=float, default=-0.602059991)
+    parser.add_argument('--threshold2', type=float, default=-0.301029996)
 
     parser.add_argument('--mlp_size', type=int, default=512) # mlp hidden dim
     parser.add_argument('--mlp_output_dim', type=int, default=32) # mlp output dim;
@@ -64,12 +63,19 @@ def build_parser():
     parser.add_argument('--load_model', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--saved_model', type=str, default="", help="saved model path")
     parser.add_argument('--wandb_id', type=str, default="", help="wandb run path")
-    parser.add_argument('--save_plot', type=int, default=0, help="0: false, 1: true")
+    parser.add_argument('--save_plot', type=int, default=1, help="0: false, 1: true")
 
     parser.add_argument('--symm_train', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--symm_eval', type=int, default=0, help="0: false, 1: true")
     parser.add_argument('--cv_valid', type=int, default=0, help="0: false, 1: true")
-    parser.add_argument('--model_save', type=int, default=0, help="0: false, 1: true")
+    parser.add_argument('--model_save', type=int, default=1, help="0: false, 1: true")
 
     parser.add_argument('--max_grad_norm', type=float, default=5.0, help="max_grad_norm for gradient clipping ex) 1,5,10")
+    parser.add_argument('--const_eval', type=int, default=1, help="single & cross category contraint evalaution")
+    parser.add_argument('--weight_decay', type=float, default=0, help="weight decay")
+    parser.add_argument('--roberta_type', type=str, default="roberta-base", help="roberta emd type")
+    parser.add_argument('--threshold_test', type=int, default=0, help="threshold test when loading the model")
+    parser.add_argument('--weighted', type=int, default=0, help="whether to use weighted version or not")
+    parser.add_argument('--use_pos_tag', type=int, default=0, help="whether to use pos tag embedding or not")
+
     return parser.parse_args()

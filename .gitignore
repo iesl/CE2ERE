@@ -7,3 +7,7 @@
 /log
 *.pt
 *.txt
+wandb/
+/test
+log/
+figures/

@@ -2,20 +2,12 @@ import spacy
 import os
 from nltk import sent_tokenize
 from pathlib import Path
-from transformers import RobertaTokenizer, LongformerTokenizer
-from typing import Dict, List, Tuple, Optional, Any, Union
+from transformers import RobertaTokenizer
+from typing import *
+import re
 import xml.etree.ElementTree as ET
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
+tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
 nlp = spacy.load("en_core_web_sm")
-
-
-def setup_tokenizer(embedding_type: str) -> None:
-    global tokenizer
-    if embedding_type.startswith("roberta"):
-        tokenizer = RobertaTokenizer.from_pretrained('roberta-base', unk_token='<unk>')
-    elif embedding_type.startswith("longformer"):
-        tokenizer = LongformerTokenizer.from_pretrained('allenai/longformer-base-4096', unk_token='<unk>')
 
 
 def get_relation_id(rel_type: str):
@@ -29,12 +21,12 @@ def get_temp_rel_id(rel_type: str) -> int:
 
 
 def get_hier_relation_tuple_id(rel_type: str):
-    rel_id_dict = {"SuperSub": (1, 0), "SubSuper": (0, 1), "Coref": (1, 1), "NoRel": (0, 0)}
+    rel_id_dict = {"SuperSub": (1,0), "SubSuper": (0,1), "Coref": (1,1), "NoRel": (0,0)}
     return rel_id_dict[rel_type]
 
 
 def get_temp_relation_tuple_id(rel_type: str):
-    rel_id_dict = {"BEFORE": (1, 0), "AFTER": (0, 1), "EQUAL": (1, 1), "VAGUE": (0, 0)}
+    rel_id_dict = {"BEFORE": (1,0), "AFTER": (0,1), "EQUAL": (1,1), "VAGUE": (0,0)}
     return rel_id_dict[rel_type]
 
 
@@ -100,7 +92,7 @@ def span_SENT_to_DOC(token_span_SENT: List[List[int]], sent_start: int):
 
 
 def RoBERTa_list(content: str, token_span_SENT: List[List[int]]):
-    encoded = tokenizer.encode(content)  # list of integers
+    encoded = tokenizer.encode(content) # list of integers
     roberta_subword_to_ID = encoded
 
     roberta_subwords = []
@@ -152,16 +144,11 @@ def assign_sntc_id_to_event_dict(data_dict: Dict[str, Any], useEndChar: Optional
     return data_dict
 
 
-def document_to_sentences(data_dict: Dict[str, Any], embedding_type: str) -> Dict[str, Any]:
+def document_to_sentences(data_dict: Dict[str, Any]) -> Dict[str, Any]:
     doc_content = data_dict["doc_content"]
     data_dict["sentences"] = []
 
-    if embedding_type.startswith("roberta"):
-        tokenized_sntc = sent_tokenize(doc_content)  # split document into sentences
-    elif embedding_type.startswith("longformer"):
-        tokenized_sntc = [doc_content]               # keep the article as a whole
-    else:
-        raise ValueError(f"embedding type {embedding_type} is not supported.")
+    tokenized_sntc = sent_tokenize(doc_content) # split document into sentences
     sntc_span = tokenized_to_origin_span(doc_content, tokenized_sntc)
 
     for i, sntc in enumerate(tokenized_sntc):
@@ -204,7 +191,7 @@ def document_to_sentences(data_dict: Dict[str, Any], embedding_type: str) -> Dic
 
 
 def add_hieve_symmetric_data(data_dict, model_type, event_id1, event_id2, rel_type):
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         rel_id = get_hier_relation_tuple_id(rel_type)
     else:
         rel_id = get_relation_id(rel_type)
@@ -213,7 +200,7 @@ def add_hieve_symmetric_data(data_dict, model_type, event_id1, event_id2, rel_ty
 
 
 def add_matres_symmetric_data(eiid_pair_to_rid_per_fname, model_type, eiid1, eiid2, rel_type):
-    if model_type == "box" or model_type == "vector":
+    if model_type.startswith("box") or model_type == "vector":
         temp_rel_id = get_temp_relation_tuple_id(rel_type)
     else:
         temp_rel_id = get_temp_rel_id(rel_type)
@@ -244,7 +231,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm:
         line = line.split("\t")
         type = line[0].lower()
         if type == "text":
-            data_dict["doc_content"] = line[1].strip()
+            data_dict["doc_content"] = line[1]
         elif type == "event":
             event_id, event_word, start_char = int(line[1]), line[2], int(line[4])
             end_char = len(event_word) + start_char - 1
@@ -255,7 +242,7 @@ def read_tsvx_file(data_dir: Union[Path, str], file: str, model_type: str, symm:
             }
         elif type == "relation":
             event_id1, event_id2, rel_type = int(line[1]), int(line[2]), line[3]
-            if model_type == "box" or model_type == "vector":
+            if model_type.startswith("box") or model_type == "vector":
                 rel_id = get_hier_relation_tuple_id(rel_type)
             else:
                 rel_id = get_relation_id(rel_type)
@@ -289,7 +276,7 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                 trigger_word2 = line[2]
                 eiid1 = int(line[3]) # eiid1 = trigger_word_id1
                 eiid2 = int(line[4]) # eiid2 = trigger_word_id2
-                if model_type == "box" or model_type == "vector":
+                if model_type.startswith("box") or model_type == "vector":
                     temp_rel_id = get_temp_relation_tuple_id(line[5])
                 else:
                     temp_rel_id = get_temp_rel_id(line[5])
@@ -304,6 +291,10 @@ def read_matres_files(all_txt_file_path: List[Union[str, Path]], model_type: str
                         add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "AFTER")
                     if line[5].lower() == "after":
                         add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "BEFORE")
+                    # if line[5].lower() == "equal":
+                    #     add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "VAGUE")
+                    # if line[5].lower() == "vague":
+                    #     add_matres_symmetric_data(eiid_pair_to_rel_id[fname], model_type, eiid1, eiid2, "EQUAL")
 
                 if eiid1 not in eiid_to_event_trigger[fname].keys():
                     eiid_to_event_trigger[fname][eiid1] = trigger_word1
@@ -385,31 +376,40 @@ def read_tml_file(dir_path: Union[str, Path], file_name: str, eiid_to_event_trig
         end = MY_TEXT.find(">")
         if MY_TEXT[start + 1] == "E":
             event_description = MY_TEXT[start:end].split(" ")
-            if event_description[2].startswith("e"):
-                eID = (event_description[2].split("="))[1].replace("\"", "")
-            elif event_description[1].startswith("e"):
-                eID = (event_description[1].split("="))[1].replace("\"", "")
-            else:
-                raise ValueError(f"eID not in event_description: {event_description}")
+            for desc in event_description:
+                if desc.lower().startswith("eid"):
+                    eID = (desc.split("="))[1].replace("\"", "")
+                    break
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
             if eID in event_dict.keys():
                 event_dict[eID]["start_char"] = start  # loading position of events
         else:
             MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
 
-    data_dict["doc_content"] = MY_TEXT
+    # while MY_TEXT.find("<") != -1:
+    #     start = MY_TEXT.find("<")
+    #     end = MY_TEXT.find(">")
+    #     if MY_TEXT[start + 1] == "E":
+    #         local_root = ET.ElementTree(ET.fromstring(MY_TEXT[start:end]))
+    #         eID = local_root.attrib['eid']
+    #         if eID in event_dict.keys():
+    #             event_dict[eID]["start_char"] = start  # loading position of events
+    #     else:
+    #         MY_TEXT = MY_TEXT[:start] + MY_TEXT[(end + 1):]
+
+    data_dict["doc_content"] = MY_TEXT.strip()
     return data_dict
 
 
-def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm: int, embedding_type: str) -> Dict[str, Any]:
+def hieve_file_reader(data_dir: Union[Path, str], file: str, model_type: str, symm: Optional[int] = 0) -> Dict[str, Any]:
     data_dict = read_tsvx_file(data_dir, file, model_type, symm)
-    data_dict = document_to_sentences(data_dict, embedding_type)  # sentence information update
+    data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=True)
     return data_dict
 
 
-def matres_file_reader(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger: Dict, embedding_type: str):
+def matres_file_reader(dir_path: Union[str, Path], file_name: str, eiid_to_event_trigger: Dict):
     data_dict = read_tml_file(dir_path, file_name, eiid_to_event_trigger)
-    data_dict = document_to_sentences(data_dict, embedding_type)  # sentence information update
+    data_dict = document_to_sentences(data_dict) # sentence information update
     data_dict = assign_sntc_id_to_event_dict(data_dict, useEndChar=False)
     return data_dict

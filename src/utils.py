@@ -80,6 +80,13 @@ def lambdas_to_dict(args: Dict[str, Any]) -> Dict[str, float]:
     lambda_dict["lambda_cross"] = args.lambda_cross
     lambda_dict["lambda_pair"] = args.lambda_pair
     lambda_dict["lambda_condi"] = args.lambda_condi
+    lambda_dict["lambda_symm"] = args.lambda_symm
+    lambda_dict["lambda_condi_h"] = args.lambda_condi_h
+    lambda_dict["lambda_condi_m"] = args.lambda_condi_m
+    lambda_dict["lambda_pair_m"] = args.lambda_pair_m
+    lambda_dict["lambda_pair_h"] = args.lambda_pair_h
+    lambda_dict["lambda_trans_m"] = args.lambda_trans_m
+    lambda_dict["lambda_trans_h"] = args.lambda_trans_h
     return lambda_dict
 
 
@@ -115,6 +122,15 @@ def temp_seed(seed):
         yield
     finally:
         random.setstate(state)
+
+
+def get_one_hot_tag(tag_sent, n_tags):
+    tags_one_hot = []
+    for tag in tag_sent:
+        tags_one_hot.append(torch.zeros(n_tags))
+        if tag != -1:
+            tags_one_hot[-1][tag] = 1.0
+    return torch.stack(tags_one_hot, dim=0)
 
 
 _LOG1MEXP_SPLIT_POINT = torch.tensor(0.5).log()
