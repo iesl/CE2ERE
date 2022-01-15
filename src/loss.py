@@ -149,7 +149,7 @@ class BCELossWithLog(Module):
     """
     def __init__(self, data_type, hier_weights, temp_weights):
         super().__init__()
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             self.weights = hier_weights
         elif data_type == "matres":
             self.weights = temp_weights
@@ -228,7 +228,7 @@ class BCELossWithLog(Module):
 class BCELossWithLogP(Module):
     def __init__(self, data_type, hier_weights, temp_weights):
         super().__init__()
-        if data_type == "hieve":
+        if data_type == "hieve" or data_type == "esl":
             self.weights = hier_weights
         elif data_type == "matres":
             self.weights = temp_weights

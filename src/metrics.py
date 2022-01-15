@@ -26,7 +26,7 @@ def metric(data_type, eval_type, model_type, y_true, y_pred):
     metrics[f"[{eval_type}-{data_type}] Recall"] = R
     metrics[f"[{eval_type}-{data_type}] F1 Score"] = F1
 
-    if data_type == "hieve":
+    if data_type == "hieve" or data_type == "esl":
         if model_type.startswith("box") or model_type == "vector":
             P, R, F1 = CM_metric_box_2class(CM)
         else:

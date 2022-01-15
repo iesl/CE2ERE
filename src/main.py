@@ -3,7 +3,7 @@ import os
 import wandb
 
 from torch.nn import CrossEntropyLoss
-from data_loader import hieve_data_loader, matres_data_loader, get_dataloaders, get_tag2index, add_pos_tag_embedding
+from data_loader import hieve_data_loader, matres_data_loader, esl_data_loader, get_dataloaders, get_tag2index, add_pos_tag_embedding
 from loss import TransitivityLoss, CrossCategoryLoss
 from model import RoBERTa_MLP, BiLSTM_MLP, Box_BiLSTM_MLP, Vector_BiLSTM_MLP, Box_RoBERTa_MLP
 from parser import *
@@ -69,6 +69,28 @@ def create_dataloader(args):
         test_cv_set_dict["matres"] = matres_test_cv_set
         train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
             = get_dataloaders(log_batch_size, matres_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
+    elif data_type == "esl":
+        num_classes = 4
+        esl_train_set, esl_valid_set, esl_test_set, esl_valid_cv_set, esl_test_cv_set = esl_data_loader(args, data_dir)
+
+        tag2index = get_tag2index(esl_train_set)
+        esl_train_set, esl_valid_set, esl_test_set = add_pos_tag_embedding(esl_train_set, esl_valid_set, esl_test_set, tag2index)
+        _, esl_valid_cv_set, esl_test_cv_set = add_pos_tag_embedding(None, esl_valid_cv_set, esl_test_cv_set, tag2index)
+
+        if args.use_pos_tag:
+            n_tags = len(tag2index)
+        else:
+            n_tags = 0
+
+        valid_set_dict, test_set_dict = {}, {}
+        valid_set_dict["hieve"] = esl_valid_set
+        test_set_dict["hieve"] = esl_test_set
+
+        valid_cv_set_dict, test_cv_set_dict = {}, {}
+        valid_cv_set_dict["hieve"] = esl_valid_cv_set
+        test_cv_set_dict["hieve"] = esl_test_cv_set
+        train_dataloader, valid_dataloader_dict, test_dataloader_dict, valid_cv_dataloader_dict, test_cv_dataloader_dict \
+            = get_dataloaders(log_batch_size, esl_train_set, valid_set_dict, test_set_dict, valid_cv_set_dict, test_cv_set_dict)
     elif data_type == "joint":
         num_classes = 8
         hieve_train_set, hieve_valid_set, hieve_test_set, hieve_valid_cv_set, hieve_test_cv_set = hieve_data_loader(args, data_dir)

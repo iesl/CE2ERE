@@ -9,7 +9,7 @@ def build_parser():
     parser.add_argument('--debug', default=False, action='store_true', help="whether to use debug data or not")
     parser.add_argument('--log_batch_size', type=int, default=4, help="batch size for training will be 2**log_batch_size")
     parser.add_argument('--epochs', type=int, default=80, help="number of epochs to train")
-    parser.add_argument('--data_type', type=str, default="joint", choices=["matres", "hieve", "joint"], help="dataset: [MATRES | HiEve | Joint]")
+    parser.add_argument('--data_type', type=str, default="joint", choices=["esl","matres", "hieve", "joint"], help="dataset: [ESL | MATRES | HiEve | Joint]")
     parser.add_argument('--finetune', default=False, action='store_true',
                         help="True: roberta-base emb with finetuning, no BiLSTM, False: roberta-base emb w/o finetuning + BiLSTM")
 

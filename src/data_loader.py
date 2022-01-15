@@ -422,6 +422,87 @@ def matres_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tupl
 
     return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 
+def esl_data_loader(args: Dict[str, Any], data_dir: Union[Path, str]) -> Tuple[List[Any]]:
+    esl_dir = data_dir / "EventStoryLine/"
+    all_train_set, all_valid_set, all_test_set = [], [], []
+    all_valid_cv_set, all_test_cv_set = [], []
+
+    esl_files = natsorted([f for f in listdir(esl_dir) if isfile(join(esl_dir, f)) and f[-4:] == "tsvx"])
+    train_range, valid_range, test_range = [], [], []
+        
+    keys = list(range(253))
+    random.shuffle(keys)
+    for (i, key) in enumerate(keys):
+        if i <= 51:
+            test_range.append(key)
+        elif i <= 102:
+            valid_range.append(key)
+        else:
+            train_range.append(key)
+
+    esl_train, esl_valid, esl_test = [], [], []
+    for i, file in enumerate(esl_files):
+        if i in train_range:
+            esl_train.append(file)
+        elif i in valid_range:
+            esl_valid.append(file)
+        elif i in test_range:
+            esl_test.append(file)
+
+    start_time = time.time()
+    print("EventStoryLine train files processing...")
+    for i, file in enumerate(tqdm(esl_train)):
+        data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_train)  # data_reader.py
+        train_set = get_hieve_train_set(data_dict, args.downsample, args.model, args.symm_train)
+        all_train_set.extend(train_set)
+    print("done!")
+
+    with temp_seed(10):
+        print("EventStoryLine valid files processing...")
+        for i, file in enumerate(tqdm(esl_valid)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            valid_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_set.extend(valid_set)
+
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(esl_valid)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            cv_valid_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_valid_cv_set.extend(cv_valid_set)
+        print("done!")
+
+    with temp_seed(10):
+        print("EventStoryLine test files processing...")
+        for i, file in enumerate(tqdm(esl_test)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            test_set = get_hieve_valid_test_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_set.extend(test_set)
+
+    with temp_seed(10):
+        for i, file in enumerate(tqdm(esl_test)):
+            data_dict = hieve_file_reader(esl_dir, file, args.model, args.symm_eval)
+            cv_test_set = get_hieve_train_set(data_dict, 0.4, args.model, args.symm_eval)
+            all_test_cv_set.extend(cv_test_set)
+        print("done!")
+
+    elapsed_time = format_time(time.time() - start_time)
+    logger.info("EventStoryLine Preprocessing took {:}".format(elapsed_time))
+    logger.info(f'EventStoryLine training instance num: {len(all_train_set)}, '
+          f'valid instance num: {len(all_valid_set)}, '
+          f'test instance num: {len(all_test_set)}, '
+          f'cv-valid instance num: {len(all_valid_cv_set)}, '
+          f'cv-test instance num: {len(all_test_cv_set)}, ')
+
+    if args.debug:
+        logger.info("debug mode on")
+        all_train_set = all_train_set[0:100]
+        all_valid_set = all_train_set
+        all_test_set = all_train_set
+        all_valid_cv_set = all_train_set
+        all_test_cv_set = all_train_set
+        logger.info("EventStoryLine length debugging mode: %d".format(len(all_train_set)))
+
+    return all_train_set, all_valid_set, all_test_set, all_valid_cv_set, all_test_cv_set
 
 def get_dataloaders(log_batch_size: int, train_set: List, valid_set_dict: Dict[str, List], test_set_dict: Dict[str, List],
                     valid_cv_set_dict: Dict[str, List], test_cv_set_dict: Dict[str, List]) -> Tuple[DataLoader]:
