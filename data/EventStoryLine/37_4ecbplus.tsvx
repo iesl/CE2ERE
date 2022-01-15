@@ -1,0 +1,47 @@
+Text	http://www. ndtv. com/article/world/dozens-injured-child-dead-as-6-1-magnitude-earthquake-hits-indonesia-s-aceh-386911 Dozens injured, child dead as 6. 1-magnitude earthquake hits Indonesia's Aceh Updated:July 02, 2013 15:50 IST A 6. 1-magnitude earthquake which hit the Indonesian province of Aceh on Tuesday killed a child, injured dozens and destroyed buildings, sparking panic in a region devastated by the quake-triggered tsunami of 2004. The quake struck inland at 0737 GMT at a depth of just 10 kilometres ( 6. 2 miles ) in the mountainous Bener Meriah district in the heart of Aceh, the US Geological Survey said. Houses collapsed in the district, some 320 kilometres ( 200 miles ) from the provincial capital Banda Aceh. "A child died when a wall collapsed, " Ema Suryani, a doctor at a health clinic in Lampahan city, told AFP. "We have received around 50 people with injuries suffered when the walls of their houses collapsed, " added the doctor. "There are around 30 people seriously injured, some with head injuries. The rest have only light injuries like minor cuts and grazes. " Injured people had been transported from several affected villages in two trucks, she said. People ran outside in panic in Banda Aceh as the quake shook houses, and in Medan city to the south of Aceh province on Sumatra island. "The quake was felt strongly for around 15 seconds, from Bener Meriah to Banda Aceh. People panicked and rushed out of their homes, " national disaster agency spokesman Sutopo Purwo Nugroho said. Aceh, on the northern tip of Sumatra, is regularly hit by quakes. In 2004 a massive tremor sparked a tsunami that killed 170, 000 people in the province and tens of thousands more in countries around the Indian Ocean. In April last year an 8. 6-magnitude quake struck 431 kilometres off Banda Aceh, prompting an Indian Ocean-wide tsunami alert. Five people died and seven were injured in Aceh in the quake and following aftershocks. In September 2009, a major earthquake near Padang city on Sumatra killed more than 1, 000 people. Indonesia sits on the Pacific "Ring of Fire" where tectonic plates collide, causing frequent seismic and volcanic activity.
+Event	104	tsunami	Occurence	427
+Event	106	2004	Occurence	438
+Event	109	quake	Occurence	448
+Event	54	hits	Occurence	175
+Event	343	killed	Occurence	1632
+Event	338	tremor	Occurence	1602
+Event	98	devastated	Occurence	393
+Event	110	struck	Occurence	454
+Event	335	2004	Occurence	1587
+Event	147	collapsed	Occurence	629
+Event	101	quake	Occurence	411
+Event	341	tsunami	Occurence	1619
+Event	94	panic	Occurence	375
+Event	75	hit	Occurence	263
+Event	46	dead	Occurence	141
+Event	87	injured	Occurence	326
+Event	83	killed	Occurence	310
+Event	82	Tuesday	Occurence	302
+Event	90	destroyed	Occurence	345
+Event	43	injured	Occurence	126
+Relation	82	43	SuperSub	true	Tuesday	injured
+Relation	82	46	SuperSub	true	Tuesday	dead
+Relation	82	54	SuperSub	true	Tuesday	hits
+Relation	82	75	SuperSub	true	Tuesday	hit
+Relation	82	83	SuperSub	true	Tuesday	killed
+Relation	82	87	SuperSub	true	Tuesday	injured
+Relation	82	90	SuperSub	true	Tuesday	destroyed
+Relation	82	94	SuperSub	true	Tuesday	panic
+Relation	106	98	SuperSub	true	2004	devastated
+Relation	106	101	SuperSub	true	2004	quake
+Relation	106	104	SuperSub	true	2004	tsunami
+Relation	82	109	SuperSub	true	Tuesday	quake
+Relation	82	110	SuperSub	true	Tuesday	struck
+Relation	82	147	SuperSub	true	Tuesday	collapsed
+Relation	335	338	SuperSub	true	2004	tremor
+Relation	335	341	SuperSub	true	2004	tsunami
+Relation	335	343	SuperSub	true	2004	killed
+Relation	98	104	SubSuper	true	devastated	tsunami
+Relation	101	104	SuperSub	true	quake	tsunami
+Relation	109	147	SuperSub	true	quake	collapsed
+Relation	338	341	SuperSub	true	tremor	tsunami
+Relation	341	343	SuperSub	true	tsunami	killed
+Relation	94	101	SubSuper	true	panic	quake
+Relation	83	101	SubSuper	true	killed	quake
+Relation	98	101	SubSuper	true	devastated	quake
+Relation	87	101	SubSuper	true	injured	quake

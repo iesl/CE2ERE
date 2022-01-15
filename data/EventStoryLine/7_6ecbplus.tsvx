@@ -1,0 +1,66 @@
+Text	http://www. espn. co. uk/boxing/sport/story/159389. html Klitschko stops Thompson in regulation win July 7, 2012 Wladimir Klitschko retained his IBF, WBO, WBA & IBO heavyweight world titles with a second professional victory over Tony Thompson on Saturday. Klitschko, 36, stopped the 40-year-old Thompson with two seconds remaining of the sixth round in Switzerland to retain his collection of titles. In 2008, last time the pair met, the bout went 11 rounds before the Ukrainian emerged triumphant. Klitschko dumped Thompson onto the canvas with a booming right end towards the end of the fifth round of the fight in Bern, and from then on it was simply a matter of time before referee Sam Williams stopped matters. The decisive moment came at the end of the next three-minute stretch, the same punch again bringing Thompson to his knees and-despite beating the count-he was clearly too unsteady to continue. Klitschko, who could face Tyson Fury in the near future after being called out by the British-Irish fighter, improves to a career record of 58 wins and three defeats.
+Event	104	triumphant	Occurence	488
+Event	50	victory	Occurence	217
+Event	175	beating	Occurence	851
+Event	183	unsteady	Occurence	888
+Event	99	rounds	Occurence	452
+Event	80	retain	Occurence	369
+Event	107	dumped	Occurence	510
+Event	123	round	Occurence	596
+Event	93	met	Occurence	430
+Event	185	continue	Occurence	900
+Event	151	came	Occurence	737
+Event	27	win	Occurence	96
+Event	61	stopped	Occurence	272
+Event	76	round	Occurence	345
+Event	23	stops	Occurence	67
+Event	34	retained	Occurence	132
+Event	87	2008	Occurence	405
+Event	167	bringing	Occurence	808
+Event	177	count	Occurence	863
+Event	72	remaining	Occurence	322
+Event	55	Saturday	Occurence	247
+Event	115	right	Occurence	557
+Event	145	stopped	Occurence	700
+Event	103	emerged	Occurence	480
+Event	165	punch	Occurence	796
+Event	96	bout	Occurence	439
+Event	126	fight	Occurence	609
+Relation	87	93	SuperSub	true	2008	met
+Relation	87	96	SuperSub	true	2008	bout
+Relation	87	99	SuperSub	true	2008	rounds
+Relation	87	103	SuperSub	true	2008	emerged
+Relation	87	104	SuperSub	true	2008	triumphant
+Relation	55	34	SubSuper	true	Saturday	retained
+Relation	55	50	SuperSub	true	Saturday	victory
+Relation	55	72	SuperSub	true	Saturday	remaining
+Relation	55	76	SuperSub	true	Saturday	round
+Relation	55	80	SubSuper	true	Saturday	retain
+Relation	55	107	SuperSub	true	Saturday	dumped
+Relation	55	115	SuperSub	true	Saturday	right
+Relation	55	123	SuperSub	true	Saturday	round
+Relation	55	126	SuperSub	true	Saturday	fight
+Relation	55	145	SuperSub	true	Saturday	stopped
+Relation	55	151	SuperSub	true	Saturday	came
+Relation	55	165	SuperSub	true	Saturday	punch
+Relation	55	167	SuperSub	true	Saturday	bringing
+Relation	55	175	SuperSub	true	Saturday	beating
+Relation	55	177	SuperSub	true	Saturday	count
+Relation	55	183	SuperSub	true	Saturday	unsteady
+Relation	55	185	SuperSub	true	Saturday	continue
+Relation	23	27	SuperSub	true	stops	win
+Relation	34	50	SubSuper	true	retained	victory
+Relation	61	80	SuperSub	true	stopped	retain
+Relation	50	61	SubSuper	true	victory	stopped
+Relation	50	80	SuperSub	true	victory	retain
+Relation	107	115	SubSuper	true	dumped	right
+Relation	107	126	SubSuper	true	dumped	fight
+Relation	115	126	SubSuper	true	right	fight
+Relation	107	145	SuperSub	true	dumped	stopped
+Relation	165	167	SuperSub	true	punch	bringing
+Relation	183	185	SuperSub	true	unsteady	continue
+Relation	72	80	SubSuper	true	remaining	retain
+Relation	96	103	SuperSub	true	bout	emerged
+Relation	165	177	SuperSub	true	punch	count
+Relation	165	183	SuperSub	true	punch	unsteady
+Relation	167	183	SubSuper	true	bringing	unsteady

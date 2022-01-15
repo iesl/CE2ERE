@@ -1,0 +1,67 @@
+Text	http://www. huffingtonpost. com/2009/11/30/arcade-joseph-comeaux-jr-_ n_374452. html Arcade Joseph Comeaux Jr, Prison Inmate, Pulls Gun On And Handcuffs Guards, Runs Away 11/30/09 05:40 PM ET A convicted sex offender sentenced to life in prison pulled a gun on two guards during a prison transfer Monday and held them hostage temporarily before fleeing on foot in one of the guard's uniforms, authorities said. At the time of the escape, the inmate was in a wheelchair, which he claimed he needed to help move him around, officials said. Comeaux, 49, took the officers' weapons and handcuffed them together in the back of the vehicle before fleeing on foot at around 9 a.m., Lyons said. He was serving a life sentence after being convicted in June 1998 of aggravated sexual assault out of Brazos County, located northwest of Houston. Comeaux was given two extra life sentences after being convicted for stabbing his wife and another person in 1999 while she visited him in prison. She survived the attack. Comeaux also injured a man who was visiting another inmate at the time and tried to stop the attack. The escape triggered a lockdown at Lee College and three campuses in the Goose Creek school district, in and around Baytown.
+Event	186	given	Occurence	846
+Event	217	injured	Occurence	1019
+Event	77	Monday	Occurence	297
+Event	239	lockdown	Occurence	1130
+Event	163	sentence	Occurence	709
+Event	195	stabbing	Occurence	903
+Event	193	convicted	Occurence	889
+Event	190	sentences	Occurence	867
+Event	205	visited	Occurence	958
+Event	222	visiting	Occurence	1041
+Event	211	survived	Occurence	985
+Event	233	attack	Occurence	1099
+Event	134	handcuffed	Occurence	582
+Event	62	sentenced	Occurence	217
+Event	144	fleeing	Occurence	641
+Event	76	transfer	Occurence	288
+Event	84	fleeing	Occurence	345
+Event	46	Runs	Occurence	161
+Event	166	convicted	Occurence	730
+Event	117	help	Occurence	500
+Event	118	move	Occurence	505
+Event	115	needed	Occurence	490
+Event	229	tried	Occurence	1081
+Event	213	attack	Occurence	998
+Event	202	1999	Occurence	943
+Event	129	took	Occurence	551
+Event	236	escape	Occurence	1111
+Event	43	Handcuffs	Occurence	143
+Relation	43	46	SuperSub	true	Handcuffs	Runs
+Relation	76	84	SuperSub	true	transfer	fleeing
+Relation	62	84	SuperSub	true	sentenced	fleeing
+Relation	129	144	SuperSub	true	took	fleeing
+Relation	134	144	SuperSub	true	handcuffed	fleeing
+Relation	115	144	SuperSub	true	needed	fleeing
+Relation	117	144	SuperSub	true	help	fleeing
+Relation	118	144	SuperSub	true	move	fleeing
+Relation	163	166	SubSuper	true	sentence	convicted
+Relation	217	229	SubSuper	true	injured	tried
+Relation	217	233	SubSuper	true	injured	attack
+Relation	236	239	SuperSub	true	escape	lockdown
+Relation	190	236	SuperSub	true	sentences	escape
+Relation	193	236	SuperSub	true	convicted	escape
+Relation	77	43	SuperSub	true	Monday	Handcuffs
+Relation	77	62	SubSuper	true	Monday	sentenced
+Relation	77	76	SuperSub	true	Monday	transfer
+Relation	77	84	SuperSub	true	Monday	fleeing
+Relation	77	115	SuperSub	true	Monday	needed
+Relation	77	117	SuperSub	true	Monday	help
+Relation	77	118	SuperSub	true	Monday	move
+Relation	77	129	SuperSub	true	Monday	took
+Relation	77	134	SuperSub	true	Monday	handcuffed
+Relation	77	144	SuperSub	true	Monday	fleeing
+Relation	202	186	SuperSub	true	1999	given
+Relation	202	193	SuperSub	true	1999	convicted
+Relation	202	195	SuperSub	true	1999	stabbing
+Relation	202	205	SuperSub	true	1999	visited
+Relation	202	211	SuperSub	true	1999	survived
+Relation	202	213	SuperSub	true	1999	attack
+Relation	202	217	SuperSub	true	1999	injured
+Relation	202	222	SuperSub	true	1999	visiting
+Relation	202	233	SuperSub	true	1999	attack
+Relation	77	236	SuperSub	true	Monday	escape
+Relation	163	166	SubSuper	true	sentence	convicted
+Relation	190	193	SubSuper	true	sentences	convicted
+Relation	77	46	SuperSub	true	Monday	Runs
+Relation	193	195	SubSuper	true	convicted	stabbing

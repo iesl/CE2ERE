@@ -1,0 +1,19 @@
+Text	http://www. ameinfo. com/72760. html Iranian earthquake tremor hits Dubai Sunday, November 27-2005 at 16:12 Tremors from an earthquake registering 6. 1 on the Richter scale 60km south west of Bandar Abbas in Iran were felt in Dubai today, prompting the evacuation of high-rise buildings on the Sheikh Zayed Road and in the Dubai Media City. Some eye witnesses reported sensing a definite tremor for one minute, although others told AME Info they had not felt anything. UAE authorities are now said to be contacting the US Geological Survey for details of this seismic activity, which is already listed on the USGS website, www. earthquake. usgs. gov, under the section for recent activity ( see address below ). The website reported 65 responses from Dubai. The earth tremor hit a triangular area between Ras Al Khaimah, Al Ain and Dubai. This follows warnings from local UAE academics that earthquake faultlines in Iran could have serious implications for building stability in the UAE. Seismic risk Scientists such as Dr Azm Al-Homoud from the American University of Sharjah have been trying to educate engineers, governments and the construction industry about the risks. Today's incident is bound to prompt a more serious interest in their work. However, high-rise buildings in the UAE all conform to international construction standards and are designed to withstand the sort of minor tremors reported today, although buildings are always thoroughly checked after such events to ensure their integrity. The Dubai authorities are expected to move swiftly to reassure residents that there has been no damage to persons or property. The emirate is not believed to have had such a tremor in living memory, and clearly some people have been shaken. Such tremors are common in many major cities of the world, but Dubai residents have not felt them before and will be looking for answers to the question of likely future seismic activity in the emirate. But there appears no reason for alarm, as the earthquake was in Iran.
+Event	50	felt	Occurence	218
+Event	15	earthquake	Occurence	45
+Event	29	Tremors	Occurence	108
+Event	32	earthquake	Occurence	124
+Event	53	today	Occurence	232
+Event	57	evacuation	Occurence	253
+Event	33	registering	Occurence	135
+Event	16	tremor	Occurence	56
+Relation	53	15	SuperSub	true	today	earthquake
+Relation	53	16	SuperSub	true	today	tremor
+Relation	53	32	SuperSub	true	today	earthquake
+Relation	53	33	SuperSub	true	today	registering
+Relation	53	57	SuperSub	true	today	evacuation
+Relation	15	16	SuperSub	true	earthquake	tremor
+Relation	29	32	SubSuper	true	Tremors	earthquake
+Relation	29	50	SuperSub	true	Tremors	felt
+Relation	29	57	SuperSub	true	Tremors	evacuation
+Relation	32	57	SuperSub	true	earthquake	evacuation

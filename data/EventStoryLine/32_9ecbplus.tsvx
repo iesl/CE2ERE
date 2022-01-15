@@ -1,0 +1,51 @@
+Text	http://lakelandradio. co. uk/2013/06/trial-date-set-for-man-accused-of-double-murder-in-millom/TRIAL DATE SET FOR MAN ACCUSED OF DOUBLE MURDER IN MILLOM Posted:June 12, 2013 A trial date's been set for a Millom man accused of murdering his mother and sister. John Jenkin was due to appear via video link at Preston Crown Court today but didn't because he's currently considered too much of a danger to himself and others. The case continued in his absence and a three day trial hearing was penciled in for October-the 23-year old's due to enter his plea in September. The bodies of Alice McMeekin and Katie Jenkin were found at their Newton Street home in Millom on Saturday morning. They'd suffered severe head injuries. John Jenkin also faces an animal cruelty charge after the family's dog was also found beaten to death.
+Event	130	September	Occurence	557
+Event	65	murdering	Occurence	226
+Event	174	beaten	Occurence	808
+Event	95	danger	Occurence	392
+Event	106	absence	Occurence	448
+Event	128	plea	Occurence	549
+Event	63	accused	Occurence	215
+Event	112	hearing	Occurence	478
+Event	86	didn't	Occurence	337
+Event	176	death	Occurence	818
+Event	37	TRIAL	Occurence	95
+Event	74	due	Occurence	275
+Event	42	ACCUSED	Occurence	118
+Event	39	SET	Occurence	106
+Event	76	appear	Occurence	282
+Event	84	today	Occurence	327
+Event	166	charge	Occurence	763
+Event	117	October	Occurence	506
+Event	55	trial	Occurence	176
+Event	111	trial	Occurence	472
+Event	58	set	Occurence	194
+Event	126	enter	Occurence	539
+Relation	84	74	SuperSub	true	today	due
+Relation	84	76	SuperSub	true	today	appear
+Relation	84	58	SuperSub	true	today	set
+Relation	84	39	SuperSub	true	today	SET
+Relation	84	95	NoRel	true	today	danger
+Relation	84	86	SuperSub	true	today	didn't
+Relation	84	106	SuperSub	true	today	absence
+Relation	117	106	SubSuper	true	October	absence
+Relation	117	111	SuperSub	true	October	trial
+Relation	117	112	SuperSub	true	October	hearing
+Relation	117	126	SubSuper	true	October	enter
+Relation	117	128	SubSuper	true	October	plea
+Relation	37	42	SubSuper	true	TRIAL	ACCUSED
+Relation	55	63	SubSuper	true	trial	accused
+Relation	63	65	SubSuper	true	accused	murdering
+Relation	76	95	SubSuper	true	appear	danger
+Relation	95	106	SuperSub	true	danger	absence
+Relation	63	76	SuperSub	true	accused	appear
+Relation	63	112	SuperSub	true	accused	hearing
+Relation	63	128	SuperSub	true	accused	plea
+Relation	130	128	SuperSub	true	September	plea
+Relation	130	126	SuperSub	true	September	enter
+Relation	130	112	SuperSub	true	September	hearing
+Relation	130	111	SuperSub	true	September	trial
+Relation	130	106	SubSuper	true	September	absence
+Relation	174	176	SuperSub	true	beaten	death
+Relation	166	174	SubSuper	true	charge	beaten
+Relation	166	176	SubSuper	true	charge	death

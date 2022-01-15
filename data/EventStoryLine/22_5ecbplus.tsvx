@@ -1,0 +1,9 @@
+Text	http://www. freerepublic. com/focus/news/2587074/posts Yvonne Hiller, Accused in Kraft Shooting, Is A Muslim September 10, 2010 Yvonne Hiller, who has been arrested and charged with the Kraft shooting of her co-workers at Kraft Foods yesterday evening has been revealed to be a Muslim who was very spiritual. At this point it is unclear if the shooting had anything to do with the approaching anniversary of the 9-11 attacks on America by radical members of the Muslim faith. However it does seem odd that Hiller had a. 357 Magnum in her car, which is what she used. That's a pretty heavy-duty gun. NBC Philadelphia has interviewed another co-worker of hers, Kenneth Dorsey, and he said he had talked with her about her Muslim faith and even wished her happy Ramadan.
+Event	41	charged	Occurence	169
+Event	21	Accused	Occurence	70
+Event	39	arrested	Occurence	156
+Event	45	shooting	Occurence	192
+Event	24	Shooting	Occurence	87
+Relation	21	24	SubSuper	true	Accused	Shooting
+Relation	41	45	SubSuper	true	charged	shooting
+Relation	39	41	SubSuper	true	arrested	charged

@@ -1,0 +1,46 @@
+Text	http://www. lbreport. com/news/mar07/orozco. htm Hawaiian Gardens Gangmember Convicted Of Murdering Lakewood Stn. Sheriff's Deputy Jerry Ortiz Multiple Special Circumstances Add'l Horrific Charges; D. A. Will Now Seek Death Penalty ( March 20, 2007 )-- A Superior Court jurty in Norwalk today convicted a Hawaiian Gardens gang member of murdering L. A. County Sheriff's Deputy Jerry Ortiz in June, 2005. The District Attorney's office says in a release that the jury found Jose Luis Orozco, 29, guilty of 1st degree murder, attempted murder and posession of a firearm by a felon. It also found true special circumstances of murder of a police officer intentionally killed while performing his duties, murder to avoid arrest, street gang murder, lying in wait... and that Orozco personally used a handgun to commit the murder and the attempted murder, the D. A. 's release says. Sheriff Deputy Ortiz, 35, with LASD's Gang Enforcement Unit, was killed June 24, 2005 outside an apartment in the 12000 block of East 223rd Street in Hawaiian Gardens while investigating a June 20 shooting in which Orozco was a suspect. The D. A. 's release says Deputy Ortiz "spotted Orozco shortly after 3 p.m. the day of the shooting and chased him to the apartment. Orozco was hiding behind the apartment's front door. He fired at the deputy and ran. Orozco was arrested five buildings away on 223rd Street shortly before midnight. A. 38-caliber revolver was recovered. " Orozco was also convicted of the June 20, 2005 attempted murder of a man shot in the back while doing yard work at a home in the 22000 block of Joliet Avenue in Hawaiian Gardens, a shooting that the jury also determined to be a street crime. Next week, the same jury will begin hearing evidence in the trial's penalty phase in which Deputy D. A. Lowell Anger of the Crimes Against Police Officers Section ( CAPOS ) will seek the death penalty. Deputy Ortiz was a Lakewood Award of Valor winner in 2004 for having faced down an armed carjacker who drew a gun on him and his partner, ending with the death of the carjacker and the arrest of two suspected gang members. The murder of Deputy Ortiz prompted an outpouring of emotion from the community, where he was respected and admired coworkers and members of the community. This was the scene outside the Lakewood Sheriff's station 24 hours after his death. Dep. Ortiz is the fifth Lakewood Sheriff Deputy slain while on duty... and his name is now inscribed on the Memorial Wall outside the LASD station on Clark Ave.
+Event	266	fired	Occurence	1304
+Event	344	crime	Occurence	1689
+Event	95	found	Occurence	467
+Event	106	murder	Occurence	516
+Event	102	guilty	Occurence	495
+Event	138	murder	Occurence	701
+Event	191	killed	Occurence	943
+Event	69	murdering	Occurence	337
+Event	132	killed	Occurence	665
+Event	45	Death	Occurence	218
+Event	36	Charges	Occurence	189
+Event	211	investigating	Occurence	1051
+Event	61	today	Occurence	287
+Event	134	performing	Occurence	678
+Event	62	convicted	Occurence	293
+Event	141	arrest	Occurence	717
+Event	23	Murdering	Occurence	90
+Event	334	shooting	Occurence	1635
+Event	121	found	Occurence	588
+Event	136	duties	Occurence	693
+Event	215	shooting	Occurence	1075
+Event	271	ran	Occurence	1328
+Event	111	posession	Occurence	545
+Event	21	Convicted	Occurence	77
+Event	124	circumstances	Occurence	607
+Relation	61	21	SuperSub	true	today	Convicted
+Relation	61	36	SuperSub	true	today	Charges
+Relation	61	62	SuperSub	true	today	convicted
+Relation	21	23	SubSuper	true	Convicted	Murdering
+Relation	23	36	SuperSub	true	Murdering	Charges
+Relation	23	45	SuperSub	true	Murdering	Death
+Relation	62	69	SubSuper	true	convicted	murdering
+Relation	102	106	SubSuper	true	guilty	murder
+Relation	102	111	SubSuper	true	guilty	posession
+Relation	132	136	SubSuper	true	killed	duties
+Relation	138	141	SubSuper	true	murder	arrest
+Relation	211	215	SubSuper	true	investigating	shooting
+Relation	191	211	SubSuper	true	killed	investigating
+Relation	266	271	SuperSub	true	fired	ran
+Relation	334	344	SuperSub	true	shooting	crime
+Relation	61	95	SuperSub	true	today	found
+Relation	61	102	SuperSub	true	today	guilty
+Relation	61	121	SuperSub	true	today	found
+Relation	61	124	SuperSub	true	today	circumstances
+Relation	134	136	SubSuper	true	performing	duties

@@ -1,0 +1,41 @@
+Text	http://www. buenosairesherald. com/article/132929/hollywood's-mermaid-esther-williams-dies-Friday, June 7, 2013 Hollywood's mermaid Esther Williams dies Champion swimmer turned top box-office draw in 40s and 50s Esther Williams, the swimming champion turned actress who starred in glittering and aquatic Technicolour musicals of the 1940s and 1950s, has died. She was 91. Williams, whose experiences as a young swimming champion led to a career of Hollywood " aqua-musicals " designed just for her, died yesterday in Beverly Hills, California, at the age of 91, her spokesman said. She died peacefully in her sleep and had been in declining health due to old age, spokesman Harlan Boll said. It was the pool — and wartime pinup pictures of her in bathing suits — that made her popular. Williams in a bathing suit became a favourite pinup of US people in World War II, and her popularity continued afterward.
+Event	106	died	Occurence	499
+Event	88	swimming	Occurence	411
+Event	107	yesterday	Occurence	504
+Event	49	40s	Occurence	200
+Event	162	made	Occurence	768
+Event	67	musicals	Occurence	317
+Event	101	designed	Occurence	476
+Event	93	career	Occurence	438
+Event	185	popularity	Occurence	876
+Event	42	turned	Occurence	170
+Event	61	starred	Occurence	270
+Event	39	dies	Occurence	148
+Event	84	experiences	Occurence	388
+Event	75	died	Occurence	354
+Event	135	health	Occurence	641
+Event	171	became	Occurence	813
+Event	72	1950s	Occurence	343
+Event	125	died	Occurence	586
+Event	164	popular	Occurence	777
+Event	129	sleep	Occurence	609
+Event	58	turned	Occurence	251
+Event	51	50s	Occurence	208
+Relation	49	42	NoRel	true	40s	turned
+Relation	107	39	SuperSub	true	yesterday	dies
+Relation	107	84	SubSuper	true	yesterday	experiences
+Relation	107	93	SubSuper	true	yesterday	career
+Relation	107	101	SubSuper	true	yesterday	designed
+Relation	107	106	SuperSub	true	yesterday	died
+Relation	107	125	SuperSub	true	yesterday	died
+Relation	107	129	SuperSub	true	yesterday	sleep
+Relation	58	61	SuperSub	true	turned	starred
+Relation	84	93	SuperSub	true	experiences	career
+Relation	125	135	SubSuper	true	died	health
+Relation	171	185	SuperSub	true	became	popularity
+Relation	51	42	NoRel	true	50s	turned
+Relation	72	75	SuperSub	true	1950s	died
+Relation	72	67	NoRel	true	1950s	musicals
+Relation	72	61	NoRel	true	1950s	starred
+Relation	84	88	SubSuper	true	experiences	swimming
+Relation	162	164	SuperSub	true	made	popular

@@ -1,0 +1,38 @@
+Text	http://mybroadband. co. za/news/broadband/35788-mweb-updates-customers-on-seacom-downtime. html MWEB updates customers on SEACOM downtime SEACOM downtime has local ISPs scrambling to keep customers online; MWEB issues an update October 11, 2011 Summary:MWEB has managed to restore 83% of the required capacity on SEACOM. P2P protocols will remain shaped to prioritise critical traffic. The SEACOM undersea cable, which provides a data link between South Africa, Europe and India, experienced downtime beginning on Saturday 8 October 2011, caused by a problem on a cable between Abu Talat ( Egypt ) and Marseilles ( France ). This outage will likely only be fully resolved sometime during the week beginning 17 October 2011. Meanwhile, local Internet Service Providers ( ISPs ) who use bandwidth on the SEACOM cable have been scrambling to implement contingency plans to keep their customers connected. MWEB operations has issued an update regarding the SEACOM downtime to its customers. "Some more bandwidth was brought online last night [ 10 October 2011 ] bringing us up to 83% of our required capacity. We allowed P2P traffic to run from midnight to 7am, after which it had to give way for critical traffic again. " "We are working on having the remaining capacity restored during the course of the day, after which all traffic priorities will return to normal, " said MWEB Operations. SEACOM has previously issued a statement on the current problem with the cable:"Initial estimates indicate that the total repair time will be around twelve days depending on weather conditions. This entails gaining the necessary permits and the actual repair time. A repair vessel has been notified of the call-out and mobilization will occur immediately once permits are received, " SEACOM said in an official statement. "The outage initially affected all SEACOM traffic to Europe, however SEACOM was able to restore some services by Saturday afternoon [ 8 October 2011 ]. " "Further restoration has continued throughout the weekend in cooperation with customers and partners and SEACOM will continue to actively work on securing additional capacity for all necessary services over the next day or two. "
+Event	235	working	Occurence	1227
+Event	48	issues	Occurence	211
+Event	50	update	Occurence	221
+Event	99	downtime	Occurence	492
+Event	267	issued	Occurence	1411
+Event	338	outage	Occurence	1816
+Event	98	experienced	Occurence	480
+Event	110	problem	Occurence	551
+Event	41	scrambling	Occurence	169
+Event	45	online	Occurence	198
+Event	37	downtime	Occurence	145
+Event	340	affected	Occurence	1833
+Event	170	connected	Occurence	891
+Event	61	restore	Occurence	273
+Event	207	capacity	Occurence	1096
+Event	161	scrambling	Occurence	825
+Event	352	restore	Occurence	1899
+Event	199	bringing	Occurence	1058
+Event	273	problem	Occurence	1445
+Event	165	plans	Occurence	861
+Event	153	use	Occurence	781
+Event	241	restored	Occurence	1268
+Relation	37	41	SuperSub	true	downtime	scrambling
+Relation	41	45	SuperSub	true	scrambling	online
+Relation	37	61	SuperSub	true	downtime	restore
+Relation	99	110	SuperSub	true	downtime	problem
+Relation	161	165	SubSuper	true	scrambling	plans
+Relation	165	170	SuperSub	true	plans	connected
+Relation	235	241	SuperSub	true	working	restored
+Relation	338	340	SuperSub	true	outage	affected
+Relation	338	352	SuperSub	true	outage	restore
+Relation	199	207	SuperSub	true	bringing	capacity
+Relation	153	161	SuperSub	true	use	scrambling
+Relation	48	50	SuperSub	true	issues	update
+Relation	98	110	SubSuper	true	experienced	problem
+Relation	267	273	SubSuper	true	issued	problem
+Relation	99	110	SubSuper	true	downtime	problem

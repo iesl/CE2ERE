@@ -1,0 +1,45 @@
+Text	http://www. ibtimes. com/earthquake-magnitude-61-strikes-indonesias-aceh-province-killing-one-1330883 Earthquake Of Magnitude 6. 1 Strikes Indonesia's Aceh Province Killing One on July 02 2013 7:41 AM A magnitude-6. 1 earthquake struck Indonesia's Aceh province on Tuesday at 07:37 a.m. UTC ( 3:37 a.m. EDT ), killing at least one and leaving two others missing, the Associated Press reported. The epicenter of the quake, which originated six miles beneath the surface, was located 34 miles west of the town of Bireun, near the western coast of Sumatra island, according to the U. S. Geological Survey. No tsunami warnings were issued following the quake, which injured dozens and damaged several houses in Takengon, the capital of Central Aceh district, AP reported. People ran out of their homes when the quake hit, AP reported, citing residents of Bukit Sama village in Central Aceh district, where the quake has led to a power outage. "I see many houses were damaged and their roofs fell onto some people, " a Bukit Sama village resident told AP. "Many people were injured but it is difficult to evacuate them due to traffic jams. " Indonesia is prone to seismic activity, due to its location on the Pacific Basin's "Ring of Fire, " a 25, 000-mile-long stretch where earthquakes are common, although only a small percentage are strong enough to be felt. The 2004 tsunami that killed about 230, 000 people across Asia was triggered by a massive 9. 1-magnitude quake off Aceh.
+Event	313	quake	Occurence	1463
+Event	105	originated	Occurence	428
+Event	178	quake	Occurence	807
+Event	148	quake	Occurence	649
+Event	197	quake	Occurence	906
+Event	154	damaged	Occurence	681
+Event	295	killed	Occurence	1380
+Event	102	quake	Occurence	415
+Event	231	injured	Occurence	1069
+Event	36	Strikes	Occurence	131
+Event	40	Killing	Occurence	165
+Event	151	injured	Occurence	662
+Event	62	Tuesday	Occurence	265
+Event	293	tsunami	Occurence	1367
+Event	171	ran	Occurence	775
+Event	83	killing	Occurence	310
+Event	210	damaged	Occurence	963
+Event	30	Earthquake	Occurence	102
+Event	179	hit	Occurence	813
+Relation	62	102	SuperSub	true	Tuesday	quake
+Relation	62	83	SuperSub	true	Tuesday	killing
+Relation	62	105	SuperSub	true	Tuesday	originated
+Relation	62	148	SuperSub	true	Tuesday	quake
+Relation	62	151	SuperSub	true	Tuesday	injured
+Relation	62	154	SuperSub	true	Tuesday	damaged
+Relation	62	178	SuperSub	true	Tuesday	quake
+Relation	62	179	SuperSub	true	Tuesday	hit
+Relation	62	197	SuperSub	true	Tuesday	quake
+Relation	62	210	SuperSub	true	Tuesday	damaged
+Relation	62	231	SuperSub	true	Tuesday	injured
+Relation	293	293	SuperSub	true	tsunami	tsunami
+Relation	293	295	SuperSub	true	tsunami	killed
+Relation	293	313	SubSuper	true	tsunami	quake
+Relation	30	40	SuperSub	true	Earthquake	Killing
+Relation	148	151	SuperSub	true	quake	injured
+Relation	148	154	SuperSub	true	quake	damaged
+Relation	171	178	SubSuper	true	ran	quake
+Relation	178	210	SuperSub	true	quake	damaged
+Relation	178	231	SuperSub	true	quake	injured
+Relation	293	295	SuperSub	true	tsunami	killed
+Relation	293	313	SubSuper	true	tsunami	quake
+Relation	62	30	SuperSub	true	Tuesday	Earthquake
+Relation	62	36	SuperSub	true	Tuesday	Strikes
+Relation	62	40	SuperSub	true	Tuesday	Killing

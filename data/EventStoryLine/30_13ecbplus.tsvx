@@ -1,0 +1,45 @@
+Text	http://mybroadband. co. za/news/telecoms/36528-seacom-restored-via-alternative-routes. html Seacom restored via alternative routes Seacom announced that it has fully restored all its customers on alternative routes October 20, 2011 Subsea cable operator, Seacom, announced on Twitter today ( 20 October 2011 ) that they have restored services to all customers using alternate routes, following an outage that was initially expected to take 12 days to repair. In a statement published on its official website, Seacom said that a repair vessel is now in transit. "The vessel has received the master permit for this repair; operational permits are being finalized and should be received prior to arrival on the repair ground, " Seacom said. The repair is now expected to be completed in late October, but Seacom warned that "the usual exogenous factors associated with sub-sea repairs, including weather and currents, may further impact the repair. " Seacom started to experience problems on Saturday, 8 October 2011, which it said was caused by a problem on a cable between Abu Talat in Egypt and Marseilles in France. Last week Friday ( 14 October 2011 ), Seacom announced that it had restored services to its business customers, which included Internet service providers, via alternate routes.
+Event	186	problems	Occurence	977
+Event	130	received	Occurence	675
+Event	73	using	Occurence	360
+Event	120	repair	Occurence	613
+Event	109	transit	Occurence	552
+Event	173	currents	Occurence	905
+Event	162	factors	Occurence	842
+Event	201	problem	Occurence	1045
+Event	114	received	Occurence	577
+Event	144	repair	Occurence	742
+Event	39	restored	Occurence	166
+Event	230	services	Occurence	1193
+Event	133	arrival	Occurence	693
+Event	171	weather	Occurence	893
+Event	79	outage	Occurence	397
+Event	89	repair	Occurence	451
+Event	177	impact	Occurence	927
+Event	229	restored	Occurence	1184
+Event	179	repair	Occurence	938
+Event	68	restored	Occurence	325
+Event	126	finalized	Occurence	651
+Relation	39	79	SubSuper	true	restored	outage
+Relation	68	79	SubSuper	true	restored	outage
+Relation	68	73	SubSuper	true	restored	using
+Relation	89	109	SubSuper	true	repair	transit
+Relation	126	130	SuperSub	true	finalized	received
+Relation	79	120	SuperSub	true	outage	repair
+Relation	79	144	SuperSub	true	outage	repair
+Relation	162	177	SuperSub	true	factors	impact
+Relation	171	177	SuperSub	true	weather	impact
+Relation	173	177	SuperSub	true	currents	impact
+Relation	186	201	SuperSub	true	problems	problem
+Relation	79	229	SuperSub	true	outage	restored
+Relation	179	229	SuperSub	true	repair	restored
+Relation	144	229	SuperSub	true	repair	restored
+Relation	114	120	SuperSub	true	received	repair
+Relation	120	126	SubSuper	true	repair	finalized
+Relation	120	130	SubSuper	true	repair	received
+Relation	120	133	SubSuper	true	repair	arrival
+Relation	114	120	SuperSub	true	received	repair
+Relation	79	144	SuperSub	true	outage	repair
+Relation	229	230	SuperSub	true	restored	services
+Relation	79	89	SuperSub	true	outage	repair
+Relation	68	89	SubSuper	true	restored	repair

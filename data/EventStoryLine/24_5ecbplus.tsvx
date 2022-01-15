@@ -1,0 +1,22 @@
+Text	http://www. thelocal. fr/20130909/ram-raiders-hit-paris-jewellery-store-for-2m Ram-raiders hit Paris jewellery store for €2m Published:09 Sep 2013 11:25 GMT+02:00 Updated:09 Sep 2013 11:25 GMT+02:00 Ram-raiders ploughed their vehicle into an upmarket jewellery boutique near Place Vendôme in central Paris on Monday in a dramatic dawn robbery, making off with €2 million worth of loot. Four men rammed their car into an upmarket jewellery store in central Paris on Monday, smashing the shop window and making off with a €2 million ( $2. 6-million ) booty, a police source said. The heist near the upscale Place Vendôme is the latest to hit France after a spate of high-profile robberies in the southern resort of Cannes. The police source, who wished to remain anonymous, said the men drove a large four-by-four car into the store in the early hours of the morning and grabbed jewellery and luxury watches worth an estimated €2 million. They then set fire to the vehicle and escaped in another car. Forensic policemen are currently going through the site of the robbery at the Casty store on Rue de Castiglione in the central first arrondissement of Paris, which is home to numerous jewellery shops. Paris also witnessed another dramatic robbery on Sunday night when thieves armed with Kalashnikovs stormed a subsidiary of the France's rail operator SNCF in the capital's 15th arrondissement. According to reports, the robbers escaped with around €60, 000 from the company which is in charge of managing restaurant cars on the TGV trains. At the end of July, an armed man carried out a brazen robbery in broad daylight at a diamond exhibition at the Carlton hotel in Cannes, making off with jewellery worth €103 million in one of the world's biggest ever heists. Paris has also been the scene of high-profile robberies. In December 2008, three men emptied almost all of the stock of gems from the Harry Winston jewellery store. In 2009, police said they had recovered 80 percent of the haul.
+Event	195	grabbed	Occurence	869
+Event	145	hit	Occurence	636
+Event	62	ploughed	Occurence	211
+Event	175	drove	Occurence	785
+Event	77	Monday	Occurence	309
+Event	95	rammed	Occurence	395
+Event	82	robbery	Occurence	335
+Event	31	hit	Occurence	91
+Event	135	heist	Occurence	582
+Event	109	smashing	Occurence	473
+Relation	77	31	SuperSub	true	Monday	hit
+Relation	77	62	SuperSub	true	Monday	ploughed
+Relation	77	95	SuperSub	true	Monday	rammed
+Relation	77	109	SuperSub	true	Monday	smashing
+Relation	77	135	SuperSub	true	Monday	heist
+Relation	77	145	SuperSub	true	Monday	hit
+Relation	95	109	SuperSub	true	rammed	smashing
+Relation	95	135	SuperSub	true	rammed	heist
+Relation	109	135	SuperSub	true	smashing	heist
+Relation	175	195	SuperSub	true	drove	grabbed
+Relation	77	82	SuperSub	true	Monday	robbery

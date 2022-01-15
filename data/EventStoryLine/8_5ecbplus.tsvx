@@ -1,0 +1,34 @@
+Text	http://news. sky. com/story/778356/three-killed-in-athens-bank-fire-amid-strike Three Killed In Athens Bank Fire Amid Strike 7:00pm UK, Wednesday 05 May 2010 Three people have died after rioters in Greece set fire to a bank in Athens during a nationwide strike against huge spending cuts aimed at rescuing the country's economy. Greek police clashed with protesters in the capital as tens of thousands of people joined a 24-hour walkout. The three bank workers-two women and a man-were killed when their branch went up in flames after a protester threw a petrol bomb inside. Firefighters rescued another five people from the balcony. Greek prime minister George Papandreou condemned the killings, saying:"A demonstration is one thing and murder is quite another". He added:"We will, of course, stand alongside the families who lost loved ones. This is the least we can do. "To those who now mourn the loss of three children we say that the perpetrators will be identified and held accountable for what they've done. " The general strike was staged as a protest against a new round of draconian austerity measures. Police said as many as 20, 000 people took to the streets of Athens as rallies all around the country kicked off. Also in the capital, a large group of people attempted to break through a riot police cordon guarding the parliament building. The protesters launched rocks and petrol bombs at the officers, who responded with stun grenades and tear gas-filling Syntagma Square with chemical smoke. Violence was also reported in Thessaloniki, where a further 20, 000 people joined the city's demonstrations. Greece has been paralysed by the strike and was effectively cut-off from the outside world. Flights to and from the country were grounded, while trains and ferries suspended their routes. Hospitals and schools were also hit. The Greek government is attempting to slice 30bn euros ( �25. 7bn ) from its deficit over the next three years. The country has to save money as a condition of a 110bn-euro emergency rescue package from the European Union and the International Monetary Fund. Ordinary workers are furious. Trade unions say their members are having to pay for an economic crisis that has been created by corrupt politicians The vice president of the civil servants' union, Elias Vrettakos, told Sky News:"The measures of the government overtake our historic gains and abolish our rights and return society back to the 1960s. " Other union leaders have called the cuts "savage attacks on workers' rights". Markets around the world remained sceptical about the bail-out, as concerns grew about the economic crisis in the eurozone and fears it will spead.
+Event	79	clashed	Occurence	342
+Event	277	launched	Occurence	1370
+Event	121	threw	Occurence	547
+Event	65	strike	Occurence	254
+Event	287	responded	Occurence	1423
+Event	72	rescuing	Occurence	297
+Event	110	killed	Occurence	486
+Event	218	protest	Occurence	1053
+Event	213	strike	Occurence	1030
+Event	69	cuts	Occurence	283
+Event	31	Killed	Occurence	86
+Event	244	rallies	Occurence	1185
+Event	35	Fire	Occurence	108
+Event	96	walkout	Occurence	429
+Event	37	Strike	Occurence	118
+Event	302	Violence	Occurence	1510
+Event	319	demonstrations	Occurence	1603
+Event	91	joined	Occurence	412
+Relation	31	35	SubSuper	true	Killed	Fire
+Relation	35	37	SubSuper	true	Fire	Strike
+Relation	65	69	SubSuper	true	strike	cuts
+Relation	69	72	SuperSub	true	cuts	rescuing
+Relation	65	79	SuperSub	true	strike	clashed
+Relation	79	91	SubSuper	true	clashed	joined
+Relation	79	96	SubSuper	true	clashed	walkout
+Relation	213	218	SubSuper	true	strike	protest
+Relation	218	244	SubSuper	true	protest	rallies
+Relation	213	244	SuperSub	true	strike	rallies
+Relation	213	277	SuperSub	true	strike	launched
+Relation	277	287	SuperSub	true	launched	responded
+Relation	302	319	SubSuper	true	Violence	demonstrations
+Relation	213	302	SuperSub	true	strike	Violence
+Relation	110	121	SubSuper	true	killed	threw

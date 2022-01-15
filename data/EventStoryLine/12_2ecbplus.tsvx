@@ -1,0 +1,23 @@
+Text	http://www. ndtv. com/article/india/indian-ship-thwarts-piracy-attempt-in-gulf-of-aden-26-pirates-arrested-148985 Indian ship thwarts piracy attempt in Gulf of Aden, 26 pirates arrested Updated:November 11, 2011 18:50 IST Indian Naval ship, INS Sukanya, thwarted a piracy attack in the Gulf of Aden and captured three boats of the pirates. A statement from the Defence PRO says the incident happened yesterday when INS Sukanya was escorting a group of merchant vessels. Five pirate boats tried to attack these vessels but were challenged by the Indian Naval ship. After a brief skirmish, two of them managed to flee the area but three boats were captured by INS Sukanya, the statement said. The three boats had a total of 26 Somali crew onboard. During the operation, six AK-47 rifles, 12 magazines and about 300 rounds of ammunition were found and confiscated. The operation holds significance as over a hundred billion dollars of India's external trade passes each year through this busy sea lane. This is the fifth successful anti-piracy operation conducted by INS Sukanya, in the course of her ongoing patrol mission in the Gulf of Aden, which commenced in September.
+Event	80	captured	Occurence	303
+Event	96	happened	Occurence	391
+Event	52	arrested	Occurence	177
+Event	42	thwarts	Occurence	126
+Event	73	attack	Occurence	272
+Event	95	incident	Occurence	382
+Event	44	attempt	Occurence	141
+Event	97	yesterday	Occurence	400
+Event	70	thwarted	Occurence	254
+Event	102	escorting	Occurence	431
+Relation	97	70	SuperSub	true	yesterday	thwarted
+Relation	97	73	SuperSub	true	yesterday	attack
+Relation	97	80	SuperSub	true	yesterday	captured
+Relation	97	95	SuperSub	true	yesterday	incident
+Relation	97	96	SuperSub	true	yesterday	happened
+Relation	97	102	SuperSub	true	yesterday	escorting
+Relation	97	42	SuperSub	true	yesterday	thwarts
+Relation	97	44	SuperSub	true	yesterday	attempt
+Relation	97	52	SuperSub	true	yesterday	arrested
+Relation	42	52	SuperSub	true	thwarts	arrested
+Relation	70	80	SuperSub	true	thwarted	captured
+Relation	70	102	SubSuper	true	thwarted	escorting

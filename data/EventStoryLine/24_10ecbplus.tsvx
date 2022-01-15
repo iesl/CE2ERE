@@ -1,0 +1,22 @@
+Text	http://www. i24news. tv/en/news/international/europe/130909-paris-hit-by-2-mn-euro-jewellery-heist Paris thieves nab $2. 5 million worth of jewellery Robbers crash 4x4 into store, grabbing jewelry and watches, before setting car ablaze Four men rammed their car into an upmarket jewellery store in central Paris on Monday, smashing the shop window and making off with a two-million-euro ( $2. 6-million ) booty, a police source said. The heist near the upscale Place Vendome is the latest to hit France after a spate of high-profile robberies in the southern resort of Cannes. The police source, who wished to remain anonymous, said the men drove a large four-by-four car into the store in the early hours of the morning and grabbed jewellery and luxury watches worth an estimated two million euros. They then set fire to the vehicle and escaped in another car. Forensic investigators are currently going through the site of the robbery at the Casty store on Rue de Castiglione in the central first district of Paris, which is home to numerous jewellery shops. At the end of July, an armed man carried out a brazen robbery in broad daylight at a diamond exhibition at the Carlton hotel in Cannes, making off with jewellery worth 103 million euros in one of the world's biggest ever heists. Paris has also been the scene of high-profile robberies. In December 2008, three men emptied almost all of the stock of gems from the Harry Winston jewellery store. In 2009, police said they had recovered 80 percent of the haul.
+Event	52	grabbing	Occurence	180
+Event	47	crash	Occurence	158
+Event	38	nab	Occurence	113
+Event	77	smashing	Occurence	323
+Event	146	drove	Occurence	641
+Event	75	Monday	Occurence	315
+Event	60	ablaze	Occurence	229
+Event	58	setting	Occurence	217
+Event	63	rammed	Occurence	245
+Event	166	grabbed	Occurence	725
+Relation	75	38	SuperSub	true	Monday	nab
+Relation	75	47	SuperSub	true	Monday	crash
+Relation	75	52	SuperSub	true	Monday	grabbing
+Relation	75	58	SuperSub	true	Monday	setting
+Relation	75	60	SuperSub	true	Monday	ablaze
+Relation	75	63	SuperSub	true	Monday	rammed
+Relation	75	77	SuperSub	true	Monday	smashing
+Relation	47	52	SuperSub	true	crash	grabbing
+Relation	38	47	SubSuper	true	nab	crash
+Relation	63	77	SuperSub	true	rammed	smashing
+Relation	146	166	SuperSub	true	drove	grabbed

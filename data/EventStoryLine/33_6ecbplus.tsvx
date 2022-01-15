@@ -1,0 +1,38 @@
+Text	http://www. brooklyneagle. com/articles/guilty-verdict-murderer-brooklyn-mother-12-2013-04-24-204500 Guilty verdict for murderer of Brooklyn mother of 12 A Brooklyn jury has returned a guilty verdict for Andrew Lopez for the murder of Zurana Horton and the injury of two others. Convicted of second-degree murder and assault in the first degree, Lopez, 20, faces a potential sentence of life in prison when he is sentenced by Justice Vincent Del Giudice. In October 2011, Lopez and his co-defendant and half-brother Jonathan Carrasquillo, 24, were arrested in connection with a shooting in Brownsville's Howard housing projects. Surveillance footage, provided as evidence to the jurors, captures the horrific event as it unfolded. The video shows Horton, a mother of 12, on the street near a school immediately prior to the shooting. It shows her attempting to shield herself from the spray of bullets, and ultimately her fatally wounded body on the sidewalk. "Zurana Horton became a victim of the senseless gang violence that plagues Brooklyn, " prosecutor Seth Goldman said during the murder trial of Lopez and Carrasquillo. It was said throughout the investigation and trial that Lopez and Carrasquillo were targeting members of a rival gang when Horton and the two other victims killed and injured in the crossfire. Carrasquillo allegedly ordered Lopez to shoot. The jury is still deliberating on Carrasquillo's verdict. Lopez's sentence date is May 7. April 24, 2013-4:45pm
+Event	217	trial	Occurence	1094
+Event	48	verdict	Occurence	192
+Event	189	wounded	Occurence	930
+Event	181	spray	Occurence	885
+Event	60	injury	Occurence	257
+Event	120	arrested	Occurence	548
+Event	267	deliberating	Occurence	1385
+Event	54	murder	Occurence	225
+Event	152	shows	Occurence	741
+Event	251	injured	Occurence	1294
+Event	93	sentenced	Occurence	413
+Event	85	sentence	Occurence	375
+Event	254	crossfire	Occurence	1309
+Event	170	shooting	Occurence	824
+Event	47	guilty	Occurence	185
+Event	261	shoot	Occurence	1360
+Event	230	trial	Occurence	1172
+Event	258	ordered	Occurence	1343
+Event	249	killed	Occurence	1283
+Event	177	shield	Occurence	861
+Event	270	verdict	Occurence	1416
+Event	125	shooting	Occurence	578
+Event	204	violence	Occurence	1013
+Relation	47	54	SubSuper	true	guilty	murder
+Relation	47	60	SubSuper	true	guilty	injury
+Relation	85	93	SubSuper	true	sentence	sentenced
+Relation	120	125	SubSuper	true	arrested	shooting
+Relation	177	181	SubSuper	true	shield	spray
+Relation	177	189	SuperSub	true	shield	wounded
+Relation	249	254	SubSuper	true	killed	crossfire
+Relation	251	254	SubSuper	true	injured	crossfire
+Relation	258	261	SuperSub	true	ordered	shoot
+Relation	267	270	SuperSub	true	deliberating	verdict
+Relation	152	170	SubSuper	true	shows	shooting
+Relation	204	217	SuperSub	true	violence	trial
+Relation	230	249	SubSuper	true	trial	killed
+Relation	48	54	SubSuper	true	verdict	murder

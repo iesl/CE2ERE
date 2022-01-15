@@ -1,0 +1,16 @@
+Text	http://brooklyn. news12. com/news/prosecutors-release-new-video-in-shooting-trial-of-brownsville-mother-of-12-zurana-horton-1. 5080720 Prosecutors release new video in shooting trial of Brownsville mother of 12, Zurana Horton Published:April 16, 2013 9:09 AM Prosecutors have released new video in the trial of two men accused of killing a Brownsville mother of 12 in Oct. 2011. The video shows Zurana Horton falling to the ground surrounded by kids in the moments after gunfire erupted outside her children's school. Witnesses say Horton died trying to shield several students. Authorities have charged Andrew Lopez and Jonathan Carrasquillo with her murder.
+Event	80	accused	Occurence	319
+Event	119	died	Occurence	539
+Event	98	falling	Occurence	409
+Event	136	murder	Occurence	652
+Event	122	shield	Occurence	554
+Event	76	trial	Occurence	302
+Event	82	killing	Occurence	330
+Event	128	charged	Occurence	596
+Event	109	gunfire	Occurence	471
+Relation	76	80	SubSuper	true	trial	accused
+Relation	80	82	SubSuper	true	accused	killing
+Relation	98	109	SubSuper	true	falling	gunfire
+Relation	119	122	SubSuper	true	died	shield
+Relation	109	122	SuperSub	true	gunfire	shield
+Relation	128	136	SubSuper	true	charged	murder

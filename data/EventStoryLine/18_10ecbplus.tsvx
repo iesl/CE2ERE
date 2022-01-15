@@ -1,0 +1,64 @@
+Text	http://www. foxnews. com/story/2007/04/11/detroit-office-shooter-charged-with-murder-attempted-murder/Detroit Office Shooter Charged With Murder, Attempted Murder Published April 11, 2007 A man fired four days earlier from his job as an accountant walked into his old office, passed by the receptionist and made his way to a manager's office with the purpose of killing him with a shotgun, a police sergeant said Wednesday during the man's arraignment. When Monday's violence had concluded, the receptionist-- Madeline Kafoury-- was shot dead and two managers, Paul Riva and Alan Steinberg, were wounded. Steinberg was shot in the hip and has spoken to police about the attack, while Riva had not yet regained consciousness and was on a ventilator. The man accused of shooting his three former co-workers is Anthony LaCalamita III, a 38-year-old Troy resident who was fired from Gordon Advisors on Thursday. A not guilty plea was entered on LaCalamita's behalf during Wednesday's hearing. LaCalamita is charged with first-degree murder in the death of Kafoury, 63, of Warren. He also is charged with two counts of intent to murder in the shootings of Riva, 47, of Sterling Heights, and Steinberg, 48, of Macomb County's Bruce Township-- as well as three counts of possession of a firearm in the commission of a felony and one count of fleeing and eluding police. LaCalamita was asked by Judge Michael A. Martone if he understood the charges against him and if he was aware that he could be sentenced to life in prison without the possibility of parole if convicted of first-degree murder. He responded, "Yes, " to the series of questions posed by Martone. The judge ordered him held without bond pending his next court hearing April 19. Kafoury's loved ones attended Wednesday's arraignment, and her daughter, Charlene-- holding a picture of Kafoury-- sobbed loudly during the proceedings. "She didn't do it. She didn't fire him, " Charlene Kafoury said. LaCalamita sat nearby and did not react to the comments from the victim's daughter. After the hearing, Charlene Kafoury and other loved ones gathered for a news conference. "She wasn't just a receptionist.... She was our mom and the grandmother of our children, " said Charlie Kafoury, Charlene's brother. "She was an essential point of our lives, " said a tearful Charlie Kafoury, who had difficulty getting out his words. A number of loved ones stood behind him and cried audibly. They engaged in a group hug after the news conference. Troy police Sgt. Barry Whiteside said LaCalamita first stopped at the reception area after 10 a.m. on Monday and talked to Kafoury, then entered Steinberg's office and asked him twice if he wanted to be shot. Steinberg told police he thought LaCalamita was holding a toy gun. "He didn't think it was real until he saw the shotgun was being racked, " Whiteside said. After shooting Steinberg, Whiteside said LaCalamita walked down the hall and into Riva's office. Kafoury, who was standing in the doorway of Riva's office, was struck in her midsection, Whiteside said. She fell to the floor and died from her wounds, he said. LaCalamita then fired one round at Riva, who was struck in the upper chest area. Riva tried to step over Kafoury and collapsed in the hall, Whiteside said. Police said LaCalamita targeted the two managers and also may have intended to shoot another one. "There is a suspicion that there might have been a third upper management official he was seeking, " said Troy police Lt. Gerry Scherlinck. The man, whom police did not identify, was not in the office suite at the time of the attack. Police said the shotgun was armed with buckshot that contained nine pellets in each shot. Some of the pellets hit the victims and some did not, police said. LaCalamita was fired from his position as a general accountant last Thursday because of poor performance, police said. According to receipts police recovered from his apartment, LaCalamita purchased the shotgun around 3:45 p.m. on Friday. LaCalamita was denied a handgun permit in March, said Scherlinck, who would not say why the permit was denied. LaCalamita was arrested Monday afternoon after leading police on a chase north along Interstate 75 in Genesee County in which speeds reached 120 mph. A 12-gauge pump-action shotgun and three live shells were found in the silver Ford Fusion LaCalamita was driving. Police said they found a long, cardboard box consistent to one that would hold a shotgun, as well as empty shell boxes, in a Dumpster outside LaCalamita's apartment during a search Monday evening.
+Event	127	wounded	Occurence	596
+Event	38	Charged	Occurence	125
+Event	183	fired	Occurence	868
+Event	131	shot	Occurence	619
+Event	81	purpose	Occurence	351
+Event	67	passed	Occurence	276
+Event	114	shot	Occurence	533
+Event	205	charged	Occurence	1003
+Event	101	violence	Occurence	467
+Event	93	Wednesday	Occurence	413
+Event	40	Murder	Occurence	138
+Event	142	attack	Occurence	670
+Event	61	walked	Occurence	248
+Event	159	accused	Occurence	757
+Event	188	Thursday	Occurence	898
+Event	100	Monday's	Occurence	458
+Event	161	shooting	Occurence	768
+Event	83	killing	Occurence	362
+Event	115	dead	Occurence	538
+Event	210	murder	Occurence	1029
+Event	213	death	Occurence	1043
+Event	97	arraignment	Occurence	440
+Event	51	fired	Occurence	194
+Relation	100	51	SuperSub	true	Monday's	fired
+Relation	100	61	SuperSub	true	Monday's	walked
+Relation	100	67	SuperSub	true	Monday's	passed
+Relation	100	83	SuperSub	true	Monday's	killing
+Relation	100	101	SuperSub	true	Monday's	violence
+Relation	100	114	SuperSub	true	Monday's	shot
+Relation	100	115	SuperSub	true	Monday's	dead
+Relation	100	127	SuperSub	true	Monday's	wounded
+Relation	100	131	SuperSub	true	Monday's	shot
+Relation	100	142	SuperSub	true	Monday's	attack
+Relation	188	161	SuperSub	true	Thursday	shooting
+Relation	188	183	SuperSub	true	Thursday	fired
+Relation	93	38	SuperSub	true	Wednesday	Charged
+Relation	93	205	SuperSub	true	Wednesday	charged
+Relation	93	159	SuperSub	true	Wednesday	accused
+Relation	38	40	SubSuper	true	Charged	Murder
+Relation	61	81	SubSuper	true	walked	purpose
+Relation	83	101	SuperSub	true	killing	violence
+Relation	83	114	SuperSub	true	killing	shot
+Relation	83	115	SuperSub	true	killing	dead
+Relation	83	127	SuperSub	true	killing	wounded
+Relation	101	115	SubSuper	true	violence	dead
+Relation	101	114	SubSuper	true	violence	shot
+Relation	101	127	SubSuper	true	violence	wounded
+Relation	83	131	SuperSub	true	killing	shot
+Relation	159	161	SubSuper	true	accused	shooting
+Relation	205	210	SubSuper	true	charged	murder
+Relation	67	83	SuperSub	true	passed	killing
+Relation	210	213	SuperSub	true	murder	death
+Relation	38	97	SuperSub	true	Charged	arraignment
+Relation	97	159	SubSuper	true	arraignment	accused
+Relation	97	205	SubSuper	true	arraignment	charged
+Relation	93	51	SubSuper	true	Wednesday	fired
+Relation	93	61	SubSuper	true	Wednesday	walked
+Relation	93	67	SubSuper	true	Wednesday	passed
+Relation	93	83	SubSuper	true	Wednesday	killing
+Relation	100	161	SuperSub	true	Monday's	shooting
+Relation	100	210	SuperSub	true	Monday's	murder
+Relation	100	213	SuperSub	true	Monday's	death
+Relation	188	159	SuperSub	true	Thursday	accused

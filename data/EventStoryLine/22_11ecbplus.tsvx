@@ -1,0 +1,9 @@
+Text	http://www. forbes. com/sites/jennagoudreau/2010/09/10/female-shooter-yvonne-hiller-kills-two-at-kraft-shooting/9/10/2010 @ 1:19PM Female Employee Yvonne Hiller Kills Two In Kraft Shooting In a sad and surprising reversal of gender roles, a disgruntled woman opened fire at a Kraft factory in Philadelphia last night, killing two workers and wounding two others. The shooting happened moments after the employee, Yvonne Hiller, was suspended from her job at Kraft, where she ' d worked for 15 years, the Daily News reports. After being escorted from the snack plant, she re-entered 10 minutes later with a handgun. About 100 people were in the building when she began shooting. Hiller was taken into custody after a standoff with the SWAT team. A Kraft representative confirmed Hiller is now in police custody and that one of the wounded employees is in the hospital. " This is a sad time for the Kraft Foods family, " a statement reads. " We are working closely with the authorities as they investigate this situation, and our facility is closed until further notice. " Unfortunately, the most surprising aspect of this incident is the shooter's gender. Women shooters are rare but may be on the rise. In February, a woman opened fire at the University of Alabama, killing three and injuring several others. Reportedly, she was a professor whose tenure had been denied. Two years ago, a female college student committed a shooting at a Louisiana college.
+Event	52	Kills	Occurence	161
+Event	151	shooting	Occurence	668
+Event	101	suspended	Occurence	432
+Event	90	shooting	Occurence	367
+Event	56	Shooting	Occurence	180
+Relation	52	56	SubSuper	true	Kills	Shooting
+Relation	90	101	SubSuper	true	shooting	suspended
+Relation	101	151	SuperSub	true	suspended	shooting

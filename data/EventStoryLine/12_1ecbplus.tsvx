@@ -1,0 +1,43 @@
+Text	http://www. thehindu. com/news/national/navy-foils-somali-pirate-attack-off-gulf-of-aden/article2618961. ece Updated:November 11, 2011 20:09 IST Navy foils Somali pirate attack off Gulf of Aden The Indian Navy patrolling the Gulf of Aden on Thursday thwarted a multi-boat attack by sea brigands on merchant vessels, apprehending 26 Somali pirates and confiscating arms and ammunition, in the fifth successful anti-piracy operation since September. At 9. 25 a.m. on Thursday, navy personnel aboard warship INS Sukanya spotted a group of five suspicious boats speedily approaching the merchant vessels of her group. " The warship immediately altered ( its direction ) towards the suspicious vessels and challenged them. On seeing the resolve evident in the warship's action and probably mindful of the reputation for resolute action that the Indian Navy justly enjoys in such deployments, the pirate skiffs reversed course and tried to flee the area, " Captain Manohar Nambiar, Chief Public Relations Officer, Defence, said. While two of them managed to escape, INS Sukanya successfully intercepted the remaining three boats and, in a well-practiced and professionally executed boarding-and-search action, nabbed 26 Somali pirates with six AK 47 rifles, 12 magazines and about 300 rounds of ammunition. This is the fifth successful anti-piracy operation conducted by INS Sukanya in the course of her ongoing patrol mission in the Gulf of Aden that commenced in September, the Navy said. INS Sukanya, currently deployed on anti-piracy patrols in the Gulf of Aden under the operational control of the Western Naval Command, was escorting a group of five merchant vessels through the Internationally Recognised Transit Corridor when the incident happened. The timely operation by INS Sukanya resulted, once again, in foiling the pirates ' attempt to attack merchant vessels transiting the busy sea lane through which over nearly $100 billion worth India's external trade passes each year, Captain Nambiar said. In their five operations so far, the personnel on board the warship have confiscated 14 AK-47 Rifles, 31 magazines and 923 rounds of ammunition, he said. Indian Navy is part of the international effort to ensure the safety and freedom of seaborne trade in this high-risk stronghold of modern-day piracy.
+Event	211	escape	Occurence	1052
+Event	65	thwarted	Occurence	250
+Event	50	attack	Occurence	170
+Event	47	foils	Occurence	150
+Event	83	confiscating	Occurence	351
+Event	216	intercepted	Occurence	1085
+Event	238	nabbed	Occurence	1204
+Event	95	operation	Occurence	421
+Event	78	apprehending	Occurence	316
+Event	230	executed	Occurence	1167
+Event	97	September	Occurence	437
+Event	70	attack	Occurence	272
+Event	58	patrolling	Occurence	210
+Event	64	Thursday	Occurence	241
+Event	236	action	Occurence	1196
+Relation	64	47	SuperSub	true	Thursday	foils
+Relation	64	50	SuperSub	true	Thursday	attack
+Relation	64	65	SuperSub	true	Thursday	thwarted
+Relation	64	70	SuperSub	true	Thursday	attack
+Relation	64	78	SuperSub	true	Thursday	apprehending
+Relation	64	83	SuperSub	true	Thursday	confiscating
+Relation	64	95	SuperSub	true	Thursday	operation
+Relation	64	211	SuperSub	true	Thursday	escape
+Relation	64	216	SuperSub	true	Thursday	intercepted
+Relation	64	230	SuperSub	true	Thursday	executed
+Relation	64	236	SuperSub	true	Thursday	action
+Relation	64	238	SuperSub	true	Thursday	nabbed
+Relation	97	95	SuperSub	true	September	operation
+Relation	47	58	SubSuper	true	foils	patrolling
+Relation	58	65	SuperSub	true	patrolling	thwarted
+Relation	65	78	SuperSub	true	thwarted	apprehending
+Relation	65	83	SuperSub	true	thwarted	confiscating
+Relation	58	95	SubSuper	true	patrolling	operation
+Relation	65	95	SubSuper	true	thwarted	operation
+Relation	78	95	SubSuper	true	apprehending	operation
+Relation	83	95	SubSuper	true	confiscating	operation
+Relation	97	58	SuperSub	true	September	patrolling
+Relation	97	65	SuperSub	true	September	thwarted
+Relation	97	70	SuperSub	true	September	attack
+Relation	97	78	SuperSub	true	September	apprehending
+Relation	97	83	SuperSub	true	September	confiscating
+Relation	58	78	SuperSub	true	patrolling	apprehending

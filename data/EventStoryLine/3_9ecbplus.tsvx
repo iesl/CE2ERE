@@ -1,0 +1,24 @@
+Text	http://news. heralddemocrat. com/hd/News/Police---- Texas-on-U-S-- Marshal-Most-Wanted-list-_-MUG Updated Saturday, December 05, 2009 8:28 PM Texas escapee now on U. S. Marshal's most wanted list Last week's escapee from the Texas prison system is still at large and is now on the U. S. Marshal Service's "Most Wanted" list of fugitives. Arcade Joseph Comeaux Jr. is serving three life sentences. He escaped last week while being transported from a prison in Huntsville to one in Beaumont, Texas. Comeaux is accused of using a gun which was smuggled in to him for the escape. He was in prison after being convicted of aggravated sexual assault of a child and aggravated assault with a deadly weapon. According to Texas authorities, the weapons conviction stemmed from a 1999 incident where he stabbed his wife 17 times while she was visiting him in prison.
+Event	173	incident	Occurence	775
+Event	104	escaped	Occurence	400
+Event	61	wanted	Occurence	184
+Event	145	convicted	Occurence	605
+Event	137	escape	Occurence	568
+Event	131	smuggled	Occurence	541
+Event	168	conviction	Occurence	744
+Event	87	Wanted"	Occurence	311
+Event	101	sentences	Occurence	386
+Event	109	transported	Occurence	430
+Relation	87	101	SubSuper	true	Wanted"	sentences
+Relation	61	101	SubSuper	true	wanted	sentences
+Relation	101	104	SuperSub	true	sentences	escaped
+Relation	61	104	SubSuper	true	wanted	escaped
+Relation	87	104	SubSuper	true	Wanted"	escaped
+Relation	104	109	SubSuper	true	escaped	transported
+Relation	131	137	SuperSub	true	smuggled	escape
+Relation	137	145	SubSuper	true	escape	convicted
+Relation	104	145	SubSuper	true	escaped	convicted
+Relation	168	173	SubSuper	true	conviction	incident
+Relation	61	137	SubSuper	true	wanted	escape
+Relation	87	137	SubSuper	true	Wanted"	escape
+Relation	101	137	SuperSub	true	sentences	escape

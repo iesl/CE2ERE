@@ -1,0 +1,27 @@
+Text	http://mybroadband. co. za/news/telecoms/31714-seacom-downtime-explained. html SEACOM downtime explained SEACOM experienced downtime this morning; SEACOM explained that the downtime was most likely caused by a problem on SEA-ME-WE 4 August 16, 2011 Numerous broadband users complained about international connectivity problems this morning, caused by problems on the SEACOM cable. SEACOM confirmed the problems on their Twitter account. "We can confirm that SEACOM is currently experiencing problems on their network. We will keep you updated on progress, " SEACOM tweeted at 09:30 this morning ( Tuesday 16 August 2011 ). According to SEACOM's Suveer Ramdhani initial feedback points to a problem on the SEA-ME-WE 4 which caused downtime of around an hour on Tuesday. The downtime started at around 08:30 on Tuesday, and was resolved at approximately 09:40. "SEACOM's partner network experienced a terrestrial fibre cut between Alexandria and the Suez this morning 16th August from 06:31GMT. All links are back up as of 07:35GMT. Total downtime was 1hr 4 mins, " SEACOM said in an official statement. MWEB CEO Rudi Jansen said that their business clients experienced no service interruptions because of the SEACOM downtime, and that their residential clients may have experienced some slow international connectivity. MWEB has automatic failover on SAT-3 in the event of SEACOM outages to minimize the impact on their subscribers.
+Event	59	complained	Occurence	274
+Event	177	cut	Occurence	917
+Event	92	problems	Occurence	491
+Event	103	progress	Occurence	546
+Event	25	downtime	Occurence	86
+Event	26	explained	Occurence	95
+Event	204	downtime	Occurence	1037
+Event	29	downtime	Occurence	124
+Event	69	problems	Occurence	351
+Event	44	problem	Occurence	210
+Event	76	confirmed	Occurence	388
+Event	78	problems	Occurence	402
+Event	37	downtime	Occurence	173
+Event	63	problems	Occurence	318
+Event	101	updated	Occurence	535
+Relation	25	44	SubSuper	true	downtime	problem
+Relation	29	44	SubSuper	true	downtime	problem
+Relation	37	44	SubSuper	true	downtime	problem
+Relation	59	63	SubSuper	true	complained	problems
+Relation	63	69	SubSuper	true	problems	problems
+Relation	69	78	SuperSub	true	problems	problems
+Relation	69	92	SuperSub	true	problems	problems
+Relation	177	204	SuperSub	true	cut	downtime
+Relation	76	78	SubSuper	true	confirmed	problems
+Relation	101	103	SubSuper	true	updated	progress
+Relation	25	26	SuperSub	true	downtime	explained

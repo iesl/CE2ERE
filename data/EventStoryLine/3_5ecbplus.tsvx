@@ -1,0 +1,32 @@
+Text	http://www. nydailynews. com/news/national/texas-convict-arcade-joseph-comeaux-jr-riding-wheelchair-pulls-gun-guards-escapes-foot-article-1. 432180 Texas convict Arcade Joseph Comeaux Jr., riding in wheelchair, pulls gun on guards, escapes on foot THURSDAY, DECEMBER 3, 2009, 9:36 AM Rewards totaling $30, 000 are offered for information leading to Texas prison escapee Arcade Joseph Comeaux Jr. Department of Corrections spokeswoman Michelle Lyons said Thursday that the convicted sex offender was still on the run. Comeaux was in a wheelchair Monday when he pulled a gun on two guards during a transfer from a unit in Huntsville to one in Beaumont. Both guards were released after being forced to drive to the Baytown area, where Comeaux ran way. Comeaux was serving life in prison for aggravated sexual assault out of Brazos County.
+Event	158	ran	Occurence	740
+Event	170	assault	Occurence	806
+Event	148	forced	Occurence	689
+Event	150	drive	Occurence	699
+Event	83	offered	Occurence	314
+Event	145	released	Occurence	668
+Event	120	Monday	Occurence	545
+Event	131	transfer	Occurence	596
+Event	123	pulled	Occurence	560
+Event	58	pulls	Occurence	211
+Event	63	escapes	Occurence	232
+Event	54	riding	Occurence	189
+Event	163	serving	Occurence	761
+Relation	58	63	SuperSub	true	pulls	escapes
+Relation	123	158	SuperSub	true	pulled	ran
+Relation	131	158	SuperSub	true	transfer	ran
+Relation	158	163	SubSuper	true	ran	serving
+Relation	120	54	SuperSub	true	Monday	riding
+Relation	120	58	SuperSub	true	Monday	pulls
+Relation	120	63	SuperSub	true	Monday	escapes
+Relation	120	123	SuperSub	true	Monday	pulled
+Relation	120	131	SuperSub	true	Monday	transfer
+Relation	120	145	SuperSub	true	Monday	released
+Relation	120	148	SuperSub	true	Monday	forced
+Relation	120	150	SuperSub	true	Monday	drive
+Relation	120	158	SuperSub	true	Monday	ran
+Relation	163	170	SubSuper	true	serving	assault
+Relation	63	83	SuperSub	true	escapes	offered
+Relation	63	123	SubSuper	true	escapes	pulled
+Relation	63	158	SubSuper	true	escapes	ran
+Relation	63	150	SubSuper	true	escapes	drive

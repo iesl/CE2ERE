@@ -1,0 +1,35 @@
+Text	http://da. lacounty. gov/mr/archive/2005/072605a. htm Hawaiian Gardens Gang Member Charged with Murdering Sheriff's Deputy July 26, 2005 District Attorney Steve Cooley announced today that capital murder charges were filed against a Hawaiian Gardens gang member accused of gunning down Deputy Luis Gerardo ( Jerry ) Ortiz a month ago. Cooley said Jose Luis Orozco was charged with murdering the 35-year-old deputy on June 24 outside a Hawaiian Gardens apartment. The complaint alleged three special circumstances that would make Orozco eligible for the death penalty:murder of a peace officer during performance of his duties, lying in wait and murder to avoid arrest. " Deputy Ortiz was killed while investigating a shooting in which the defendant was a suspect, " Cooley said at a news conference at the Bellflower courthouse. " He was shot in the head and left dying on the ground while his killer ran away and tried to hide. " Law enforcement officers like Deputy Ortiz are the last line of defense between criminals and the law-abiding citizens they protect. When one is killed, all of us lose. We will not let their killers go unpunished, " the District Attorney said. Orozco, 27, was found hiding in a house a few doors away from the shooting some hours after Deputy Ortiz was slain. He was arrested and remained in custody on a parole hold. " The defendant's custody status gave Sheriff's detectives and our prosecutors in the Crimes Against Police Officers Section ( CAPOS ) additional time to fully investigate this murder and the case on which Deputy Ortiz was working when he was killed, " Cooley said. " Having time to do the fullest investigation possible results in a stronger criminal case. " Orozco is scheduled to appear in Bellflower Superior Court's Division 3 at 1:45 p.m. today for arraignment. The defendant, who lives in Hawaiian Gardens and also is known by the street moniker of Sepe, is charged in case No. VA089897 filed this morning by Deputy District Attorney Lowell Anger of CAPOS. Although filed as a capital case, the District Attorney's office will decide closer to trial whether to seek the death penalty or life in prison without the possibility of parole. Orozco is charged with one count of murder of a peace officer with the special circumstances of murder of a peace officer during performance of his duties, lying in wait and murder to avoid arrest. It was alleged the defendant personally used a handgun to commit the crime. The complaint also alleged two counts of possession of a firearm by a felon for the June 24 murder of Ortiz and on June 20, when a man was shot and wounded in Hawaiian Gardens. It was that shooting that Deputy Ortiz was investigating when he was killed. Deputy Ortiz was shot to death outside an apartment in the 12000 block of East 223rd Street. The deputy was with the Sheriff's gang enforcement unit and was investigating the June 20 shooting. Authorities said he spotted Orozco shortly after 3 p.m. and chased him to the apartment. The killer was hiding behind the apartment's front door. The defendant was arrested five buildings away on 223rd Street shortly before midnight. A. 38-caliber revolver believed to be the murder weapon was recovered. Orozco also was charged with one count of attempted willful, deliberate, premeditated murder in connection with the June 20 shooting. The victim was shot while doing yard work at a home in the 22000 block of Joliet Avenue. He was hit in the back, but survived. The complaint charged that the June 20 shooting was for furtherance of a street gang. The complaint also alleged prior convictions including auto burglary, possession of a firearm by a felon and resisting and executive officer. Orozco will be held without bail. Joining Cooley at the news conference was Assistant Sheriff Doyle Campbell.
+Event	137	shooting	Occurence	717
+Event	174	ran	Occurence	901
+Event	26	Murdering	Occurence	96
+Event	298	murder	Occurence	1526
+Event	301	case	Occurence	1541
+Event	74	charged	Occurence	368
+Event	76	murdering	Occurence	381
+Event	296	investigate	Occurence	1509
+Event	311	killed	Occurence	1592
+Event	135	investigating	Occurence	701
+Event	46	filed	Occurence	217
+Event	133	killed	Occurence	688
+Event	167	dying	Occurence	864
+Event	161	shot	Occurence	838
+Event	538	death	Occurence	2746
+Event	307	working	Occurence	1572
+Event	179	hide	Occurence	923
+Event	536	shot	Occurence	2738
+Event	24	Charged	Occurence	83
+Event	43	murder	Occurence	197
+Relation	43	46	SuperSub	true	murder	filed
+Relation	133	135	SubSuper	true	killed	investigating
+Relation	135	137	SubSuper	true	investigating	shooting
+Relation	161	167	SuperSub	true	shot	dying
+Relation	161	174	SuperSub	true	shot	ran
+Relation	161	179	SuperSub	true	shot	hide
+Relation	296	298	SubSuper	true	investigate	murder
+Relation	301	307	SuperSub	true	case	working
+Relation	307	311	SuperSub	true	working	killed
+Relation	536	538	SuperSub	true	shot	death
+Relation	74	76	SubSuper	true	charged	murdering
+Relation	296	301	SubSuper	true	investigate	case
+Relation	24	26	SubSuper	true	Charged	Murdering
+Relation	296	311	SubSuper	true	investigate	killed

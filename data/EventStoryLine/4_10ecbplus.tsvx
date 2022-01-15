@@ -1,0 +1,15 @@
+Text	http://www. pennlive. com/entertainment/index. ssf/2013/06/esther_williams_olympic_swimme. html Esther Williams, Olympic swimmer turned actress and pinup girl, dies at 91 Esther Williams, the swimming champion turned actress who starred in glittering and aquatic Technicolor musicals of the 1940s and 1950s, has died. She was 91. Williams died early Thursday in her sleep, according to her longtime publicist Harlan Boll. Williams in a bathing suit became a favorite pinup of GI's in World War II, and her popularity continued afterward.
+Event	107	popularity	Occurence	506
+Event	59	musicals	Occurence	275
+Event	94	became	Occurence	449
+Event	50	turned	Occurence	210
+Event	67	died	Occurence	312
+Event	53	starred	Occurence	229
+Event	64	1950s	Occurence	301
+Relation	50	53	SubSuper	true	turned	starred
+Relation	94	107	SuperSub	true	became	popularity
+Relation	64	59	NoRel	true	1950s	musicals
+Relation	64	53	NoRel	true	1950s	starred
+Relation	64	50	NoRel	true	1950s	turned
+Relation	64	67	SuperSub	true	1950s	died
+Relation	94	107	SubSuper	true	became	popularity

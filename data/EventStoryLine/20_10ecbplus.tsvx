@@ -1,0 +1,15 @@
+Text	http://secretdubai. blogspot. nl/2005/11/did-earth-move-for-you. html 27 NOVEMBER, 2005 Did the earth move for you ? Because it didn't down here at Cell Block G. Dubai experienced a slight "tremor" today, after a more serious earthquake in Southern Iran, resulting in the evacuation of Emirates Towers and a few other scrapers:"Witnesses in high-rise buildings said they felt the ground shaking beneath them for about a minute. Many residents evacuated their buildings and waited on the streets. " Expect endless earthquake experts in the papers tomorrow, such as the prophetic Dr Azm Al Homoud:"We should stop saying the UAE is not in an earthquake prone area. I must say we are near major epicentres across the Arabian Gulf and fall within the collision area. " Inmates in the far southern gulags miss out on everything. Cut off by distance, traffic and general lethargy:the forgotten folk in the shadow of the Jebel.
+Event	52	today	Occurence	198
+Event	48	experienced	Occurence	168
+Event	66	evacuation	Occurence	272
+Event	58	earthquake	Occurence	226
+Event	33	move	Occurence	102
+Event	51	"tremor"	Occurence	189
+Relation	52	33	SuperSub	true	today	move
+Relation	52	48	SuperSub	true	today	experienced
+Relation	52	51	SuperSub	true	today	"tremor"
+Relation	52	58	SuperSub	true	today	earthquake
+Relation	52	66	SuperSub	true	today	evacuation
+Relation	33	51	SubSuper	true	move	"tremor"
+Relation	51	66	SuperSub	true	"tremor"	evacuation
+Relation	51	58	SubSuper	true	"tremor"	earthquake

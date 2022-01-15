@@ -1,0 +1,15 @@
+Text	http://www. alaskapublic. org/2012/08/08/matanuska-maid-dairy-building-was-uninsured/Matanuska Maid Dairy Building Was Uninsured August 8, 2012-4:43 pm The fire that destroyed the original Matanuska Maid Dairy warehouse in Palmer on Tuesday took a piece of Alaska's history. The building dates to 1935, when the original Matanuska Valley colonists settled in Alaska, and has been on the Alaska Association For Historic Preservation's list of endangered historic properties for several years. Judi Bittner, the state's historic preservation official, says the destruction of the building represents a big loss to the state's history and to the people of Palmer. The property was in private ownership by Anchorage attorney William Ingaldson. Palmer Public Safety Director Jon Owen said Tuesday that the city had not purchased the property, although there were plans to do so. " The building was uninsured, " Owen said. The Anchorage Daily News reports the value of the building at $380, 600. The cause of the fire has not been determined.
+Event	47	destroyed	Occurence	166
+Event	201	cause	Occurence	994
+Event	204	fire	Occurence	1007
+Event	57	Tuesday	Occurence	233
+Event	45	fire	Occurence	156
+Event	58	took	Occurence	241
+Relation	57	45	SuperSub	true	Tuesday	fire
+Relation	57	47	SuperSub	true	Tuesday	destroyed
+Relation	57	58	SuperSub	true	Tuesday	took
+Relation	57	201	SuperSub	true	Tuesday	cause
+Relation	57	204	SuperSub	true	Tuesday	fire
+Relation	45	47	SuperSub	true	fire	destroyed
+Relation	45	58	SuperSub	true	fire	took
+Relation	201	204	SuperSub	true	cause	fire

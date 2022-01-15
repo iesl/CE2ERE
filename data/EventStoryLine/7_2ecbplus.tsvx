@@ -1,0 +1,46 @@
+Text	http://www. dailymail. co. uk/sport/boxing/article-2170324/Wladimir-Klitschko-retains-titles-stopping-Tony-Thompson-rounds. html Wladimir Klitschko retains titles stopping Thompson in six rounds PUBLISHED:22:07 GMT, 7 July 2012 UPDATED:22:07 GMT, 7 July 2012 Wladimir Klitschko stopped Tony Thompson in the sixth round to retain his WBA, IBF and WBO heavyweight title belts on Saturday. Klitschko put Thompson on the canvas with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight. Klitschko finished the fight five rounds sooner than when knocking out Thompson in the 11th of their first title fight in 2008. The 36-year-old champion Klitschko improved to 58-3 ( 51 KO ). Thompson, who was the mandatory challenger nominated by the IBF, fell to 36-3 ( 24 KO ).
+Event	127	dropped	Occurence	567
+Event	122	recovered	Occurence	533
+Event	77	retain	Occurence	322
+Event	143	count	Occurence	660
+Event	154	rounds	Occurence	727
+Event	88	Saturday	Occurence	377
+Event	107	round	Occurence	472
+Event	147	fight	Occurence	686
+Event	152	fight	Occurence	716
+Event	69	stopped	Occurence	278
+Event	132	sixth	Occurence	597
+Event	180	improved	Occurence	856
+Event	40	retains	Occurence	148
+Event	170	2008	Occurence	815
+Event	150	finished	Occurence	703
+Event	42	stopping	Occurence	163
+Event	75	round	Occurence	313
+Event	46	rounds	Occurence	188
+Event	168	fight	Occurence	806
+Event	145	stopping	Occurence	673
+Relation	88	40	SuperSub	true	Saturday	retains
+Relation	88	42	SuperSub	true	Saturday	stopping
+Relation	88	46	SuperSub	true	Saturday	rounds
+Relation	88	69	SuperSub	true	Saturday	stopped
+Relation	88	75	SuperSub	true	Saturday	round
+Relation	88	77	SubSuper	true	Saturday	retain
+Relation	88	107	SuperSub	true	Saturday	round
+Relation	88	122	SuperSub	true	Saturday	recovered
+Relation	88	127	SuperSub	true	Saturday	dropped
+Relation	88	132	SuperSub	true	Saturday	sixth
+Relation	88	143	SuperSub	true	Saturday	count
+Relation	88	145	SuperSub	true	Saturday	stopping
+Relation	88	147	SuperSub	true	Saturday	fight
+Relation	88	152	SuperSub	true	Saturday	fight
+Relation	88	154	SuperSub	true	Saturday	rounds
+Relation	170	168	SuperSub	true	2008	fight
+Relation	88	180	SuperSub	true	Saturday	improved
+Relation	40	42	SubSuper	true	retains	stopping
+Relation	69	77	SuperSub	true	stopped	retain
+Relation	127	143	SuperSub	true	dropped	count
+Relation	143	145	SuperSub	true	count	stopping
+Relation	69	147	SuperSub	true	stopped	fight
+Relation	127	147	SuperSub	true	dropped	fight
+Relation	42	147	SuperSub	true	stopping	fight
+Relation	150	180	SuperSub	true	finished	improved

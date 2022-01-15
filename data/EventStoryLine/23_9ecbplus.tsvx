@@ -1,0 +1,30 @@
+Text	http://www. firsttracksonline. com/2013/09/16/australian-ski-mountaineer-dies-in-fall-in-new-zealand/Australian Ski Mountaineer Dies in Fall in New Zealand September 16, 2013 9:36 am A 36-year-old Australian man died on Friday after falling 150 meters from a ridge in Aoraki/Mt. Cook National Park on New Zealand's South Island. Duncan Robert Rait, a New Zealand native living in Melbourne, Australia, was with a group of ski mountaineers who had just arrived by helicopter to a ridge top location near the Tasman Saddle Hut. While en route from the drop-off location to the hut he slipped from the ridgeline and fell to his death. Rait had planned to spend four days ski touring in the area with his brother. Although not a factor in the accident, rescue efforts were hampered by weather conditions. The rescue team were dropped at the hut and then descended to the location of the injured man as the helicopter became grounded due to poor weather. Rait was returned to Mt. Cook Village, where he was pronounced dead. The day following Rait's death an inexperienced and reportedly ill-equipped mountain climber with rental gear, 31-year-old Robert Buckley of the U. K. but living in Christchurch, New Zealand, slipped on ice and fell 700 meters to his own death elsewhere in the same National Park.
+Event	228	death	Occurence	1044
+Event	38	Dies	Occurence	128
+Event	142	fell	Occurence	613
+Event	145	death	Occurence	625
+Event	62	Friday	Occurence	220
+Event	137	slipped	Occurence	582
+Event	273	death	Occurence	1257
+Event	60	died	Occurence	212
+Event	267	fell	Occurence	1230
+Event	230	inexperienced	Occurence	1053
+Event	263	slipped	Occurence	1211
+Event	64	falling	Occurence	233
+Event	40	Fall	Occurence	136
+Relation	62	38	SuperSub	true	Friday	Dies
+Relation	62	40	SuperSub	true	Friday	Fall
+Relation	62	60	SuperSub	true	Friday	died
+Relation	62	64	SuperSub	true	Friday	falling
+Relation	62	137	SuperSub	true	Friday	slipped
+Relation	62	142	SuperSub	true	Friday	fell
+Relation	62	145	SuperSub	true	Friday	death
+Relation	38	40	SubSuper	true	Dies	Fall
+Relation	60	64	SubSuper	true	died	falling
+Relation	137	142	SuperSub	true	slipped	fell
+Relation	142	145	SuperSub	true	fell	death
+Relation	263	267	SuperSub	true	slipped	fell
+Relation	267	273	SuperSub	true	fell	death
+Relation	228	263	SubSuper	true	death	slipped
+Relation	230	267	SuperSub	true	inexperienced	fell
+Relation	38	40	SuperSub	true	Dies	Fall

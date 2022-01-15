@@ -1,0 +1,44 @@
+Text	http://www. foxnews. com/world/2010/05/05/brigade-says-person-dead-bank-riots-demonstration/Greek Prime Minister Calls Bank Workers' Riot Deaths 'Murder' Published May 05, 2010 The Greek prime minister has denounced what he called the "murder" of three bank workers killed when the building they were in was torched during protests in Athens against harsh new austerity measures. Prime Minister George Papandreou vowed Wednesday that those responsible for the deaths would be found and brought to justice. He told Parliament that "a demonstration is one thing and murder is quite another. " The two women and a man were killed during demonstrations by tens of thousands who marched through Athens. The national strike was held to protest the austerity measures announced last weekend so that Greece can get a $144 billion bailout from the International Monetary fund and other European nations. Three people died when an Athens bank went up in flames Wednesday as tens of thousands of Greeks took to the streets to protest harsh spending cuts aimed at saving the country from bankruptcy. The fire brigade said the bodies were found in the wreckage of a Marfin Bank branch, on the route of the march in the city center. Demonstrators chanting "thieves, thieves" attempted to break through a riot police cordon guarding Parliament and chased the ceremonial guards away from the Tomb of the Unknown Soldier in front of the building. An estimated 100, 000 people took to the streets as part of nationwide strikes to protest austerity measures imposed as a condition of bailout loans from the International Monetary Fund and other eurozone governments. The bailout is needed to keep heavily indebted Greece from defaulting on its debts. The loans are aimed at preventing Athens' debt troubles from becoming a wider crisis for the Euro by engulfing other financially troubled countries such as Spain and Portugal. But the rioting underlined skepticism that the Greek government could keep up its end of the bargain, helping drive the Euro below $1. 29 for the first time in over a year. Union reaction until now had been relatively muted by Greece's volatile standards, although the country has been hit by a series of strikes. But anger has mounted after the announcement of new austerity measures, which were essential to unlock the loans. Papandreou on Sunday announced cuts in salaries and pensions for civil servants, and another round of consumer tax increases, as a condition of the bailout. In Germany, Chancellor Angela Merkel urged parliament to quickly pass the country's share of the bailout-- 22 billion Euros over three years. The goal is passage by Friday; Greece faces a May 19 due date on debt it says it can't repay without the bailout. "Nothing less than the future of Europe, and with that the future of Germany in Europe, is at stake, " Merkel told lawmakers. "We are at a fork in the road. " Extensive clashes took place a broad swathe of central Athens, with hundreds of people battering store fronts and smashing paving stones to throw at the police, who responded with stun grenades and volleys of tear gas that left clouds of smoke hovering over the streets. Violence also broke out in the northern city of Thessaloniki, where another 20, 000 people marched through the city center, with youths smashing windows of stores and fast food restaurants. The outpouring of anger appeared much more spontaneous than the frequent set piece battles between police and anarchist youths who often spark violence during Greek demonstrations. The marches came amid a 24-hour nationwide general strike that grounded all flights to and from Greece, shut down ports, schools and government services and left hospitals working with emergency medical staff. The Acropolis and all other ancient sites were closed, while journalists also walked off the job, suspending television and radio news broadcasts. Some media-- including state television and the Ta Nea newspaper Web site-- broke the strike to report on the deaths. Greek unions concede that the cash-strapped government was forced to increase consumer taxes and slash spending, including cutting salaries and pensions for civil servants. But they say low-income Greeks will suffer disproportionately from the measures, which aim to save $40 billion-- the country's current budget deficit-- through 2012. "These people are losing their rights, they are losing their future, " said Yiannis Panagopoulos, head of GSEE, one of the two largest union organizations. "The country cannot surrender without a fight. " IMF head Dominique Strauss-Kahn warned that the crisis could spread to other countries despite the rescue package's efforts to contain it. "Everyone must remain extremely vigilant, " to this risk, Strauss-Kahn said in an interview published in French newspaper Le Parisien Wednesday. "I completely understand the Greek populations' anger, its incomprehension at the size of the economic catastrophe, " Strauss-Kahn said. But Greeks must also understand that without these measures, "the situation would be infinitely more serious, " he said. Those who are feeling the crunch are outraged that they have to pay for what they see as politicians' mismanagement of their country's economy. "We'll be on the streets every day, every day ! You never win unless you fight, " said 76-year-old Constantinos Doganis, who gets euro345 a month from his farming pension fund. "It's our fault too, all the mistakes made by politicians over 30 years, all the people who cheat on their taxes, " he said. "But they are behaving like buzzards-- the Germans borrow money at 3 percent and then lend it to us for 5. Why ? " Despite the strike, the draft bill of the new austerity measures is to be voted on Thursday. Prime Minister George Papandreou's Socialists hold a comfortable majority of 160 in the 300-seat Parliament, and with a simple majority of 151 votes needed, the bill is expected to be passed easily.
+Event	79	measures	Occurence	370
+Event	170	died	Occurence	908
+Event	72	protests	Occurence	323
+Event	41	'Murder'	Occurence	145
+Event	194	cuts	Occurence	1038
+Event	197	saving	Occurence	1052
+Event	191	protest	Occurence	1015
+Event	62	killed	Occurence	266
+Event	39	Riot	Occurence	133
+Event	179	Wednesday	Occurence	951
+Event	201	bankruptcy	Occurence	1076
+Event	132	marched	Occurence	674
+Event	57	"murder"	Occurence	235
+Event	70	torched	Occurence	308
+Event	126	demonstrations	Occurence	634
+Event	124	killed	Occurence	620
+Event	40	Deaths	Occurence	138
+Relation	179	57	SuperSub	true	Wednesday	"murder"
+Relation	179	62	SuperSub	true	Wednesday	killed
+Relation	179	70	SuperSub	true	Wednesday	torched
+Relation	179	72	SuperSub	true	Wednesday	protests
+Relation	179	124	SuperSub	true	Wednesday	killed
+Relation	179	126	SuperSub	true	Wednesday	demonstrations
+Relation	179	132	SuperSub	true	Wednesday	marched
+Relation	179	170	SuperSub	true	Wednesday	died
+Relation	179	191	SuperSub	true	Wednesday	protest
+Relation	179	39	SuperSub	true	Wednesday	Riot
+Relation	179	40	SuperSub	true	Wednesday	Deaths
+Relation	179	41	SuperSub	true	Wednesday	'Murder'
+Relation	39	40	SuperSub	true	Riot	Deaths
+Relation	57	62	SubSuper	true	"murder"	killed
+Relation	41	62	SubSuper	true	'Murder'	killed
+Relation	62	70	SubSuper	true	killed	torched
+Relation	41	70	SubSuper	true	'Murder'	torched
+Relation	57	70	SubSuper	true	"murder"	torched
+Relation	70	72	SubSuper	true	torched	protests
+Relation	72	79	SubSuper	true	protests	measures
+Relation	124	126	SubSuper	true	killed	demonstrations
+Relation	126	132	SuperSub	true	demonstrations	marched
+Relation	191	194	SubSuper	true	protest	cuts
+Relation	194	197	SuperSub	true	cuts	saving
+Relation	194	201	SuperSub	true	cuts	bankruptcy
+Relation	62	72	SubSuper	true	killed	protests

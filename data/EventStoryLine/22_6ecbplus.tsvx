@@ -1,0 +1,34 @@
+Text	http://philadelphia. cbslocal. com/2010/12/07/accused-philadelphia-kraft-foods-killer-held-for-trial/Accused Philadelphia Kraft Foods Killer Held For Trial December 7, 2010 11:18 PM The woman who allegedly shot and killed two co-workers in September at the Kraft Foods plant in Northeast Philadelphia will face trial on multiple counts of murder and attempted murder. At a hearing on Tuesday, assistant district attorney Gail Fairman described 43-year-old Yvonne Hiller as a " methodical killer " who waved a gun within a foot of a security guard's face to regain access to the plant less than ten minutes after she had been escorted out. " She returned like a grim reaper, " says ADA Fairman, " and she only shot the ones that she held responsible for her suspension. " Fairman says that when Hiller found a group of co-workers in a break room, she allowed one person to leave unharmed. " At one point, there was a co-worker holding onto Latoya Brown, " says Fairman, " and the defendant ordered that worker away, and then she shot Brown. " Hiller had repeated run-ins with co-workers, whom she accused of spraying her with a deer scent, among other things ( see related story ). Two women were pronounced dead at the scene, and a male co-worker was wounded. A detective testified during the preliminary hearing about Hiller's statement to police, claiming people had been spraying her for years. The defense would not comment on strategy plans for the trial.
+Event	108	waved	Occurence	501
+Event	72	trial	Occurence	311
+Event	55	killed	Occurence	215
+Event	86	Tuesday	Occurence	384
+Event	61	September	Occurence	240
+Event	38	Held	Occurence	141
+Event	122	regain	Occurence	557
+Event	77	murder	Occurence	339
+Event	84	hearing	Occurence	373
+Event	53	shot	Occurence	206
+Event	123	access	Occurence	564
+Event	135	escorted	Occurence	625
+Event	93	described	Occurence	434
+Event	40	Trial	Occurence	150
+Relation	61	53	SuperSub	true	September	shot
+Relation	61	55	SuperSub	true	September	killed
+Relation	61	72	SuperSub	true	September	trial
+Relation	61	77	SuperSub	true	September	murder
+Relation	86	84	SuperSub	true	Tuesday	hearing
+Relation	86	108	SubSuper	true	Tuesday	waved
+Relation	86	122	SubSuper	true	Tuesday	regain
+Relation	86	123	SubSuper	true	Tuesday	access
+Relation	86	135	SubSuper	true	Tuesday	escorted
+Relation	38	40	SubSuper	true	Held	Trial
+Relation	53	55	SuperSub	true	shot	killed
+Relation	55	72	SuperSub	true	killed	trial
+Relation	72	77	SubSuper	true	trial	murder
+Relation	72	84	SuperSub	true	trial	hearing
+Relation	108	123	SuperSub	true	waved	access
+Relation	123	135	SubSuper	true	access	escorted
+Relation	86	93	SuperSub	true	Tuesday	described
+Relation	38	40	SuperSub	true	Held	Trial
+Relation	53	77	SuperSub	true	shot	murder

@@ -1,0 +1,12 @@
+Text	http://www. hindustantimes. com/audio-news-video/AV-NewsX/INS-Sukanya-intercepts-pirate-ships-arms-seized/Article2-768142. aspx INS Sukanya intercepts pirate ships, arms seized November 12, 2011 Indian navy has foiled a piracy attempt on 5 Indian merchant vessels in international waters. Navy's frigate INS Sukanya intercepted 3 pirate ships and seized arms and ammunition from the pirates. News X has exclusive pictures of the anti-piracy operation. This operation was part of the International efforts to secure high seas; India has been at the forefront of anti-piracy operations.
+Event	72	intercepted	Occurence	316
+Event	55	foiled	Occurence	211
+Event	47	seized	Occurence	170
+Event	42	intercepts	Occurence	140
+Event	77	seized	Occurence	347
+Event	58	attempt	Occurence	227
+Relation	42	55	SuperSub	true	intercepts	foiled
+Relation	55	72	SubSuper	true	foiled	intercepted
+Relation	55	58	SubSuper	true	foiled	attempt
+Relation	72	77	SuperSub	true	intercepted	seized
+Relation	42	47	SuperSub	true	intercepts	seized

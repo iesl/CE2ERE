@@ -1,0 +1,22 @@
+Text	http://news. softpedia. com/news/5-9-Earthquake-Jolts-Iran-13476. shtml November 28th, 2005, 09:11 GMT 5. 9 Earthquake Jolts Iran A 5. 9 magnitude earthquake has leveled seven villages in Iran's southern area, killing 10 persons and wounding other 70, Iranian officials were quoted by AP as saying. According to Iran's seismologic center, the epicenter of the earthquake was in the waters of the Persian Gulf, between the port city of Bandar Abbas and Qeshm Island. Qeshm's governor, Heidar Alishvandi, told the state television that rescue teams have been deployed to the affected areas and that the population from the villages is now safe. A reporter of the Iranian news agency, IRNA, said that the only hospital in Qeshm was full of people and that there was a shortage of medical facilities. According to the same agency, the Deyrestan village saw serious destruction, while Tonban and Goursin were all but destroyed. The main temblor was followed by at least four major aftershocks, with magnitudes ranging from 3. 6 to 4. 3, which increased the panic among villagers. Qeshm, a 1, 500-square-kilometer island off the coast southwest of Bandar Abbas and 1, 500 kilometers south of Tehran, has a population of more than 100, 000.
+Event	186	destroyed	Occurence	912
+Event	48	leveled	Occurence	162
+Event	177	destruction	Occurence	861
+Event	215	panic	Occurence	1052
+Event	38	Earthquake	Occurence	108
+Event	39	Jolts	Occurence	119
+Event	190	temblor	Occurence	932
+Event	60	wounding	Occurence	233
+Event	46	earthquake	Occurence	147
+Event	198	aftershocks	Occurence	976
+Event	56	killing	Occurence	210
+Relation	46	48	SuperSub	true	earthquake	leveled
+Relation	46	56	SuperSub	true	earthquake	killing
+Relation	46	60	SuperSub	true	earthquake	wounding
+Relation	177	190	SubSuper	true	destruction	temblor
+Relation	186	190	SubSuper	true	destroyed	temblor
+Relation	190	198	SuperSub	true	temblor	aftershocks
+Relation	177	198	SubSuper	true	destruction	aftershocks
+Relation	186	198	SubSuper	true	destroyed	aftershocks
+Relation	198	215	SuperSub	true	aftershocks	panic
+Relation	38	39	SuperSub	true	Earthquake	Jolts

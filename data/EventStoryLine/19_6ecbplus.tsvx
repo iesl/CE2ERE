@@ -1,0 +1,33 @@
+Text	http://rt. com/usa/brooklyn-riot-police-protesters-127/Brooklyn neighborhood on police lockdown following protest Published time:March 12, 2013 02:03 Edited time:March 13, 2013 02:15 Police intervened after more than 100 people joined together for a candlelit vigil in the East Flatbush neighborhood in Brooklyn, New York, where 16-year-old Kimani Gray was shot multiple times by police on Saturday. Brooklynites on Twitter reported that police followed the march and searched apartment buildings in the neighborhood without warrants, looking for children who had been seen throwing bottles at police from neighborhood rooftops. Officers clad in riot gear were seen along the block, and barricades were placed on the streets. March participants chanted, "NYPD/KKK/how many kids will you kill today, " witnesses reported. Police said the crowd fell the 67th Precinct station in East Flatbush, where teenagers who were not apparently a part of any organized group threw garbage and empty bottles at the windows. "I'm in the middle of the riot action at Church and Snyder in my district. Right now, things are tense, " New York City Councilman Jumaane D. Williams, who represents the area, said on Twitter. Williams said people smashed out windows and overturned garbage cans during the disorder, and that one person had been attacked outside of a local Rite Aid. " Tonight was a peaceful vigil that devolved into a riot, " Williams wrote. " The youth in this community have no outlets for their anger, no community. " One person is believed to have been arrested, and no injuries were reported. Sixteen-year-old Kimani Gray was shot and killed on Saturday night after pointing a gun at two plainclothes officers who approached him, police said. According to the officers involved in the shooting, the teenager adjusted his belt "suspiciously, " and after they exited their vehicle to investigate, he pointed a. 357 caliber revolver at them. Both officers fired a total of 11 shots at the suspect, hitting Gray multiple times in his torso and legs. His sister, Mahnefah Gray, told NY1 she doubted her brother was carrying a gun, but was rather grabbing his belt " to squeeze it " because he had a " skinny waist. " "They thought he was grabbing back to get a gun, " she said. " He's 16 years old. What is he pointing a gun at over six police, knowing that they would kill him ? He has common sense. " Witnesses said that Gray, who was running for his life when he was shot, did not have a gun. "Stay down, or we ' ll shoot you again, " police said once Gray had been hit, according to the New York Times. "The cops, they just jumped out of the car so fast, " the New York Daily News quoted witness Devonte Brown as saying. "They started shooting him and he went down, he was bleeding, holding his side, screaming, 'stop, stop. " But one woman, who identified herself as the slain teen's cousin, told NY1 that Kimani was in fact holding the gun for a friend. She also believed that Kimani was attempting to alert the police that he had the weapon rather than use it. After the shooting, Gray was rushed to a hospital but was declared dead on arrival. The officers involved in the shooting were also treated for trauma and tinnitus. Police said there is no evidence the unidentified officers acted inappropriately, though they were put on administrative leave. The also said that Gray had previously been arrested four times on charges of grand larceny, possession of stolen property and inciting a riot.
+Event	81	shot	Occurence	357
+Event	49	intervened	Occurence	190
+Event	55	joined	Occurence	228
+Event	271	vigil	Occurence	1386
+Event	27	protest	Occurence	106
+Event	276	riot	Occurence	1413
+Event	25	lockdown	Occurence	87
+Event	322	shot	Occurence	1626
+Event	337	approached	Occurence	1714
+Event	60	vigil	Occurence	260
+Event	329	pointing	Occurence	1666
+Event	267	Tonight	Occurence	1363
+Event	87	Saturday	Occurence	390
+Event	324	killed	Occurence	1635
+Relation	49	55	SubSuper	true	intervened	joined
+Relation	55	60	SubSuper	true	joined	vigil
+Relation	60	81	SubSuper	true	vigil	shot
+Relation	55	81	SubSuper	true	joined	shot
+Relation	322	324	SuperSub	true	shot	killed
+Relation	322	329	SubSuper	true	shot	pointing
+Relation	324	329	SubSuper	true	killed	pointing
+Relation	25	27	SubSuper	true	lockdown	protest
+Relation	271	322	SubSuper	true	vigil	shot
+Relation	271	324	SubSuper	true	vigil	killed
+Relation	276	322	SubSuper	true	riot	shot
+Relation	276	324	SubSuper	true	riot	killed
+Relation	329	337	SubSuper	true	pointing	approached
+Relation	87	49	SuperSub	true	Saturday	intervened
+Relation	87	60	SuperSub	true	Saturday	vigil
+Relation	87	81	SuperSub	true	Saturday	shot
+Relation	267	271	SuperSub	true	Tonight	vigil
+Relation	267	276	SuperSub	true	Tonight	riot

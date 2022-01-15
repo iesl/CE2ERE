@@ -1,0 +1,26 @@
+Text	http://articles. timesofindia. indiatimes. com/2011-11-12/india/30391127_1_somali-pirate-attack-indian-warship-merchant-vessels Somali pirate attack foiled in Gulf of Aden TNN Nov 12, 2011, 05. 51AM IST MUMBAI:An Indian warship on Thursday intercepted three boats with 26 Somali pirates in the Gulf of Aden and foiled an attack on merchant vessels. INS Sukanya detected five suspicious boats, speedily approaching the merchant vessels that the warship was escorting through the Internationally Recognized Transit Corridor. "The warship immediately altered towards the suspicious vessels and challenged them. While two of them managed to escape, INS Sukanya successfully intercepted the remaining three and carried out boarding-and-search action, " said Captain Manohar Nambiar, chief PRO ( Defence ). The Navy confiscated 14 AK-47 rifles, 31 magazines and 923 rounds from the boat along with grapnels, ladders and rope-handling gloves, Nambiar said. This is the fifth successful anti-piracy operation conducted by INS Sukanya, during its patrol mission in the Gulf of Aden.
+Event	41	foiled	Occurence	149
+Event	62	Thursday	Occurence	231
+Event	76	foiled	Occurence	311
+Event	99	escorting	Occurence	456
+Event	78	attack	Occurence	321
+Event	40	attack	Occurence	142
+Event	63	intercepted	Occurence	240
+Event	85	detected	Occurence	361
+Event	91	approaching	Occurence	402
+Relation	62	63	SuperSub	true	Thursday	intercepted
+Relation	62	76	SuperSub	true	Thursday	foiled
+Relation	62	78	SuperSub	true	Thursday	attack
+Relation	62	85	SuperSub	true	Thursday	detected
+Relation	62	91	SuperSub	true	Thursday	approaching
+Relation	62	99	SuperSub	true	Thursday	escorting
+Relation	62	40	SuperSub	true	Thursday	attack
+Relation	62	41	SuperSub	true	Thursday	foiled
+Relation	41	63	SubSuper	true	foiled	intercepted
+Relation	63	76	SubSuper	true	intercepted	foiled
+Relation	76	85	SubSuper	true	foiled	detected
+Relation	76	91	SubSuper	true	foiled	approaching
+Relation	76	99	SubSuper	true	foiled	escorting
+Relation	85	99	SubSuper	true	detected	escorting
+Relation	78	91	SubSuper	true	attack	approaching
+Relation	40	41	SuperSub	true	attack	foiled

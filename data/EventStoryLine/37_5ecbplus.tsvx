@@ -1,0 +1,30 @@
+Text	http://www. indianexpress. com/news/dozens-injured-as-6. 1magnitude-quake-hits-indonesias-aceh/1136656/Dozens injured as 6. 1-magnitude quake hits Indonesia's Aceh Tue Jul 02 2013, 14:58 hrs A strong 6. 1-magnitude earthquake struck Indonesia's northwestern province of Aceh today, causing buildings to collapse and injuring at least 50 people. The quake hit inland at 0737 GMT at a depth of just 10 kilometres, 55 kilometres south of Bireun and 72 kilometres southeast of Reuleuet, the US Geological Survey said. "We have received around 50 people with injuries suffered when the walls of their houses collapsed, " Ema Suryani, a doctor at a health clinic in Lampahan city, Bener Meriah district, told AFP. "The injuries vary from open wounds to broken bones. " Injured people had been transported from several affected villages in two trucks, she said. People also ran out of buildings in panic in the provincial capital Banda Aceh as the quake shook houses for around one minute, an AFP journalist at the scene said. A massive quake struck off Aceh in 2004, sparking a tsunami that killed 170, 000 people in the province on Sumatra and tens of thousands more in countries around the Indian Ocean. Indonesia sits on the Pacific "Ring of Fire" where continental plates collide, causing frequent seismic and volcanic activity.
+Event	195	quake	Occurence	941
+Event	181	ran	Occurence	867
+Event	42	hits	Occurence	142
+Event	218	2004	Occurence	1055
+Event	62	struck	Occurence	226
+Event	213	quake	Occurence	1030
+Event	73	collapse	Occurence	303
+Event	82	quake	Occurence	349
+Event	224	killed	Occurence	1085
+Event	75	injuring	Occurence	316
+Event	68	today	Occurence	275
+Event	34	injured	Occurence	110
+Event	222	tsunami	Occurence	1072
+Event	196	shook	Occurence	947
+Relation	68	73	SuperSub	true	today	collapse
+Relation	68	75	SuperSub	true	today	injuring
+Relation	68	82	SuperSub	true	today	quake
+Relation	68	181	SuperSub	true	today	ran
+Relation	218	213	SuperSub	true	2004	quake
+Relation	218	222	SuperSub	true	2004	tsunami
+Relation	218	224	SuperSub	true	2004	killed
+Relation	181	195	SubSuper	true	ran	quake
+Relation	213	222	SuperSub	true	quake	tsunami
+Relation	222	224	SuperSub	true	tsunami	killed
+Relation	68	34	SuperSub	true	today	injured
+Relation	68	42	SuperSub	true	today	hits
+Relation	68	62	SuperSub	true	today	struck
+Relation	68	195	SuperSub	true	today	quake
+Relation	195	196	SuperSub	true	quake	shook

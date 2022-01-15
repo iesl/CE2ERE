@@ -1,0 +1,10 @@
+Text	http://www. itv. com/news/westcountry/story/2013-07-21/wellington-supermarket-fire/Wellington supermarket fire A large fire has destroyed much of a supermarket in Somerset. Crews were called to the Waitrose building on Wellington High Street just after 6am.
+Event	34	fire	Occurence	119
+Event	31	fire	Occurence	106
+Event	46	called	Occurence	184
+Event	57	6am	Occurence	253
+Event	36	destroyed	Occurence	128
+Relation	57	46	SuperSub	true	6am	called
+Relation	31	36	SuperSub	true	fire	destroyed
+Relation	34	36	SuperSub	true	fire	destroyed
+Relation	34	46	SuperSub	true	fire	called

@@ -1,0 +1,100 @@
+Text	http://www. cbc. ca/sports/wladimir-klitschko-stops-tony-thompson-to-retain-world-heavyweight-titles-1. 1263752 Wladimir Klitschko stops Tony Thompson to retain world heavyweight titles Posted:Jul 07, 2012 7:40 PM ET Last Updated:Jul 07, 2012 8:44 PM ET Wladimir Klitschko stopped Tony Thompson in the sixth round to keep a comfortable hold on his WBA, IBF and WBO heavyweight title belts on Saturday in Bern, Switzerland. Klitschko put Thompson on the canvas with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American southpaw never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight at 2:56. "Thompson was not so easy to box. I'm satisfied, " said the 36-year-old Klitschko, who improved his record to 58-3 ( 51 KO ). Klitschko finished the fight five rounds sooner than when knocking out Thompson in the 11th of their first title fight in 2008. Thompson, who was the mandatory challenger nominated by the IBF, fell to 36-3 ( 24 KO ). After the fight, Klitschko led the 22, 000 crowd in signing "Happy Birthday" to his trainer Emanuel Steward, whose was 68 on Saturday. "Tony Thompson is very hard to hit, " Steward said. "Tony was watching Wladimir's right hand all night. " A cagey opening round was followed by a scrappy second, as Klitschko twice wrestled Thompson to the floor. Thompson briefly stepped up his cautious tactics when landing a left to Klitschko's face in the third. Klitschko finally landed a long, straight right in the fifth and the round ended with Thompson struggling on the ropes. The champion cornered Thompson toward the end of the sixth, and landed punches to the head though no single blow appeared to cause serious damage. "I got caught but I'm OK, " Thompson said in the ring. "He's strong and he's world heavyweight champion for a reason. " Klitschko extended the domination of the heavyweight ranks he shares with his elder brother Vitali. Vitali was in his brother's corner as usual, and acted as cheerleader in the third round, urging on fans in the football stadium when the first chants of "Klitschko, Klistchko" stirred. The elder Klitschko will defend his WBC title against Manuel Charr of Germany in Moscow on Sept. 8.
+Event	186	improved	Occurence	833
+Event	372	blow	Occurence	1768
+Event	38	stops	Occurence	131
+Event	449	chants	Occurence	2171
+Event	143	sixth	Occurence	642
+Event	77	round	Occurence	308
+Event	154	count	Occurence	705
+Event	320	landing	Occurence	1491
+Event	295	round	Occurence	1346
+Event	377	damage	Occurence	1799
+Event	343	round	Occurence	1609
+Event	437	round	Occurence	2110
+Event	173	satisfied	Occurence	784
+Event	431	acted	Occurence	2076
+Event	138	dropped	Occurence	612
+Event	110	hand	Occurence	477
+Event	301	second	Occurence	1378
+Event	408	domination	Occurence	1950
+Event	322	left	Occurence	1501
+Event	156	stopping	Occurence	718
+Event	149	gave	Occurence	674
+Event	71	stopped	Occurence	273
+Event	354	cornered	Occurence	1673
+Event	318	tactics	Occurence	1478
+Event	364	landed	Occurence	1724
+Event	158	fight	Occurence	731
+Event	340	fifth	Occurence	1595
+Event	381	caught	Occurence	1814
+Event	94	Saturday	Occurence	392
+Event	170	box	Occurence	775
+Event	233	fell	Occurence	1065
+Event	42	retain	Occurence	154
+Event	306	wrestled	Occurence	1405
+Event	406	extended	Occurence	1937
+Event	133	recovered	Occurence	578
+Event	117	round	Occurence	508
+Event	361	sixth	Occurence	1713
+Event	454	stirred	Occurence	2204
+Event	337	right	Occurence	1582
+Event	347	struggling	Occurence	1635
+Event	332	landed	Occurence	1558
+Event	328	third	Occurence	1533
+Event	365	punches	Occurence	1731
+Relation	94	38	SuperSub	true	Saturday	stops
+Relation	94	42	SuperSub	true	Saturday	retain
+Relation	94	71	SuperSub	true	Saturday	stopped
+Relation	94	77	SuperSub	true	Saturday	round
+Relation	94	110	SuperSub	true	Saturday	hand
+Relation	94	117	SuperSub	true	Saturday	round
+Relation	94	133	SuperSub	true	Saturday	recovered
+Relation	94	138	SuperSub	true	Saturday	dropped
+Relation	94	143	SuperSub	true	Saturday	sixth
+Relation	94	154	SuperSub	true	Saturday	count
+Relation	94	149	SuperSub	true	Saturday	gave
+Relation	94	158	SuperSub	true	Saturday	fight
+Relation	94	170	SuperSub	true	Saturday	box
+Relation	94	173	SuperSub	true	Saturday	satisfied
+Relation	94	186	SuperSub	true	Saturday	improved
+Relation	94	233	SuperSub	true	Saturday	fell
+Relation	94	295	SuperSub	true	Saturday	round
+Relation	94	301	SuperSub	true	Saturday	second
+Relation	94	306	SuperSub	true	Saturday	wrestled
+Relation	94	318	SuperSub	true	Saturday	tactics
+Relation	94	322	SuperSub	true	Saturday	left
+Relation	94	328	SuperSub	true	Saturday	third
+Relation	94	340	SuperSub	true	Saturday	fifth
+Relation	94	343	SuperSub	true	Saturday	round
+Relation	94	347	SuperSub	true	Saturday	struggling
+Relation	94	354	SuperSub	true	Saturday	cornered
+Relation	94	361	SuperSub	true	Saturday	sixth
+Relation	94	365	SuperSub	true	Saturday	punches
+Relation	94	372	SuperSub	true	Saturday	blow
+Relation	94	320	SuperSub	true	Saturday	landing
+Relation	94	377	SuperSub	true	Saturday	damage
+Relation	94	381	SuperSub	true	Saturday	caught
+Relation	94	406	SuperSub	true	Saturday	extended
+Relation	94	431	SuperSub	true	Saturday	acted
+Relation	94	437	SuperSub	true	Saturday	round
+Relation	94	449	SuperSub	true	Saturday	chants
+Relation	94	454	SuperSub	true	Saturday	stirred
+Relation	38	42	SuperSub	true	stops	retain
+Relation	110	133	SuperSub	true	hand	recovered
+Relation	138	154	SuperSub	true	dropped	count
+Relation	154	156	SuperSub	true	count	stopping
+Relation	110	158	SubSuper	true	hand	fight
+Relation	71	158	SubSuper	true	stopped	fight
+Relation	173	186	SubSuper	true	satisfied	improved
+Relation	337	347	SuperSub	true	right	struggling
+Relation	354	365	SuperSub	true	cornered	punches
+Relation	372	377	SuperSub	true	blow	damage
+Relation	431	449	SubSuper	true	acted	chants
+Relation	94	332	SuperSub	true	Saturday	landed
+Relation	94	364	SuperSub	true	Saturday	landed
+Relation	149	156	SuperSub	true	gave	stopping
+Relation	143	156	SuperSub	true	sixth	stopping
+Relation	332	347	SuperSub	true	landed	struggling
+Relation	406	408	SubSuper	true	extended	domination
+Relation	138	158	SubSuper	true	dropped	fight
+Relation	295	301	SuperSub	true	round	second

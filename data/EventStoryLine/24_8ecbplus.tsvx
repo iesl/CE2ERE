@@ -1,0 +1,30 @@
+Text	http://www. securitymagazine. com/articles/84721-paris-store-hit-by-26-million-jewelry-heist Paris Store Hit by $2. 6 Million Jewelry Heist September 9, 2013 Four men rammed their car into an upmarket jewelry store in central Paris on Monday, smashing the shop window and stealing $2. 6 million ( two million Euros ) in jewelry, according to AFP. The heist near Place Vendome is the latest to hit France after a string of high-profile robberies in Cannes. A police source reported that the men drove a large four-by-four car into the store in the early hours of the morning, grabbing jewelry and luxury watches before setting fire to the vehicle and escaping in another car.
+Event	65	stealing	Occurence	272
+Event	83	heist	Occurence	351
+Event	111	drove	Occurence	494
+Event	143	escaping	Occurence	650
+Event	39	Heist	Occurence	134
+Event	32	Hit	Occurence	105
+Event	60	smashing	Occurence	243
+Event	46	rammed	Occurence	167
+Event	131	grabbing	Occurence	575
+Event	58	Monday	Occurence	235
+Event	91	hit	Occurence	393
+Relation	58	32	SuperSub	true	Monday	Hit
+Relation	58	39	SuperSub	true	Monday	Heist
+Relation	58	46	SuperSub	true	Monday	rammed
+Relation	58	60	SuperSub	true	Monday	smashing
+Relation	58	65	SuperSub	true	Monday	stealing
+Relation	58	83	SuperSub	true	Monday	heist
+Relation	58	91	SuperSub	true	Monday	hit
+Relation	46	60	SuperSub	true	rammed	smashing
+Relation	60	65	SuperSub	true	smashing	stealing
+Relation	39	46	SubSuper	true	Heist	rammed
+Relation	39	60	SubSuper	true	Heist	smashing
+Relation	39	65	SubSuper	true	Heist	stealing
+Relation	111	131	SuperSub	true	drove	grabbing
+Relation	83	111	SubSuper	true	heist	drove
+Relation	83	131	SubSuper	true	heist	grabbing
+Relation	83	143	SubSuper	true	heist	escaping
+Relation	32	39	SubSuper	true	Hit	Heist
+Relation	46	65	SuperSub	true	rammed	stealing

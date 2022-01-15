@@ -1,0 +1,16 @@
+Text	http://voices. yahoo. com/krafts-food-shooter-yvonne-hiller-charged-two-6762404. html ? cat=17 Krafts Food Shooter Yvonne Hiller Charged with Two Counts of Murder Hiller Feuded with Co-Workers Prior to Shooting; Risk Factors and Prevention of Workplace Violence Sep 10, 2010 Yvonne Hiller, a suspended Kraft Foods employee at the company's Philadelphia factory, returned Thursday evening, gunned down two women and leaving a man wounded with shots to the neck and shoulder. Another man was also injured but not seriously. A few minutes after being escorted from the facility by security, Hiller drove her car through a security barrier and entered where roughly 100 people were. According to the Philadelphia Inquirer, she was carrying a. 357 Magnum handgun. According to the Huffington Post, police say Hiller feuded with her victims prior to their shooting deaths. Hiller made her way to the third-floor mixing room where she worked, located her victims in the break room, and opened fire. She also fired through a wall at police officers but none were hit. The SWAT team apprehended Yvonne Hiller while she hid in a second-floor office and she has been charged with two counts of murder. Kraft has closed the Philadelphia factory until further notice. Kraft Food's Susan Davison said, "This is a tragic loss for all of us. To assist our employees, we will be providing counseling services at the facility. At this time, we are still trying to confirm the facts. " Davison added, "We again express our deepest condolences to the families who have been touched by this tragedy. "
+Event	212	apprehended	Occurence	1074
+Event	217	hid	Occurence	1110
+Event	228	charged	Occurence	1156
+Event	233	murder	Occurence	1183
+Event	66	suspended	Occurence	292
+Event	90	shots	Occurence	442
+Event	76	returned	Occurence	362
+Event	35	Charged	Occurence	129
+Event	88	wounded	Occurence	429
+Event	40	Murder	Occurence	156
+Relation	35	40	SubSuper	true	Charged	Murder
+Relation	66	76	SuperSub	true	suspended	returned
+Relation	88	90	SubSuper	true	wounded	shots
+Relation	212	217	SubSuper	true	apprehended	hid
+Relation	228	233	SubSuper	true	charged	murder

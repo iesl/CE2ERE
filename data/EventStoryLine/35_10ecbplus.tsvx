@@ -1,0 +1,13 @@
+Text	http://tucsoncitizen. com/morgue/2009/02/04/109301-san-diego-lineman-arrested-on-suspicion-of-dui/San Diego lineman arrested on suspicion of DUI on Feb. 04, 2009 San Diego Chargers defensive tackle Jamal Williams was arrested on suspicion of drunken driving, the team's second such arrest in less than a month. Williams was pulled over for speeding early Sunday on a freeway outside downtown San Diego, the California Highway Patrol said. Williams gave a blood sample for a blood-alcohol test, but the results were not yet known. Williams was booked into county jail and later released on bail. The City Attorney's office said the case hadn ' t been submitted as of Tuesday. " It's disappointing to hear about the issue involving Jamal Williams, " general manager A. J. Smith said in a statement released by the team. " We ' ll continue to monitor the situation and let the legal process run its course. " The Chargers have always been leaders and positive contributors to our community, " Smith added. " We take our stature in the community very seriously. Through the Chargers and the NFL, our players receive one of the most comprehensive education and support programs in sports to help them deal with issues that affect all segments of society. " Smith didn ' t return a call seeking further comment. Chargers receiver Vincent Jackson was arrested for investigation of DUI on Jan. 6, five days before San Diego's playoff loss at Pittsburgh. Jackson is due in court Feb. 17. He was on probation for a previous DUI arrest, the CHP said. Williams, an 11-year veteran, shared the team's MVP Award with quarterback Philip Rivers this season.
+Event	127	released	Occurence	577
+Event	282	DUI	Occurence	1374
+Event	38	arrested	Occurence	116
+Event	147	Tuesday	Occurence	666
+Event	42	DUI	Occurence	141
+Event	144	submitted	Occurence	650
+Event	129	bail	Occurence	589
+Event	278	arrested	Occurence	1344
+Relation	147	144	SuperSub	true	Tuesday	submitted
+Relation	38	42	SubSuper	true	arrested	DUI
+Relation	127	129	SubSuper	true	released	bail
+Relation	278	282	SubSuper	true	arrested	DUI

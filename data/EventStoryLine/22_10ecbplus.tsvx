@@ -1,0 +1,36 @@
+Text	http://www. nbcphiladelphia. com/news/local/Trail-Begins-for-Kraft-Shooting-Suspect-169150416. html Trial Begins for Kraft Shooting Suspect The murder trial of a suspended female employee who allegedly shot and killed two co-workers two years ago starts Monday. Monday, Sep 10, 2012 | Updated 9:01 AM EDT The murder trial for the suspended Kraft foods employee accused of shooting three co-workers, killing two of them, starts Monday. Yvonne Hiller, 43, is charged with murder for the shooting deaths of two female co-workers in September 2010. Hiller is also charged with attempted murder for allegedly shooting and injuring a third co-worker. Police say that the shootings happened minutes after Hiller was suspended from her job at the Kraft Plant following an altercation with the three victims. They say she forced her way through security at gunpoint, walked into the employee lounge where the three victims were and shot them.
+Event	81	accused	Occurence	361
+Event	34	Shooting	Occurence	123
+Event	89	killing	Occurence	399
+Event	105	murder	Occurence	470
+Event	48	killed	Occurence	211
+Event	108	shooting	Occurence	485
+Event	41	suspended	Occurence	162
+Event	38	trial	Occurence	151
+Event	83	shooting	Occurence	372
+Event	30	Trial	Occurence	100
+Event	73	murder	Occurence	309
+Event	95	Monday	Occurence	427
+Event	129	shooting	Occurence	604
+Event	46	shot	Occurence	202
+Event	57	Monday	Occurence	254
+Event	131	injuring	Occurence	617
+Event	109	deaths	Occurence	494
+Event	74	trial	Occurence	316
+Relation	57	38	SubSuper	true	Monday	trial
+Relation	57	46	SubSuper	true	Monday	shot
+Relation	57	48	SubSuper	true	Monday	killed
+Relation	30	34	SubSuper	true	Trial	Shooting
+Relation	38	46	SubSuper	true	trial	shot
+Relation	38	48	SubSuper	true	trial	killed
+Relation	73	83	SubSuper	true	murder	shooting
+Relation	83	89	SuperSub	true	shooting	killing
+Relation	105	108	SubSuper	true	murder	shooting
+Relation	108	109	SuperSub	true	shooting	deaths
+Relation	129	131	SuperSub	true	shooting	injuring
+Relation	57	41	SubSuper	true	Monday	suspended
+Relation	95	74	SubSuper	true	Monday	trial
+Relation	95	81	SubSuper	true	Monday	accused
+Relation	95	83	SubSuper	true	Monday	shooting
+Relation	95	89	SubSuper	true	Monday	killing
+Relation	81	89	SubSuper	true	accused	killing

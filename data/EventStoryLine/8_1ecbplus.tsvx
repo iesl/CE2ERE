@@ -1,0 +1,50 @@
+Text	http://www. thenational. ae/news/world/europe/three-killed-as-rioters-bomb-greek-bank Three killed as rioters bomb Greek bank May 5, 2010 A firebomb attack on a bank in Greece killed at least three people today as police fought pitched battles with striking protesters furious at brutal budget cuts designed to avoid national bankruptcy. Hooded youths hurled petrol bombs at stores and businesses in the centre of the capital, Athens, and demonstrators tried to storm parliament during the general strike, as the rioting spread to the northern city of Thessaloniki. Police said two women and one man died at a branch of the Marfin bank which caught fire after hooded youths broke a window and hurled petrol bombs inside. Around 20 more people had to be ushered to safety. At least two other buildings, one used by tax officials, caught fire in other firebomb attacks on the margins of the protests. Athens underground stations were shut and the international airport deserted as tens of thousands of union members rallied on the eve of a vote in parliament on the planned cuts and tax rises. The general strike was the first major test of the Socialist government's resolve to push through unprecedented measures since agreeing an ? 110 billion ( Dh472. 72bn ) debt bailout from the EU and the International Monetary Fund at the weekend. Prime minister George Papandreou's insistence that the measures are vital for the nation's survival failed to dissuade unions from paralysing public transport and preventing ferries from leaving docks. After rallying in two separate demonstrations in central Athens, members of the main unions began converging on parliament, where the government was preparing for the measures to be voted on Thursday. "They're taking everything from me, I don't know how I'm going to get by, " said 61-year-old Anargyros Bizianis, a municipal worker in the Athens suburb of Piraeus who earns ? 900 ( Dh4, 275 ) a month. As the protesters tried to break through a police line in front of parliament, they first hurled stones and bottles of water, prompting the riot squad officers to fire back with tear gas. Full-scale clashes soon then erupted outside the building, with riot police trying to disperse the crowds with baton-charges. During the unrest, one protester threw a petrol bomb. Youths also went on the rampage in other parts of the capital, with several dozen youths hurling petrol bombs at stores and banks, and smashing shop windows and bus shelters with iron bars. Athens police chiefs mobilised all their forces, including those not on active duty, by declaring a general state of alert. The protesters in Thessaloniki targeted stores and banks in the city centre before they were dispersed by anti-riot police. A group of about 200 communists had stormed the Athens Acropolis yesterday, unfurling banners reading "Peoples of Europe, Rise Up. " The head of the million-member strong GSEE private sector union, Giannis Panagopoulos, said:"The Greek people have been called to make sacrifices while the rich pay nothing. " A government official downplayed the unrest saying that "for years there's been strikes and protests in this country without much consequence. " But markets reacted to the violence with alarm as Greek stocks plunged 5. 4 per cent. The government, pushed to the brink of default, agreed at the weekend to slash spending and jack up taxes in return for ? 110bn in loans over three years from eurozone countries and the International Monetary Fund. Among the major measures, the government is to cut 13th and 14th month bonus pay for civil servants and retirees; require three years more for pension contributions; and raise the retirement age for women to 65, the same level as men. After months of hesitation, eurozone countries and the IMF agreed to lend Greece billions of euros at below market rates after concerns that the Athens government's debt crisis could trigger a knock-on effect elsewhere. The German Chancellor, Angela Merkel, fighting accusations of holding up the bailout, said today that the Greek crisis underlined the need for an overhaul of the EU's fiscal rules. "The future of Europe and the future of Germany within Europe is at stake, " she told a debate on Berlin's decision to lend ? 22. 4bn to Greece.
+Event	105	rioting	Occurence	513
+Event	96	storm	Occurence	462
+Event	106	spread	Occurence	521
+Event	139	hurled	Occurence	693
+Event	63	furious	Occurence	269
+Event	54	today	Occurence	205
+Event	49	killed	Occurence	176
+Event	67	cuts	Occurence	294
+Event	101	strike	Occurence	498
+Event	59	battles	Occurence	236
+Event	135	broke	Occurence	674
+Event	34	bomb	Occurence	110
+Event	121	died	Occurence	600
+Event	72	bankruptcy	Occurence	326
+Event	31	killed	Occurence	92
+Event	57	fought	Occurence	221
+Event	68	designed	Occurence	299
+Event	70	avoid	Occurence	311
+Event	43	attack	Occurence	149
+Relation	54	43	SuperSub	true	today	attack
+Relation	54	49	SuperSub	true	today	killed
+Relation	54	57	SuperSub	true	today	fought
+Relation	54	59	SuperSub	true	today	battles
+Relation	54	63	NoRel	true	today	furious
+Relation	54	67	SuperSub	true	today	cuts
+Relation	54	96	SuperSub	true	today	storm
+Relation	54	101	SuperSub	true	today	strike
+Relation	54	105	SuperSub	true	today	rioting
+Relation	54	106	SuperSub	true	today	spread
+Relation	54	121	SuperSub	true	today	died
+Relation	54	135	SuperSub	true	today	broke
+Relation	54	139	SuperSub	true	today	hurled
+Relation	54	31	SuperSub	true	today	killed
+Relation	54	34	SuperSub	true	today	bomb
+Relation	31	34	SubSuper	true	killed	bomb
+Relation	43	49	SuperSub	true	attack	killed
+Relation	57	59	SubSuper	true	fought	battles
+Relation	59	63	SubSuper	true	battles	furious
+Relation	63	67	SubSuper	true	furious	cuts
+Relation	67	70	SuperSub	true	cuts	avoid
+Relation	96	101	SubSuper	true	storm	strike
+Relation	96	105	SubSuper	true	storm	rioting
+Relation	67	101	SuperSub	true	cuts	strike
+Relation	67	105	SuperSub	true	cuts	rioting
+Relation	54	72	SuperSub	true	today	bankruptcy
+Relation	54	68	SubSuper	true	today	designed
+Relation	49	57	SubSuper	true	killed	fought
+Relation	49	59	SubSuper	true	killed	battles
+Relation	43	67	SubSuper	true	attack	cuts

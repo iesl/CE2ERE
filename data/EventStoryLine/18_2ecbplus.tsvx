@@ -1,0 +1,16 @@
+Text	http://usatoday30. usatoday. com/news/nation/2007-04-09-office-shooting_N. htm 1 dead, 2 hurt in Mich. office shooting; police say suspect had worked there Updated 4/9/2007 6:04 PM A man suspected of shooting three people at an accounting firm where he had worked was arrested a few hours later after a high-speed chase, authorities said. One victim died in the Monday morning attack. Police said they had located Anthony LaCalamita, 38, of Troy on Interstate 75, north of the suburban Detroit office building where the shootings took place. ON DEADLINE:Live updates and local coverage Sheriff's deputies and state police chased him at speeds of more than 100 mph before he finally pulled over after about 15 minutes, Genesee County Undersheriff James Gage said. "He probably realized if he didn't, he was going to be shot, " Gage said. He said LaCalamita was being brought to Genesee County, since it was the arresting agency. Officers found a gun in the vehicle matching the description of the one used in the shootings, Troy police Lt. Gerry Scherlinck said. Some witnesses told police that when the shooter walked into the office on the building's second floor around 10 a.m. Monday, he looked as if he was trying to hide something, Troy Police Chief Charles Craft said. Police couldn't say how many shots were fired. "I'm not positive all three of the people were targeted, but there appeared to be some purpose, " Craft said. The families of the two wounded men requested "total privacy, " and the hospital would not release any details about their conditions, Beaumont Hospital spokeswoman Ilene Wolfe said. She said the third victim died on the way to the hospital. LaCalamita was listed among the professional staff on the website of Gordon Advisors, a public accounting and business consulting firm in the building. Calls to Gordon Advisors were not answered Monday afternoon, and a recording said the offices were closed. Scherlinck described the shooter as a former employee of one of the offices who might have been terminated as recently as a week ago. The man was armed with a long gun, either a shotgun or a rifle, Scherlinck said. The 170, 000-square-foot building houses a number of businesses, including law offices and the accounting firm where the shooting was believed to have occurred. Police at first told workers to stay in their offices but a short time later evacuated the building, about 15 miles north of Detroit. Bill Adgate, who works at LPL Financial inside the building, said he had hunkered down inside the office for a couple of hours with furniture pushed up against the door. He said police told the group to stay put until officers allowed them to leave. "It's tough. I want to get out, " Adgate said by telephone.
+Event	81	chase	Occurence	314
+Event	88	died	Occurence	350
+Event	29	dead	Occurence	81
+Event	32	hurt	Occurence	89
+Event	57	suspected	Occurence	187
+Event	37	shooting	Occurence	110
+Event	71	arrested	Occurence	268
+Event	93	attack	Occurence	377
+Relation	29	37	SubSuper	true	dead	shooting
+Relation	32	37	SubSuper	true	hurt	shooting
+Relation	57	71	SuperSub	true	suspected	arrested
+Relation	71	81	SubSuper	true	arrested	chase
+Relation	88	93	SubSuper	true	died	attack
+Relation	37	88	SuperSub	true	shooting	died
+Relation	37	71	SuperSub	true	shooting	arrested

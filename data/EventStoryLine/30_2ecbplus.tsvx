@@ -1,0 +1,25 @@
+Text	http://www. techegypt. com/article/127/title/Undersea-internet-cables-severed-near-Egyptian-coast-line August 17, 2011 Undersea internet cables severed near Egyptian coast line Have you experienced any internet connection or mobile phone problems yesterday ! ? It seems that another incident of an undersea telecommunications cable being severed on Tuesday has resulted in partially blocking internet and mobile services in Alexandria and some other governorates. In a statement to Al-Masry Al-Youm news paper, Mahmoud Al-Goweiny, a member of the National Telecommunications Regulatory Authority's board of directors said that the cable cut happened around the same time that a different cable, owned by Telecom Egypt, was also cut, affecting services in Egypt. He also iterated that this particular undersea cable has frequently malfunctioned since late 2007. This cable is most likely to be the SEA-ME-WE 4 that passes through Egypt coming from Europe and then reaches Asia. Despite the after effects of this cable cut seems to be limited, however these incidents have been occurring more than once in a relatively short period of time. Severing a main internet pipe-line could leave a country's communication and economy crippled for at least 72 to 120 hours causing a lot of problems ! It should be time to re-think protecting these valuable communication life lines ! Etisalat Egypt and LinkdotNet are one of Egypt's largest internet service providers, and among the most affected by the cable cut. No further details were reported by Authorities about the effects of the cable cuts.
+Event	79	services	Occurence	412
+Event	138	cut	Occurence	728
+Event	72	resulted	Occurence	361
+Event	61	incident	Occurence	283
+Event	141	services	Occurence	743
+Event	39	severed	Occurence	144
+Event	75	blocking	Occurence	383
+Event	68	severed	Occurence	338
+Event	120	cut	Occurence	637
+Event	70	Tuesday	Occurence	349
+Event	140	affecting	Occurence	733
+Relation	70	39	SuperSub	true	Tuesday	severed
+Relation	70	61	SuperSub	true	Tuesday	incident
+Relation	70	68	SuperSub	true	Tuesday	severed
+Relation	70	72	SuperSub	true	Tuesday	resulted
+Relation	70	75	NoRel	true	Tuesday	blocking
+Relation	70	120	SuperSub	true	Tuesday	cut
+Relation	70	138	SuperSub	true	Tuesday	cut
+Relation	70	79	NoRel	true	Tuesday	services
+Relation	39	75	SuperSub	true	severed	blocking
+Relation	120	140	SuperSub	true	cut	affecting
+Relation	138	140	SuperSub	true	cut	affecting
+Relation	140	141	SuperSub	true	affecting	services
+Relation	68	75	SuperSub	true	severed	blocking

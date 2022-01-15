@@ -1,0 +1,56 @@
+Text	http://articles. latimes. com/2005/nov/28/world/fg-quake28 Earthquake Levels Villages on Iranian Island of Qeshm Ten people are killed and about 50 hurt. U. S. Geological Survey puts the magnitude at 6. 1. November 28, 2005 Ten people were killed and at least 50 injured when an earthquake razed mud-brick villages on the Persian Gulf island of Qeshm off Iran's southern coast Sunday, officials and state media said. Tehran's seismologic center put the quake's magnitude at 5. 9, but the U. S. Geological Survey in Golden, Colo., said it was 6. 1. A magnitude 6 quake can cause severe damage. The temblor was felt across the gulf in Oman and the United Arab Emirates. State-run TV reported that the island's airport sustained minor damage, and part of a hospital collapsed. No further details on structural damage were provided. State media said three strong aftershocks were felt. "The earthquake was really strong, and people poured into the streets in panic. My husband immediately rushed off to one of the stricken villages, " said Sara Sadeqi, 22, a homemaker in Qeshm City. State television quoted the disaster center in the province of Hormozgan as saying 10 people were killed. Qeshm Gov. Heidar Alishvandi said 50 were injured. Mohsen Kazemi from Iran's Red Crescent relief agency said the four hardest-hit villages were Tonban, Gavarzin, Khaledin and Gourian. Qeshm is the biggest island in the gulf and is a free-trade zone with a population of more than 100, 000. It is famed for its palm forests, and its beaches are much loved by tourists and nesting sea turtles.
+Event	186	felt	Occurence	876
+Event	65	injured	Occurence	263
+Event	189	earthquake	Occurence	887
+Event	60	killed	Occurence	240
+Event	192	strong	Occurence	909
+Event	269	hit	Occurence	1312
+Event	22	Earthquake	Occurence	59
+Event	184	aftershocks	Occurence	859
+Event	201	panic	Occurence	955
+Event	69	razed	Occurence	290
+Event	244	killed	Occurence	1178
+Event	37	hurt	Occurence	148
+Event	85	Sunday	Occurence	377
+Event	254	injured	Occurence	1228
+Event	159	sustained	Occurence	716
+Event	23	Levels	Occurence	70
+Event	33	killed	Occurence	128
+Event	168	collapsed	Occurence	763
+Event	161	damage	Occurence	732
+Event	68	earthquake	Occurence	279
+Event	196	poured	Occurence	928
+Relation	85	22	SuperSub	true	Sunday	Earthquake
+Relation	85	23	SuperSub	true	Sunday	Levels
+Relation	85	33	SuperSub	true	Sunday	killed
+Relation	85	37	SuperSub	true	Sunday	hurt
+Relation	85	60	SuperSub	true	Sunday	killed
+Relation	85	65	SuperSub	true	Sunday	injured
+Relation	85	68	SuperSub	true	Sunday	earthquake
+Relation	85	69	SuperSub	true	Sunday	razed
+Relation	85	159	SuperSub	true	Sunday	sustained
+Relation	85	168	SuperSub	true	Sunday	collapsed
+Relation	85	184	SuperSub	true	Sunday	aftershocks
+Relation	85	186	SuperSub	true	Sunday	felt
+Relation	85	189	SuperSub	true	Sunday	earthquake
+Relation	85	192	SuperSub	true	Sunday	strong
+Relation	85	196	SuperSub	true	Sunday	poured
+Relation	85	201	SuperSub	true	Sunday	panic
+Relation	85	244	SuperSub	true	Sunday	killed
+Relation	85	254	SuperSub	true	Sunday	injured
+Relation	85	269	SuperSub	true	Sunday	hit
+Relation	22	23	SuperSub	true	Earthquake	Levels
+Relation	22	33	SuperSub	true	Earthquake	killed
+Relation	22	37	SuperSub	true	Earthquake	hurt
+Relation	60	68	SubSuper	true	killed	earthquake
+Relation	65	68	SubSuper	true	injured	earthquake
+Relation	68	69	SuperSub	true	earthquake	razed
+Relation	68	161	SuperSub	true	earthquake	damage
+Relation	68	168	SuperSub	true	earthquake	collapsed
+Relation	68	184	SuperSub	true	earthquake	aftershocks
+Relation	189	196	SuperSub	true	earthquake	poured
+Relation	189	201	SuperSub	true	earthquake	panic
+Relation	189	244	SuperSub	true	earthquake	killed
+Relation	189	254	SuperSub	true	earthquake	injured
+Relation	189	269	SuperSub	true	earthquake	hit
+Relation	184	186	SuperSub	true	aftershocks	felt

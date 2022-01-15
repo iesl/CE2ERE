@@ -1,0 +1,18 @@
+Text	http://brutegorilla. blogspot. nl/2011/11/anti-piracy-ops-by-ins-sukanya. html Friday, November 11, 2011 Anti Piracy Ops by INS Sukanya Indian Naval Ship Sukanya, presently deployed on anti-piracy patrols in the Gulf of Aden under the operational control of the Western Naval Command, found herself once again in the thick of things, thwarting a multiple-boat piracy attack on 10 Nov 11. The ship was escorting a group of five merchant vessels through the IRTC ( Internationally Recognised Transit Corridor ) when, at about 9:25 in the morning of 10th Nov, she detected a group of five suspicious boats, speedily approaching the merchant vessels of her group. The warship immediately altered towards the suspicious vessels and challenged them. On seeing the resolve evident in the warship's action and probably mindful of the reputation for resolute action that the Indian Navy justly enjoys in such deployments, the pirate skiffs reversed course and tried to flee the area. While two of them managed to get away, the Sukanya successfully intercepted the remaining three and carried out well practiced and professionally executed boarding-and-search action. The three boats had a total of 26 Somali crew onboard. During the operation, six AK 47 rifles, 12 Magazines and about 300 rounds of ammunition were found and confiscated. In addition, the boarding party also found a host of other equipment such as grapnels, ladders and rope-handling gloves all of which confirmed their piratical intent. The timely operation by Sukanya resulted, once again, in foiling the pirates' intention of attacking merchant vessels transiting this busy sea lane through which over a hundred Billion Dollars of India's external trade passes each year. This is the fifth successful anti-piracy operation conducted by Sukanya, in the course of her ongoing patrol mission in the Gulf of Aden, which commenced in September. The ship has, thus far, confiscated a total of 14 AK 47 Rifles, 31 Magazines and 923 rounds of ammunition, thereby ensuring that the Indian Navy retains its standing as a force not to be trifled with, and remains at the forefront of anti-piracy operations, as a critical component of the international effort to curb piracy and ensure the safety and freedom of seaborne trade, even in this highly risk-prone area.
+Event	355	commenced	Occurence	1877
+Event	335	operation	Occurence	1774
+Event	357	September	Occurence	1890
+Event	77	thwarting	Occurence	334
+Event	346	patrol	Occurence	1835
+Event	336	conducted	Occurence	1784
+Event	46	deployed	Occurence	173
+Event	347	mission	Occurence	1842
+Event	51	patrols	Occurence	197
+Relation	357	347	SubSuper	true	September	mission
+Relation	357	355	SubSuper	true	September	commenced
+Relation	46	77	SuperSub	true	deployed	thwarting
+Relation	51	77	SuperSub	true	patrols	thwarting
+Relation	335	347	SubSuper	true	operation	mission
+Relation	357	346	SubSuper	true	September	patrol
+Relation	357	335	SuperSub	true	September	operation
+Relation	357	336	SuperSub	true	September	conducted

@@ -1,0 +1,75 @@
+Text	http://usatoday30. usatoday. com/news/world/2010-05-05-greece-strike-crisis_N. htm Three die in bank during Greek riots Updated 5/5/2010 1:41 PM Riots over harsh new austerity measures left three bank workers dead and engulfed the streets of Athens on Wednesday, as angry protesters tried to storm parliament, hurled Molotov cocktails at police and torched buildings. Police responded with barrages of tear gas. Tens of thousands of people took to the streets in a nationwide strike to protest new taxes and government spending cuts demanded by the International Monetary Fund and other European nations before heavily indebted Greece gets a euro110 billion ( $141 billion ) loan package to keep it from defaulting. The three bank workers a man and two women died after demonstrators set their bank on fire along the main demonstration route in central Athens. As their colleagues sobbed in the street, five other bank workers were rescued from the balcony of the burning building. "A demonstration is one thing and murder is quite another ! " Prime Minister George Papandreou thundered in Parliament during a session to discuss the spending cuts he announced Sunday measures even the IMF has called draconian. Lawmakers held a minute of silence for the dead the first deaths during a protest in Greece since 1991. "We are all concerned by Greece's economic and budgetary situation but at this time our thoughts are with the human victims in Athens, " European Union President Herman Van Rompuy said in Brussels. A senior fire department official said demonstrators prevented firefighters from reaching the burning building, costing them vital time. "Several crucial minutes were lost, " the official said, visibly upset. "If we had intervened earlier, the loss of life could have been prevented. " He asked not to be identified pending an official announcement. In Berlin, German Chancellor Angela Merkel called the Greek bailout critical for all of Europe. "Nothing less than the future of Europe, and with that the future of Germany in Europe, is at stake, " Merkel told lawmakers in Berlin, urging them to quickly pass the country's share of the bailout euro22 billion ( $28 billion ) over three years by Friday. "We are at a fork in the road. " Greece faces a May 19 due date on debt it says it can't repay without the help. In Brussels, European Union officials desperately tried to calm market fears that Greece's debt crisis was spreading to the rest of Europe, insisting it was a "unique case" combining profligacy and tampered accounts. Van Rompuy insisted the growing debt problems in Spain and Portugal had "absolutely nothing to do with the situation in Greece. " "Greece is a unique and particular case in the EU" because of its "precarious debt dynamics" and because it "has cheated with its statistics for years and years, " EU Commissioner Olli Rehn said. But Moody's Investor Services, a major ratings agency, put Portugal's bond rating on review for possible downgrade Wednesday. Spanish and Portuguese bonds and stocks slumped further on the news, reflecting fears that they may also have trouble repaying their debt and that the eurozone would have to extend even larger bailouts to them. On the streets of Athens, demonstrators chanted "Thieves, thieves ! " as they attempted to break through a riot police cordon guarding Parliament and chased ceremonial guards away from the Tomb of the Unknown Soldier in front of the building. Tear gas drifted across the city center as rioters hurled paving stones and fire bombs at police. Firefighters extinguished blazes at least two buildings the bank and a branch of the Finance Ministry while protesters set up burning barricades and torched cars and a fire truck. Police said 12 people were injured in the riots. The marches came amid a 24-hour nationwide general strike that grounded all flights to and from Greece, shut down ports, schools and government services, and left hospitals working with emergency medical staff. The Acropolis and all other ancient sites were closed and journalists also walked off the job, suspending television and radio news broadcasts. But media later broke the strike to report on the deaths and the protests. Violence also broke out in the northern city of Thessaloniki, where another 20, 000 people marched through the city center and some youths smashed store windows. Union reaction over austerity measures until now had been relatively muted by Greece's volatile standards, despite several previous strikes. But anger mounted after Papandreou announced cuts in salaries and pensions for civil servants and another round of consumer tax increases. Papandreou said he has no choice but to implement the measures if Greece was to avoid bankruptcy. "There was only one other solution for the country to default, taking the citizenry with it. And that would not have affected the rich, it would have affected workers and pensioners, " he told Parliament on Wednesday. "That was a real possibility, however nightmarish. " Under the bailout package, Greece will receive loans over three years from the IMF and the other 15 countries who share the euro currency. The rescue aims to prevent Athens' debt troubles from becoming a wider crisis for the euro. But the rioting underlined skepticism that the Greek government could keep up its end of the bargain, helping drive the euro below $1. 29 for the first time in over a year. Even with the bailout, many economists think Greece will eventually default on or restructure its debts because its prospects for economic growth are so poor over the next several years, hurting government revenue. Some fear the austerity measures insisted upon by the EU and IMF could make prospects for growth even worse. Unions say low-income Greeks will suffer disproportionately from the latest austerity measures, which aim to save euro30 billion ( $40 billion ) the country's current budget deficit through 2012. "These people are losing their rights, they are losing their future, " said Yiannis Panagopoulos, head of GSEE, one of the two largest unions. "The country cannot surrender without a fight. " IMF chief Dominique Strauss-Kahn warned that the crisis could spread to other countries despite the rescue package's efforts to contain it. "Everyone must remain extremely vigilant" to this risk, Strauss-Kahn said in an interview in French newspaper Le Parisien Wednesday. "I completely understand the Greek population's anger, its incomprehension at the size of the economic catastrophe, " Strauss-Kahn said. But, he said, Greeks must also understand that without these measures "the situation would be infinitely more serious. " The draft bill of the new austerity measures is to be voted on Thursday. Papandreou's Socialists hold a comfortable majority of 160 in the 300-seat Parliament and the bill is expected to pass easily.
+Event	104	strike	Occurence	476
+Event	618	guarding	Occurence	3336
+Event	65	Wednesday	Occurence	252
+Event	658	blazes	Occurence	3577
+Event	602	chanted	Occurence	3250
+Event	106	protest	Occurence	486
+Event	81	torched	Occurence	349
+Event	112	cuts	Occurence	528
+Event	152	died	Occurence	759
+Event	798	smashed	Occurence	4349
+Event	36	riots	Occurence	114
+Event	691	injured	Occurence	3758
+Event	85	responded	Occurence	375
+Event	790	marched	Occurence	4301
+Event	59	engulfed	Occurence	218
+Event	47	Riots	Occurence	145
+Event	647	hurled	Occurence	3504
+Event	679	torched	Occurence	3700
+Event	141	defaulting	Occurence	704
+Event	75	hurled	Occurence	310
+Event	694	riots	Occurence	3773
+Event	640	drifted	Occurence	3462
+Event	657	extinguished	Occurence	3564
+Event	72	storm	Occurence	292
+Event	676	burning	Occurence	3677
+Event	621	chased	Occurence	3360
+Event	31	die	Occurence	89
+Event	57	dead	Occurence	209
+Event	773	Violence	Occurence	4210
+Relation	65	47	SuperSub	true	Wednesday	Riots
+Relation	65	57	SuperSub	true	Wednesday	dead
+Relation	65	59	SuperSub	true	Wednesday	engulfed
+Relation	65	36	SuperSub	true	Wednesday	riots
+Relation	65	75	SuperSub	true	Wednesday	hurled
+Relation	65	72	SuperSub	true	Wednesday	storm
+Relation	65	81	SuperSub	true	Wednesday	torched
+Relation	65	85	SuperSub	true	Wednesday	responded
+Relation	65	104	SuperSub	true	Wednesday	strike
+Relation	65	106	SuperSub	true	Wednesday	protest
+Relation	65	31	SuperSub	true	Wednesday	die
+Relation	65	152	SuperSub	true	Wednesday	died
+Relation	65	602	SuperSub	true	Wednesday	chanted
+Relation	65	694	SuperSub	true	Wednesday	riots
+Relation	65	618	SuperSub	true	Wednesday	guarding
+Relation	65	621	SuperSub	true	Wednesday	chased
+Relation	65	640	SuperSub	true	Wednesday	drifted
+Relation	65	647	SuperSub	true	Wednesday	hurled
+Relation	65	657	SuperSub	true	Wednesday	extinguished
+Relation	65	658	SuperSub	true	Wednesday	blazes
+Relation	65	676	SuperSub	true	Wednesday	burning
+Relation	65	691	SuperSub	true	Wednesday	injured
+Relation	65	679	SuperSub	true	Wednesday	torched
+Relation	65	773	SuperSub	true	Wednesday	Violence
+Relation	65	790	SuperSub	true	Wednesday	marched
+Relation	65	798	SuperSub	true	Wednesday	smashed
+Relation	31	36	SubSuper	true	die	riots
+Relation	47	57	SuperSub	true	Riots	dead
+Relation	47	72	SuperSub	true	Riots	storm
+Relation	47	75	SuperSub	true	Riots	hurled
+Relation	47	81	SuperSub	true	Riots	torched
+Relation	47	85	SuperSub	true	Riots	responded
+Relation	104	106	SubSuper	true	strike	protest
+Relation	106	112	SubSuper	true	protest	cuts
+Relation	112	141	SuperSub	true	cuts	defaulting
+Relation	621	694	SubSuper	true	chased	riots
+Relation	640	694	SubSuper	true	drifted	riots
+Relation	647	694	SubSuper	true	hurled	riots
+Relation	657	658	SubSuper	true	extinguished	blazes
+Relation	658	694	SubSuper	true	blazes	riots
+Relation	676	694	SubSuper	true	burning	riots
+Relation	679	694	SubSuper	true	torched	riots
+Relation	691	694	SubSuper	true	injured	riots
+Relation	773	798	SuperSub	true	Violence	smashed
+Relation	104	112	SubSuper	true	strike	cuts

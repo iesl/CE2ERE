@@ -1,0 +1,32 @@
+Text	http://www. huffingtonpost. com/2013/06/06/esther-williams-dead-dies_n_3397642. html Esther Williams Dead:Technicolor Star Dies At Age 91 06/06/13 07:05 PM ET EDT The self-described "Million Dollar Mermaid, " whose wholesome beauty, shapely figure and aquatic skills launched an entire genre of movies-the Technicolor "aqua musicals"-died Thursday at 91. She also was a favorite swimsuit pinup for GI's in World War II, and a refreshing presence among MGM's stellar gallery-warm, breezy, with a frankness and self-deprecating humor that delighted interviewers. As news of her death spread Thursday, pinup shots of her circulated on Twitter. Lamas' son, actor Lorenzo Lamas, tweeted Thursday:"My stepmom Esther Williams passed peacefully this morning.
+Event	79	musicals"	Occurence	324
+Event	130	spread	Occurence	582
+Event	115	frankness	Occurence	495
+Event	137	circulated	Occurence	618
+Event	122	delighted	Occurence	537
+Event	111	breezy	Occurence	480
+Event	82	Thursday	Occurence	339
+Event	69	launched	Occurence	267
+Event	129	death	Occurence	576
+Event	149	Thursday	Occurence	682
+Event	131	Thursday	Occurence	589
+Event	155	passed	Occurence	719
+Event	120	humor	Occurence	526
+Event	109	warm	Occurence	474
+Event	126	news	Occurence	564
+Event	32	Dead	Occurence	101
+Event	36	Dies	Occurence	123
+Relation	82	69	SubSuper	true	Thursday	launched
+Relation	82	79	SubSuper	true	Thursday	musicals"
+Relation	82	115	SubSuper	true	Thursday	frankness
+Relation	131	126	SuperSub	true	Thursday	news
+Relation	131	129	SuperSub	true	Thursday	death
+Relation	131	130	SuperSub	true	Thursday	spread
+Relation	131	137	SuperSub	true	Thursday	circulated
+Relation	149	155	SuperSub	true	Thursday	passed
+Relation	109	122	SuperSub	true	warm	delighted
+Relation	111	122	SuperSub	true	breezy	delighted
+Relation	115	122	SuperSub	true	frankness	delighted
+Relation	120	122	SuperSub	true	humor	delighted
+Relation	129	137	SuperSub	true	death	circulated
+Relation	32	36	SuperSub	true	Dead	Dies

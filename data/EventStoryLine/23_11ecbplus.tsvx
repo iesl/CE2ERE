@@ -1,0 +1,20 @@
+Text	http://news. sky. com/story/1142198/new-zealand-british-climber-killed-in-fall New Zealand:British Climber Killed In Fall 8:05am UK, Monday 16 September 2013 A 32-year-old British climber, described as "lacking experience", dies after falling from a mountain in New Zealand. A British man has been killed after falling around 2, 000ft while climbing in New Zealand. Robert Buckley, 32, was climbing to a small hut on Mount Sefton in the Aoraki-Mt Cook National Park on Saturday. He was wearing crampons but was inexperienced, local police inspector Dave Gaskin said. His body was recovered by a team of rescuers on Sunday afternoon after previous attempts proved unsuccessful. Three climbers who were with Mr Buckley were rescued after spending the night on the mountain. They were also released after being examined by medics. Mr Gaskin said:"There was a lot of snow and ice in very steep conditions. "It appears as if the party were insufficiently equipped and inexperienced for the climb they had undertaken. " Mr Buckley's death came a day after 36-year-old Duncan Raite died when he slipped and fell around 200ft from a ridge in the same national park. The New Zealand-born man, who lived in Australia, had been dropped off by helicopter and was walking to a hut when he fell in the Tasman Glacier area. Mr Gaskin said the deaths were a reminder that climbers needed to use extreme caution. He said:"I can't speak for the first death, but in this case it looks like to be a lack of experience. " A Foreign Office spokeswoman said:"We are aware of the death of a British man in New Zealand. "We are providing consular assistance at this time. "
+Event	227	fell	Occurence	1100
+Event	59	dies	Occurence	224
+Event	61	falling	Occurence	235
+Event	76	falling	Occurence	311
+Event	82	climbing	Occurence	341
+Event	225	slipped	Occurence	1088
+Event	259	walking	Occurence	1251
+Event	35	Fall	Occurence	117
+Event	33	Killed	Occurence	107
+Event	74	killed	Occurence	298
+Event	265	fell	Occurence	1276
+Event	222	died	Occurence	1075
+Relation	33	35	SubSuper	true	Killed	Fall
+Relation	59	61	SubSuper	true	dies	falling
+Relation	74	76	SubSuper	true	killed	falling
+Relation	76	82	SubSuper	true	falling	climbing
+Relation	222	227	SubSuper	true	died	fell
+Relation	225	227	SuperSub	true	slipped	fell
+Relation	259	265	SuperSub	true	walking	fell

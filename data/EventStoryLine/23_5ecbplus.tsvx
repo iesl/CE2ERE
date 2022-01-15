@@ -1,0 +1,27 @@
+Text	http://www. bbc. co. uk/news/world-24104939 16 September 2013 Last updated at 12:42 GMT Briton dies in New Zealand's Aoraki Mount Cook National Park A British climber has fallen 2, 000ft to his death on a mountain in New Zealand, police there have said. Robert Buckley, 32, died while climbing to a hut on Mount Sefton in the Aoraki Mount Cook National Park on Saturday. Police inspector Dave Gaskin said Mr Buckley was well equipped at the time but was an inexperienced climber. A Foreign Office spokeswoman said:"We are aware of the death of a British man in New Zealand. We are providing consular assistance at this time. " Extreme caution Mr Buckley, originally from Essex in the UK, lived in New Zealand, says the Press Association news agency. His body was recovered by a team of rescuers on Sunday afternoon after attempts on Saturday were unsuccessful, according to local media reports. Three climbers with Mr Buckley were said to have been rescued after spending the night on the mountain. They were were released after a medical examination. Mr Buckley's death came a day after 36-year-old Duncan Rait was killed after slipping and falling 200ft from a ridge in the same national park. The New Zealander, who lived in Australia, had been been dropped off by helicopter and was walking to a hut when he fell in the Tasman Glacier area. Inspector Gaskin said the deaths were a reminder that climbers needed to use extreme caution. "I can't speak for the first death but in this case it looks like to be a lack of experience, " he told the Timaru Herald.
+Event	228	slipping	Occurence	1129
+Event	48	death	Occurence	194
+Event	66	died	Occurence	274
+Event	83	Saturday	Occurence	361
+Event	42	fallen	Occurence	171
+Event	213	death	Occurence	1065
+Event	29	dies	Occurence	95
+Event	68	climbing	Occurence	285
+Event	230	falling	Occurence	1142
+Event	226	killed	Occurence	1116
+Event	259	walking	Occurence	1287
+Event	265	fell	Occurence	1312
+Relation	83	29	SuperSub	true	Saturday	dies
+Relation	83	42	SuperSub	true	Saturday	fallen
+Relation	83	48	SuperSub	true	Saturday	death
+Relation	83	66	SuperSub	true	Saturday	died
+Relation	83	68	SuperSub	true	Saturday	climbing
+Relation	29	42	SubSuper	true	dies	fallen
+Relation	42	48	SuperSub	true	fallen	death
+Relation	66	68	SubSuper	true	died	climbing
+Relation	42	68	SubSuper	true	fallen	climbing
+Relation	42	66	SuperSub	true	fallen	died
+Relation	226	230	SubSuper	true	killed	falling
+Relation	228	230	SuperSub	true	slipping	falling
+Relation	259	265	SuperSub	true	walking	fell
+Relation	213	230	SubSuper	true	death	falling

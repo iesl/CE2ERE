@@ -1,0 +1,48 @@
+Text	http://www. huffingtonpost. com/2011/11/10/sudan-bombs-south-sudanese-refugee-camp_n_1086031. html Sudan Bombs South Sudanese Refugee Camp, Reports Say 11/10/11 02:39 PM ET Military aircraft from Sudan crossed the new international border with South Sudan and dropped bombs Thursday in and around a camp filled with refugees, officials said. A government official initially reported deaths, but an American activist who spoke to aid workers at the camp later said there were no casualties. There was no immediate comment from the Sudanese government in Khartoum on Thursday, as deadly fighting broke out in the Sudanese state of South Kordofan between the military and forces loyal to South Sudan, according to official Sudanese media. Meanwhile, the violence in and near the Yida refugee camp, located 10 miles ( 15 kilometers ) south of the border, came one day after bombings were reported in another region of South Sudan, an attack that provoked strong condemnation from the U. S. State Department. The president of South Sudan, which became the world's newest country only four months ago, said he fears the Khartoum-based government intends to invade the south soon. "Whatever allegations Khartoum labels against the Republic of South Sudan are baseless, but intended to justify his pending invasion of the south, " President Salva Kiir said. He later added:"We are committed to peaceful resolutions to any conflict but we will never allow our sovereignty to be violated by anybody. " The violence is especially troubling given the history between the two sides:The black African tribes of South Sudan and the mainly Arab north battled two civil wars over more than five decades, and some 2 million died in the latest war, from 1983-2005. A peace deal ended the war and South Sudan became its own country in July after a successful independence referendum. But there have been lingering disputes over border demarcation and oil-sharing revenues. Ryan Boyette, a former aid worker who lives in Sudan who is now leading a team of 15 citizen journalists, said he talked to five aid workers in the Yida camp, all of whom said that four bombs were dropped but that they caused no casualties. Boyette said a U. N. helicopter had landed on a nearby airstrip right as the first bomb hit. One of the bombs landed in a school yard where about 300 students were attending class, but the bomb did not explode, Boyette said, citing aid workers at the camp. Aleem Siddique, a U. N. spokesman in South Sudan, said:"We're concerned for the safety of civilians in the area following reports of explosions and we are liaising with the authorities. " Jonathan Hutson, a spokesman for the U. S. advocacy group the Enough Project, said aid workers inside the Yida refugee camp said at least one bomb landed in the camp, and three or four fell outside it. The aid workers or their groups could not be named for security reasons, Hutson said. Hutson said at least 15, 000 refugees who fled violence in Sudan are living in the Yida camp. They walked at least seven days to reach the camp, he said. Miabek Lang, the commissioner of Pariang County in South Sudan's Unity State, said earlier that 12 people were killed and 20 were wounded in Thursday's bombing. Lang could not be reached again for clarification on the conflicting reports. The Wednesday bombings in Upper Nile state sparked condemnation from the U. S. State Department, which said the "unacceptable and unjustified" attacks increase the potential of conflict between Sudan and South Sudan. South Sudan's president said Thursday that seven people were killed in those bombings. John Prendergast, the co-founder of the Enough Project, said the regime in Khartoum, Sudan's capital, is attempting to provoke South Sudan into restarting a war. "The regime's end game is to either capture South Sudan's oil fields along their common border, or achieve a stronger negotiating position on shared oil revenues and border demarcation, " Prendergast said. "This provocation must be countered by the full force of the international community, or else a massive war could unfold. " South Sudan's oil reserves must be pumped through pipelines that run through Sudan. Splitting the oil revenues has long been a major sticking point between the two sides. Another major issue is the demarcation of the border. Though the countries are now separate an official border has not yet been laid down. Sudan has accused South Sudan of arming pro-South Sudan groups in its territory. But Kiir said Thursday that the accusations from Khartoum are "smoke screens" to mask Sudan's support of armed groups fighting a proxy war against South Sudan. His comments came as Sudan said an unspecified number of rebels, soldiers and civilians were killed in clashes in the border state of South Kordofan in the town of Talodi on Thursday. Sudanese Army spokesman Khaled Saad, quoted in the official news agency SUNA, said the military had repelled a planned attack by forces loyal to the southern movement, or Sudan People's Liberation Army, who hail from a minority ethnic group now in control of much of South Sudan.
+Event	589	fled	Occurence	2969
+Event	105	casualties	Occurence	478
+Event	66	dropped	Occurence	260
+Event	436	landed	Occurence	2230
+Event	463	class	Occurence	2368
+Event	446	hit	Occurence	2282
+Event	35	Bombs	Occurence	105
+Event	425	casualties	Occurence	2182
+Event	590	violence	Occurence	2974
+Event	452	landed	Occurence	2304
+Event	86	deaths	Occurence	383
+Event	419	dropped	Occurence	2150
+Event	462	attending	Occurence	2358
+Event	74	filled	Occurence	304
+Event	470	explode	Occurence	2396
+Event	594	living	Occurence	2996
+Event	57	crossed	Occurence	202
+Event	68	Thursday	Occurence	274
+Event	385	lives	Occurence	1991
+Relation	68	35	SuperSub	true	Thursday	Bombs
+Relation	68	57	SuperSub	true	Thursday	crossed
+Relation	68	66	SuperSub	true	Thursday	dropped
+Relation	68	74	NoRel	true	Thursday	filled
+Relation	68	86	SuperSub	true	Thursday	deaths
+Relation	68	419	SuperSub	true	Thursday	dropped
+Relation	68	425	SuperSub	true	Thursday	casualties
+Relation	68	436	SuperSub	true	Thursday	landed
+Relation	68	446	SuperSub	true	Thursday	hit
+Relation	68	452	SuperSub	true	Thursday	landed
+Relation	68	462	SuperSub	true	Thursday	attending
+Relation	68	470	SuperSub	true	Thursday	explode
+Relation	68	463	SuperSub	true	Thursday	class
+Relation	35	57	SubSuper	true	Bombs	crossed
+Relation	35	66	SubSuper	true	Bombs	dropped
+Relation	35	86	SuperSub	true	Bombs	deaths
+Relation	66	86	SuperSub	true	dropped	deaths
+Relation	66	105	SuperSub	true	dropped	casualties
+Relation	35	105	SuperSub	true	Bombs	casualties
+Relation	57	66	SuperSub	true	crossed	dropped
+Relation	419	425	SuperSub	true	dropped	casualties
+Relation	419	436	SuperSub	true	dropped	landed
+Relation	419	446	SuperSub	true	dropped	hit
+Relation	419	452	SuperSub	true	dropped	landed
+Relation	419	470	SuperSub	true	dropped	explode
+Relation	589	590	SubSuper	true	fled	violence
+Relation	589	594	SuperSub	true	fled	living
+Relation	385	425	SuperSub	true	lives	casualties

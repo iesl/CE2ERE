@@ -1,0 +1,19 @@
+Text	http://www. bbc. co. uk/news/world-africa-15678261 11 November 2011 Last updated at 12:41 GMT Sudan 'bombs refugees' in South Sudan's Unity state South Sudanese officials have condemned Sudan after an aerial bombardment of a refugee camp in their territory. The BBC's James Copnall was at the Yida camp in oil-rich Unity State, which borders Sudan, when it was bombed. Local official Miabek Lang said at least 12 people had been killed and 20 wounded. The Sudanese military, which has been fighting rebels in areas near South Sudan, has denied the claims. Our reporter says he arrived at the camp at about 12:00 GMT on Thursday as a second round of bombs hit. He says that just as a UN helicopter, carrying food aid, settled on to a makeshift landing zone at the camp, there was a deep and terrifying thud of a nearby explosion. A large plane was spotted heading to the north, our reporter says. 'Completely false' Several residents of the refugee camp told him it was an Antonov plane, often used by the Sudanese government as a makeshift bomber. The refugees said the plane had circled before launching two bombing raids. Five bombs were dropped, of which four exploded, they told our correspondent. Our reporter says he did not see any casualties, but Mr Lang, the commissioner of Pariang county in Unity state, said that 12 people had been killed and the death toll could rise. Incidents like this, and both sides' belief that the other is sponsoring rebels on their territory, are contributing to a rapidly deteriorating relationship between Sudan and South Sudan, he says. Thousands of people who have fled fighting in Sudan's South Kordofan region have crossed the border to take refuge at the Yida camp. Sudan's army has often been accused of bombing South Kordofan, where it is facing a rebellion from pro-southern groups. Our reporter says there is talk that rebels use the camp to rest before returning to South Kordofan to fight. The refugees are, however, furious with Sudan's President Omar al-Bashir over the bombings, he says. The governor of Unity State, Taban Deng, said Mr Bashir should be held responsible. "Why does Omar Bashir do this ? He has a lot to answer, " Mr Deng said. However, Sudan Armed Forces spokesman Sawarmi Khaled Saad vehemently denied any links to the raid. "This information is completely false. We didn't bomb any camps or any areas inside the borders of South Sudan, " he told the AFP news agency. "What is going on in South Sudan belongs to the southerners. We don't have any links to this. " The South Sudan Liberation Army rebel group is active in Unity State-it denies claims that it is working for Khartoum in order to destabilise its neighbour. South Sudan gained independence in July under a peace deal which followed decades of north-south conflict.
+Event	254	casualties	Occurence	1239
+Event	275	killed	Occurence	1344
+Event	47	bombardment	Occurence	208
+Event	42	condemned	Occurence	176
+Event	224	circled	Occurence	1080
+Event	31	'bombs	Occurence	100
+Event	226	launching	Occurence	1095
+Event	234	dropped	Occurence	1140
+Event	239	exploded	Occurence	1163
+Relation	31	42	SuperSub	true	'bombs	condemned
+Relation	42	47	SubSuper	true	condemned	bombardment
+Relation	224	226	SuperSub	true	circled	launching
+Relation	224	234	SuperSub	true	circled	dropped
+Relation	234	239	SuperSub	true	dropped	exploded
+Relation	234	254	SuperSub	true	dropped	casualties
+Relation	234	275	SuperSub	true	dropped	killed
+Relation	239	254	SuperSub	true	exploded	casualties
+Relation	239	275	SuperSub	true	exploded	killed

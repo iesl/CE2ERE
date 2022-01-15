@@ -1,0 +1,23 @@
+Text	http://www. foxnews. com/story/2009/11/30/armed-and-dangerous-texas-inmate-on-loose/'Armed and Dangerous' Texas Inmate on The Loose Published November 30, 2009 The Texas Department of Criminal Justice is searching for an escaped inmate who is considered armed and dangerous, MyFoxHouston. com reports. Officials said Arcade Joseph Comeaux Jr., 49, took two transport officers hostage on Monday morning and then escaped from the vehicle and took off on foot, MyFoxHouston. com reports. Comeaux, a 6-foot, 200-pound black male, was serving a life sentence for crimes he committed in three Texas counties. He was sentenced to life in prison for indecency with a child, aggravated sexual assault and two counts of aggravated assault with a deadly weapon, MyFoxHouston. com reports. Comeaux allegedly handcuffed the officers together in the vehicle and then took off with their weapons, MyFoxHouston. com reported.
+Event	119	serving	Occurence	530
+Event	126	committed	Occurence	568
+Event	147	assault	Occurence	684
+Event	61	armed	Occurence	254
+Event	134	sentenced	Occurence	610
+Event	122	sentence	Occurence	545
+Event	53	searching	Occurence	204
+Event	90	escaped	Occurence	411
+Event	153	assault	Occurence	721
+Event	63	dangerous	Occurence	264
+Event	124	crimes	Occurence	558
+Event	166	handcuffed	Occurence	796
+Event	140	indecency	Occurence	642
+Relation	53	61	SubSuper	true	searching	armed
+Relation	53	63	SubSuper	true	searching	dangerous
+Relation	122	124	SubSuper	true	sentence	crimes
+Relation	90	166	SubSuper	true	escaped	handcuffed
+Relation	119	126	SubSuper	true	serving	committed
+Relation	134	140	SubSuper	true	sentenced	indecency
+Relation	134	147	SubSuper	true	sentenced	assault
+Relation	134	153	SubSuper	true	sentenced	assault
+Relation	61	63	SuperSub	true	armed	dangerous

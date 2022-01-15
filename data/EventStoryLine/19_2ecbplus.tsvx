@@ -1,0 +1,24 @@
+Text	http://www. essence. com/2013/03/17/riots-erupt-following-death-brooklyn-teen-killed-police/Sunday, March 17, 2013 | 5:00 PM Riots Erupt Following Death of Brooklyn Teen Killed By Police In the week following the fatal shooting of 16-year-old Kimani Gray, several protests and riots have erupted in the teen's Brooklyn neighborhood as the cops involved have come under scrutiny for previous reported civil rights violations. Gray was killed on March 9 by police who claim he pointed a gun at Sgt. Mourad Mourad and Officer Jovaniel Cordova before they opened fire. An autopsy shows that Gray was hit in the back by three of the seven bullets fired by the officers. A loaded. 38-caliber revolver was found at the scene. Since the shooting, over 50 arrests have been made over four nights of protesting where community members are expressing outrage and demanding justice. Gray's school principal, Matthew Willoughby of the Urban Assembly School of Design and Construction, wrote a heartfelt letter describing the teen as a hard-working student who was committed to his academics. "Kimani made great strides this year academically, " the letter read. " He was taking an extra English class after school; he was writing a dramatic dialogue in another English class; his group in design class was working on a project to design a school. Now they are working to complete the project without him. " "Kimani should be remembered for all of who he was—an energetic, kind, playful, independent young man who was trying to learn and grow one day at a time, " Willoughby's letter continued. In the days following Gray's death, it's been revealed that both Mourad and Cordova have reportedly been named in five federal lawsuits with plaintiffs alleging civil rights violations. As a result, the two men have reportedly cost the city about $215, 000 in court settlements. In 2009 and 2010, Mourad was sued three times with allegations including a stop-and-frisk in which Mourad and fellow cops pulled down a suspect's underwear, and an illegal arrest in which the plaintiff says he was slammed into a car. Cordova was sued in 2011 and 2012, with one plaintiff claiming the cop punched him in the eye.
+Event	107	pointed	Occurence	475
+Event	98	killed	Occurence	434
+Event	340	lawsuits	Occurence	1708
+Event	94	violations	Occurence	413
+Event	47	Death	Occurence	147
+Event	88	scrutiny	Occurence	369
+Event	346	violations	Occurence	1755
+Event	73	riots	Occurence	277
+Event	44	Riots	Occurence	125
+Event	60	shooting	Occurence	219
+Event	71	protests	Occurence	264
+Event	51	Killed	Occurence	170
+Relation	44	47	SubSuper	true	Riots	Death
+Relation	47	51	SubSuper	true	Death	Killed
+Relation	44	51	SubSuper	true	Riots	Killed
+Relation	60	71	SuperSub	true	shooting	protests
+Relation	60	73	SuperSub	true	shooting	riots
+Relation	88	94	SubSuper	true	scrutiny	violations
+Relation	98	107	SubSuper	true	killed	pointed
+Relation	340	346	SubSuper	true	lawsuits	violations
+Relation	71	88	SubSuper	true	protests	scrutiny
+Relation	73	88	SubSuper	true	riots	scrutiny
+Relation	47	60	SubSuper	true	Death	shooting

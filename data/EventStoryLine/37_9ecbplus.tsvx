@@ -1,0 +1,38 @@
+Text	http://www. straitstimes. com/breaking-news/se-asia/story/61-magnitude-quake-strikes-indonesias-aceh-no-immediate-reports-damage-2 Dozens injured as 6. 1-magnitude quake hits Indonesia's Aceh Published on Jul 02, 2013 4:22 PM A 6. 1-magnitude earthquake which hit the Indonesian province of Aceh on Tuesday killed at least one person, injured dozens and destroyed buildings, sparking panic in a region devastated by the quake-triggered tsunami of 2004. The quake hit inland at a depth of just 10km, 55km south of Bireun and 72 km southeast of Reuleuet, the US Geological Survey said. Houses collapsed in the district, some 320km from the provincial capital Banda Aceh. "A child died when a wall collapsed, " said Ema Suryani, a doctor at a health clinic in Lampahan city, Bener Meriah district.
+Event	80	killed	Occurence	307
+Event	79	Tuesday	Occurence	299
+Event	89	destroyed	Occurence	354
+Event	100	quake	Occurence	420
+Event	105	2004	Occurence	447
+Event	108	quake	Occurence	457
+Event	72	hit	Occurence	260
+Event	86	injured	Occurence	335
+Event	136	collapsed	Occurence	591
+Event	103	tsunami	Occurence	436
+Event	97	devastated	Occurence	402
+Event	109	hit	Occurence	463
+Event	51	hits	Occurence	170
+Event	93	panic	Occurence	384
+Event	43	injured	Occurence	138
+Relation	79	72	SuperSub	true	Tuesday	hit
+Relation	79	51	SuperSub	true	Tuesday	hits
+Relation	79	43	SuperSub	true	Tuesday	injured
+Relation	79	80	SuperSub	true	Tuesday	killed
+Relation	79	86	SuperSub	true	Tuesday	injured
+Relation	79	89	SuperSub	true	Tuesday	destroyed
+Relation	105	103	SuperSub	true	2004	tsunami
+Relation	105	100	SuperSub	true	2004	quake
+Relation	105	97	SuperSub	true	2004	devastated
+Relation	79	108	SuperSub	true	Tuesday	quake
+Relation	79	109	SuperSub	true	Tuesday	hit
+Relation	79	109	SuperSub	true	Tuesday	hit
+Relation	79	136	SubSuper	true	Tuesday	collapsed
+Relation	97	103	SubSuper	true	devastated	tsunami
+Relation	100	103	SuperSub	true	quake	tsunami
+Relation	108	136	SuperSub	true	quake	collapsed
+Relation	97	100	SubSuper	true	devastated	quake
+Relation	93	100	SubSuper	true	panic	quake
+Relation	108	109	SuperSub	true	quake	hit
+Relation	89	100	SubSuper	true	destroyed	quake
+Relation	86	100	SubSuper	true	injured	quake
+Relation	80	100	SubSuper	true	killed	quake

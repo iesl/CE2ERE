@@ -1,0 +1,57 @@
+Text	http://www. news. com. au/world-news/magnitude-quake-strikes-indonesias-aceh-province-in-region-hit-by-2004-tsunami/story-fndir2ev-1226673361487 6. 1-magnitude quake strikes Indonesia's Aceh province in region hit by 2004 tsunami July 03, 2013 6:22AM AN EARTHQUAKE killed six children and left 14 others trapped when a mosque collapsed during a Koran reading session in Indonesia's Aceh province, bringing the confirmed death toll from the disaster to 11. The strong 6. 1-magnitude quake left hundreds more injured as it rocked a region that was devastated by the quake-triggered tsunami of 2004. The earthquake reduced houses in parts of Aceh to rubble, set off several landslides and badly damaged roads. Rescuers were struggling to find the children still trapped after the mosque collapse in Blang Mancung village, Central Aceh district. "Our search and rescue teams are struggling to evacuate an estimated 14 children still trapped under the rubble, '' said Subhan Sahara, the head of the local disaster management agency. "I hope they can be found alive but the chances are very slim, '' he added, explaining they were reading the Koran together when the quake struck. The quake, which hit at a shallow depth of just 10 kilometres, injured more than 200 people and damaged more than 300 houses in Aceh, said national disaster agency spokesman Sutopo Purwo Nugroho. As police and military personnel struggled to reach affected areas late Tuesday, there were two aftershocks of more than 5. 0 magnitude. In a village in Bener Meriah district, one man was killed when a landslide engulfed a coffee plantation, said disaster agency official Fauzi. "A man was working at a coffee plantation with his wife when a landslide caused by the quake struck. His body was found under a pile of earth soon afterwards, '' he said, adding that his wife and another woman were missing at the site. Another four people died in hospitals in the district from injuries sustained in the quake, he said. One of the fatalities was a child who died when a wall collapsed, said Ema Suryani, a doctor at a health clinic in Lampahan city in the district. "We have received around 50 people with injuries sustained when the walls of their houses collapsed, '' added the doctor. "There are around 30 people seriously injured, some with head injuries. The rest have only light injuries like minor cuts and grazes. '' Injured people had been transported from several affected villages in two trucks, she said. People ran outside in Banda Aceh as the quake shook houses, and in Medan city to the south of the province on Sumatra island. "The quake was felt strongly for around 15 seconds, from Bener Meriah to Banda Aceh. People panicked and rushed out of their homes, '' said national disaster agency spokesman Nugroho. Aceh, on the northern tip of Sumatra, is regularly hit by quakes. In 2004 a massive tremor sparked a tsunami that killed 170, 000 people in the province and tens of thousands more in countries around the Indian Ocean. In April last year an 8. 6-magnitude quake struck 431 kilometres off Banda Aceh, prompting an Indian Ocean-wide tsunami alert. Five people died and seven were injured in Aceh in the quake and following aftershocks. In September 2009 a major earthquake near Padang city on Sumatra killed more than 1000 people. Indonesia sits on the Pacific "Ring of Fire'' where tectonic plates collide, causing frequent seismic and volcanic activity.
+Event	60	2004	Occurence	217
+Event	131	2004	Occurence	591
+Event	573	killed	Occurence	2908
+Event	568	tremor	Occurence	2878
+Event	147	landslides	Occurence	671
+Event	123	devastated	Occurence	546
+Event	71	killed	Occurence	265
+Event	52	strikes	Occurence	166
+Event	150	damaged	Occurence	692
+Event	61	tsunami	Occurence	222
+Event	134	earthquake	Occurence	601
+Event	565	2004	Occurence	2863
+Event	78	trapped	Occurence	304
+Event	135	reduced	Occurence	612
+Event	571	tsunami	Occurence	2895
+Event	100	disaster	Occurence	440
+Event	161	trapped	Occurence	759
+Event	115	injured	Occurence	507
+Event	82	collapsed	Occurence	326
+Event	165	collapse	Occurence	784
+Event	129	tsunami	Occurence	580
+Event	70	EARTHQUAKE	Occurence	254
+Event	58	hit	Occurence	210
+Event	126	quake	Occurence	564
+Relation	565	573	SuperSub	true	2004	killed
+Relation	131	129	SuperSub	true	2004	tsunami
+Relation	131	126	SuperSub	true	2004	quake
+Relation	131	123	SuperSub	true	2004	devastated
+Relation	58	70	SuperSub	true	hit	EARTHQUAKE
+Relation	58	71	SuperSub	true	hit	killed
+Relation	58	78	SuperSub	true	hit	trapped
+Relation	58	82	SuperSub	true	hit	collapsed
+Relation	58	100	SuperSub	true	hit	disaster
+Relation	565	568	SuperSub	true	2004	tremor
+Relation	565	571	SuperSub	true	2004	tsunami
+Relation	565	573	SuperSub	true	2004	killed
+Relation	70	71	SuperSub	true	EARTHQUAKE	killed
+Relation	78	82	SubSuper	true	trapped	collapsed
+Relation	123	129	SubSuper	true	devastated	tsunami
+Relation	126	129	SuperSub	true	quake	tsunami
+Relation	134	147	SuperSub	true	earthquake	landslides
+Relation	134	150	SuperSub	true	earthquake	damaged
+Relation	134	135	SuperSub	true	earthquake	reduced
+Relation	161	165	SubSuper	true	trapped	collapse
+Relation	568	571	SuperSub	true	tremor	tsunami
+Relation	571	573	SuperSub	true	tsunami	killed
+Relation	568	573	SuperSub	true	tremor	killed
+Relation	60	61	SuperSub	true	2004	tsunami
+Relation	60	58	SuperSub	true	2004	hit
+Relation	60	52	SuperSub	true	2004	strikes
+Relation	70	82	SuperSub	true	EARTHQUAKE	collapsed
+Relation	70	100	SuperSub	true	EARTHQUAKE	disaster
+Relation	115	126	SubSuper	true	injured	quake
+Relation	70	78	SuperSub	true	EARTHQUAKE	trapped
+Relation	123	126	SubSuper	true	devastated	quake
+Relation	78	100	SubSuper	true	trapped	disaster

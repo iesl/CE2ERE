@@ -1,0 +1,23 @@
+Text	http://articles. latimes. com/2005/jun/25/local/me-sheriff25 Gunman Kills L. A. Deputy on Gang Duty June 25, 2005 A Los Angeles County sheriff's deputy interviewing a woman and a man outside a Hawaiian Gardens apartment was fatally shot Friday when a gunman burst out of the residence, put a handgun to the officer's face and fired, authorities said. Sheriff's deputies fanned out across Hawaiian Gardens late Friday in search of the gunman, who apparently surprised Deputy Jerry Ortiz, 35, as he spoke to the woman in the doorway of her apartment. Authorities said Ortiz probably died instantly. "This was an assassination of a deputy, " Sheriff Lee Baca said. "It was a sudden attack that gave the deputy no chance. " Deputies identified the suspect as Jose Luis Orozco, 27, a parolee wanted on suspicion of attempted murder in another case. "He should be considered armed and very dangerous, " said sheriff's spokesman Steve Whitmore. Deputies said that Orozco is 5-foot-8, 135 pounds, with tattoos of "devil's horns" on his forehead and other tattoos over his upper body. They said he is a gang member known by the nickname "Sepy. " Ortiz, who had hoped to become a detective soon, had worked for the Sheriff's Department for 15 years and was known as an extremely hard worker whose job was to penetrate the inner workings of local gangs. The Diamond Bar resident was married two weeks ago to his second wife, Chela. He is also survived by two sons, ages 6 and 16. Last year, Ortiz won the department's Medal of Honor after he fatally shot a carjacker who drew a gun on him and his partner, Det. Colin Orpe. "He was an outstanding person, who would go out of his way to help people, " said Orpe, a longtime friend. "We're all mourning, " he said, choking back tears. The shooting occurred about 3:10 p.m. in the 12200 block of 223rd Street in Hawaiian Gardens, a working-class city at the northeastern border of Long Beach that has long been plagued by gang violence. The town of 14, 000 has struggled economically in recent years, luring a casino to help balance its shaky finances. Ortiz's body was discovered by residents who heard the gunfire. They tried to aid the deputy and dialed 911, authorities said. Ortiz was working without his longtime partner at the time of the attack. Undersheriff Larry Waldie said Ortiz had arrived for work early, as he often did, and was so eager to begin his day that he struck out on his own. "He didn't want to wait, " Waldie said. Asked if Ortiz might have lived had his partner been with him, Waldie said there was no way to know. "There might have been two people killed, " he said. The shooting was followed by confusion as scores of deputies descended on the area with dogs and rifles but little knowledge of what had occurred. A sheriff's SWAT team encircled the apartment complex where it was believed that the gunman could be hiding. Patrol deputies detained as many as nine potential witnesses and others in an effort to learn details of the shooting. Nearly all of them were rounded up in a liquor store next to the apartment complex. Television news footage showed the men and women sitting on the curb in handcuffs as deputies interviewed them and swabbed their hands for possible gunshot residue.
+Event	126	assassination	Occurence	610
+Event	371	shooting	Occurence	1775
+Event	66	put	Occurence	286
+Event	55	shot	Occurence	232
+Event	42	interviewing	Occurence	152
+Event	141	attack	Occurence	679
+Event	23	Kills	Occurence	68
+Event	120	died	Occurence	581
+Event	74	fired	Occurence	326
+Event	411	violence	Occurence	1962
+Event	56	Friday	Occurence	237
+Relation	56	23	SuperSub	true	Friday	Kills
+Relation	56	42	SuperSub	true	Friday	interviewing
+Relation	56	66	SuperSub	true	Friday	put
+Relation	56	74	SuperSub	true	Friday	fired
+Relation	55	66	SubSuper	true	shot	put
+Relation	55	74	SubSuper	true	shot	fired
+Relation	42	55	SuperSub	true	interviewing	shot
+Relation	120	126	SubSuper	true	died	assassination
+Relation	126	141	SubSuper	true	assassination	attack
+Relation	371	411	SubSuper	true	shooting	violence
+Relation	56	55	SuperSub	true	Friday	shot

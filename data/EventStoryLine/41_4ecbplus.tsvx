@@ -1,0 +1,22 @@
+Text	http://www. nonviolentpeaceforce. org/bombing-yida-refugee-camp-south-sudan Bombing At Yida Refugee Camp, South Sudan On Thursday, November 10th at approximately 3:00 pm, the Yida Refugee Camp in South Sudan was bombed. Nonviolent Peaceforce's Yida protection team lives and works in the camp, providing protection monitoring and support to nearly 23, 000 Nuban refugees who have fled to South Sudan to escape the escalating violent conflict across the border in Sudan's South Kordofan. Four bombs were dropped within just a few moments-two landed inside the camp itself, while the other two bombs were dropped near the airstrip where a UN helicopter was delivering much needed food aid. Of the bombs that landed inside the camp, one detonated about a quarter mile from the NP compound. The other landed next to the school building where 300 students were attending class, but it did not explode. Tiffany Ornelas, NP's Yida Team Leader, reported that "people were terrified; they were running and screaming in all directions". However, there have been no casualties or fatalities confirmed as a result of this bombing. In the days following the bombing, NP's team has been working with the refugee and host communities to verify the damage to the camp, account for children who fled during the bombing, set up a safety perimeter around the unexploded bomb to prevent curious children from approaching it, and explore options to further improve the safety and security of the refugees living at the camp. NP's protection team arrived in Yida one month ago to respond to the direct protection needs of the camp and host populations. NP's team of 3 international and 3 local protection officers are working to facilitate secure relations between both communities and to provide specialized support for the most vulnerable civilians, including more than 1200 unaccompanied children. Date Published:Tuesday, November 15, 2011
+Event	107	landed	Occurence	541
+Event	119	dropped	Occurence	603
+Event	173	explode	Occurence	888
+Event	206	fatalities	Occurence	1069
+Event	138	landed	Occurence	706
+Event	50	bombed	Occurence	212
+Event	22	Bombing	Occurence	76
+Event	144	detonated	Occurence	734
+Event	204	casualties	Occurence	1055
+Event	213	bombing	Occurence	1110
+Event	99	dropped	Occurence	503
+Event	156	landed	Occurence	797
+Relation	22	99	SubSuper	true	Bombing	dropped
+Relation	50	99	SubSuper	true	bombed	dropped
+Relation	99	107	SuperSub	true	dropped	landed
+Relation	119	138	SuperSub	true	dropped	landed
+Relation	99	138	SuperSub	true	dropped	landed
+Relation	138	144	SuperSub	true	landed	detonated
+Relation	156	173	SuperSub	true	landed	explode
+Relation	204	213	SubSuper	true	casualties	bombing
+Relation	206	213	SubSuper	true	fatalities	bombing

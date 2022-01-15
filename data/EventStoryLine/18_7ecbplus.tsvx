@@ -1,0 +1,33 @@
+Text	http://usatoday30. usatoday. com/news/nation/2007-04-11-office-shooting_N. htm Mich. accountant charged with murder in office shootings Updated 4/11/2007 1:26 PM A fired accountant accused of wounding two former bosses in a shotgun attack and killing a receptionist who tried to stop him was arraigned Wednesday on murder and other charges. Anthony LaCalamita III, 38, had been arrested following a high-speed chase a few hours after the Monday morning shootings at Gordon Advisors in suburban Detroit. During his arraignment Wednesday, authorities described what witnesses saw inside the offices that morning. LaCalamita was hiding the gun when he walked into accounting firm offices, stopped briefly at the reception desk and then entered Alan Steinberg's office, Troy police Sgt. Barry Whiteside testified. Steinberg, a partner in the firm, told police LaCalamita loaded a shell into the shotgun's chamber and shot him in the hip, then walked toward the office of Paul Riva, another partner. When receptionist Madeline Kafoury tried to stop him at Riva's door, the gunman fatally shot her in the midsection, Whiteside said. LaCalamita then fired at Riva, hitting him in the upper chest, and left the building, Whiteside said. Riva had yet to regain consciousness Wednesday and was on a ventilator, police said. As Whiteside talked in court, Kafoury's adult daughter sobbed uncontrollably. "She wasn't just a receptionist.... She was our mom and the grandmother of our children, " Kafoury's son, Charlie, said after the hearing. "She was an essential point of our lives. " Not guilty pleas were entered on LaCalamita's behalf to charges of first-degree murder, intent to murder, possession of a firearm in the commission of a felony and fleeing and eluding police. Asked by the judge if he understood the charges against him and if he was aware that he could be sentenced to life in prison without the possibility of parole if convicted of first-degree murder, he responded "Yes. " The judge ordered him held without bail pending his next court hearing April 19. Troy police Lt. Gerry Scherlinck said Riva and Steinberg appeared to have been the targets in the shootings. LaCalamita had been fired last Thursday as a general accountant at the firm and bought a shotgun and shells on Friday, Scherlinck said. He said police found a box consistent with one that would hold a shotgun, as well as empty shell boxes, in a Dumpster outside LaCalamita's apartment Monday evening. When LaCalamita was arrested, police said they found a 12-gauge pump-action shotgun and three shells in his vehicle. Matthew Roth, executive staff attorney for the prosecutor's office, said his office had not been told if LaCalamita or his family had retained a lawyer. LaCalamita is married, but his wife, Michele, released a statement saying they had been separated for about three weeks. According to real estate records obtained by The Associated Press, the couple during the past year actively bought and sold suburban homes. Records list Michele LaCalamita as the owner of all four. Riva, 47, of Sterling Heights and Steinberg, 48, of Macomb County's Bruce Township, were being treated at Beaumont Hospital, where spokeswoman Ilene Wolff said the families of the wounded men asked that their conditions and other information not be released. Gordon Advisors issued a statement Tuesday expressing condolences to the families of the victims. "We are especially devastated by the death of Madeline Kafoury and our hearts go out to her family. Maddie was revered by clients, employees and owners alike, " the statement said. "We express our gratitude to our employees for their bravery on Monday and for their support in the days to come. "
+Event	59	attack	Occurence	232
+Event	52	wounding	Occurence	192
+Event	48	fired	Occurence	164
+Event	50	accused	Occurence	181
+Event	177	shot	Occurence	913
+Event	61	killing	Occurence	243
+Event	76	charges	Occurence	332
+Event	73	murder	Occurence	315
+Event	31	charged	Occurence	96
+Event	70	arraigned	Occurence	292
+Event	33	murder	Occurence	109
+Event	71	Wednesday	Occurence	302
+Event	36	shootings	Occurence	126
+Relation	71	48	SubSuper	true	Wednesday	fired
+Relation	71	50	SubSuper	true	Wednesday	accused
+Relation	71	52	SubSuper	true	Wednesday	wounding
+Relation	71	59	SubSuper	true	Wednesday	attack
+Relation	71	61	SubSuper	true	Wednesday	killing
+Relation	71	70	SuperSub	true	Wednesday	arraigned
+Relation	71	73	SuperSub	true	Wednesday	murder
+Relation	71	76	SuperSub	true	Wednesday	charges
+Relation	71	177	SubSuper	true	Wednesday	shot
+Relation	71	31	SuperSub	true	Wednesday	charged
+Relation	71	33	SuperSub	true	Wednesday	murder
+Relation	31	33	SubSuper	true	charged	murder
+Relation	33	36	SubSuper	true	murder	shootings
+Relation	50	52	SubSuper	true	accused	wounding
+Relation	50	61	SubSuper	true	accused	killing
+Relation	52	59	SubSuper	true	wounding	attack
+Relation	59	61	SuperSub	true	attack	killing
+Relation	59	73	SuperSub	true	attack	murder
+Relation	73	76	SuperSub	true	murder	charges

@@ -1,0 +1,41 @@
+Text	http://entertainment. inquirer. net/92181/lawyer-lindsay-lohan-checks-into-california-rehab Lawyer:Lindsay Lohan checks into California rehab May 3, 2013 | 8:20 am Lindsay Lohan's attorney said Thursday the actress checked into a California rehab facility, but a state official said it is unlicensed to perform the type of restrictive in-patient treatment a judge required the actress to receive in a misdemeanor driving case. Mark Jay Heller told a judge that Lohan was settling in at Morningside Recovery and argued that the actress should be allowed to stay until a judge approves her placement. " My client is ensconced in the bosom of that facility right now, " Heller argued after a prosecutor objected to Lohan's choice of facilities. " She's in rehab right now. Nothing bad is going to happen. " Celebrity website TMZ reported Lohan was shopping at an electronics store while her attorney was in court and that she never entered Morningside. Superior Court Judge James R. Dabney agreed in the hearing that Lohan should remain at Morningside, although the actress ' whereabouts were unknown.
+Event	66	unlicensed	Occurence	289
+Event	88	case	Occurence	421
+Event	119	placement	Occurence	588
+Event	173	shopping	Occurence	845
+Event	49	Thursday	Occurence	194
+Event	201	hearing	Occurence	1001
+Event	198	agreed	Occurence	987
+Event	205	remain	Occurence	1027
+Event	157	now	Occurence	765
+Event	141	objected	Occurence	700
+Event	76	treatment	Occurence	346
+Event	188	entered	Occurence	929
+Event	146	choice	Occurence	720
+Event	155	rehab	Occurence	753
+Event	133	now	Occurence	660
+Event	79	required	Occurence	364
+Event	113	stay	Occurence	556
+Event	83	receive	Occurence	388
+Event	125	ensconced	Occurence	614
+Event	164	happen	Occurence	794
+Relation	133	125	SuperSub	true	now	ensconced
+Relation	49	66	SuperSub	true	Thursday	unlicensed
+Relation	49	79	SubSuper	true	Thursday	required
+Relation	49	83	SuperSub	true	Thursday	receive
+Relation	49	88	SuperSub	true	Thursday	case
+Relation	49	113	SuperSub	true	Thursday	stay
+Relation	49	119	SuperSub	true	Thursday	placement
+Relation	133	141	SubSuper	true	now	objected
+Relation	133	146	SubSuper	true	now	choice
+Relation	133	164	SuperSub	true	now	happen
+Relation	49	173	SuperSub	true	Thursday	shopping
+Relation	49	188	SuperSub	true	Thursday	entered
+Relation	49	205	SuperSub	true	Thursday	remain
+Relation	79	88	SubSuper	true	required	case
+Relation	141	146	SubSuper	true	objected	choice
+Relation	173	188	SuperSub	true	shopping	entered
+Relation	198	205	SuperSub	true	agreed	remain
+Relation	76	79	SubSuper	true	treatment	required
+Relation	198	201	SubSuper	true	agreed	hearing
+Relation	157	155	SuperSub	true	now	rehab

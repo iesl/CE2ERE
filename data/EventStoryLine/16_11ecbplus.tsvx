@@ -1,0 +1,6 @@
+Text	http://powderbluereport. blogspot. nl/2005/06/rip-la-county-sheriff-deputy-jerry. html THURSDAY, JUNE 30, 2005 RIP LA County Sheriff Deputy Jerry Ortiz Another peace officer has been gunned down in cold blood. His name is Los Angeles county Sheriff deputy Jerry Ortiz. Officer Ortiz was knocking on doors down in the city of Hawaiian Gardens looking for gang members and he was shot point blank range in the head by gang member Jose Luis Orozco. They caught him a few doors down from where the shooting took place. At least he didn't get a chance to flee to Mexico. I guess we can be thankful for that. This is just another example of how hard the job that police officers have. They truely love what they're doing because they certainly aren't in it for the money. These guys are constantly getting shot at. My hat is off to all the police officers around the country.
+Event	76	looking	Occurence	342
+Event	83	shot	Occurence	378
+Event	66	knocking	Occurence	287
+Relation	66	76	SubSuper	true	knocking	looking
+Relation	76	83	SuperSub	true	looking	shot

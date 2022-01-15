@@ -1,0 +1,65 @@
+Text	http://www. chron. com/neighborhood/pasadena-news/article/Escape-renews-calls-for-prison-agency-shake-up-1725656. php Escape renews calls for prison agency shake-up November 30, 2009 After facing serious questions about how 900 prohibited cell phones were smuggled into Texas prisons this year, along with drugs and weapons, the Texas Department of Criminal Justice found itself on the defensive again Tuesday while trying to find an inmate who escaped despite being shackled to a wheelchair. TDCJ officials could answer few questions about how convicted rapist Arcade Joseph Comeaux Jr., 49, escaped Monday from a prison van in Baytown after pulling a gun and handcuffing two transport officers, stealing their three guns and walking away. He remains on the loose today. Comeaux escaped Monday morning as transport officers tried to move him in a TDCJ van from the Estelle prison unit in Huntsville to the Stiles Unit in Beaumont. He put on one officer's gray uniform and black boots, then stole a 12-gauge shotgun and two semi-automatic pistols before fleeing on foot, leaving his pistol behind.
+Event	130	pulling	Occurence	643
+Event	208	fleeing	Occurence	1054
+Event	148	remains	Occurence	744
+Event	38	Escape	Occurence	118
+Event	122	Monday	Occurence	601
+Event	95	escaped	Occurence	445
+Event	139	stealing	Occurence	697
+Event	106	answer	Occurence	514
+Event	163	move	Occurence	834
+Event	195	stole	Occurence	991
+Event	81	found	Occurence	366
+Event	98	shackled	Occurence	467
+Event	152	today	Occurence	765
+Event	85	defensive	Occurence	386
+Event	40	calls	Occurence	132
+Event	52	facing	Occurence	189
+Event	134	handcuffing	Occurence	661
+Event	144	walking	Occurence	727
+Event	62	smuggled	Occurence	256
+Event	39	renews	Occurence	125
+Event	155	escaped	Occurence	780
+Event	87	Tuesday	Occurence	402
+Event	161	tried	Occurence	825
+Event	121	escaped	Occurence	593
+Event	111	convicted	Occurence	545
+Event	58	prohibited	Occurence	228
+Event	91	find	Occurence	426
+Relation	38	40	SuperSub	true	Escape	calls
+Relation	38	52	SuperSub	true	Escape	facing
+Relation	91	95	SubSuper	true	find	escaped
+Relation	85	91	SubSuper	true	defensive	find
+Relation	85	95	SubSuper	true	defensive	escaped
+Relation	111	121	SuperSub	true	convicted	escaped
+Relation	121	130	SubSuper	true	escaped	pulling
+Relation	121	134	SubSuper	true	escaped	handcuffing
+Relation	121	139	SubSuper	true	escaped	stealing
+Relation	121	144	SubSuper	true	escaped	walking
+Relation	106	121	SubSuper	true	answer	escaped
+Relation	155	161	SubSuper	true	escaped	tried
+Relation	155	163	SubSuper	true	escaped	move
+Relation	155	195	SubSuper	true	escaped	stole
+Relation	155	208	SuperSub	true	escaped	fleeing
+Relation	195	208	SuperSub	true	stole	fleeing
+Relation	122	38	SuperSub	true	Monday	Escape
+Relation	122	39	SuperSub	true	Monday	renews
+Relation	87	81	SuperSub	true	Tuesday	found
+Relation	87	85	SuperSub	true	Tuesday	defensive
+Relation	87	91	SuperSub	true	Tuesday	find
+Relation	87	95	SubSuper	true	Tuesday	escaped
+Relation	87	98	SubSuper	true	Tuesday	shackled
+Relation	122	111	SubSuper	true	Monday	convicted
+Relation	122	106	SuperSub	true	Monday	answer
+Relation	122	121	SuperSub	true	Monday	escaped
+Relation	122	130	SuperSub	true	Monday	pulling
+Relation	122	134	SuperSub	true	Monday	handcuffing
+Relation	122	139	SuperSub	true	Monday	stealing
+Relation	122	144	SuperSub	true	Monday	walking
+Relation	152	148	NoRel	true	today	remains
+Relation	62	91	SuperSub	true	smuggled	find
+Relation	106	144	SubSuper	true	answer	walking
+Relation	134	144	SuperSub	true	handcuffing	walking
+Relation	39	40	SuperSub	true	renews	calls
+Relation	58	91	SuperSub	true	prohibited	find
+Relation	52	95	SuperSub	true	facing	escaped

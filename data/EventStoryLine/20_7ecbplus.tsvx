@@ -1,0 +1,22 @@
+Text	http://www. cbc. ca/news/world/strong-quake-hits-southern-iran-1. 563290 Posted:Nov 27, 2005 8:20 AM ET Last Updated:Nov 27, 2005 8:10 PM ET An earthquake with a magnitude of at least 5. 9 hit southern Iran on Sunday, killing at least 10 people and injuring many others. The quake was centred near Qeshm Island, home to 200, 000 people, the U. S. Geological Survey said. Buildings were toppled in the island's capital, Qeshm City, as well as in the the villages of Tonban, Gavarzin and Khaledi. The main hospital on Qeshm was having trouble keeping up with the number of injured, Iran's official news agency IRNA said. It's "full of wounded, " the agency reported. The quake also shook the major port city of Bandar Abbas and was felt in nearby countries. In Oman and the United Arab Emirates, buildings were evacuated and people fled into the streets. An office worker in Dubai said the tremor lasted 30 seconds and was strong enough to shake buildings along the skyscraper-lined central business district. On Saturday, more than a dozen people were killed by a quake in eastern China. It destroyed thousands of buildings and left nearly half a million homeless.
+Event	212	shake	Occurence	938
+Event	79	quake	Occurence	275
+Event	203	tremor	Occurence	888
+Event	104	toppled	Occurence	386
+Event	52	earthquake	Occurence	144
+Event	66	Sunday	Occurence	210
+Event	204	lasted	Occurence	895
+Event	68	killing	Occurence	218
+Event	74	injuring	Occurence	249
+Relation	66	52	SuperSub	true	Sunday	earthquake
+Relation	66	68	SuperSub	true	Sunday	killing
+Relation	66	74	SuperSub	true	Sunday	injuring
+Relation	66	79	SuperSub	true	Sunday	quake
+Relation	66	104	SuperSub	true	Sunday	toppled
+Relation	66	203	SuperSub	true	Sunday	tremor
+Relation	66	204	SuperSub	true	Sunday	lasted
+Relation	66	212	SuperSub	true	Sunday	shake
+Relation	52	68	SuperSub	true	earthquake	killing
+Relation	52	74	SuperSub	true	earthquake	injuring
+Relation	79	104	SuperSub	true	quake	toppled
+Relation	203	212	SuperSub	true	tremor	shake

@@ -1,0 +1,86 @@
+Text	http://www. dailymail. co. uk/news/article-2308160/Zurana-Horton-Jury-sees-horrific-moment-young-mother-gunned-broad-daylight-stray-gunfire. html Jury shown horrific moment innocent mother is shot dead shielding her child when she's caught up in gang attack as she picks up daughter from school Zurana Horton, 34, a mother of 12, was fatally shot in 2011 while picking up her daughter, 11, from school A second mother who testified was shot in her arm as well as an 11-year-old girl Testimony by a second witness has been delayed after allegedly threatened with death by the brother of the accused gunman UPDATED:19:14 GMT, 12 April 2013 Jurors on Thursday watched video capturing the horrific moment a mother was gunned down in broad daylight while picking up her 11-year-old daughter outside a New York City school. Behind her another mother was seen shot in her arm before staggering against a wall while trying to hide her own son from the alleged gang members' stray gunfire from a nearby rooftop. This frightening surveillance video was presented at the Brooklyn Supreme Court on Thursday during the trial of two men accused in killing Zurana Horton, 34, a mother of 12, in 2011 and wounding two others, including an 11-year-old girl. Prosecutors say Andrew Lopez, 20, an alleged 8 Block gang member fired the shots meant for rival gang members from the Howard Projects while his brother Jonathan Carrasquillo, 24, gave the orders. 'When me and my son were on the floor, I noticed Mrs Horton fall down. I honestly thought she was shot in the head. There was blood ,'said Unique Armstead, who was shot along with an 11-year-old girl nearby according to the New York post. Mrs Armstead says that just before the shots were fired she passed a group of young men arguing on the street about a gun. Her testimony matched prosecutors' claims. Feeling uneasy, she says 'I speed-walked to my son, and I held him. I was scared. I was trying to get out of harm's way. ' She took her son into a nearby store to wait it out. When the fight appeared to die down, she says she slipped back onto the street with her son by her side when a stray bullet shot straight into her arm. She next saw Horton fall down dead. Mrs Horton is seen sprawled out on the sidewalk beside a pool of blood on the surveillance video. Witnesses are seen cowering in fear around her. 'At the time, I thought it was a brick, but it was a bullet, ' Mrs Armstead said of her injury. Lopez, who was 18 at the time of the shooting, confessed to being the rooftop sniper according to initial reports by the New York Daily News. The gunman said the shooting near Public School 298 in Brownsville had stemmed from a turf war between two Brooklyn gangs. Lopez told police that 'he did not mean to shoot the ladies, ' the source said. A second witness had expected to testify in the shooting on Thursday as well but after threatened with death by the brother of the alleged gunman, their testimony has been delayed until Monday. 'The man is an emotional wreck, ' Brooklyn Supreme Court Judge Vincent Del Giudice said, according to the Post. Lopez has been linked to a Brooklyn gang known as '8 Block, ' who police say are engaged in a turf battle with the neighboring Young Guns gang. NYPD Commissioner Raymond Kelly said:'We're certainly pleased with the fact that the investigation has identified Mr. Lopez and he's made statements and apparently made a full confession, ' the Daily News reported. Lopez told police he was aiming for rival gang members when a stray bullet hit the mother of 13 who was collecting her children from school. Horton was planning to marry her boyfriend on Valentine's Day in 2012. Also arrested were Lopez' half-brother, 17-year-old Kristian, and Carrasquillo. All three live in a fifth-floor apartment inside 1800 Pitkin Ave., the same building from where the gunman opened fire, police said. That apartment building is said to be where 8 Block got their name, the Post reported in 2011. Carrasquillo was charged with murder, and Kristian Lopez was arrested for possession of a baseball bat, police said. Andrew Lopez had a previous arrest for walking down Pitkin Ave. brandishing a loaded gun three years ago, sources told the Daily News. The shooting frenzy in which at least 12 shots were fired began just 13 minutes after school finished. Cheanne McKnight, 11, is recovering from a graze wound to her cheek, while a 31-year-old Brooklyn mom was shot in the arm. Police recovered 12 9-mm shell casings on the roof of the Pitkin Avenue apartment and the sidewalk.
+Event	220	presented	Occurence	1043
+Event	186	seen	Occurence	848
+Event	127	threatened	Occurence	546
+Event	740	collecting	Occurence	3563
+Event	733	hit	Occurence	3534
+Event	124	delayed	Occurence	522
+Event	192	staggering	Occurence	876
+Event	54	dead	Occurence	197
+Event	227	Thursday	Occurence	1086
+Event	298	orders	Occurence	1430
+Event	276	fired	Occurence	1306
+Event	152	capturing	Occurence	671
+Event	149	Thursday	Occurence	648
+Event	250	wounding	Occurence	1189
+Event	234	accused	Occurence	1123
+Event	101	testified	Occurence	422
+Event	209	gunfire	Occurence	972
+Event	47	shown	Occurence	151
+Event	150	watched	Occurence	657
+Event	296	gave	Occurence	1421
+Event	84	shot	Occurence	342
+Event	53	shot	Occurence	192
+Event	230	trial	Occurence	1106
+Event	278	shots	Occurence	1316
+Event	538	confessed	Occurence	2496
+Event	279	meant	Occurence	1322
+Event	248	2011	Occurence	1180
+Event	55	shielding	Occurence	202
+Event	103	shot	Occurence	436
+Event	199	hide	Occurence	918
+Event	64	attack	Occurence	251
+Event	536	shooting	Occurence	2486
+Event	724	aiming	Occurence	3484
+Event	187	shot	Occurence	853
+Event	236	killing	Occurence	1134
+Relation	149	47	SuperSub	true	Thursday	shown
+Relation	248	55	SuperSub	true	2011	shielding
+Relation	248	64	SuperSub	true	2011	attack
+Relation	248	84	SuperSub	true	2011	shot
+Relation	248	103	SuperSub	true	2011	shot
+Relation	149	150	SuperSub	true	Thursday	watched
+Relation	149	152	SubSuper	true	Thursday	capturing
+Relation	248	186	SubSuper	true	2011	seen
+Relation	248	187	SuperSub	true	2011	shot
+Relation	248	192	SuperSub	true	2011	staggering
+Relation	248	199	SuperSub	true	2011	hide
+Relation	248	209	SuperSub	true	2011	gunfire
+Relation	227	220	SuperSub	true	Thursday	presented
+Relation	227	230	NoRel	true	Thursday	trial
+Relation	227	234	SubSuper	true	Thursday	accused
+Relation	248	236	SuperSub	true	2011	killing
+Relation	248	276	SuperSub	true	2011	fired
+Relation	248	278	SuperSub	true	2011	shots
+Relation	248	279	SuperSub	true	2011	meant
+Relation	248	296	SuperSub	true	2011	gave
+Relation	248	298	SuperSub	true	2011	orders
+Relation	248	536	SuperSub	true	2011	shooting
+Relation	54	55	SubSuper	true	dead	shielding
+Relation	55	64	SubSuper	true	shielding	attack
+Relation	64	84	SuperSub	true	attack	shot
+Relation	64	103	SuperSub	true	attack	shot
+Relation	124	127	SubSuper	true	delayed	threatened
+Relation	187	192	SuperSub	true	shot	staggering
+Relation	187	199	SubSuper	true	shot	hide
+Relation	199	209	SubSuper	true	hide	gunfire
+Relation	230	234	SubSuper	true	trial	accused
+Relation	234	236	SubSuper	true	accused	killing
+Relation	234	250	SubSuper	true	accused	wounding
+Relation	276	298	SubSuper	true	fired	orders
+Relation	227	236	SubSuper	true	Thursday	killing
+Relation	227	250	SubSuper	true	Thursday	wounding
+Relation	248	250	SuperSub	true	2011	wounding
+Relation	248	236	SuperSub	true	2011	killing
+Relation	248	234	SuperSub	true	2011	accused
+Relation	248	230	NoRel	true	2011	trial
+Relation	248	220	SuperSub	true	2011	presented
+Relation	248	740	SuperSub	true	2011	collecting
+Relation	248	733	SuperSub	true	2011	hit
+Relation	248	724	SuperSub	true	2011	aiming
+Relation	536	538	SuperSub	true	shooting	confessed
+Relation	187	209	SubSuper	true	shot	gunfire
+Relation	724	733	SuperSub	true	aiming	hit
+Relation	53	54	SuperSub	true	shot	dead
+Relation	101	103	SubSuper	true	testified	shot
+Relation	192	209	SubSuper	true	staggering	gunfire

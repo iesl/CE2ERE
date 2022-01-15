@@ -1,0 +1,18 @@
+Text	http://www. middevongazette. co. uk/BREAKING-NEWS-Major-supermarket/story-19548736-detail/story. html Major fire at supermarket Sunday, July 21, 2013 FIRE crews from Tiverton and Cullompton were this morning called in to help fight a major blaze at the Waitrose supermarket in Wellington. The fire has destroyed a large section of the store and fire crews and investigators are still on the scene. Two engines were sent to the store after several members of the public called emergency services at 6am. When they arrived they called in an additional six engines, an aerial platform and an incident command vehicle. A corner of the building measuring 50m by 50m containing food was well alight. By 6. 30am the fire had been contained using water and foam and police had been called. Half an hour later a second aerial platform was called in. and hydrants were being used for extra water. Police advised local residents to shut all doors and windows. Just before 8am crews requested the attendance of an incident support unit from Yeovil for additional drinking water, firefighter welfare and salvage equipment. By 8. 30am crews were using thermal imaging cameras to identify hotspots and an investigation into the cause of the fire was under way.
+Event	65	fire	Occurence	293
+Event	233	cause	Occurence	1213
+Event	221	using	Occurence	1132
+Event	67	destroyed	Occurence	302
+Event	53	fight	Occurence	226
+Event	31	fire	Occurence	108
+Event	230	investigation	Occurence	1190
+Event	226	identify	Occurence	1165
+Event	56	blaze	Occurence	240
+Event	236	fire	Occurence	1226
+Relation	31	53	SuperSub	true	fire	fight
+Relation	53	56	SuperSub	true	fight	blaze
+Relation	65	67	SuperSub	true	fire	destroyed
+Relation	221	226	SubSuper	true	using	identify
+Relation	226	230	SuperSub	true	identify	investigation
+Relation	230	233	SubSuper	true	investigation	cause
+Relation	230	236	SubSuper	true	investigation	fire

@@ -1,0 +1,4 @@
+Text	http://cir. ca/news/esther-williams-obituary Esther Williams, who swam to stardom in the 1940's, dies at 91 JUNE 6, 2013 11:34PM Pinup girl Williams was the star of WWII-era "aquatic musicals" and helped make the sport of synchronized swimming popular.
+Event	48	musicals"	Occurence	183
+Event	57	popular	Occurence	244
+Relation	48	57	SuperSub	true	musicals"	popular

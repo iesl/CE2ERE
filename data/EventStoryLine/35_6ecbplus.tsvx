@@ -1,0 +1,28 @@
+Text	http://www. cbs8. com/story/10120887/city-attorney-weighs-filing-dui-charges-against-chargers-jamal-williams ? redirected=true City Attorney Weighs Filing DUI Charges Against Chargers' Jamal Williams Posted:Apr 02, 2009 11:06 PM CEST Updated:Apr 02, 2009 11:06 PM CEST The City Attorney's Office was considering today whether to file misdemeanor drunken-driving charges against Chargers defensive lineman Jamal Williams. Williams, 32, was arrested around 1:30 a.m. Feb. 1 on state Route 94 on suspicion of drunken driving. Results from a blood-alcohol test administered when Williams was arrested were released Wednesday, showing a level of 0. 07 percent-- just under the state legal limit of 0. 08 percent, California Highway Patrol Officer Brian Pennings told The San Diego Union-Tribune. He said the blood was drawn well after Williams' arrest, meaning he could have been intoxicated when when officers pulled him over for speeding in his 2008 Bentley. City Attorney spokeswoman Gina Coburn told the Union-Tribune the case remains under review and is being investigated further.
+Event	130	released	Occurence	602
+Event	211	remains	Occurence	1026
+Event	185	intoxicated	Occurence	875
+Event	217	investigated	Occurence	1060
+Event	41	Charges	Occurence	159
+Event	178	arrest	Occurence	840
+Event	174	drawn	Occurence	813
+Event	77	file	Occurence	329
+Event	73	considering	Occurence	300
+Event	82	charges	Occurence	362
+Event	128	arrested	Occurence	588
+Event	131	Wednesday	Occurence	611
+Event	74	today	Occurence	312
+Event	124	administered	Occurence	557
+Event	133	showing	Occurence	622
+Event	40	DUI	Occurence	155
+Relation	74	73	NoRel	true	today	considering
+Relation	74	77	NoRel	true	today	file
+Relation	74	82	SubSuper	true	today	charges
+Relation	131	124	SubSuper	true	Wednesday	administered
+Relation	131	128	SubSuper	true	Wednesday	arrested
+Relation	131	130	SuperSub	true	Wednesday	released
+Relation	131	133	SuperSub	true	Wednesday	showing
+Relation	40	41	SuperSub	true	DUI	Charges
+Relation	174	178	SubSuper	true	drawn	arrest
+Relation	185	211	SuperSub	true	intoxicated	remains
+Relation	211	217	SuperSub	true	remains	investigated

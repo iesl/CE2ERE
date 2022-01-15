@@ -1,0 +1,32 @@
+Text	http://www. businessinsider. com/riots-after-brooklyn-teen-shot-by-police-2013-3 Brooklyn Neighborhood Is 'A Powder Keg' After Teen Killed By Police MAR. 14, 2013, 8:12 PM Hostility has been mounting this week in East Flatbush, Brooklyn, after two plainclothes police officers fatally shot 16-year-old Kimani Gray after he allegedly pointed a revolver at them on Saturday night. On Monday a group of about 130 people were marching toward the 67th Police Precinct station when about two dozen young protesters splintered off — drawing riot police — and trashed a Rite Aid. Tuesday the crowd was mostly calm, but on Wednesday — the same day Gray's autopsy showed he had been shot seven times — part of the 200 person crowd became unruly. The night began with hope that Gray's mother would speak at a vigil alongside mothers of local shooting victims, but the night turned when about 30 young men showed up in the shadows across the street. "They were staying in the dark area of the street, " a witness told CNN. "You just knew it was going to turn into the cops trying to contain those kids who were obviously gonna go for it. That just stopped the original intention of the night. " The witness said the teenagers suddenly took off, fanning through streets and side streets, followed by the sound of glass breaking and metal store-front gates being pulled down. Protesters began throwing bricks and bottles while cops began pepper-spraying and arresting. By the end an officer's face and the window of a police van had been hit with bricks, and 46 people had been arrested. The string of incidents has amplified the distrustful friction between the neighborhood's informal crews of armed teenagers and its aggressive police, whom residents say make prejudiced decisions based on race. Kenneth J. Montgomery, an attorney for the Gray family, told the LA Times that the police "patrol these neighborhoods like they ' re paramilitary. " " [ The police ] have a hard time because there's a lot of crime in the neighborhood, " a local barber told The New York Times. " But when they play hardball, they end up going after innocent people, too. " Police say that on Saturday around 11:30 p.m. Kimani Gray was standing outside his home with five other young men before splitting off when he noticed two plainclothes officers in an unmarked car. After he "adjusted his waistband and continued to act in a suspicious manner, " officials say the cops got out of their car and approached Gray — who allegedly turned toward them with a loaded. 38-caliber revolver in hand. The 30-year-old sergeant and 26-year-old fired 11 shots — the autopsy showed that seven bullets entered Gray's body, three of them from the rear. A revolver loaded with four bullets was reportedly recovered from the scene. Police commissioner Raymond Kelly told the New York Times there was " nothing to indicate that this shooting was outside the guidelines " while John C. Cerar, the former commander for firearms training at the Police Department, said "it appears to be a good shooting " under the reported circumstances. That statement doesn't pacify neighborhood residents, who question the official story — some in the community don't believe Gray had a gun — and perceive the officers' behavior as part of a larger trend of NYPD antagonism. " We ' re talking about a powder keg out here. Any incident could trigger it, " City Councilman Charles Barron told the LA Times. On Wednesday tensions "seemed to be decreasing until Mahnefah Gray, sister of the teen killed by police, was arrested while crossing the street, " according to Danny Gold of Metropolis.
+Event	127	calm	Occurence	601
+Event	96	marching	Occurence	422
+Event	117	trashed	Occurence	552
+Event	112	drawing	Occurence	526
+Event	138	showed	Occurence	654
+Event	142	shot	Occurence	673
+Event	137	autopsy	Occurence	646
+Event	122	Tuesday	Occurence	572
+Event	131	Wednesday	Occurence	614
+Event	36	Killed	Occurence	132
+Event	153	unruly	Occurence	728
+Event	88	Monday	Occurence	382
+Relation	142	153	SuperSub	true	shot	unruly
+Relation	117	142	SubSuper	true	trashed	shot
+Relation	36	96	SuperSub	true	Killed	marching
+Relation	36	117	SuperSub	true	Killed	trashed
+Relation	88	96	SuperSub	true	Monday	marching
+Relation	88	112	SuperSub	true	Monday	drawing
+Relation	88	117	SuperSub	true	Monday	trashed
+Relation	122	127	SuperSub	true	Tuesday	calm
+Relation	122	137	SuperSub	true	Tuesday	autopsy
+Relation	122	138	SuperSub	true	Tuesday	showed
+Relation	122	142	SuperSub	true	Tuesday	shot
+Relation	122	153	SuperSub	true	Tuesday	unruly
+Relation	137	153	SuperSub	true	autopsy	unruly
+Relation	131	137	SuperSub	true	Wednesday	autopsy
+Relation	131	138	SuperSub	true	Wednesday	showed
+Relation	131	142	SuperSub	true	Wednesday	shot
+Relation	131	153	SuperSub	true	Wednesday	unruly
+Relation	131	127	SubSuper	true	Wednesday	calm
+Relation	137	142	SubSuper	true	autopsy	shot

@@ -1,0 +1,6 @@
+Text	http://www. onenewspage. com/n/World/74vw249x9/Cumbria-double-murder-Son-suspected-of-killing-mother. htm Cumbria double murder:Son suspected of killing mother and sister 'had begged to stay locked up in mental hospital' Sunday, 9 June 2013 John Jenkin, 23, had been sectioned after an apparent suicide attempt in the week before the double murder. His sister Katie and mother Alice McMeekin were found dead at their home in Millom.
+Event	89	dead	Occurence	403
+Event	88	found	Occurence	397
+Event	41	killing	Occurence	145
+Relation	41	89	SuperSub	true	killing	dead
+Relation	88	89	SubSuper	true	found	dead

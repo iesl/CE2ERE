@@ -1,0 +1,21 @@
+Text	http://news. bbc. co. uk/2/hi/europe/8665488. stm Greek austerity:British views Greece's parliament is due to vote on the hefty cuts and reforms proposed by the government to address the country's financial crisis. It comes a day after three bank workers died in a petrol bomb attack as demonstrations over the planned austerity measures turned violent.
+Event	48	crisis	Occurence	207
+Event	65	demonstrations	Occurence	287
+Event	72	violent	Occurence	345
+Event	38	reforms	Occurence	137
+Event	70	measures	Occurence	329
+Event	44	address	Occurence	175
+Event	32	vote	Occurence	110
+Event	36	cuts	Occurence	128
+Event	58	died	Occurence	255
+Event	63	attack	Occurence	277
+Relation	32	36	SubSuper	true	vote	cuts
+Relation	32	38	SubSuper	true	vote	reforms
+Relation	36	44	SubSuper	true	cuts	address
+Relation	36	48	SubSuper	true	cuts	crisis
+Relation	38	44	SubSuper	true	reforms	address
+Relation	38	48	SubSuper	true	reforms	crisis
+Relation	58	63	SubSuper	true	died	attack
+Relation	65	70	SubSuper	true	demonstrations	measures
+Relation	65	72	SuperSub	true	demonstrations	violent
+Relation	63	72	SubSuper	true	attack	violent

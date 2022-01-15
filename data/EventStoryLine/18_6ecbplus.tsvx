@@ -1,0 +1,45 @@
+Text	http://blog. mlive. com/grpress/2008/04/jury_finds_suspect_in_troy_off. html Jury finds suspect in Troy office shooting guilty on April 30, 2008 at 4:31 AM, updated April 30, 2008 at 8:33 AM A jury on Tuesday convicted a man charged in an April 2007 shooting at a Troy accounting firm that left a receptionist dead and two managing partners wounded. Anthony LaCalamita III was found guilty of first-degree murder and assault with intent to murder in the shotgun slaying of 63-year-old Madeline Kafoury and assault with intent to kill in the shootings of Paul Riva and Alan Steinberg at the accounting firm. Defense attorney Jerome Fenton argued LaCalamita's extensive history of mental illness was to blame. Assistant Oakland County Prosecutor Rob Novy said the 39-year-old Troy man shot his former co-workers because he was furious over his firing four days earlier.
+Event	108	slaying	Occurence	462
+Event	104	murder	Occurence	440
+Event	66	charged	Occurence	225
+Event	92	found	Occurence	377
+Event	122	kill	Occurence	529
+Event	120	intent	Occurence	519
+Event	63	convicted	Occurence	209
+Event	102	intent	Occurence	430
+Event	81	dead	Occurence	310
+Event	98	murder	Occurence	406
+Event	86	wounded	Occurence	341
+Event	36	shooting	Occurence	111
+Event	37	guilty	Occurence	120
+Event	71	shooting	Occurence	250
+Event	93	guilty	Occurence	383
+Event	62	Tuesday	Occurence	201
+Event	78	left	Occurence	290
+Event	100	assault	Occurence	417
+Event	118	assault	Occurence	506
+Event	125	shootings	Occurence	541
+Relation	62	63	SuperSub	true	Tuesday	convicted
+Relation	62	66	SubSuper	true	Tuesday	charged
+Relation	62	71	SubSuper	true	Tuesday	shooting
+Relation	62	78	SubSuper	true	Tuesday	left
+Relation	62	81	SubSuper	true	Tuesday	dead
+Relation	62	86	SubSuper	true	Tuesday	wounded
+Relation	62	93	SuperSub	true	Tuesday	guilty
+Relation	62	37	SuperSub	true	Tuesday	guilty
+Relation	36	37	SuperSub	true	shooting	guilty
+Relation	63	66	SubSuper	true	convicted	charged
+Relation	66	71	SubSuper	true	charged	shooting
+Relation	71	81	SuperSub	true	shooting	dead
+Relation	71	86	SuperSub	true	shooting	wounded
+Relation	93	98	SubSuper	true	guilty	murder
+Relation	93	100	SubSuper	true	guilty	assault
+Relation	100	102	SubSuper	true	assault	intent
+Relation	102	108	SuperSub	true	intent	slaying
+Relation	118	120	SubSuper	true	assault	intent
+Relation	122	125	SubSuper	true	kill	shootings
+Relation	120	122	SuperSub	true	intent	kill
+Relation	92	104	SubSuper	true	found	murder
+Relation	93	104	SubSuper	true	guilty	murder
+Relation	108	125	SubSuper	true	slaying	shootings
+Relation	93	125	SubSuper	true	guilty	shootings

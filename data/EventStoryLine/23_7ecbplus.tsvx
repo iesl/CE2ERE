@@ -1,0 +1,25 @@
+Text	http://www. odt. co. nz/news/national/273204/second-climber-dies-mt-cook Second climber dies at Mt Cook Sun, 15 Sep 2013 Two men have died in separate climbing accidents at Mt Cook this weekend. The Aoraki Mt Cook Alpine Rescue Team worked today to recover the body of a climber after bad weather hindered efforts yesterday. The climber fell in fading light yesterday near the Mt Sefton Bivvy, and rescue teams were unable to reach him or his companions due to the weather. Police are still at the scene and say more details will be released later. The first of the deaths this weekend was that of a New Zealand climber who fell on Friday morning. The 36-year-old, who had been living in Melbourne, slipped and fell approximately 200 metres down a steep ice gully as he was approaching the Tasman Saddle Hut, police said. His brother witnessed the fall and had to spend the night in a hut before rescuers could reach him. The victim was still alive when rescuers reached him, Helicopter Line pilot Jim Campbell told the Herald on Sunday. "He was very badly hurt and he'd lost his hat and gloves in the fall so he was very cold. " The rescue team had to carry the man by stretcher down a glacier, walking two hours to reach a rescue helicopter. A Westpac Rescue Helicopter from Christchurch was called to help with search and rescue co-ordination at the Mt Cook base. By the time it arrived, the man had been transported to Mt Cook Village by a local helicopter service and had been pronounced dead by paramedics. He had been planning a four-day ski tour of the area and was using the Tasman Saddle Hut as a base, police said. Mr Campbell said police told him the man was well-equipped but was not wearing crampons when he slipped. A massive rescue bid was made shortly after 11am on Friday, with members of the Aoraki Mt Cook Department of Conservation Alpine Rescue Team, Alpine Guides, The Helicopter Line, Twizel and Fairlie police and Westpac Rescue paramedics all called in to help. Constable Joseph Rush, of Twizel police, said the weather conditions were severe, with poor visibility, strong wind gusts and-15C temperatures. The man's name will not be released until family have been notified.
+Event	181	fall	Occurence	848
+Event	194	reach	Occurence	911
+Event	42	died	Occurence	134
+Event	30	dies	Occurence	88
+Event	156	fell	Occurence	711
+Event	95	reach	Occurence	426
+Event	82	yesterday	Occurence	358
+Event	78	fell	Occurence	337
+Event	46	accidents	Occurence	160
+Event	135	fell	Occurence	624
+Event	154	slipped	Occurence	699
+Event	45	climbing	Occurence	151
+Event	124	deaths	Occurence	566
+Relation	82	78	SuperSub	true	yesterday	fell
+Relation	82	95	SuperSub	true	yesterday	reach
+Relation	30	46	SubSuper	true	dies	accidents
+Relation	42	46	SubSuper	true	died	accidents
+Relation	42	78	SubSuper	true	died	fell
+Relation	78	95	SuperSub	true	fell	reach
+Relation	78	124	SuperSub	true	fell	deaths
+Relation	124	135	SubSuper	true	deaths	fell
+Relation	154	156	SuperSub	true	slipped	fell
+Relation	181	194	SuperSub	true	fall	reach
+Relation	45	46	SuperSub	true	climbing	accidents

@@ -1,0 +1,25 @@
+Text	http://www. stuff. co. nz/national/9167416/Two-climbers-killed-in-Mt-Cook-falls Two climbers killed in Mt Cook falls Last updated 15:48 15/09/2013 The Aoraki Mt Cook Alpine Rescue Team have recovered the body of the second climber to fall to his death at Mount Cook National Park over the weekend. Inspector Dave Gaskin said the man fell around 2000ft ( 609 metres ) near the Mount Sefton Bivvy, above the Mueller Glacier. ''The fall was unsurvivable, '' Inspector Gaskin said. There were four in the climbing party. The friends of the deceased had to stay in position overnight until the weather was suitable to carry them out by rescue helicopter this morning. The body was recovered in the afternoon, and taken to Mt Cook Village initially, then on to Timaru. Inspector Gaskin confirmed the climbing party are foreigners, but would not specify any other details until the family of the deceased had been informed. With two deaths at Mt Cook National Park this weekend, Inspector Gaskin said police and rescures were pushed to their limits ''Resources are tight, there's no doubt about that. It's been very difficult but the guys have done a wonderful job. '' He said the two deaths were not related to weather conditions. ''I can't speak for the first death, but in this case it looks like to be a lack of experience, '' Inspector Gaskin said. Yesterday, a 36-year-old Australian climber died after falling about 150 metres at Mt Cook. The man, from Hampton East, fell in the Tasman Glacier area. A Westpac Rescue Helicopter from Christchurch was called about 3pm to assist with search and rescue co-ordination at the Mt Cook base. When it got there, the man had been transported to Mt Cook Village by a local helicopter service and pronounced dead by paramedics. The man is thought to have fallen much earlier in the day.
+Event	66	death	Occurence	246
+Event	276	Yesterday	Occurence	1347
+Event	55	recovered	Occurence	190
+Event	288	falling	Occurence	1402
+Event	303	fell	Occurence	1467
+Event	363	thought	Occurence	1778
+Event	82	fell	Occurence	333
+Event	32	killed	Occurence	93
+Event	286	died	Occurence	1391
+Event	366	fallen	Occurence	1794
+Event	36	falls	Occurence	111
+Event	63	fall	Occurence	234
+Relation	276	286	SuperSub	true	Yesterday	died
+Relation	276	288	SuperSub	true	Yesterday	falling
+Relation	276	303	SuperSub	true	Yesterday	fell
+Relation	32	36	SubSuper	true	killed	falls
+Relation	55	66	SubSuper	true	recovered	death
+Relation	63	66	SuperSub	true	fall	death
+Relation	66	82	SubSuper	true	death	fell
+Relation	286	288	SubSuper	true	died	falling
+Relation	286	303	SubSuper	true	died	fell
+Relation	286	366	SubSuper	true	died	fallen
+Relation	32	36	SuperSub	true	killed	falls
+Relation	363	366	SubSuper	true	thought	fallen

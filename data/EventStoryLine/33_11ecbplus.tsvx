@@ -1,0 +1,38 @@
+Text	http://www. newser. com/story/131863/teen-arrested-in-shooting-of-hero-brooklyn-mom. html Teen Arrested in Shooting of Hero Brooklyn Mom Posted Oct 26, 2011 8:57 AM CDT An 18-year-old gang member has confessed to killing a pregnant mom, who died on Friday as she shielded a group of children from bullets, but insisted he "did not mean to shoot the ladies, " sources tell the New York Daily News. In addition to Zurana Horton-who was a mother of 12-another mom and an 11-year-old girl were wounded by rooftop sniper Andrew Lopez, who told police his dozen rounds were intended for members of a rival gang. Lopez has been charged with murder; his two half-brothers, 17 and 22, were also arrested.
+Event	59	confessed	Occurence	200
+Event	138	intended	Occurence	568
+Event	72	shielded	Occurence	263
+Event	151	murder	Occurence	634
+Event	61	killing	Occurence	213
+Event	67	died	Occurence	241
+Event	69	Friday	Occurence	249
+Event	149	charged	Occurence	621
+Event	33	Arrested	Occurence	95
+Event	165	arrested	Occurence	686
+Event	35	Shooting	Occurence	107
+Event	87	shoot	Occurence	339
+Event	124	wounded	Occurence	490
+Event	85	mean	Occurence	331
+Relation	69	35	SuperSub	true	Friday	Shooting
+Relation	69	61	SuperSub	true	Friday	killing
+Relation	69	67	SuperSub	true	Friday	died
+Relation	69	72	SuperSub	true	Friday	shielded
+Relation	69	85	SuperSub	true	Friday	mean
+Relation	69	87	SuperSub	true	Friday	shoot
+Relation	69	124	SuperSub	true	Friday	wounded
+Relation	69	138	SuperSub	true	Friday	intended
+Relation	69	151	SuperSub	true	Friday	murder
+Relation	33	35	SubSuper	true	Arrested	Shooting
+Relation	59	61	SubSuper	true	confessed	killing
+Relation	67	72	SubSuper	true	died	shielded
+Relation	87	124	SuperSub	true	shoot	wounded
+Relation	35	124	SuperSub	true	Shooting	wounded
+Relation	35	67	SuperSub	true	Shooting	died
+Relation	35	72	SuperSub	true	Shooting	shielded
+Relation	149	151	SubSuper	true	charged	murder
+Relation	35	151	SuperSub	true	Shooting	murder
+Relation	35	165	SuperSub	true	Shooting	arrested
+Relation	151	165	SuperSub	true	murder	arrested
+Relation	59	87	SubSuper	true	confessed	shoot
+Relation	124	138	SubSuper	true	wounded	intended
+Relation	61	67	SuperSub	true	killing	died

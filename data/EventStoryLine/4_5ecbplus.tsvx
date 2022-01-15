@@ -1,0 +1,20 @@
+Text	http://www. hollywoodreporter. com/news/actress-esther-williams-dies-mgm-564112 Actress Esther Williams Dies at 91 10:10 AM PDT 6/6/2013 The champion swimmer starred in such films as "Bathing Beauty, " "Take Me Out to the Ball Game" and "Million Dollar Mermaid. " Actress and champion swimmer Esther Williams, who showcased a combination of glamour and athleticism by starring in several spectacular and splashy MGM musicals of the 1940s and '50s, has died. She was 91. Williams died peacefully in her sleep Thursday in Beverly Hills, family spokesman Harlan Boll announced.
+Event	107	sleep	Occurence	502
+Event	79	athleticism	Occurence	353
+Event	81	starring	Occurence	368
+Event	108	Thursday	Occurence	508
+Event	103	died	Occurence	479
+Event	77	glamour	Occurence	341
+Event	73	showcased	Occurence	314
+Event	96	died	Occurence	452
+Event	88	musicals	Occurence	416
+Event	93	'50s	Occurence	442
+Relation	108	103	SuperSub	true	Thursday	died
+Relation	108	107	SuperSub	true	Thursday	sleep
+Relation	73	88	SubSuper	true	showcased	musicals
+Relation	93	73	NoRel	true	'50s	showcased
+Relation	93	77	NoRel	true	'50s	glamour
+Relation	93	79	NoRel	true	'50s	athleticism
+Relation	93	81	NoRel	true	'50s	starring
+Relation	93	88	NoRel	true	'50s	musicals
+Relation	93	96	NoRel	true	'50s	died

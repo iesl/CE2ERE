@@ -1,0 +1,35 @@
+Text	http://beforeitsnews. com/blogging-citizen-journalism/2013/03/riot-breaks-out-in-brooklyn-over-teen-shootilng-2446148. html Large Riot Breaks Out In Brooklyn During Vigil For Teen Shot 11 Times By Police Monday, March 11, 2013 23:51 Police intervened when more than a hundred people joined in a candlelit vigil in the East Flatbush neighborhood in Brooklyn, New York, where 16-year-old Kimani Gray was shot 11 times by police on Saturday, according to RussiaToday Brooklynites on Twitter reported that police followed the march and searched apartment buildings in the neighborhood without warrants, looking for children who had been seen throwing bottles at police from neighborhood rooftops. March participants chanted " NYPD KKK how many kids will you kill today, " people report from the scene. " I ' m in the middle of the riot action at Church and Snyder in my district. Right now, things are tense, " New York City Councilman Jumaane D. Williams, who represents the area, said on Twitter. Sixteen-year-old Kimani Gray was shot and killed on Saturday night after, police say, pointing a gun at approaching cops. According to the officers involved in the shooting, the teenager adjusted his belt " suspiciously, " and after they exited their vehicle to investigate, he pointed a. 357 caliber revolver at them. Both officers fired at the suspect, hitting Gray eleven times in his torso and legs. Witnesses say Gray, who was running for his life when he was shot, did not have a gun. " Stay down, or we ' ll shoot you again, " police said once Gray had been hit, according to The New York Times. After the shooting Gray was rushed to a hospital but was declared dead on arrival.
+Event	116	searched	Occurence	532
+Event	340	rushed	Occurence	1626
+Event	112	followed	Occurence	509
+Event	48	Shot	Occurence	180
+Event	349	arrival	Occurence	1672
+Event	125	looking	Occurence	599
+Event	39	Riot	Occurence	130
+Event	95	shot	Occurence	402
+Event	132	throwing	Occurence	638
+Event	114	march	Occurence	522
+Event	337	shooting	Occurence	1608
+Event	131	seen	Occurence	633
+Event	45	Vigil	Occurence	165
+Event	347	dead	Occurence	1664
+Event	74	vigil	Occurence	305
+Event	101	Saturday	Occurence	429
+Event	63	intervened	Occurence	240
+Relation	63	74	SubSuper	true	intervened	vigil
+Relation	74	95	SubSuper	true	vigil	shot
+Relation	112	114	SubSuper	true	followed	march
+Relation	95	114	SuperSub	true	shot	march
+Relation	116	132	SubSuper	true	searched	throwing
+Relation	125	132	SubSuper	true	looking	throwing
+Relation	337	340	SuperSub	true	shooting	rushed
+Relation	337	347	SuperSub	true	shooting	dead
+Relation	39	48	SubSuper	true	Riot	Shot
+Relation	45	48	SubSuper	true	Vigil	Shot
+Relation	101	63	SuperSub	true	Saturday	intervened
+Relation	101	337	SuperSub	true	Saturday	shooting
+Relation	101	340	SuperSub	true	Saturday	rushed
+Relation	101	347	SuperSub	true	Saturday	dead
+Relation	101	349	SuperSub	true	Saturday	arrival
+Relation	39	45	SubSuper	true	Riot	Vigil
+Relation	125	131	SubSuper	true	looking	seen

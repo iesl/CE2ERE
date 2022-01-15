@@ -1,0 +1,24 @@
+Text	http://metro. co. uk/2013/06/10/man-charged-with-murdering-mother-and-sister-in-cumbria-3834866/Man charged with murdering mother and sister in Cumbria Monday 10 Jun 2013 10:45 am A 23-year-old man has been charged with the murders of his mother and sister. John Jenkin is due in court over the murders of Alice McMeekin, 58, and Kathryn Jenkin, 20. Both women were found dead at their home in Newton Street, Millom, Cumbria, on Saturday morning, with Mr Jenkin arrested shortly afterwards. Detectives said Ms McMeekin and her daughter were found with head injuries. Although formal identification has not yet taken place, Cumbria police announced the identities of the victims and Mr Jenkin, who has also been charged with animal cruelty after the family dog was found dead at the house. He is due before Furness district magistrates' court today.
+Event	81	murders	Occurence	295
+Event	98	dead	Occurence	372
+Event	117	arrested	Occurence	462
+Event	66	murders	Occurence	224
+Event	38	charged	Occurence	100
+Event	176	due	Occurence	795
+Event	182	today	Occurence	842
+Event	76	due	Occurence	273
+Event	132	injuries	Occurence	557
+Event	97	found	Occurence	366
+Event	63	charged	Occurence	207
+Event	40	murdering	Occurence	113
+Relation	182	176	SuperSub	true	today	due
+Relation	38	40	SubSuper	true	charged	murdering
+Relation	63	66	SubSuper	true	charged	murders
+Relation	76	81	SubSuper	true	due	murders
+Relation	98	117	SuperSub	true	dead	arrested
+Relation	98	132	SubSuper	true	dead	injuries
+Relation	81	132	SubSuper	true	murders	injuries
+Relation	66	132	SubSuper	true	murders	injuries
+Relation	81	176	SuperSub	true	murders	due
+Relation	182	76	SuperSub	true	today	due
+Relation	97	117	SuperSub	true	found	arrested

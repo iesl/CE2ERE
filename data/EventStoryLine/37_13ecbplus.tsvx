@@ -1,0 +1,38 @@
+Text	http://www. thehindu. com/news/international/world/strong-earthquake-hits-indonesias-aceh-province/article4873164. ece INDONESIA, July 2, 2013 Updated:July 2, 2013 15:01 IST Strong earthquake hits Indonesia's Aceh province A strong earthquake struck off Indonesia's Aceh province on Tuesday, damaging houses and injuring at least five people. The U. S. Geological Survey said the magnitude 6. 1 quake struck at a depth of 10 kilometers ( 6 miles ) and its epicenter was located 55 kilometers ( 34 miles ) west of the town of Bireun on the western tip of Sumatra island. At least five people were reportedly injured and 10 houses were damaged in Takengon, the capital of Central Aceh district, said Sutopo Purwo Nugroho of the National Disaster Mitigation Agency. "I see many houses were damages and their roofs fell onto some people, " said Bensu Elianita, a 22 year-old resident in Bukit Sama village in Central Aceh district. "Many people were injured but it is difficult to evacuate them due to traffic jams. " She said many people in the village ran out from their houses in panic and screamed for help. At least two houses were totally flattened, she said, adding that the quake also caused blackout in the village. Indonesia is prone to seismic upheaval due to its location on the Pacific Ring of Fire, an arc of volcanoes and fault lines encircling the Pacific Ocean. In 2004, a huge earthquake off Aceh triggered a tsunami that killed 230, 000 people across Asia.
+Event	130	injured	Occurence	607
+Event	279	2004	Occurence	1378
+Event	65	damaging	Occurence	292
+Event	49	earthquake	Occurence	181
+Event	50	hits	Occurence	192
+Event	162	damages	Occurence	787
+Event	194	injured	Occurence	946
+Event	88	struck	Occurence	401
+Event	103	located	Occurence	470
+Event	283	earthquake	Occurence	1391
+Event	288	tsunami	Occurence	1423
+Event	57	struck	Occurence	243
+Event	68	injuring	Occurence	312
+Event	135	damaged	Occurence	634
+Event	63	Tuesday	Occurence	283
+Event	56	earthquake	Occurence	232
+Event	290	killed	Occurence	1436
+Relation	63	49	SuperSub	true	Tuesday	earthquake
+Relation	63	50	SuperSub	true	Tuesday	hits
+Relation	63	56	SuperSub	true	Tuesday	earthquake
+Relation	63	57	SuperSub	true	Tuesday	struck
+Relation	63	65	SuperSub	true	Tuesday	damaging
+Relation	63	68	SuperSub	true	Tuesday	injuring
+Relation	63	88	SuperSub	true	Tuesday	struck
+Relation	63	103	SuperSub	true	Tuesday	located
+Relation	63	130	SuperSub	true	Tuesday	injured
+Relation	63	135	SuperSub	true	Tuesday	damaged
+Relation	63	162	SuperSub	true	Tuesday	damages
+Relation	63	194	SuperSub	true	Tuesday	injured
+Relation	279	283	SuperSub	true	2004	earthquake
+Relation	279	288	SuperSub	true	2004	tsunami
+Relation	279	290	SuperSub	true	2004	killed
+Relation	56	65	SuperSub	true	earthquake	damaging
+Relation	283	288	SuperSub	true	earthquake	tsunami
+Relation	288	290	SuperSub	true	tsunami	killed
+Relation	283	290	SuperSub	true	earthquake	killed
+Relation	49	50	SuperSub	true	earthquake	hits

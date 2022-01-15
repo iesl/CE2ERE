@@ -1,0 +1,14 @@
+Text	http://www. itv. com/news/westcountry/story/2013-07-21/wellington-supermarket-fire/9:53 AM, MON 22 JUL 2013 Latest on Waitrose supermarket fire The site manager at the Waitrose supermarket in Wellington that has been damaged by fire, says it will take a couple of days to assess how much work needs to be done.
+Event	55	damaged	Occurence	217
+Event	38	Latest	Occurence	108
+Event	42	fire	Occurence	139
+Event	75	done	Occurence	305
+Event	57	fire	Occurence	228
+Event	68	assess	Occurence	272
+Event	71	work	Occurence	288
+Relation	42	55	SuperSub	true	fire	damaged
+Relation	55	57	SubSuper	true	damaged	fire
+Relation	57	71	SuperSub	true	fire	work
+Relation	57	75	SuperSub	true	fire	done
+Relation	55	68	SuperSub	true	damaged	assess
+Relation	38	42	SubSuper	true	Latest	fire

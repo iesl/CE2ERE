@@ -1,0 +1,22 @@
+Text	http://www. westerndailypress. co. uk/Breaking-man-charged-arson-Waitrose-Wellington/story-19552795-detail/story. html Breaking:man charged with arson after fire at Waitrose in Wellington Monday, July 22, 2013 A man has been charged on suspicion of arson following a fire that devastated a Somerset supermarket. Robert Pitman, aged 24 and from Wellington, was charged with arson following the fire at the Waitrose supermarket in the Somerset town at the weekend. He has been denied bail and will appear at Taunton Deane Magistrates Court tomorrow morning. Dozens of firefighters tackled the blaze at the supermarket after the alarm was raised at about 6am on Sunday morning.
+Event	119	blaze	Occurence	591
+Event	65	devastated	Occurence	277
+Event	41	fire	Occurence	157
+Event	117	tackled	Occurence	579
+Event	125	alarm	Occurence	626
+Event	39	arson	Occurence	145
+Event	82	arson	Occurence	373
+Event	60	arson	Occurence	249
+Event	58	suspicion	Occurence	236
+Event	63	fire	Occurence	267
+Event	56	charged	Occurence	225
+Event	85	fire	Occurence	393
+Relation	39	41	SubSuper	true	arson	fire
+Relation	60	63	SuperSub	true	arson	fire
+Relation	63	65	SuperSub	true	fire	devastated
+Relation	82	85	SubSuper	true	arson	fire
+Relation	117	125	SubSuper	true	tackled	alarm
+Relation	119	125	SuperSub	true	blaze	alarm
+Relation	56	60	SubSuper	true	charged	arson
+Relation	58	60	SubSuper	true	suspicion	arson
+Relation	82	85	SuperSub	true	arson	fire

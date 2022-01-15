@@ -1,0 +1,29 @@
+Text	http://www. abc. net. au/news/2010-05-05/3-dead-after-protesters-torch-greek-bank/423816 3 dead after protesters torch Greek bank Updated Thu 6 May 2010, 9:03am AEST Three people died in a burning bank as tens of thousands of protesters took to the streets of Athens during a general strike over the Greek government's planned spending cuts. Some protesters tried to storm parliament while others threw petrol bombs at police and torched buildings in protest against new austerity measures and a decision to raise taxes to meet the conditions of its international bailout. A petrol bomb hurled at an Athens branch of the Marfin Investment Bank killed two women and a man who were caught in the resulting inferno. It was always going to be hard to convince Greeks that ripping $43 billion out of their public services and hiking their taxes was a necessary consequence of the international bailout. As the Greek prime minister George Papandreou looked out from his parliamentary office, he saw exactly how angry they were. "We are all deeply shocked by the unjust death of three of our citizens-citizens that were victims of a raw, murderous act, " Mr Papandreou said. A professor of economics at the University of Athens, Yanis Varoufakis, did not go to work today because it was not safe. But he rode his bicycle into the city to survey the aftermath of the day's mass demonstration. "What I did witness was the battlefields after the troops had departed, " he said. "There were a few still burning or smoking cars, a couple of fire engines that had been torched, a building that belongs to the finance ministry-not far away from home-was completely burned down. "Otherwise, it was an empty city without people. " Professor Varoufakis blames angry youths for the violence and deaths. "It seems it was a large demonstration, which unfortunately was infiltrated by the usual band of 100 or 200 professional [ trouble-makers ], " he said. "They're the ones who created the circumstances for the death, the tragic death and loss of those three people. " But Professor Varoufakis says there is "a very deep sense of injustice" across Greece. "In the foreign media, even the local media, there is a portrayal of the Greek people living above their means, who are lazy, who are not working. The truth, as always, is quite different from appearances, " he said. "This is a country of incredibly hard-working people, people who have two and three jobs in order to make ends meet. "Greece is also a country with the highest degree of poverty outside of Latvia in the whole of Europe, not just the eurozone, and it is a country in which a great deal of money was made over the last 10-20 years, but it was highly concentrated in a very small percentage of the population. "The rest have been struggling through the good times, through times of economic growth, to survive. Not to have a good life but just to survive, and they are the ones who now have to foot the bill for the economic collapse. " As Athens burned, many in Berlin were still fuming about having to foot most of the bill for Greek profligacy. German Chancellor Angela Merkel addressed parliament, raising her voice above the catcalls and angry hecklers from the opposition parties. "This is about nothing less than the future of Europe and with it the future of Germany in Europe, " she said. Approval ratings for the chancellor have dropped six points since the aid package for Greece was announced. Ms Merkel might pay a higher political price on the weekend when crucial regional elections are held.
+Event	119	bailout	Occurence	564
+Event	98	torched	Occurence	430
+Event	110	raise	Occurence	508
+Event	55	died	Occurence	179
+Event	92	threw	Occurence	397
+Event	142	caught	Occurence	680
+Event	134	killed	Occurence	644
+Event	82	cuts	Occurence	336
+Event	146	inferno	Occurence	704
+Event	75	strike	Occurence	284
+Event	37	dead	Occurence	91
+Event	88	storm	Occurence	367
+Event	124	hurled	Occurence	587
+Event	101	protest	Occurence	451
+Event	40	torch	Occurence	113
+Relation	37	40	SubSuper	true	dead	torch
+Relation	75	82	SubSuper	true	strike	cuts
+Relation	40	55	SuperSub	true	torch	died
+Relation	88	101	SubSuper	true	storm	protest
+Relation	92	101	SubSuper	true	threw	protest
+Relation	98	101	SubSuper	true	torched	protest
+Relation	101	110	SubSuper	true	protest	raise
+Relation	110	119	SuperSub	true	raise	bailout
+Relation	124	134	SuperSub	true	hurled	killed
+Relation	134	142	SubSuper	true	killed	caught
+Relation	124	146	SuperSub	true	hurled	inferno
+Relation	101	124	SuperSub	true	protest	hurled
+Relation	134	146	SubSuper	true	killed	inferno

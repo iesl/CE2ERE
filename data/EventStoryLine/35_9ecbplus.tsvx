@@ -1,0 +1,19 @@
+Text	http://www. nbcsandiego. com/news/sports/Hey-Jamal-Williams-Hire-a-Driver. html Hey, Jamal Williams:Hire a Driver ! Thursday, Apr 2, 2009 | Updated 1:32 PM PDT The City Attorney's Office is considering whether to file misdemeanor drunk-driving charges against Chargers defensive lineman Jamal Williams. Williams, 32, was pulled over for speeding in his Bentley on State Route 94 around 1:30 a.m. on February 1, but was arrested on suspicion of drunk driving. He had refused a Breathalyzer test and was given a blood-alcohol test instead. The results from the test were released Wednesday and showed a level of 0. 07 percent-- just under the California legal limit of 0. 08 percent. CHP Officer Brian Pennings said that the blood had been drawn well after Williams' arrest, meaning he could have been intoxicated when officers had pulled him over. City Attorney spokeswoman Gina Coburn said the case remains under review and is being investigated further.
+Event	169	arrest	Occurence	765
+Event	130	released	Occurence	569
+Event	116	given	Occurence	502
+Event	110	refused	Occurence	466
+Event	176	intoxicated	Occurence	800
+Event	165	drawn	Occurence	738
+Event	131	Wednesday	Occurence	578
+Event	198	investigated	Occurence	933
+Event	192	remains	Occurence	899
+Event	101	arrested	Occurence	419
+Event	133	showed	Occurence	592
+Relation	131	130	SuperSub	true	Wednesday	released
+Relation	131	133	SuperSub	true	Wednesday	showed
+Relation	101	110	SubSuper	true	arrested	refused
+Relation	101	116	SuperSub	true	arrested	given
+Relation	165	169	SubSuper	true	drawn	arrest
+Relation	176	192	SuperSub	true	intoxicated	remains
+Relation	192	198	SuperSub	true	remains	investigated

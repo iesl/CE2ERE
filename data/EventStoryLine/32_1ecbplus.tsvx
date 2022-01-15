@@ -1,0 +1,41 @@
+Text	http://www. mirror. co. uk/news/uk-news/john-jenkin-goth-son-held-1942506 John Jenkin:Goth son held as mum and sister killed 10 Jun 2013 09:10 John Jenkin, 23, was arrested near the terraced house where Alice McMeekin, 58, and Katie Jenkin, 20, and a dead dog, thought to be the family's pet collie, were discovered A goth was being questioned on suspicion of murder yesterday after his mother and sister were found dead at home. John Jenkin, 23, was arrested near the terraced house where Alice McMeekin, 58, and Katie Jenkin, 20, and a dead dog, thought to be the family's pet collie, were discovered. Police were called by neighbours at breakfast time on Saturday after they heard piercing screams coming from the house. One said:"I heard screaming, really high-pitched screams in the early hours. Then later I heard more screaming. It sounded like someone telling a dog to shut up. " Alice lived in the pebble-dashed terrace in Millom, Cumbria, with �unemployed John. The neighbour described him as a goth and he is said to have recently been in hospital. Katie was visiting her mum from Cardiff, where she was at university. A close friend of the dead mum said:"I can't believe it. They all looked after each other after Alice separated from her husband in the 1990s. We were so close that Katie thought of my mum as a second mum. "John was a good kid, never one of those to get into trouble. He idolised his mum and his sister. His little sister was his world, and his mum was too. " Alice was brought up in Millom, where her father ran a greengrocer's and a fish shop. She returned to her home town 12 weeks ago after a four year spell living in Cardiff. Friends noticed she had lost weight and looked frail. It is thought she may have been suffering from cancer. Another neighbour added:"She went down to Wales to give her kids a better life. Katie got into Cardiff University, I think, and John was at college doing something in special effects. "When Alice came home, John came with her. As far as I know he didn't have a girlfriend. Katie still lived in Wales and had been going out with her boyfriend for two years. "She came up for the weekend on Friday. Alice met her at the station. " Security worker Alice had recently been upset by the death of one of her four cats and had taken in a collie dog called Fenn. The friend said she was "bubbly" when she saw her on Friday. She added:"We were chatting for about half an hour. She told me Katie was coming and she was so looking forward to it. " Cumbria Police have not disclosed how Alice and Katie died. A police spokesman said:"We do not suspect anyone else to be involved. " Detective Chief Inspector Paul Duhig said:"Events such as these are rare in Cumbria. We are doing all we can to bring the offender to justice. "
+Event	89	questioned	Occurence	333
+Event	40	killed	Occurence	118
+Event	94	yesterday	Occurence	367
+Event	238	visiting	Occurence	1070
+Event	147	called	Occurence	616
+Event	160	coming	Occurence	701
+Event	157	heard	Occurence	678
+Event	159	screams	Occurence	693
+Event	84	discovered	Occurence	305
+Event	53	arrested	Occurence	164
+Event	35	held	Occurence	95
+Event	154	Saturday	Occurence	658
+Event	101	found	Occurence	410
+Event	93	murder	Occurence	360
+Event	102	dead	Occurence	416
+Event	91	suspicion	Occurence	347
+Relation	94	35	SuperSub	true	yesterday	held
+Relation	94	53	SuperSub	true	yesterday	arrested
+Relation	94	89	SuperSub	true	yesterday	questioned
+Relation	94	91	SuperSub	true	yesterday	suspicion
+Relation	94	93	SubSuper	true	yesterday	murder
+Relation	94	101	SubSuper	true	yesterday	found
+Relation	94	102	SubSuper	true	yesterday	dead
+Relation	154	147	SuperSub	true	Saturday	called
+Relation	154	157	SuperSub	true	Saturday	heard
+Relation	154	159	SuperSub	true	Saturday	screams
+Relation	154	160	SuperSub	true	Saturday	coming
+Relation	154	238	SubSuper	true	Saturday	visiting
+Relation	35	40	SubSuper	true	held	killed
+Relation	35	93	SubSuper	true	held	murder
+Relation	35	102	SubSuper	true	held	dead
+Relation	40	53	SuperSub	true	killed	arrested
+Relation	53	84	SubSuper	true	arrested	discovered
+Relation	35	84	SubSuper	true	held	discovered
+Relation	53	93	SubSuper	true	arrested	murder
+Relation	53	102	SubSuper	true	arrested	dead
+Relation	89	93	SubSuper	true	questioned	murder
+Relation	147	159	SubSuper	true	called	screams
+Relation	89	102	SubSuper	true	questioned	dead
+Relation	91	101	SubSuper	true	suspicion	found

@@ -1,0 +1,22 @@
+Text	http://www. citypress. co. za/news/france-hit-another-jewellery-heist/France hit by another jewellery heist 9 September 2013 11:55 Four men rammed their car into an up-market jewellery store in central Paris today, smashing the shop window and making off with a €2 million ( R26 million ) booty, a police source said. The heist near the upscale Place Vendome is the latest to hit France after a spate of high-profile robberies in the southern resort of Cannes. The police source, who wished to remain anonymous, said the men drove a large 4×4 car into the store in the early hours of the morning, and grabbed jewellery and luxury watches worth an estimated €2 million. They then set fire to the vehicle and escaped in another car. Forensic policemen are currently going through the site of the robbery at the Casty store on Rue de Castiglione in the central first district of Paris, which is home to numerous jewellery shops. At the end of July, an armed man carried out a brazen robbery in broad daylight at a diamond exhibition at the Carlton hotel in Cannes, making off with jewellery worth €103 million in one of the world's biggest heists. Paris has also been the scene of high-profile robberies. In December 2008, three men emptied almost all of the stock of gems from the Harry Winston jewellery store. In 2009, police said they had recovered 80% of the haul.
+Event	52	today	Occurence	208
+Event	134	grabbed	Occurence	601
+Event	26	hit	Occurence	77
+Event	30	heist	Occurence	102
+Event	39	rammed	Occurence	140
+Event	77	heist	Occurence	322
+Event	87	hit	Occurence	376
+Event	54	smashing	Occurence	215
+Relation	52	26	SuperSub	true	today	hit
+Relation	52	30	SuperSub	true	today	heist
+Relation	52	39	SuperSub	true	today	rammed
+Relation	52	54	SuperSub	true	today	smashing
+Relation	52	77	SuperSub	true	today	heist
+Relation	52	87	SuperSub	true	today	hit
+Relation	39	54	SuperSub	true	rammed	smashing
+Relation	30	39	SubSuper	true	heist	rammed
+Relation	30	54	SubSuper	true	heist	smashing
+Relation	39	77	SuperSub	true	rammed	heist
+Relation	54	77	SuperSub	true	smashing	heist
+Relation	77	134	SubSuper	true	heist	grabbed
+Relation	26	30	SuperSub	true	hit	heist

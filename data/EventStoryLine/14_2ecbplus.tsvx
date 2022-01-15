@@ -1,0 +1,7 @@
+Text	http://www. bbc. co. uk/news/uk-england-somerset-23419896 23 July 2013 Last updated at 13:42 GMT Waitrose Wellington fire:Man denies arson A man has denied arson following a fire at a Somerset supermarket early on Sunday. Robert Pitman, 24, is accused of setting fire to the Waitrose store in Wellington shortly after 06:00 BST. Half of the entrance roof at the shop collapsed during the blaze. Mr Pitman, of High Street, Wellington, entered a not guilty plea at Taunton Deane Magistrates and was remanded in custody to appear before Taunton Crown Court on 19 August.
+Event	38	arson	Occurence	133
+Event	43	arson	Occurence	156
+Event	46	fire	Occurence	174
+Event	34	fire	Occurence	117
+Relation	34	38	SuperSub	true	fire	arson
+Relation	43	46	SubSuper	true	arson	fire

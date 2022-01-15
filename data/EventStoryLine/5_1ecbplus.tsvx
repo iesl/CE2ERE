@@ -1,0 +1,64 @@
+Text	http://articles. philly. com/2005-05-24/news/25441279_1_sixers-samuel-dalembert-10-win-improvement Cheeks returns as Sixers' fixer Jim O'Brien was shown the door after a single tumultuous season. Posted:May 24, 2005 Billy King spun the 76ers' head coach revolving door again yesterday, pushing out Jim O'Brien after just one season and bringing in Maurice Cheeks, the popular former Sixers player and assistant coach, as O'Brien's replacement. Nearly three weeks after the Sixers ended their season, King decided to fire O'Brien, who still has two years and $8 million left on the contract he signed when he was hired by the Sixers on April 21, 2004. Cheeks, who was fired March 2 as head coach of the Portland Trail Blazers, is the fourth head coach since King took over as the team's president and general manager on May 26, 2003. That is the same date that Larry Brown resigned from the Sixers after six seasons, the last time coaching stability existed with the team. Cheeks was a second-round draft choice of the 76ers in 1978 and played for 11 seasons with the team. He was the point guard and floor leader of the Sixers' 1983 NBA title team. At a news conference last night at the Philadelphia College of Osteopathic Medicine, King said he had the support of Ed Snider, the chairman of Comcast-Spectacor, the team's owner, for his latest moves even though the Sixers will be paying ex-coaches Randy Ayers ( $2 million ) and O'Brien along with Cheeks next season. "In talking with Ed, we felt the main focus was that we want to make the right decisions and not let money be the factor, " King said. "We think we owe it to our fans and the city of Philadelphia to do that. " Cheeks, 48, a four-time NBA all-star while with the Sixers, was fired from the Blazers, his first head coaching job, in the middle of his fourth season. He led the team to a 162-139 record. Two years ago, after Brown resigned, King looked to Cheeks to take over as Brown's successor. But the Trail Blazers rebuffed him three times, because Cheeks was still under contract to them. The Sixers then hired Ayers, who lasted 52 games before being replaced by Chris Ford. King said he decided on Saturday to fire O'Brien, and then checked with Cheeks to see if he'd be interested in the job. Cheeks said he would be, and King called him again yesterday and reached a deal after notifying O'Brien of his decision. Terms of the deal were not disclosed. When King hired O'Brien, he had called him a "perfect fit" for the job. O'Brien did lead the Sixers to a 43-39 record-a 10-win improvement over the previous season-and a playoff berth and coached Allen Iverson to his fourth NBA scoring title. But in evaluating the season, King said he didn't think the Sixers were heading in the right direction. He had a problem with the team's style of play, which included reliance on the three-point basket and a defense that protected the paint but had trouble getting out on perimeter shooters. There was also talk that O'Brien was aloof and not communicative with his players. He did not start Samuel Dalembert, a developing young center, until the season's 19th game, and he did not play Willie Green with Iverson for much of the season's final four months because he felt that was a bad matchup defensively. King said that in his postseason meetings with players, "not one of them said they wouldn't play for Jim... that they'd all come back ready to go and try to go further in the playoffs. " But other things bothered him. King said he didn't want to make a snap decision when the season ended on May 3, the day that the Detroit Pistons eliminated the Sixers from the playoffs. He talked to his management team, went on vacation for a week, then made his decision on Saturday. "In the interview process with Jim, there were a lot of things that we talked about, " King said. "But in watching the season, evaluating our young players' development and evaluating our style of play, it wasn't something I was comfortable with. " Reached by telephone yesterday, O'Brien declined to comment. "I'm not going to have any discussion about this, " he said. King said that when he broke the news yesterday to O'Brien, "He asked why, and I told him that I just felt there were some things that took place that I don't think will change and we're going to make a change. He said, 'Thank you. ' " Snider, who attended King's news conference, said he backed King. "I really don't question Billy at all, " he said. "I know what went on in the process when he made this decision, as well as the decision to hire Jim O'Brien. I've supported his moves, and I still do. " O'Brien was excited to come back to Philadelphia because of his roots in the city. Cheeks, who is expected to speak at a press conference today, is excited to be coming back to Philadelphia because of all the success he enjoyed here as a player, followed by seven seasons as an assistant coach. "Mo is family, " King said. "Mo bleeds 76ers. He bleeds Philadelphia. " He is still the franchise's all-time leader in assists and steals. Cheeks also played with San Antonio, New York, Atlanta and New Jersey before retiring in 1993. Cheeks returned to the Sixers in 1994 as an assistant coach and stayed for seven seasons until the Trail Blazers hired him as head coach on June 27, 2001. Under Cheeks' guidance, the Blazers made the playoffs in 2002 and 2003, but did not get out of the first round. They missed the postseason in 2004, breaking a streak of 21 consecutive years in the playoffs, and were wracked by dissension. "I look at Mo Cheeks and I know Mo Cheeks, " King said. "If players have problems with Mo Cheeks, then there's got to be something wrong with those players. " Under O'Brien, the former head coach of the Boston Celtics, Iverson moved from shooting guard to point guard and responded with an MVP-caliber season, winning his fourth NBA scoring title. But O'Brien is gone now. Cheeks is in. And King knows he's being held accountable. "I look in the mirror every day, " King said. "I'm not somebody that's above scrutiny, but I think I try to do the best I can and make the best decisions. "
+Event	891	going	Occurence	4307
+Event	460	Saturday	Occurence	2171
+Event	875	felt	Occurence	4222
+Event	888	change	Occurence	4290
+Event	35	returns	Occurence	106
+Event	1226	gone	Occurence	5911
+Event	478	job	Occurence	2262
+Event	109	fire	Occurence	516
+Event	860	yesterday	Occurence	4158
+Event	497	notifying	Occurence	2353
+Event	107	decided	Occurence	505
+Event	467	checked	Occurence	2206
+Event	471	see	Occurence	2229
+Event	67	yesterday	Occurence	275
+Event	501	decision	Occurence	2378
+Event	462	fire	Occurence	2183
+Event	493	reached	Occurence	2332
+Event	59	spun	Occurence	227
+Event	859	news	Occurence	4153
+Event	94	replacement	Occurence	431
+Event	895	change	Occurence	4323
+Event	857	broke	Occurence	4143
+Event	1231	in	Occurence	5931
+Event	475	interested	Occurence	2244
+Event	458	decided	Occurence	2160
+Event	488	called	Occurence	2301
+Event	125	signed	Occurence	593
+Event	491	yesterday	Occurence	2318
+Event	129	hired	Occurence	612
+Relation	67	35	SuperSub	true	yesterday	returns
+Relation	67	59	SuperSub	true	yesterday	spun
+Relation	67	94	SuperSub	true	yesterday	replacement
+Relation	460	462	SuperSub	true	Saturday	fire
+Relation	460	467	SuperSub	true	Saturday	checked
+Relation	460	478	SuperSub	true	Saturday	job
+Relation	491	488	SuperSub	true	yesterday	called
+Relation	491	493	SuperSub	true	yesterday	reached
+Relation	491	501	SuperSub	true	yesterday	decision
+Relation	860	859	SuperSub	true	yesterday	news
+Relation	860	875	NoRel	true	yesterday	felt
+Relation	860	888	SuperSub	true	yesterday	change
+Relation	860	895	SuperSub	true	yesterday	change
+Relation	860	1231	SuperSub	true	yesterday	in
+Relation	59	94	SubSuper	true	spun	replacement
+Relation	109	129	SubSuper	true	fire	hired
+Relation	462	478	SuperSub	true	fire	job
+Relation	488	493	SuperSub	true	called	reached
+Relation	493	501	SuperSub	true	reached	decision
+Relation	462	888	SubSuper	true	fire	change
+Relation	462	895	SuperSub	true	fire	change
+Relation	1226	1231	SuperSub	true	gone	in
+Relation	460	458	SuperSub	true	Saturday	decided
+Relation	460	471	SuperSub	true	Saturday	see
+Relation	460	475	SuperSub	true	Saturday	interested
+Relation	67	109	SuperSub	true	yesterday	fire
+Relation	460	107	SuperSub	true	Saturday	decided
+Relation	491	497	SuperSub	true	yesterday	notifying
+Relation	860	1226	SuperSub	true	yesterday	gone
+Relation	857	891	SuperSub	true	broke	going
+Relation	471	478	SubSuper	true	see	job
+Relation	462	478	SubSuper	true	fire	job
+Relation	125	129	SubSuper	true	signed	hired
+Relation	107	109	SuperSub	true	decided	fire

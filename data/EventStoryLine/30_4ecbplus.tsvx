@@ -1,0 +1,13 @@
+Text	http://www. itnewsafrica. com/2011/08/fiber-cable-cut-in-egypt/Fiber cable cut in Egypt August 16, 2011 Reports on Tuesday morning indicated that a fiber optic cable in the northern part of Egypt had been damaged, resulting in the loss of all telecommunications in Egypt's second largest city of Alexandria and parts of the Nile Delta region. ITNewsAfrica that "a Telecom Egypt fiber line near Alexandria has been damaged resulting in loss of telecommunications for all three mobile operators. " The official, however, did not give details as to why the cable was damaged and it remains unclear whether it was an attack or a miscue on the operator's part. Telecom Egypt, the country's state-owned fixed line monopoly is responsible for all ADSL Internet connections and the three mobile operators in Egypt their infrastructure for connectivity. Egypt is not unfamiliar to telecom cuts. In recent years, the country has lost Internet service after Mediterranean cables were cut, leaving the country largely blacked out for days. The official, who was not authorized to speak to the media, did say that they were attempting to rectify the problem "as soon as we understand exactly what happened. " Users across the country reported immediate drops in speed and connectivity. At local cafes in Cairo, users immediately saw a difference in connection speed. "I hope they get this sorted out quickly, because I have to upload things daily and this cut is affecting how I work, " said an Egyptian blogger and journalist, who added that the "Internet is my life. If it goes down, it really hurts my ability to work. "
+Event	52	damaged	Occurence	205
+Event	235	drops	Occurence	1240
+Event	27	cut	Occurence	75
+Event	57	loss	Occurence	231
+Event	90	loss	Occurence	435
+Event	87	damaged	Occurence	414
+Relation	52	57	SuperSub	true	damaged	loss
+Relation	27	57	SuperSub	true	cut	loss
+Relation	87	90	SuperSub	true	damaged	loss
+Relation	87	235	SuperSub	true	damaged	drops
+Relation	52	235	SuperSub	true	damaged	drops
+Relation	27	235	SuperSub	true	cut	drops

@@ -1,0 +1,21 @@
+Text	http://brooklyn. news12. com/news/jury-finds-andrew-lopez-guilty-in-murder-of-zurana-horton-1. 5124293 Jury finds Andrew Lopez guilty in murder of Zurana Horton Published:April 23, 2013 9:39 AM A jury has handed down a guilty verdict for one of the two men accused of murdering a Brownsville mother of 12. Andrew Lopez was found guilty of second-degree murder and two counts of first-degree assault in the death of Zurana Horton. Jury deliberations are still underway for the second suspect, Jonathan Carrasquillo. Horton was shot and killed in October 2011 when gunfire erupted outside...
+Event	119	shot	Occurence	526
+Event	121	killed	Occurence	535
+Event	105	deliberations	Occurence	435
+Event	72	murdering	Occurence	268
+Event	83	guilty	Occurence	329
+Event	42	murder	Occurence	137
+Event	62	guilty	Occurence	219
+Event	99	death	Occurence	406
+Event	70	accused	Occurence	257
+Event	126	gunfire	Occurence	563
+Event	40	guilty	Occurence	127
+Relation	40	42	SubSuper	true	guilty	murder
+Relation	62	70	SubSuper	true	guilty	accused
+Relation	70	72	SubSuper	true	accused	murdering
+Relation	83	99	SubSuper	true	guilty	death
+Relation	83	105	SuperSub	true	guilty	deliberations
+Relation	70	105	SuperSub	true	accused	deliberations
+Relation	119	121	SuperSub	true	shot	killed
+Relation	121	126	SubSuper	true	killed	gunfire
+Relation	119	126	SubSuper	true	shot	gunfire

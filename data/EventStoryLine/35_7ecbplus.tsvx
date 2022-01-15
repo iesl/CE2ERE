@@ -1,0 +1,15 @@
+Text	http://www. tsn. ca/mma/story/? id=265672 CHARGERS' WILLIAMS ARRESTED ON SUSPICION OF DUI 2/3/2009 5:59:13 PM San Diego Chargers defensive tackle Jamal Williams was arrested on suspicion of drunk driving, the team's second such arrest in less than a month. Williams was pulled over for speeding early Sunday on a freeway outside the city's downtown area, the California Highway Patrol said. Williams gave a blood sample for a blood-alcohol test, but the results were not yet known. Williams was booked into county jail and later released on bail. The City Attorney's office said the case hadn't been submitted as of Tuesday. Chargers general manager A. J. Smith did not return a call. Chargers receiver Vincent Jackson was arrested for investigation of DUI on Jan. 6, five days before San Diego's playoff loss at Pittsburgh. Jackson is due in court Feb. 17. He was on probation for a previous DUI arrest, the California Highway Patrol said. Williams, an 11-year veteran, shared the team's most valuable player award with quarterback Philip Rivers this season. The Chargers reached the playoffs with an 8-8 record.
+Event	171	due	Occurence	836
+Event	125	submitted	Occurence	600
+Event	149	arrested	Occurence	723
+Event	23	DUI	Occurence	86
+Event	128	Tuesday	Occurence	616
+Event	153	DUI	Occurence	753
+Event	19	ARRESTED	Occurence	61
+Event	85	gave	Occurence	400
+Event	43	arrested	Occurence	165
+Relation	128	125	SuperSub	true	Tuesday	submitted
+Relation	19	23	SubSuper	true	ARRESTED	DUI
+Relation	43	85	SuperSub	true	arrested	gave
+Relation	149	153	SuperSub	true	arrested	DUI
+Relation	149	171	SuperSub	true	arrested	due

@@ -1,0 +1,19 @@
+Text	http://dlisted. com/2013/05/02/lindsay-lohan-checks-rehab-checks-out-two-minutes-later/Lindsay Lohan Checks Into Rehab, Checks Out Two Minutes Later May 2, 2013 The judge should know to never ever trust a gnome with a law degree, because they are shifty shits and will lie to you with a twinkle in their eyes. That's exactly what LiLo's lawyer Mark Heller did in court this morning. He told the judge that LiLo was " ensconced in the bosom of " rehab this morning when she was really buying crap at Fry's in Fountain Valley, CA. The NYDN says that LiLo eventually made it to Morningside Recovery in Newport Beach, but two minutes after she walked through the door, she walked back through it and left. According to the NYDN, LiLo showed up to Morningside at around noon, spent a couple of minutes there, got spooked by the paparazzi ( uh huh ) and then jumped back into her SUV.
+Event	195	jumped	Occurence	853
+Event	161	left	Occurence	696
+Event	185	spooked	Occurence	808
+Event	177	spent	Occurence	771
+Event	136	made	Occurence	564
+Event	55	trust	Occurence	197
+Event	150	walked	Occurence	640
+Event	66	shifty	Occurence	247
+Event	156	walked	Occurence	669
+Event	70	lie	Occurence	269
+Relation	55	66	SubSuper	true	trust	shifty
+Relation	55	70	SubSuper	true	trust	lie
+Relation	136	150	SuperSub	true	made	walked
+Relation	150	156	SuperSub	true	walked	walked
+Relation	156	161	SuperSub	true	walked	left
+Relation	177	185	SuperSub	true	spent	spooked
+Relation	177	195	SuperSub	true	spent	jumped
+Relation	185	195	SuperSub	true	spooked	jumped

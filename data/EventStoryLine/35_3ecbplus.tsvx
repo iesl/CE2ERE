@@ -1,0 +1,36 @@
+Text	http://www. utsandiego. com/news/2009/Feb/04/1s4chargers222254-williams-dui-arrest-just-latest-/ Williams' DUI arrest just the latest for Chargers Team has program to address problem 2 A. M. FEB. 4, 2009 Two years ago, the Chargers won an NFL special award for helping start a San Diego program by which players who've been imbibing can call a private number for a ride home, an alternative to driving under the influence. A former Chargers fullback, Lorenzo Neal, was among the co-founders of the " Safe Ride Solutions " program that since has been expanded to other NFL cities. Evidently, though, the drinking and driving problem hasn't been eradicated in San Diego. Sunday, for the second time in less than four weeks, a Chargers player was pulled over in the early-morning hours and arrested on suspicion of DUI. " It's disappointing to hear about the issue involving Jamal Williams, " said General Manager A. J. Smith in a news release issued by the team yesterday. " We'll continue to monitor the situation and let the legal process run its course. " Smith's statement served as the only comment from the Chargers. A request to interview club President Dean Spanos was declined by a spokesman. As it is, the Chargers are still awaiting the disposition of a similar case involving wide receiver Vincent Jackson, arrested Jan. 6 in Clairemont on suspicion of driving under the influence. Jackson, also facing charges of driving while on probation for a prior DUI, has an arraignment set for Feb. 17 in San Diego Superior Court. Williams, a three-time Pro Bowl nose tackle, was stopped for speeding westbound on state route 94 at approximately 1:30 a.m Sunday. Arrested by the CHP on suspicion of drunken driving, he was booked into county jail and later released on bond. Results of Williams' blood-alcohol test have not been released. " These are just two more arrests that we've had, " said Pat Hodgkin, local executive director of Mothers Against Drunk Driving ( MADD ), noting that roughly 13, 000 DUI convictions are issued every year in San Diego County. " However, these are media-worthy professionals. These are individuals that not only youth looks up to, but adults look up to as well. They need to understand that they have an effect on people and a responsibility. " The Chargers were involved in one of the most publicized and bizarre instances of a DUI stop in 2006. Linebacker Steve Foley was shot three times by an off-duty Coronado police officer who followed Foley from downtown to the player's home in Poway. Foley, his career ended by the bullet wounds, later pleaded guilty to misdemeanor DUI. It was that case that prompted Gary Lawrence, a detective with the Northern Division of the San Diego Police Department, to ally with the Chargers in a program in which players who've been drinking would call " Safe Ride Solutions " and be driven home by an off-duty member of law enforcement. " Anytime anybody's arrested for DUI, I get very disappointed, and not just when athletes are involved, " said Lawrence yesterday. " We're talking about a crime where people are killed or injured, a crime where people go to jail, and it's 100 percent preventable. " Citing his company's confidentiality agreement with clients, Lawrence declined to discuss anything specific pertaining to the Chargers and their players. From its start with the team, though, the business has grown to include clients from other high-profile realms and put to work by other NFL franchises. In recognition of the program, the league gave the Chargers its Winston-Shell Award in 2007 for " demonstrating commitment and dedication to developing unique and innovative ideas and solutions. "
+Event	206	yesterday	Occurence	960
+Event	181	hear	Occurence	841
+Event	260	disposition	Occurence	1246
+Event	175	DUI	Occurence	812
+Event	344	Arrested	Occurence	1664
+Event	303	set	Occurence	1487
+Event	289	charges	Occurence	1413
+Event	239	interview	Occurence	1134
+Event	231	comment	Occurence	1094
+Event	362	released	Occurence	1758
+Event	226	statement	Occurence	1065
+Event	326	stopped	Occurence	1581
+Event	237	request	Occurence	1123
+Event	34	arrest	Occurence	111
+Event	33	DUI	Occurence	107
+Event	171	arrested	Occurence	787
+Event	271	arrested	Occurence	1317
+Event	179	disappointing	Occurence	824
+Event	202	issued	Occurence	941
+Event	245	declined	Occurence	1175
+Event	328	speeding	Occurence	1593
+Relation	206	179	NoRel	true	yesterday	disappointing
+Relation	206	181	NoRel	true	yesterday	hear
+Relation	206	202	SuperSub	true	yesterday	issued
+Relation	206	237	SuperSub	true	yesterday	request
+Relation	206	239	SuperSub	true	yesterday	interview
+Relation	206	245	SuperSub	true	yesterday	declined
+Relation	33	34	SuperSub	true	DUI	arrest
+Relation	171	175	SuperSub	true	arrested	DUI
+Relation	260	271	SubSuper	true	disposition	arrested
+Relation	289	303	SuperSub	true	charges	set
+Relation	326	328	SuperSub	true	stopped	speeding
+Relation	344	362	SuperSub	true	Arrested	released
+Relation	206	226	SuperSub	true	yesterday	statement
+Relation	206	231	SuperSub	true	yesterday	comment

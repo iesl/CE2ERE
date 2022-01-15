@@ -1,0 +1,10 @@
+Text	http://www. contactmusic. com/news/lindsay-lohan-rehab_3719638 Lindsay Lohan Checks Out Of Rehab... To Check Into Different Rehab Centre 14 June 2013 The actress has left the Betty Ford Centre and gone to Malibu's Cliffside resort. One place Lindsay is finding this particularly difficult though is at the Betty Ford Centre, where the actress has just finished 30 days' worth of treatment and has decided that the renowned facilities there won't be enough to keep her around for her court-ordered 90-day stay in rehab, so she's gone elsewhere. According to a report from TMZ published this week ( June 13 ), the Mean Girls actress has had enough of the Palm Springs rehab centre and has decided to spend the rest of her court-ordered stay in a rehab centre in Malibu, named the Cliffside. Lindsay hasn't messed around in getting to the new facility either and she is reportedly already a patient of the Cliffside rehab centre, having checked out of the Betty Ford Centre on Thursday ( June 13 ) this week and committing herself to Cliffside almost immediately afterward.
+Event	79	treatment	Occurence	379
+Event	41	left	Occurence	166
+Event	151	stay	Occurence	734
+Event	47	gone	Occurence	197
+Event	92	keep	Occurence	459
+Event	204	committing	Occurence	1009
+Relation	41	47	SuperSub	true	left	gone
+Relation	79	92	SuperSub	true	treatment	keep
+Relation	151	204	SuperSub	true	stay	committing

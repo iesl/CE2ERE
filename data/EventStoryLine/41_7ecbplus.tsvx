@@ -1,0 +1,41 @@
+Text	http://www. rnw. nl/africa/article/south-sudan-%E2%80%9Csudan-bombed-refugee-camp%E2%80%9D South Sudan:"Sudan bombed refugee camp" Published on:11 November 2011-11:25am A refugee camp in South Sudan's Unity state was bombed on Thursday, South Sudan officials and witnesses said, threatening to raise tensions with Sudan. Sudan's armed forces denied they carried out the strike. South Sudan's president Salva Kiir talked of Sudan's "pending invasion" of its neighbour. Violence along the poorly defined border since South Sudan's independence in July has strained ties between the two nations. They have accused one another of backing rebel groups on their sides of the border. A reporter heard a large explosion in the Yida refugee camp, then saw a crater about two metres wide, an unexploded bomb wedged in the side of a school building and a white aircraft flying north. Witnesses said there were three further explosions at 3 p.m. Yida is a camp of about 20, 000 refugees from the Nuba Mountains region of South Kordofan, a state north of the border where rebels have been fighting Sudan's army since June. The camp is less than 25 kilometres from the border with Sudan. There were no immediate reports of any casualties. Khartoum denies Taban Deng, the governor of Unity state, accused Khartoum of carrying out the attack. "These people ( Khartoum ) should be taken to book. They should adhere to international laws and regulations, " Deng told reporters in Bentiu. "The refugees need to be safe and need to be protected. They ran away from war. They should not be pursued inside the territory of South Sudan, " he said. Al-Sawarmi Khalid, spokesman for Sudan's armed forces, said Sudan had not bombed anywhere in South Sudan's territory. "South Sudan is a state in the United Nations. We respect international law, and it's impossible that we would do that, " he said. South Sudan split off into a separate country in July after voting overwhelmingly for secession in a January referendum, the culmination of a 2005 peace deal that ended decades of war between north and south. Fighting in Blue Nile state Fire crackled in the dry grass around the crater about 100 metres away from an aid agency compound in Yida camp. "They ( Khartoum ) don't want any life in the Nuba Mountains, and now they are expanding the war to the South Sudan republic, " said Yousif Ismail, a refugee from the Nuba mountains. Fighting has broken out in Sudan's Blue Nile state this year. Blue Nile and South Kordofan are home to tens of thousands of fighters who sided with the south during the war but were left in Sudan when South Sudan seceded, analysts say. Khartoum's smoke screens Last week, Khartoum submitted its second complaint to the UN Security Council, accusing South Sudan of supplying anti-aircraft and anti-tank missiles, ammunition, landmines and mortars to the insurgents. Kiir denied those claims in a statement on Thursday, calling them "smoke screens to mask Khartoum's own activities in support of the armed dissident groups that are fighting its proxy war against the Republic of South Sudan". The accusations were being used to justify Sudan's "pending invasion of the South, " Kiir said. The two countries have yet to agree on how much the new nation will pay to use Sudan's oil pipelines and other facilities, which South Sudan depends on to export crude. They also dispute control of the Abyei region. Some 2 million people died in the north-south civil war, waged for all but a few years since 1955 over religion, ideology, ethnicity and oil.
+Event	211	fighting	Occurence	1076
+Event	203	north	Occurence	1033
+Event	52	bombed	Occurence	217
+Event	65	raise	Occurence	294
+Event	66	tensions	Occurence	300
+Event	215	June	Occurence	1104
+Event	143	saw	Occurence	743
+Event	30	bombed	Occurence	110
+Event	237	casualties	Occurence	1213
+Event	152	unexploded	Occurence	782
+Event	132	heard	Occurence	688
+Event	166	flying	Occurence	859
+Event	78	strike	Occurence	370
+Event	135	explosion	Occurence	702
+Event	154	wedged	Occurence	798
+Event	63	threatening	Occurence	279
+Event	54	Thursday	Occurence	227
+Relation	54	30	SuperSub	true	Thursday	bombed
+Relation	54	52	SuperSub	true	Thursday	bombed
+Relation	54	63	SuperSub	true	Thursday	threatening
+Relation	54	65	NoRel	true	Thursday	raise
+Relation	54	66	NoRel	true	Thursday	tensions
+Relation	54	78	SuperSub	true	Thursday	strike
+Relation	54	132	SuperSub	true	Thursday	heard
+Relation	54	135	SuperSub	true	Thursday	explosion
+Relation	54	143	SuperSub	true	Thursday	saw
+Relation	54	152	SuperSub	true	Thursday	unexploded
+Relation	54	154	SuperSub	true	Thursday	wedged
+Relation	54	166	SuperSub	true	Thursday	flying
+Relation	215	211	SubSuper	true	June	fighting
+Relation	54	237	SuperSub	true	Thursday	casualties
+Relation	30	66	SuperSub	true	bombed	tensions
+Relation	52	66	SuperSub	true	bombed	tensions
+Relation	78	135	SuperSub	true	strike	explosion
+Relation	78	154	SuperSub	true	strike	wedged
+Relation	52	135	SuperSub	true	bombed	explosion
+Relation	52	154	SuperSub	true	bombed	wedged
+Relation	52	237	SuperSub	true	bombed	casualties
+Relation	78	237	SuperSub	true	strike	casualties
+Relation	203	211	SubSuper	true	north	fighting

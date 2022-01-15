@@ -1,0 +1,14 @@
+Text	http://sports. espn. go. com/nba/news/story ? id=2115562 Agent says Sixers to sign Dalembert to six-year deal July 25, 2005, 12:18 AM ET Samuel Dalembert agreed to a six year deal with the Philadelphia 76ers on Saturday, his agent Marc Cornstein, told ESPN. com. Cornstein refused to disclose the amount of the contract, but it's believed to be worth between $60 million to $70 million, based on previous negotiations. The signing came just one day before Dalembert was set to get on a plane and visit the Atlanta Hawks, who had the money under the cap to pay him a maximum five-year, $70 million offer. Of the three top big men on the market, Dalembert was the center with the most upside. He has great range and is athletic, with great shot blocking instincts. He's shown he can be a volume rebounder and his offensive game is emerging. He was very inconsistent at times this season, but in the playoffs against the Detroit Pistons, he played the part of a franchise center. The Sixers made a power move this offseason, firing head coach Jim O'Brien, who wasn't a Dalembert fan, and replacing him with Mo Cheeks, who is. Philly let it be known that O'Brien was fired, in part, because the Sixers are committed to Dalembert. This is the third deal for the Sixers this summer. They also reached six-year deals with Kyle Korver for $25 million and with Willie Green for about $20 million.
+Event	229	fan	Occurence	1076
+Event	232	replacing	Occurence	1085
+Event	215	move	Occurence	1001
+Event	258	committed	Occurence	1202
+Event	249	fired	Occurence	1163
+Event	219	firing	Occurence	1022
+Event	239	is	Occurence	1119
+Relation	219	232	SuperSub	true	firing	replacing
+Relation	219	229	SubSuper	true	firing	fan
+Relation	215	229	SubSuper	true	move	fan
+Relation	215	232	SuperSub	true	move	replacing
+Relation	249	258	SubSuper	true	fired	committed
+Relation	232	239	SubSuper	true	replacing	is

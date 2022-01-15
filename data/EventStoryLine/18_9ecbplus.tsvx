@@ -1,0 +1,37 @@
+Text	http://www. nytimes. com/2007/04/10/us/10revenge. html ?_r=0 Shooting at Accounting Firm Leaves Woman Dead and 2 Hurt Published:April 10, 2007 A man who was fired last week from his job at an accounting firm in suburban Detroit walked into his former office with a shotgun on Monday and shot three people, killing one, before fleeing and leading police officers on a high-speed chase, the authorities said. The suspect, identified as Anthony LaCalamita, entered the second-floor office of the accounting firm, Gordon Advisors, about 10 a.m. and opened fire, the police said. A 63-year-old woman and two men, ages 47 and 48, were shot, the police said. The woman, identified by the police as Madeline Kafoury, died at the scene, the authorities said. The two other victims were being treated at Beaumont Hospital in Royal Oak. Ilene Wolff, a spokeswoman for the hospital, said that their families had requested privacy, and that the hospital was not releasing any information about their condition or the nature of their injuries. Though the police declined to release the names of the two men, The Detroit Free Press identified them as Paul Riva, 47, of Sterling Heights and Alan Steinberg, 48, of Bruce Township. Both are partners in the firm, the newspaper reported. Mr. LaCalamita, 38, who was still listed on the firm's Web site as a member of its " professional staff, " had been dismissed last week, the police said. Though they would not say what his relationship was with any of the victims or what led to the shootings, " it doesn ' t appear it was random, " the Troy police chief, Charles Craft, said. Officers and witnesses described a chaotic scene immediately after the shooting as workers barricaded themselves in their cubicles and offices. A few hours later, some employees gathered outside the building but would not speak to reporters. The three-story office building houses other tenants in addition to the accounting firm, and appeared to have no formal security system, Chief Craft said. He said witnesses told the police that Mr. LaCalamita had walked into the building and into the firm's unlocked suite as though he were concealing something. Mr. LaCalamita fled in his car before officers arrived, but witnesses took note of the license plate number, the authorities said. About two hours after the shooting, officers received a tip from a motorist in Flint, about 50 miles north of here, on the whereabouts of the car. Police officers chased Mr. LaCalamita for about 30 miles at speeds of up to 120 miles an hour on Interstate 75 before apprehending him near Bay City.
+Event	79	leading	Occurence	338
+Event	34	Hurt	Occurence	113
+Event	96	identified	Occurence	420
+Event	77	fleeing	Occurence	326
+Event	25	Shooting	Occurence	61
+Event	67	Monday	Occurence	276
+Event	69	shot	Occurence	287
+Event	73	killing	Occurence	306
+Event	146	shot	Occurence	629
+Event	31	Dead	Occurence	102
+Event	29	Leaves	Occurence	89
+Event	45	fired	Occurence	157
+Event	87	chase	Occurence	378
+Event	58	walked	Occurence	228
+Event	101	entered	Occurence	454
+Relation	67	58	SuperSub	true	Monday	walked
+Relation	67	45	SubSuper	true	Monday	fired
+Relation	67	69	SuperSub	true	Monday	shot
+Relation	67	73	SuperSub	true	Monday	killing
+Relation	67	77	SuperSub	true	Monday	fleeing
+Relation	67	87	SuperSub	true	Monday	chase
+Relation	67	96	SuperSub	true	Monday	identified
+Relation	67	101	SuperSub	true	Monday	entered
+Relation	67	146	SuperSub	true	Monday	shot
+Relation	67	25	SuperSub	true	Monday	Shooting
+Relation	67	31	SuperSub	true	Monday	Dead
+Relation	67	29	SuperSub	true	Monday	Leaves
+Relation	67	34	SuperSub	true	Monday	Hurt
+Relation	25	31	SuperSub	true	Shooting	Dead
+Relation	25	34	SuperSub	true	Shooting	Hurt
+Relation	69	73	SuperSub	true	shot	killing
+Relation	77	87	SuperSub	true	fleeing	chase
+Relation	31	146	SubSuper	true	Dead	shot
+Relation	34	146	SubSuper	true	Hurt	shot
+Relation	67	79	SuperSub	true	Monday	leading
+Relation	69	79	SuperSub	true	shot	leading

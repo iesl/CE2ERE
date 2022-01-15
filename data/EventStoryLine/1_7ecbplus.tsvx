@@ -1,0 +1,11 @@
+Text	http://www. etonline. com/news/133594_Lindsay_Lohan_Checks_Into_California_Rehab_Facility/index. html Lindsay Lohan Checks Into Court-Ordered Rehab May 02, 2013 Lindsay Lohan's lawyer says the actress checked into rehab on Thursday, but the facility has not been officially sanctioned by the court that ordered her to serve 90 days of treatment. Attorney Mark Jay Heller told LA Superior Court Judge James R. Dabney that Lohan, 26, had checked into Morningside Recovery in Newport Beach, CA, according to the Associated Press.
+Event	38	Ordered	Occurence	134
+Event	39	Rehab	Occurence	142
+Event	75	treatment	Occurence	335
+Event	68	ordered	Occurence	303
+Event	63	sanctioned	Occurence	274
+Event	54	Thursday	Occurence	223
+Relation	54	63	NoRel	true	Thursday	sanctioned
+Relation	54	68	SubSuper	true	Thursday	ordered
+Relation	54	75	NoRel	true	Thursday	treatment
+Relation	38	39	SuperSub	true	Ordered	Rehab

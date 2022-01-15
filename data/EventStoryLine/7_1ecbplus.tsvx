@@ -1,0 +1,39 @@
+Text	http://espn. go. com/boxing/story /_/ id/8139047/wladimir-klitschko-stops-tony-thompson-6th-round-retain-world-heavyweight-belts Wladimir Klitschko retains belts Updated:July 7, 2012, 10:04 PM ET Wladimir Klitschko stopped Tony Thompson in the sixth round to keep a comfortable hold on his WBA, IBF and WBO heavyweight titles Saturday night. The 36-year-old champion Klitschko, 58-3 with 51 knockouts, floored Thompson with a big right hand near the end of the fifth round at Stade de Suisse, and the 40-year-old American never recovered. The Ukrainian champion dropped Thompson again in the sixth, and referee Sam Williams gave the challenger a standing count before stopping the fight at 2:56. "Thompson was not so easy to box. I'm satisfied, " Klitschko said. In 2008, Klitschko stopped Thompson in the 11th round. Thompson, the mandatory challenger nominated by the IBF, fell to 36-3 ( 24 KOs ). After the fight, Klitschko led the crowd of 22, 000 in signing "Happy Birthday" to trainer Emanuel Steward, who turned 68 on Saturday. "Tony Thompson is very hard to hit, " Steward said. "Tony was watching Wladimir's right hand all night. " A cagey opening round was followed by a scrappy second, as Klitschko twice wrestled Thompson to the floor. Thompson briefly stepped up his cautious tactics when landing a left to Klitschko's face in the third. Klitschko finally landed a long, straight right in the fifth, and the round ended with Thompson struggling on the ropes. The champion cornered Thompson toward the end of the sixth, and landed punches to the head though no single blow appeared to cause serious damage. "I got caught but I'm OK, " Thompson said in the ring. "He's strong and he's world heavyweight champion for a reason. " Klitschko extended the domination of the heavyweight ranks he shares with his older brother, Vitali. Vitali was in his brother's corner as usual, and acted as cheerleader in the third round, urging on fans in the soccer stadium when the first chants of "Klitschko ! Klistchko ! stirred. The elder Klitschko will defend his WBC title against Manuel Charr of Germany in Moscow on Sept. 8.
+Event	371	domination	Occurence	1762
+Event	178	stopped	Occurence	782
+Event	175	2008	Occurence	766
+Event	183	round	Occurence	811
+Event	106	hand	Occurence	436
+Event	128	recovered	Occurence	528
+Event	310	struggling	Occurence	1447
+Event	335	blow	Occurence	1580
+Event	149	count	Occurence	655
+Event	340	damage	Occurence	1611
+Event	151	stopping	Occurence	668
+Event	299	right	Occurence	1393
+Event	369	extended	Occurence	1749
+Event	317	cornered	Occurence	1485
+Event	336	appeared	Occurence	1585
+Event	168	satisfied	Occurence	734
+Event	133	dropped	Occurence	562
+Event	100	floored	Occurence	402
+Event	327	landed	Occurence	1536
+Event	324	sixth	Occurence	1525
+Event	328	punches	Occurence	1543
+Relation	175	178	SuperSub	true	2008	stopped
+Relation	175	183	SuperSub	true	2008	round
+Relation	100	106	SubSuper	true	floored	hand
+Relation	100	128	SuperSub	true	floored	recovered
+Relation	133	149	SuperSub	true	dropped	count
+Relation	149	151	SuperSub	true	count	stopping
+Relation	133	168	SuperSub	true	dropped	satisfied
+Relation	299	310	SuperSub	true	right	struggling
+Relation	317	328	SuperSub	true	cornered	punches
+Relation	335	340	SuperSub	true	blow	damage
+Relation	317	335	SuperSub	true	cornered	blow
+Relation	178	371	SuperSub	true	stopped	domination
+Relation	327	328	SubSuper	true	landed	punches
+Relation	178	183	SubSuper	true	stopped	round
+Relation	324	340	SuperSub	true	sixth	damage
+Relation	369	371	SubSuper	true	extended	domination
+Relation	336	340	SubSuper	true	appeared	damage

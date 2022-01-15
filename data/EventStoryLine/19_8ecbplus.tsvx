@@ -1,0 +1,50 @@
+Text	http://www. dailymail. co. uk/news/article-2291941/Brooklyn-riot-Teens-protest-death-Kimani-Gray-Flatbush. html 'It sounds like a war zone':Chaos in Brooklyn as 100 teenagers 'riot' on the streets following vigil of 16-year-old who was shot dead by NYPD plainclothes cops Two plainclothes NYPD officers shot and killed a 16-year-old Brooklyn resident after police say he pointed a gun at officers on Saturday When police approached to speak with the young man, cops say he turned on them and aimed a. 357 caliber revolver at them Peaceful protest for Kimani Gray turned chaotic tonight as 100 people rioted and threw bottles at officers PUBLISHED:02:31 GMT, 12 March 2013 | UPDATED:22:19 GMT, 12 March 2013 An orderly protest over the death of an armed 16-year-old turned into a riot in Brooklyn tonight after young people started lashing out at NYPD officers. Between 60 and 100 rioters gathered around Church and Snyder Ave. in East Flatbush and threw bottles and other debris at police, witnesses said, following a vigil for Kimani Gray, 16, who was shot dead by two plainclothes officers over the weekend. One person has been arrested, though no injuries have been reported. They were lashing out at the NYPD, who they believe are responsible for the teen's death. An NYPD spokesperson confirmed to MailOnline that there was a ' large disorderly group throwing bottles at police. ' They said the protest began around 8:30pm tonight but the crowd is being dispersed by police. New York City Councilman Jumaane D. Williams, who represents the area of Flatbush, has been tweeting live updates, and said:' I ' m in the middle of the riot action at Church and Snyder in my district. Right now, things are tense. Young people have expressed anger. ' Mr Williams later described the scene of chaos in Flatbush, saying that garbage cans had been overturned and people smashed out windows. He added that one person had been attacked outside of a local Rite Aid. ' Tonight was a peaceful vigil that devolved into a riot, ' he wrote. ' The youth in this community have no outlets for their anger, no community. ' Another Twitter user who is apparently at the site said that the riot 'sounds like a war zone. ' A source told the New York Daily News that the protest began some 20 blocks from where Gray was fatally shot. The march went past the 67th Presinct station, where officers impeded the protest's progress. That's when the peaceful protest got out of hand. The unnamed NYPD officer told the Daily News that they saw teens jumping on cars and throwing bottles at officers. Gray, 16, was shot eleven times after police said he pulled out a. 357 revolver in East Flatbush, Brooklyn over the weekend. Police say they came across a group of young men on Saturday evening and saw Gray acting suspiciously, walking away from his friends when he saw the officers approach. Officers say the 16-year old began to adjust his waistband and started to act suspiciously. Gray then turned around and pointed a. 357 caliber gun at them, according to police accounts. When the two plainclothes officers saw the weapon they responded by opening fire. The teen was rushed to Kings County Hospital but he later died. However, witnesses to the shooting say that the NYPD's account is wrong. Gray's older sister, Mahnefah Gray, 19, told the New York Times that one of the witnesses of the shooting told her that her brother was only fixing his belt. She added that her brother had too much ' common sense ' to point a loaded gun at an officer, and doubted that he was even carrying a gun at all. A woman who lives across the street from the scene of the shooting told the Times that Gray was calling out:' Please don ' t let me die ! ' and said the officers yelled back:' Stay down, or we ' ll shoot you again. ' Grey lived in nearby Crown Heights, but had grown up in East Flatbush and returned there to visit friends. His older brother, Jamar, was killed in a car accident two years ago. According to witnesses, when the two cops arrived on the scene in an unmarked car, Gray was part of a group of six teenagers standing by the side of the road. One of Gray's friends, Devonte Brown told the New York Post:'As the cops opened fire, he was screaming, ' Stop ! I ' m not running ! ' His friends have not explained exactly what caused the police officers to shoot. Police say Gray's gun was loaded with four bullets but have not yet determined whether the teenager fired his weapon. Gray had been in trouble with the law before, having been arrested three times since October and had previously been charged with grand larceny and inciting a riot.
+Event	127	tonight	Occurence	578
+Event	178	tonight	Occurence	796
+Event	160	protest	Occurence	718
+Event	175	riot	Occurence	779
+Event	73	shot	Occurence	303
+Event	131	rioted	Occurence	600
+Event	172	turned	Occurence	765
+Event	88	pointed	Occurence	371
+Event	63	shot	Occurence	236
+Event	163	death	Occurence	735
+Event	54	vigil	Occurence	207
+Event	49	'riot'	Occurence	175
+Event	94	Saturday	Occurence	400
+Event	75	killed	Occurence	312
+Event	133	threw	Occurence	611
+Event	121	protest	Occurence	539
+Event	125	turned	Occurence	563
+Event	126	chaotic	Occurence	570
+Event	64	dead	Occurence	241
+Event	43	Chaos	Occurence	140
+Relation	54	63	SubSuper	true	vigil	shot
+Relation	54	64	SubSuper	true	vigil	dead
+Relation	49	63	SubSuper	true	'riot'	shot
+Relation	49	64	SubSuper	true	'riot'	dead
+Relation	63	64	SuperSub	true	shot	dead
+Relation	43	63	SubSuper	true	Chaos	shot
+Relation	43	64	SubSuper	true	Chaos	dead
+Relation	73	75	SuperSub	true	shot	killed
+Relation	73	88	SuperSub	true	shot	pointed
+Relation	75	88	SuperSub	true	killed	pointed
+Relation	126	131	SubSuper	true	chaotic	rioted
+Relation	126	133	SubSuper	true	chaotic	threw
+Relation	160	163	SubSuper	true	protest	death
+Relation	73	121	SuperSub	true	shot	protest
+Relation	75	121	SuperSub	true	killed	protest
+Relation	94	63	SuperSub	true	Saturday	shot
+Relation	94	64	SuperSub	true	Saturday	dead
+Relation	94	73	SuperSub	true	Saturday	shot
+Relation	94	75	SuperSub	true	Saturday	killed
+Relation	94	88	SuperSub	true	Saturday	pointed
+Relation	127	121	SuperSub	true	tonight	protest
+Relation	127	125	SuperSub	true	tonight	turned
+Relation	127	126	SuperSub	true	tonight	chaotic
+Relation	127	131	SuperSub	true	tonight	rioted
+Relation	127	133	SuperSub	true	tonight	threw
+Relation	178	160	SuperSub	true	tonight	protest
+Relation	178	163	SubSuper	true	tonight	death
+Relation	178	172	SuperSub	true	tonight	turned
+Relation	178	175	SuperSub	true	tonight	riot

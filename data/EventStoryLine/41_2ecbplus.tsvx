@@ -1,0 +1,32 @@
+Text	http://www. unhcr. org/4ebd2f5d6. html UNHCR condemns air attack on refugee camp in South Sudan 11 November 2011 The UN refugee agency on Friday strongly condemned the aerial bombing of a temporary refugee camp in South Sudan sheltering more than 20, 000 civilians fleeing from conflict in neighbouring Sudan's Nuba Mountains. "Two of the bombs fell within the Yida camp, including one close to the school, " said UNHCR spokesman Adrian Edwards. "Fortunately there were no casualties in the camp and we are verifying the situation of surrounding communities, " he told journalists in Geneva. UNHCR had been readying new refugee sites away from the border in Unity state when the incident occurred on Thursday. "We had hoped to begin the relocation of refugees but our efforts have so far been hampered by heavy rains which have made the road to the camp impassable, " Edwards explained. The refugee agency is concerned by the escalating tensions in the border areas between Sudan and South Sudan, where hundreds of thousands of civilians have been uprooted since June as a result of fighting. There are also reports this week of bombing in New Guffa village of South Sudan's Upper Nile state resulting in civilian casualties. As many as 55, 000 civilians originating from the Damazine and Kurmuk areas are said to be moving southwards in Sudan's Blue Nile state. Some of these people are heading to Chali within Blue Nile state. Others are crossing into New Guffa village, nine kilometres from the border, or Bunj, the capital of Maban county in South Sudan's Upper Nile state. Others may be moving into neighbouring Ethiopia, where more than 30, 000 Sudanese have found refuge and are being helped by UNHCR and its partners. New arrivals in Maban county describe empty villages south of Kurmuk town on the other side of the border. The new arrivals are being registered in Bunj, where UNHCR has a way station as well as a warehouse that holds enough supplies for 15, 000 refugees. UN assessment teams are planning to travel to Maban over the weekend to assess the humanitarian conditions for new arrivals. Meanwhile, local authorities have been identifying temporary reception sites as more arrivals are anticipated amid heightened tensions.
+Event	195	June	Occurence	1063
+Event	193	uprooted	Occurence	1048
+Event	170	concerned	Occurence	909
+Event	55	conflict	Occurence	278
+Event	200	fighting	Occurence	1083
+Event	15	condemns	Occurence	45
+Event	90	casualties	Occurence	473
+Event	174	tensions	Occurence	937
+Event	32	Friday	Occurence	138
+Event	53	fleeing	Occurence	265
+Event	46	sheltering	Occurence	226
+Event	34	condemned	Occurence	154
+Event	37	bombing	Occurence	175
+Relation	32	15	SuperSub	true	Friday	condemns
+Relation	32	34	SuperSub	true	Friday	condemned
+Relation	32	37	SubSuper	true	Friday	bombing
+Relation	32	46	NoRel	true	Friday	sheltering
+Relation	32	53	NoRel	true	Friday	fleeing
+Relation	32	55	NoRel	true	Friday	conflict
+Relation	32	170	SuperSub	true	Friday	concerned
+Relation	195	193	SubSuper	true	June	uprooted
+Relation	195	200	SubSuper	true	June	fighting
+Relation	34	37	SubSuper	true	condemned	bombing
+Relation	53	55	SubSuper	true	fleeing	conflict
+Relation	37	90	SuperSub	true	bombing	casualties
+Relation	170	174	SubSuper	true	concerned	tensions
+Relation	193	200	SubSuper	true	uprooted	fighting
+Relation	37	55	SubSuper	true	bombing	conflict
+Relation	46	53	SubSuper	true	sheltering	fleeing
+Relation	37	90	SuperSub	true	bombing	casualties
+Relation	46	55	SubSuper	true	sheltering	conflict

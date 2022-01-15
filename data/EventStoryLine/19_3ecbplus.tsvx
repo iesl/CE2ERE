@@ -1,0 +1,42 @@
+Text	http://www. nydailynews. com/new-york/7-nypd-bullets-killed-teen-kimani-gray-article-1. 1287452 Enraged protesters battle cops in Brooklyn streets during third night of rioting after it's revealed that 16-year-old Kimani Gray was shot in the back As fights between cops and angry teens erupted in East Flatbush, 46 were arrested Wednesday night. Police struggled to control a furious crowd that broke away from a planned peaceful vigil. PUBLISHED:WEDNESDAY, MARCH 13, 2013, 2:29 PM UPDATED:THURSDAY, MARCH 14, 2013, 9:31 AM Protesters enraged over the fatal shooting of a teenager by police poured into Brooklyn streets for a third straight night Wednesday, pitching bricks, bottles and garbage in furious clashes with cops. At least 46 demonstrators were arrested along Church Ave. in East Flatbush. Police struggled to control a hostile crowd that broke away from a planned peaceful vigil for Kimani ( Kiki ) Gray, 16, killed by police on Saturday night. Gray's sister Mahnefeh was among those arrested. A police officer suffered a gash in the face when a tossed brick hit him, NYPD spokesman Paul Browne said, and a window was smashed in an inspector's car. " They didn ' t have to kill him, " Makaeo Williams, 18, said as police on motorcycles tracked alongside him. " I ' m feeling mad inside. I ' m angry. That's why I ' m out here. " Many in the community contest police allegations that Gray pointed a gun at cops when he was shot during a confrontation with two plainclothes officers on E. 52nd St. Saturday night. Those suspicions on the street intensified Wednesday when an autopsy report revealed Gray was hit by seven bullets — three to the back. It was not clear in what order the shots struck the teen or whether he had his back to the police when they opened fire. A witness told the Daily News Tuesday that the youth did not have a gun in his hand. But a police spokesman said the witness told detectives she couldn ' t see the incident clearly " from the angle I was at. " A woman who identified herself as Gray's cousin told news outlets Wednesday that the teen was carrying a gun for a friend and was trying to alert cops that he had a weapon when he was shot. A loaded. 38-caliber revolver was recovered at the scene. The trouble Wednesday night began soon after more than 200 people set off from the vigil site at Church Ave. and E. 55th St. around 8:30 p.m. Dozens chanted " NYPD, KKK, how many kids did you kill today " as they marched west on Church Ave. toward the 67th Precinct stationhouse. But things quickly got out of hand as some protesters tried to climb on police motorcycles. Men and women were pepper-sprayed and thrown to the ground and handcuffed. " I ' m scared for everything, myself, my store, my workers, " said Salm Sami, 45, who owns the Deli, Grill & Grocery at Church and New York Aves. " This is three days of this. " The protesters eventually backtracked to the vigil site where the parents of Ramarley Graham — an unarmed teenager fatally shot by police in the Bronx last year — were waiting. " It never seems to end, " said Frank Graham, Ramarley's father. " The community has a right to be angry. " But City Councilman Jumaane Williams, a frequent NYPD critic, blasted outsiders who he said escalated tensions. " Please stay the HELL out of our community will only agitate our kids, " Williams fumed on Twitter. " It's dangerous and counterproductive. "
+Event	127	shooting	Occurence	558
+Event	48	revealed	Occurence	188
+Event	194	killed	Occurence	921
+Event	175	hostile	Occurence	831
+Event	63	fights	Occurence	250
+Event	173	control	Occurence	821
+Event	184	vigil	Occurence	885
+Event	67	angry	Occurence	274
+Event	152	clashes	Occurence	706
+Event	123	enraged	Occurence	535
+Event	45	rioting	Occurence	169
+Event	36	battle	Occurence	115
+Event	85	furious	Occurence	376
+Event	94	vigil	Occurence	430
+Event	144	pitching	Occurence	658
+Event	76	arrested	Occurence	320
+Event	34	Enraged	Occurence	96
+Event	133	poured	Occurence	591
+Event	83	control	Occurence	366
+Event	58	shot	Occurence	230
+Relation	34	36	SuperSub	true	Enraged	battle
+Relation	45	58	SubSuper	true	rioting	shot
+Relation	34	58	SubSuper	true	Enraged	shot
+Relation	36	58	SubSuper	true	battle	shot
+Relation	63	76	SuperSub	true	fights	arrested
+Relation	67	76	SuperSub	true	angry	arrested
+Relation	58	63	SuperSub	true	shot	fights
+Relation	58	67	SuperSub	true	shot	angry
+Relation	83	85	SubSuper	true	control	furious
+Relation	123	127	SubSuper	true	enraged	shooting
+Relation	127	133	SuperSub	true	shooting	poured
+Relation	127	144	SuperSub	true	shooting	pitching
+Relation	127	152	SuperSub	true	shooting	clashes
+Relation	173	175	SubSuper	true	control	hostile
+Relation	184	194	SubSuper	true	vigil	killed
+Relation	34	45	SuperSub	true	Enraged	rioting
+Relation	58	85	SuperSub	true	shot	furious
+Relation	58	94	SuperSub	true	shot	vigil
+Relation	175	194	SubSuper	true	hostile	killed
+Relation	45	48	SubSuper	true	rioting	revealed
+Relation	123	152	SuperSub	true	enraged	clashes

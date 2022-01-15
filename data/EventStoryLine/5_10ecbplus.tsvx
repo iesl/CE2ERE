@@ -1,0 +1,13 @@
+Text	http://forums. nba-live. com/viewtopic. php ? f=44&t=25677 Sixers Hire Maurice Cheeks as Head Coach Maurice Cheeks was officially introduced as the 21st head coach of the 76ers. Cheeks, who played for the Sixers for 11 seasons and served as an assistant coach for seven, was named coach after Jim O'Brien was relieved of his coaching duties.
+Event	59	named	Occurence	275
+Event	65	relieved	Occurence	309
+Event	50	served	Occurence	231
+Event	42	played	Occurence	190
+Event	19	Hire	Occurence	66
+Event	56	seven	Occurence	264
+Relation	42	59	SuperSub	true	played	named
+Relation	50	59	SuperSub	true	served	named
+Relation	59	65	SuperSub	true	named	relieved
+Relation	19	42	SubSuper	true	Hire	played
+Relation	19	50	SubSuper	true	Hire	served
+Relation	56	50	NoRel	true	seven	served

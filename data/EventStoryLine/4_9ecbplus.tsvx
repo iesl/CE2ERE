@@ -1,0 +1,4 @@
+Text	http://www. kpopstarz. com/articles/30409/20130606/esther-williams-dies-swimming-mourn. htm Esther Williams, Swimming Champion, Actress, Pin-Up Icon Dies; Fans And Family Mourn June 6, 2013 3:05 PM EDT Esther Williams, swimming champion, actress, and pin-up icon, has died. She was 91. Williams, 91, passed away early Thursday in her sleep, according to her publicist. Throughout WWII, she was a popular pinup for GIs, and her personality and self-deprecating wit kept her popular afterwards. Fans and family mourn her passing, but Williams had a long, full life.
+Event	122	passing	Occurence	519
+Event	120	mourn	Occurence	509
+Relation	120	122	SuperSub	true	mourn	passing

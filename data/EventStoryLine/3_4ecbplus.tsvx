@@ -1,0 +1,56 @@
+Text	http://www. justice. gov/marshals/investigations/most_wanted/comeaux/comeaux. htm Texas Prison Escapee Added to U. S. Marshals '15 Most Wanted' List The U. S. Marshals have added to their " 15 Most Wanted " list of fugitives a man serving three life sentences who escaped custody during his transport from Huntsville, Texas, to Stiles, Texas. During the escape, Arcade Joseph Comeaux, Jr. allegedly produced a weapon and fired upon two correctional officers, took them hostage and forced them to drive to Baytown, Texas, where he restrained the officers in the back of the van, took their firearms and one of their uniforms. Comeaux's escape is all the more surprising since authorities had mistakenly believed he was paralyzed following a stroke, and was wheelchair bound. Comeaux fled on foot following his escape. Comeaux was in prison after being convicted of aggravated sexual assault of a child and aggravated assault with a deadly weapon. According to Texas authorities, the weapons conviction stemmed from a 1999 incident where he stabbed his wife 17 times while she was visiting him in prison.
+Event	212	visiting	Occurence	1079
+Event	160	fled	Occurence	782
+Event	183	assault	Occurence	916
+Event	106	drive	Occurence	496
+Event	63	escaped	Occurence	264
+Event	80	escape	Occurence	354
+Event	173	convicted	Occurence	851
+Event	201	incident	Occurence	1021
+Event	67	transport	Occurence	291
+Event	152	stroke	Occurence	740
+Event	149	paralyzed	Occurence	718
+Event	114	restrained	Occurence	530
+Event	45	added	Occurence	173
+Event	93	fired	Occurence	421
+Event	61	sentences	Occurence	250
+Event	27	Added	Occurence	103
+Event	141	surprising	Occurence	658
+Event	146	believed	Occurence	702
+Event	89	produced	Occurence	399
+Event	136	escape	Occurence	635
+Event	103	forced	Occurence	481
+Event	64	custody	Occurence	272
+Event	204	stabbed	Occurence	1039
+Event	165	escape	Occurence	809
+Event	200	1999	Occurence	1016
+Event	124	took	Occurence	578
+Event	196	conviction	Occurence	990
+Relation	61	63	SuperSub	true	sentences	escaped
+Relation	61	64	SuperSub	true	sentences	custody
+Relation	63	67	SubSuper	true	escaped	transport
+Relation	27	63	SubSuper	true	Added	escaped
+Relation	45	63	SubSuper	true	added	escaped
+Relation	80	89	SubSuper	true	escape	produced
+Relation	80	93	SubSuper	true	escape	fired
+Relation	80	103	SubSuper	true	escape	forced
+Relation	80	106	SubSuper	true	escape	drive
+Relation	80	114	SubSuper	true	escape	restrained
+Relation	80	124	SubSuper	true	escape	took
+Relation	80	103	SubSuper	true	escape	forced
+Relation	80	106	SubSuper	true	escape	drive
+Relation	80	114	SubSuper	true	escape	restrained
+Relation	80	124	SubSuper	true	escape	took
+Relation	149	152	SubSuper	true	paralyzed	stroke
+Relation	136	146	SubSuper	true	escape	believed
+Relation	136	149	SubSuper	true	escape	paralyzed
+Relation	160	165	SubSuper	true	fled	escape
+Relation	196	201	SubSuper	true	conviction	incident
+Relation	200	201	SuperSub	true	1999	incident
+Relation	200	204	SuperSub	true	1999	stabbed
+Relation	200	212	SuperSub	true	1999	visiting
+Relation	200	196	SuperSub	true	1999	conviction
+Relation	141	152	SubSuper	true	surprising	stroke
+Relation	103	106	SubSuper	true	forced	drive
+Relation	173	183	SubSuper	true	convicted	assault
+Relation	89	93	SuperSub	true	produced	fired

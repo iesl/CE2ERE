@@ -1,0 +1,17 @@
+Text	http://www. foxnews. com/entertainment/2013/05/02/lindsay-lohan-may-change-rehab-facility-violate-plea-deal/Lindsay Lohan rehires longtime lawyer Shawn Holley, heads to rehab Published May 03, 2013 It seems Lindsay Lohan has had enough of New York attorney Mark Jay Heller. The actress re-hired longtime attorney Shawn Holley to handle her case. Heller told a judge during a hearing Thursday morning that Lohan had checked in to the Morningside Recovery rehab facility, but the starlet left it after a few minutes. The actress, however, has since checked in to a different rehab but will not face a probation violation for leaving another treatment facility after a few minutes, a prosecutor said Friday. Lohan made it to the new facility late Thursday, TMZ reported. White said he has received confirmation that Lohan has checked in to a rehab facility and he is satisfied with her location. He declined to say where Lohan is receiving treatment, but reports soon surfaced that she was at the Betty Ford Center in Rancho Mirage, Calif. "Lindsay never checked into Morningside but is back at Betty Ford. The challenge now is to keep her there for the 90 days, " the source told us. Lohan has spent time at Betty Ford before. She served another mandatory rehab sentence at the treatment center, although her stay there was not without drama.
+Event	257	sentence	Occurence	1260
+Event	229	keep	Occurence	1128
+Event	270	drama	Occurence	1334
+Event	134	leaving	Occurence	623
+Event	256	rehab	Occurence	1254
+Event	132	violation	Occurence	609
+Event	146	Friday	Occurence	697
+Event	225	challenge	Occurence	1108
+Event	265	stay	Occurence	1307
+Relation	146	132	SubSuper	true	Friday	violation
+Relation	146	134	SubSuper	true	Friday	leaving
+Relation	132	134	SubSuper	true	violation	leaving
+Relation	257	265	SuperSub	true	sentence	stay
+Relation	225	229	SubSuper	true	challenge	keep
+Relation	256	270	SuperSub	true	rehab	drama
+Relation	265	270	SuperSub	true	stay	drama

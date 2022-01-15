@@ -1,0 +1,15 @@
+Text	http://www. rediff. com/news/slide-show/slide-show-1-must-see-navy-pins-down-somali-pirates-in-heroic-face-off/20111111. htm MUST SEE:Navy pins down Somali pirates in heroic face-off Last updated on:November 11, 2011 19:04 IST Indian Naval Ship Sukanya, deployed on anti-piracy patrols in the Gulf of Aden under the operational control of the Western Naval Command, thwarted a multiple-boat attack by pirates on Thursday and rescued 26 Somali crewmembers. The ship was escorting a group of five merchant vessels through the internationally recognised transit corridor at 9:25 hours on Thursday when officers onboard detected a group of five boats approaching the merchant vessels. The warship immediately changed its route and challenged the pirates ferrying the suspicious vessels The pirates tried to reverse the course of the boats and tried to flee. Two managed to give the Indian Navy a slip, but the other three boats were intercepted. During the operation, six AK 47 rifles, 12 magazines and about 300 rounds of ammunition were found and confiscated. In addition, a host of other equipment such as grapnels were also confiscated. This is the fifth successful anti-piracy operation conducted by Sukanya, in the course of her ongoing patrol mission in the Gulf of Aden, which commenced in September. So far, the Indian Navy has confiscated 14 AK 47 Rifles, 31 magazines and 923 rounds of ammunition from pirates.
+Event	104	attack	Occurence	391
+Event	108	Thursday	Occurence	412
+Event	110	rescued	Occurence	425
+Event	83	patrols	Occurence	278
+Event	99	thwarted	Occurence	366
+Event	78	deployed	Occurence	254
+Relation	108	78	SuperSub	true	Thursday	deployed
+Relation	108	99	SuperSub	true	Thursday	thwarted
+Relation	108	104	SuperSub	true	Thursday	attack
+Relation	108	110	SuperSub	true	Thursday	rescued
+Relation	78	99	SuperSub	true	deployed	thwarted
+Relation	83	99	SuperSub	true	patrols	thwarted
+Relation	99	110	SuperSub	true	thwarted	rescued
+Relation	104	110	SubSuper	true	attack	rescued

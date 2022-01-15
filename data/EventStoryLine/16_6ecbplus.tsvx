@@ -1,0 +1,39 @@
+Text	http://articles. latimes. com/2007/apr/04/local/me-orozco4 Deputy's killer gets death sentence The gang member shot Jerry Ortiz outside a Hawaiian Gardens building in 2005. April 04, 2007 A Norwalk jury on Tuesday ordered execution for a gang member convicted of murdering a Los Angeles County Sheriff's deputy in June 2005. Deputy Luis Gerardo "Jerry" Ortiz, 35, was shot outside a Hawaiian Gardens apartment building while investigating Jose Luis Orozco in connection with another shooting. Orozco, 29, was found guilty by the same jury last month of first-degree murder with the special circumstances of murder of a police officer and possession of a firearm by a felon. "This is the kind of person and the kind of crime that the death penalty was made for, " said Dist. Atty. Steve Cooley. Sheriff's Deputy Timothy Brennan, who had been Ortiz's partner for a year, called the verdict bittersweet. He explained, "You feel good, but it's never going to bring Jerry back to his family and friends. " Orozco is to be formally sentenced May 3 by Judge Philip H. Hickock. Stanley Perlo, one of Orozco's lawyers, said his client grew up "in a gang-infested area. For all intents and purposes, the gang became his family. " Perlo said Orozco was consumed by gang life in much the same way one is addicted to drugs, affecting his judgment. A 15-year department veteran, Ortiz had hoped to become a detective. He had married two weeks before the shooting, and had won a department medal of honor for fatally shooting a suspected carjacker who had pulled a gun on him and his partner. The jury reached its verdict in less than a day. Jurors on Monday asked to review a video recording of Orozco boasting about the shooting to other jail inmates two weeks after Ortiz's death. The recording, which was presented during the trial, showed Orozco talking about his appearance on the "America's Most Wanted" television show.
+Event	50	ordered	Occurence	214
+Event	344	boasting	Occurence	1688
+Event	26	sentence	Occurence	86
+Event	102	guilty	Occurence	515
+Event	119	murder	Occurence	607
+Event	338	review	Occurence	1653
+Event	49	Tuesday	Occurence	206
+Event	335	Monday	Occurence	1637
+Event	86	investigating	Occurence	425
+Event	94	shooting	Occurence	483
+Event	39	2005	Occurence	167
+Event	356	death	Occurence	1762
+Event	78	shot	Occurence	368
+Event	56	convicted	Occurence	250
+Event	113	murder	Occurence	566
+Event	125	possession	Occurence	638
+Event	30	shot	Occurence	111
+Event	347	shooting	Occurence	1707
+Event	58	murdering	Occurence	263
+Event	51	execution	Occurence	222
+Relation	39	30	SuperSub	true	2005	shot
+Relation	49	51	SuperSub	true	Tuesday	execution
+Relation	49	56	SubSuper	true	Tuesday	convicted
+Relation	49	58	SubSuper	true	Tuesday	murdering
+Relation	335	338	SuperSub	true	Monday	review
+Relation	335	347	SubSuper	true	Monday	shooting
+Relation	335	356	SubSuper	true	Monday	death
+Relation	26	30	SubSuper	true	sentence	shot
+Relation	51	56	SubSuper	true	execution	convicted
+Relation	56	58	SubSuper	true	convicted	murdering
+Relation	78	86	SubSuper	true	shot	investigating
+Relation	86	94	SubSuper	true	investigating	shooting
+Relation	102	113	SubSuper	true	guilty	murder
+Relation	102	119	SubSuper	true	guilty	murder
+Relation	102	125	SubSuper	true	guilty	possession
+Relation	344	347	SubSuper	true	boasting	shooting
+Relation	338	344	SubSuper	true	review	boasting
+Relation	49	50	SuperSub	true	Tuesday	ordered

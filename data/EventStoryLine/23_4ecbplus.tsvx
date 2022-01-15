@@ -1,0 +1,24 @@
+Text	http://globalnews. ca/news/842183/australian-english-climbers-fall-to-their-deaths-in-new-zealand-mountains/September 15, 2013 11:26 pm Australian, English climbers fall to their deaths in New Zealand mountains One Australian and one English climber have fallen to their deaths in New Zealand. Police Inspector Dave Gaskin said Monday the two incidents on consecutive days in the Aoraki-Mt. Cook National Park were not related and were not due to bad weather. He says they come as a reminder that climbers need to use extreme caution. On Friday, 36-year-old Duncan Raite died after slipping and falling about 60 metres ( 200 feet ) from a ridge. The New Zealand-born Australian was planning to do some ski touring. He ' d been dropped off by helicopter and was walking to a hut when he fell. On Saturday, 32-year-old Englishman Robert Buckley fell about 600 metres ( 2, 000 feet ) while climbing to a small hut on Mount Sefton. Gaskin said Buckley was wearing crampons but was inexperienced.
+Event	127	died	Occurence	571
+Event	186	fell	Occurence	843
+Event	65	deaths	Occurence	271
+Event	50	deaths	Occurence	179
+Event	118	Friday	Occurence	538
+Event	197	climbing	Occurence	887
+Event	47	fall	Occurence	165
+Event	176	Saturday	Occurence	795
+Event	62	fallen	Occurence	255
+Event	129	slipping	Occurence	582
+Event	131	falling	Occurence	595
+Relation	118	127	SuperSub	true	Friday	died
+Relation	118	129	SuperSub	true	Friday	slipping
+Relation	118	131	SuperSub	true	Friday	falling
+Relation	176	186	SuperSub	true	Saturday	fell
+Relation	176	197	SuperSub	true	Saturday	climbing
+Relation	47	50	SuperSub	true	fall	deaths
+Relation	62	65	SuperSub	true	fallen	deaths
+Relation	127	131	SubSuper	true	died	falling
+Relation	129	131	SuperSub	true	slipping	falling
+Relation	186	197	SubSuper	true	fell	climbing
+Relation	127	129	SubSuper	true	died	slipping
+Relation	186	197	SuperSub	true	fell	climbing
