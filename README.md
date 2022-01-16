@@ -25,10 +25,4 @@ main.py --data_dir=data --model box --data_dir data --data_type matres --downsam
 ## Reference
 Bibtex:
 ```
-@article{hwang2022bere,
-  title={Event-Event Relation Extraction using Probabilistic Box Embedding},
-  author={EunJeong Hwang, Jay-Yoon Lee, Tianyi Yang, Dhruvesh Patel, Dongxu Zhang, Andrew McCallum},
-  journal={}, TBD
-  year={2022}
-}
 ```
