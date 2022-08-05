@@ -1,6 +1,6 @@
 # Event-Event Relation Extraction using Probabilistic Box Embedding
 
-This is the repository for the Paper "Event-Event Relation Extraction using Probabilistic Box Embedding". This repository contains the source code and datasets used in our paper.
+This is the repository for the Paper "[Event-Event Relation Extraction using Probabilistic Box Embedding](https://aclanthology.org/2022.acl-short.26/)". This repository contains the source code and datasets used in our paper.
 
 ## Abstract
 
