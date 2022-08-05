@@ -31,7 +31,7 @@ Bibtex:
 @article{ehwang-bere22,
   title={Event-Event Relation Extraction using Probabilistic Box Embedding},
   author={EunJeong Hwang, Jay-Yoon Lee, Tianyi Yang, Dhruvesh Patel, Dongxu Zhang, Andrew McCallum},
-  journal={ACL}
+  journal={ACL},
   year={2022}
 }
 ```
