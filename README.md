@@ -23,7 +23,7 @@ main.py --data_dir=data --model box --data_dir data --data_type matres --downsam
 (BERE - loss_type=0, BERE-p - loss_type=4, BERE-c - loss_type=3)
 
 #### Command for BERE-p on Joint task
-python src/__main__.py --const_eval=0 --data_dir=data --data_type=joint --downsample=0.015 --epochs=150 --eval_step=1 --eval_type=two --intersection_temp=0.0005 --lambda_anno=0 --lambda_condi_h=0.1 --lambda_condi_m=1 --lambda_cross=0 --lambda_pair_h=0.4 --lambda_pair_m=0.8 --lambda_trans=0 --learning_rate=0.0001 --log_batch_size=4 --loss_type=4 --lstm_hidden_size=256 --lstm_input_size=768 --max_grad_norm=10 --mlp_size=512 --model=box --model_save=1 --num_layers=1 --patience=20 --proj_output_dim=640 --save_plot=0 --threshold1=-0.3 --threshold2=-0.73 --volume_temp=5
+python src/__main__.py --const_eval=0 --data_dir=data --data_type=joint --downsample=0.015 --epochs=150 --eval_step=1 --eval_type=two --intersection_temp=0.0005 --lambda_anno=0 --lambda_condi_h=0.1 --lambda_condi_m=1 --lambda_cross=0 --lambda_pair_h=0.4 --lambda_pair_m=0.8 --lambda_trans=0 --learning_rate=0.0001 --log_batch_size=4 --loss_type=4 --lstm_hidden_size=256 --lstm_input_size=768 --max_grad_norm=10 --mlp_size=512 --model=box --model_save=1 --num_layers=1 --patience=20 --proj_output_dim=640 --save_plot=0 --threshold1=-0.3 --threshold2=-0.7 --volume_temp=5
 
 ## Reference
 Bibtex:
